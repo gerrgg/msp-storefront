@@ -10,7 +10,7 @@ class MSP{
         define('PATH', get_template_directory_uri() . '-child' );
 
         wp_enqueue_style( 'bootstrap', PATH . '/vendor/bootstrap-4.3.1-dist/css/bootstrap.min.css' );
-        wp_enqueue_script( 'bootstrap', PATH . '-child/vendor/bootstrap-4.3.1-dist/js/bootstrap.bundle.min.js' );
+        wp_enqueue_script( 'bootstrap', PATH . '/vendor/bootstrap-4.3.1-dist/js/bootstrap.bundle.min.js' );
     }
 }
 
