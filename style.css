@@ -20,8 +20,12 @@
     color: #fff;
 }
 
-.navbar-light .navbar-nav .nav-link:hover{
-    color: #B2DD58;
+/* TODO: FIX - link turns black on click and dehover */
+.navbar-light .navbar-nav .nav-link:hover,
+.navbar-light .navbar-nav .nav-link:active,
+.navbar-nav .active>.nav-link
+{
+    color: #B2DD58!important;
 }
 
 #cart-wrapper{
