@@ -32,3 +32,4 @@ add_action( 'storefront_before_site', 'msp_mobile_menu_header', 5 );
 add_action( 'storefront_before_site', 'msp_mobile_menu', 50 );
 add_action( 'storefront_before_site', 'msp_mobile_menu_account_links', 55 );
 add_action( 'storefront_before_site', 'msp_mobile_menu_wrapper_close', 100 );
+
