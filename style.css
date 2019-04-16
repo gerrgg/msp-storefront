@@ -11,6 +11,26 @@
 */
 
 .dgwt-wcas-search-wrapp{
-    max-width: 800px !important;
+    max-width: 700px !important;
     margin: 0px !important;
+}
+
+.navbar-light .navbar-nav .nav-link,
+.fa-shopping-cart{
+    color: #fff;
+}
+
+.navbar-light .navbar-nav .nav-link:hover{
+    color: #B2DD58;
+}
+
+#cart-wrapper{
+    position: relative;
+}
+
+#cart-wrapper .item-counter{
+    font-size: 32px;
+    line-height: 0px;
+    font-weight: 600;
+    color: #B2DD58;
 }

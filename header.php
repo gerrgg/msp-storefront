@@ -24,13 +24,22 @@
 <div id="page" class="hfeed site">
 	<?php do_action( 'storefront_before_header' ); ?>
 
-	<header id="masthead" class="site-header" role="banner" style="<?php storefront_header_styles(); ?>">
+	<header id="masthead" class="" role="banner" style="<?php storefront_header_styles(); ?>">
 
 		<?php
 		/**
 		 * Functions hooked into msp_header action
 		 *
-
+		 * @hooked msp_header_wrapper_open - 0
+		 * @hooked msp_header_site_identity - 5
+		 * @hooked msp_header_middle_open - 10
+		 * @hooked msp_header_search_bar - 15
+		 * @hooked msp_header_menu - 20
+		 * @hooked msp_header_middle_close - 25
+		 * @hooked msp_header_right_menu - 30
+		 * @hooked msp_header_cart - 35
+		 * @hooked msp_header_wrapper_close - 100
+		 * 
 		 */
 		do_action( 'msp_header' );
 		?>
