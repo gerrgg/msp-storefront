@@ -3,16 +3,21 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
+ * @see Hook: msp_header
+ */
+
+/**
  * Opens the header wrapper
  */
 function msp_header_wrapper_open(){
     echo '<nav class="navbar navbar-expand-lg navbar-light bg-dark mb-2"><div class="container">';
 }
+
 /**
- * Closes the header wrapper
+ * Displays the html button for opening and closing the mobile menu
  */
-function msp_header_wrapper_close(){
-    echo '</div></nav>';
+function msp_header_mobile_menu_button(){
+    echo '<button class="btn mobile-menu-button"><i class="fas fa-bars fa-2x"></i></button>';
 }
 
 /**
@@ -90,9 +95,7 @@ function msp_header_right_menu(){
 }
 
 function msp_header_cart(){
-    $cart_size = sizeof( WC()->cart->get_cart_contents() );
-    //subtotal
-?>
+    $cart_size = sizeof( WC()->cart->get_cart_contents() ); ?>
     <div id="cart-wrapper" class="d-flex">
         <a class="nav-link" href="<?php echo wc_get_cart_url(); ?>">
             <i class="fas fa-shopping-cart fa-2x"></i>
@@ -102,4 +105,37 @@ function msp_header_cart(){
 <?php
 }
 
+/**
+ * Closes the header wrapper
+ */
+function msp_header_wrapper_close(){
+    echo '</div></nav>';
+}
+
+/**
+ * @see Hook: storefront_before_site
+ */
+
+function msp_mobile_menu_wrapper_open(){
+    echo '<div id="mobile-menu">';
+}
+
+function msp_mobile_menu_header(){
+    $user = get_userdata( get_current_user_id() );
+    $username = ( ! empty( $user->user_login ) ) ? $user->user_login : 'Sign up or login';
+    echo "<h3 class='title py-2 pl-4'>Hello, $username</h3>";
+}
+
+function msp_mobile_menu_wrapper_close(){
+    echo "</div> <!-- #mobile-menu -->";
+}
+
+function msp_mobile_menu(){
+    echo '<p class="mobile-label">SHOP BY CATEGORY</p>';
+    wp_nav_menu( array(
+        'theme_location' => 'handheld',
+        'menu_id'        => 'mobile-menu-categories',
+        'menu_class'     => 'm-0 list-unstyled',
+    ));
+}
 

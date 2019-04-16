@@ -19,7 +19,17 @@
 
 <body <?php body_class(); ?>>
 
-<?php do_action( 'storefront_before_site' ); ?>
+<?php 
+/**
+ * Functions hooded into storefront_before_site action
+ * 
+ * @hooked msp_mobile_menu_wrapper_open - 0
+ * @hooked msp_mobile_menu_header - 5
+ * @hooked msp_mobile_menu - 50;
+ * @hooked msp_mobile_menu_wrapper_close - 100;
+ */
+do_action( 'storefront_before_site' ); 
+?>
 
 <div id="page" class="hfeed site">
 	<?php do_action( 'storefront_before_header' ); ?>
@@ -31,6 +41,7 @@
 		 * Functions hooked into msp_header action
 		 *
 		 * @hooked msp_header_wrapper_open - 0
+		 * @hooked msp_header_mobile_menu_button - 1
 		 * @hooked msp_header_site_identity - 5
 		 * @hooked msp_header_middle_open - 10
 		 * @hooked msp_header_search_bar - 15

@@ -37,7 +37,8 @@ class MSP{
         wp_enqueue_script( 'bootstrap', URI . '/vendor/bootstrap-4.3.1-dist/js/bootstrap.bundle.min.js' );
 
         //slideout.js - https://github.com/Mango/slideout
-        wp_enqueue_style( 'slideout', URI . '/vendor/slideout/dist/slideout.min.js' );
+        wp_enqueue_script( 'slideout', URI . '/vendor/slideout/dist/slideout.min.js', array(), 
+                            filemtime( __DIR__ . '\vendor\slideout\dist\slideout.min.js' ), true );
     }
 
     public function setup(){
