@@ -9,3 +9,8 @@
  Tags:         light, dark, two-columns, right-sidebar, responsive-layout, accessibility-ready
  Text Domain:  msp
 */
+
+.dgwt-wcas-search-wrapp{
+    max-width: 800px !important;
+    margin: 0px !important;
+}
