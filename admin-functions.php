@@ -23,7 +23,15 @@ class MSP_Admin{
             'msp_options' // the page to put it on
         );
 
+        add_settings_section(
+            'theme_options', //id
+            'Theme Layout:', // header
+            '', // section label
+            'msp_options' // the page to put it on
+        );
+
         $this->add_settings_field_and_register( 'msp_options', 'ups_api_creds', 'ups_api', array( 'key', 'username', 'password', 'account' ) );
+        $this->add_settings_field_and_register( 'msp_options', 'theme_options', 'msp', array( 'logo_width' ) );
     }
 
     public function add_settings_field_and_register( $page, $section, $prefix, $keys ){
@@ -34,7 +42,7 @@ class MSP_Admin{
         foreach( $keys as $key ){
             add_settings_field(
                 $prefix . "_$key",
-                ucfirst( $key ) . ':',
+                deslugify( $key ) . ':',
                 $prefix . '_' . $key . '_callback',
                 $page,
                 $section
@@ -47,6 +55,7 @@ class MSP_Admin{
         ?>
         <div class="wrap">
         <h1>MSP Theme Options</h1>
+
         <form method="post" action="options.php">
             <?php settings_fields( 'msp_options' ); ?>
     
@@ -73,4 +82,13 @@ function ups_api_password_callback(){
 }
 function ups_api_account_callback(){
     echo '<input name="ups_api_account" id="ups_api_account" type="text" value="'. get_option( 'ups_api_account' ) .'" class="code" />';
+}
+
+function msp_logo_width_callback(){
+    echo '<input name="msp_logo_width" id="msp_logo_width" type="number" value="'. get_option( 'msp_logo_width' ) .'" class="code" />';
+}
+
+// helpers
+function deslugify( $str ){
+    return ucwords( str_replace( array('_', '-'), ' ', $str ) );
 }
