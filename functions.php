@@ -7,6 +7,7 @@ define('URI', get_stylesheet_directory_uri() );
 define('PATH', get_stylesheet_directory() );
 
 //require
+require_once( PATH . '/vendor/class-wp-bootstrap-navwalker.php' );
 require_once( PATH . '/admin-functions.php' );
 require_once( PATH . '/inc/msp-template-hooks.php' );
 require_once( PATH . '/inc/msp-template-functions.php' );
@@ -27,6 +28,9 @@ class MSP{
     public function enqueue_scripts(){
         // Custom javascript functions
         wp_enqueue_script( 'msp', URI . '/inc/functions.js', array('jquery'), filemtime( __DIR__ . '\inc\functions.js' ), true );
+
+        // Font Awesome
+        wp_enqueue_style( 'font-awesome', 'https://use.fontawesome.com/releases/v5.8.1/css/all.css' );
 
         //Twitter Bootstrap - https://getbootstrap.com/docs/4.3/getting-started/introduction/
         wp_enqueue_style( 'bootstrap', URI . '/vendor/bootstrap-4.3.1-dist/css/bootstrap.min.css' );
