@@ -11,7 +11,7 @@
 */
 
 .dgwt-wcas-search-wrapp{
-    max-width: 700px !important;
+    max-width: 650px !important;
     margin: 0px !important;
 }
 
@@ -117,16 +117,17 @@
     color: #B2DD58;
 }
 
-#mobile-menu-categories li{
+#mobile-menu li{
     font-size: 16px;
     padding: .5rem 0;
     padding-left: 1.5rem;
     font-weight: 400;
 }
 
-#mobile-menu-categories li:hover{
+#mobile-menu li:hover{
     background-color: rgba(0,0,0,0.1);
     color: #B2DD58;
+    cursor: pointer;
 }
 
 

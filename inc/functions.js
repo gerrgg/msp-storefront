@@ -1,11 +1,12 @@
 jQuery(document).ready(function( $ ){
+
     //init slideout.js
     var slideout = new Slideout({
         'panel': document.getElementById('page'),
         'menu': document.getElementById('mobile-menu'),
         'padding': 356,
         'tolerance': 70
-      });
+    });
     
     // Toggle button
     document.querySelector('.mobile-menu-button').addEventListener('click', function() {
@@ -16,9 +17,9 @@ jQuery(document).ready(function( $ ){
     function close(eve) {
         eve.preventDefault();
         slideout.close();
-      }
+    }
       
-      slideout
+    slideout
         .on('beforeopen', function() {
           this.panel.classList.add('panel-open');
         })
@@ -28,6 +29,6 @@ jQuery(document).ready(function( $ ){
         .on('beforeclose', function() {
           this.panel.classList.remove('panel-open');
           this.panel.removeEventListener('click', close);
-        });
+    });
 
 });

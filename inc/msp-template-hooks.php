@@ -28,6 +28,7 @@ add_action( 'msp_header', 'msp_header_wrapper_close', 100 );
  * @see msp_mobile_menu();
  */
 add_action( 'storefront_before_site', 'msp_mobile_menu_wrapper_open', 0 );
-add_action( 'storefront_before_site', 'msp_mobile_menu_header', 0 );
+add_action( 'storefront_before_site', 'msp_mobile_menu_header', 5 );
 add_action( 'storefront_before_site', 'msp_mobile_menu', 50 );
+add_action( 'storefront_before_site', 'msp_mobile_menu_account_links', 55 );
 add_action( 'storefront_before_site', 'msp_mobile_menu_wrapper_close', 100 );

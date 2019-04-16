@@ -19,7 +19,7 @@ require_once( PATH . '/inc/msp-template-functions.php' );
 class MSP{
     function __construct(){
         add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
-        $this->setup();
+        add_action( 'after_setup_theme', array( $this, 'register_menus' ) );
     }
 
     /**
@@ -41,7 +41,11 @@ class MSP{
                             filemtime( __DIR__ . '\vendor\slideout\dist\slideout.min.js' ), true );
     }
 
-    public function setup(){
+    public function register_menus(){
+        // register menu for logged out users
+        register_nav_menus( array(
+            'logged-out' => __('Secondary menu for logged out users', 'msp')
+        ) );
     }
 
 

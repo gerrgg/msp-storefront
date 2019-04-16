@@ -25,11 +25,14 @@
  * 
  * @hooked msp_mobile_menu_wrapper_open - 0
  * @hooked msp_mobile_menu_header - 5
- * @hooked msp_mobile_menu - 50;
+ * @hooked msp_mobile_menu - 50
+ * @hooked msp_mobile_menu_account_links - 55
  * @hooked msp_mobile_menu_wrapper_close - 100;
  */
 do_action( 'storefront_before_site' ); 
 ?>
+
+
 
 <div id="page" class="hfeed site">
 	<?php do_action( 'storefront_before_header' ); ?>
