@@ -45,6 +45,7 @@ class User_History{
     function get_category(){
         $categories = explode( '/', $_SERVER['REQUEST_URI'] );
         if( $categories[1] = 'product-category' ){
+            // store all the categories! or atleast the last...
             $category = get_terms( array(
                 'slug' => $categories[2],
                 'taxonomy' => 'product_cat',
