@@ -3,9 +3,11 @@
 defined( 'ABSPATH' ) || exit;
 
 class User_History{
+    // make static?
     private $data = array();
 
     function __construct(){
+        // add_action( 'init', array( $this, 'set_cookie' ) );
         add_action( 'template_redirect', array( $this, 'check_template' ) );
     }
 
@@ -19,6 +21,7 @@ class User_History{
         global $post;
         $category = $this->get_category();
         $this->data = ( is_null( $category ) ) ? $post : $category;
+        // instead of set cookie, store to $data variable
         add_action( 'init', array( $this, 'set_cookie' ) );
     }
 
@@ -27,7 +30,12 @@ class User_History{
      */
     public function set_cookie(){
         $two_weeks = time() + (14 * 24* 60 * 60);
+        
+        // serialize $this->data, put in cookie.
+        // set limit, maybe 50 or 100?
+        
         setcookie( 'msp_history', $this->data->ID, $two_weeks );
+        // store a product, category and search cookie
     }
 
     /**
