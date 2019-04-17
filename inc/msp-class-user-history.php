@@ -16,6 +16,12 @@ class User_History{
         }
     }
 
+    public function get_user_session(){
+        if( is_user_logged_in() ){
+            return $this->unpackage( get_user_meta( get_current_user_id(), 'msp_history', true ) );
+        }
+    }
+
     /**
      * records where the user is.
      */
@@ -35,7 +41,6 @@ class User_History{
             update_user_meta( get_current_user_id(), 'msp_history', $this->package( $this->data ) );
         }
 
-        $this->debug();
     }
 
     public function package( $thing ){
@@ -44,12 +49,6 @@ class User_History{
 
     public function unpackage( $thing ){
         return unserialize( base64_decode( $thing ) );
-    }
-
-    public function get_session(){
-        if( isset( $_SESSION['msp_history'] ) ){
-            return $_SESSION['msp_history'];
-        }
     }
 
     /**
@@ -70,11 +69,5 @@ class User_History{
         return $category[0];
     }
 
-    public function debug(){
-        echo 'data';
-        var_dump( $this->data );
-        echo 'session';
-        var_dump( $this->get_session() );
-    }
 }
 new User_History();
