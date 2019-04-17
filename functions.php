@@ -54,7 +54,7 @@ class MSP{
 
         //slideout.js - https://github.com/Mango/slideout
         wp_enqueue_script( 'slideout', URI . '/vendor/slideout/dist/slideout.min.js', array(), 
-                            filemtime( __DIR__ . '\vendor\slideout\dist\slideout.min.js' ), true );
+            filemtime( __DIR__ . '\vendor\slideout\dist\slideout.min.js' ), true );
     }
 
     public function register_menus(){
