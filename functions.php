@@ -19,8 +19,23 @@ require_once( PATH . '/inc/msp-template-functions.php' );
 
 class MSP{
     function __construct(){
+        add_action('init', array( $this, 'myStartSession'), 1 );
+
         add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
         add_action( 'after_setup_theme', array( $this, 'register_menus' ) );
+
+        add_action('wp_logout', array( $this, 'myEndSession') );
+        add_action('wp_login', array( $this, 'myEndSession') );
+    }
+
+    public function myStartSession(){
+        if(!session_id()) {
+            session_start();
+        }
+    }
+
+    public function myEndSession() {
+        session_destroy ();
     }
 
     /**
