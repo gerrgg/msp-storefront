@@ -19,13 +19,41 @@ require_once( PATH . '/inc/msp-template-functions.php' );
 
 class MSP{
     function __construct(){
-        add_action('init', array( $this, 'myStartSession'), 1 );
+        add_action( 'init', array( $this, 'myStartSession' ), 1 );
+        add_action( 'init', array( $this, 'create_theme_pages' ), 2 );
 
         add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
         add_action( 'after_setup_theme', array( $this, 'register_menus' ) );
 
         add_action('wp_logout', array( $this, 'myEndSession') );
         add_action('wp_login', array( $this, 'myEndSession') );
+    }
+
+    public function create_theme_pages(){
+        $slugs = array( 'buy-again' );
+
+        foreach( $slugs as $slug ){
+            if( ! $this->the_slug_exists( $slug ) ){
+                $shortcode = str_replace( '-', '_', $slug );
+                wp_insert_post( array(
+                    'post_title' => deslugify( $slug ),
+                    'post_content' => "[$shortcode]",
+                    'post_status' => 'publish',
+                    'post_author' => 1,
+                    'post_type' => 'page'
+                ) );
+            } 
+        }
+    }
+
+    public function the_slug_exists( $post_name ) {
+        global $wpdb;
+        
+        if( $wpdb->get_row("SELECT post_name FROM $wpdb->posts WHERE post_name = '" . $post_name . "'", 'ARRAY_A') ) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public function myStartSession(){
@@ -84,6 +112,8 @@ class MSP{
 
 
 }
+
+
 
 
 //init
