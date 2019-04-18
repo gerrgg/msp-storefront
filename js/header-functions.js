@@ -9,7 +9,13 @@ jQuery(document).ready(function( $ ){
             this.set_browsing_history();
 
             //events
-            this.$msp_header.on( 'click', 'li.user-history', this.get_browsing_history_html);
+            this.$msp_header.on( 'mouseenter', '.user-history', function(){
+                $('#browsing-history-block').show();
+            });
+
+            this.$msp_header.on( 'mouseleave', '.user-history', function(){
+                $('#browsing-history-block').hide();
+            });
             
         },
 
@@ -54,44 +60,12 @@ jQuery(document).ready(function( $ ){
             return header.browsing_history;
         },
 
-        get_browsing_history_html: function( e ){
-            $.post( wp_ajax.url, { action: 'msp_get_user_browsing_history', build_html: 1 }, function( data ){
-                header.build_display( e, data )
-            } );
-        },
-
         spinner: function(){
             return `<div class="spinner-border" role="status">
                         <span class="sr-only">Loading...</span>
                     </div>`;
         },
 
-        
-        
-        build_display: function( e, data ){
-            let $link = $(e.target);
-            let height = header.$msp_header.css('height');
-            
-            let wrapper;
-
-            if( $('.browsing-history-block').length ){
-                wrapper = $('.browsing-history-block');
-            } else {
-                wrapper = $('<div/>', { class: 'browsing-history-block', style: 'top: ' + height });
-            }
-
-            
-            wrapper.html( `<div class="spinner-border" role="status">
-            <span class="sr-only">Loading...</span>
-            </div>`);
-            
-            $link.parent().append( wrapper );
-
-            // console.log( data );
-
-            wrapper.html( data );
-            $link.parent().append( wrapper );
-        }
     }
   
     header.init();
