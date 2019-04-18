@@ -9,10 +9,10 @@ class User_History{
      */
 
     public $data = array(
-        'products' => '',
-        'categories' => '',
-        'searches' => '',
-        'orders' => '',
+        'products' => array(),
+        'categories' => array(),
+        'searches' => array(),
+        'orders' => array(),
     );
 
     function __construct(){
@@ -105,29 +105,35 @@ class User_History{
      * sends a json of the products array
      * @param int $limit - the numbers of results we'd liked returned.
      */
-    public function get_user_products_history( $limit = 20 ){
-        if( $_POST['build_html'] ){
-            ob_start();
-            echo '<div class="d-flex">';
-            foreach( $this->data['products'] as $data ){
-                $product = wc_get_product( $data[0] );
-                if( $product ){
-                    ?>
-                    <div class="mx-3">
-                        <?php echo $product->get_name(); ?>
-                    </div>
-                    <?php
-                }
+    public function get_user_products_history( $limit = 20, $echo = false ){
+        ob_start();
+
+        $arr = array_reverse( $this->data['products'] );
+
+        echo '<div id="browsing-history-block" class="owl-carousel owl-theme">';
+
+        for( $i = 0; $i < $limit; $i++){
+            $product = wc_get_product( $arr[$i][0] );
+            if( $product ){
+                ?>
+                <a class="card p-2 mx-auto text-center" href="<?php echo $product->get_permalink() ?>">
+                    <p><?php echo $product->get_image(); ?></p>
+                    <p class="text-muted"><?php echo date( 'M, jS' ) ?></p>
+                </a>
+                <?php
             }
-            echo '</div>';
-            wp_send_json( ob_get_clean() );
-        } else {
-            wp_send_json( $this->data['products']);
         }
+        
+        echo '</div>';
+
+        $html = ob_get_clean();
+
+        echo $html;
+        
     }
 
     public function get_user_categories_history(){
-        wp_send_json( $this->data['categories'] );
+        return( $this->data['categories'] );
     }
 
     /**
@@ -149,4 +155,4 @@ class User_History{
     }
 
 }
-new User_History();
+$history = new User_History();
