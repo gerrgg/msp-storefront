@@ -132,14 +132,36 @@
 
 
 
-.browsing-history-block{
+#browsing-history-block{
     background-color: #fff;
     border-bottom: 16px solid #333333;
-    height: 250px;
+    /* height: 250px; */
     width: 100vw;
     left: 0px;
     z-index: 5;
     position: absolute;
+    display: none;
+    padding: 0 200px;
 }
+#browsing-history-block a{
+    color: #333;
+}
+#browsing-history-block img{
+    width: 75px;
+}
+
+.user-history{
+    cursor: pointer;
+}
+
+.history-item{
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+
+
 
 
