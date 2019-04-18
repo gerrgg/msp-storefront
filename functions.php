@@ -44,6 +44,9 @@ class MSP{
     public function enqueue_scripts(){
         // Custom javascript functions
         wp_enqueue_script( 'msp', URI . '/inc/functions.js', array('jquery'), filemtime( __DIR__ . '\inc\functions.js' ), true );
+        wp_localize_script( 'msp', 'wp_ajax', array(
+            'url' => admin_url( 'admin-ajax.php' ),
+        ) );
 
         // Font Awesome
         wp_enqueue_style( 'font-awesome', 'https://use.fontawesome.com/releases/v5.8.1/css/all.css' );
