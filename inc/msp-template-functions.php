@@ -56,19 +56,8 @@ function msp_header_search_bar(){
  */
 function msp_header_menu(){
     echo '<div id="header-menu" class="d-flex align-items-end">';
-        // wp_nav_menu( array(
-        //     'depth'	          => 2, // 1 = no dropdowns, 2 = with dropdowns.
-        //     'container'       => 'div',
-        //     'container_id'    => 'header-middle',
-        //     'menu_class'      => 'navbar-nav m-0',
-        //     'theme_location' => 'primary',
-        //     'fallback_cb'     => 'WP_Bootstrap_Navwalker::fallback',
-        //     'walker'          => new WP_Bootstrap_Navwalker(),
-        // ) );
-        
-        echo '<ul class="navbar-nav m-0">';
-         msp_get_user_products_history_btn();
-        echo '</ul>';
+
+        do_action( 'msp_quick_links' );
 
         echo '<div class="d-flex align-items-end ml-auto">';
             msp_header_right_menu();
@@ -79,18 +68,66 @@ function msp_header_menu(){
 
 }
 
+function msp_quick_links_wrapper_open(){
+    echo '<ul class="navbar-nav m-0">';
+}
+
+
+function msp_buy_again_btn(){
+    $orders = wc_get_orders( array( 'customer_id' => get_current_user_id() ) );
+
+    if( ! empty( $orders ) ) :
+        ?>
+        <li class="nav-item buy-again">
+            <a class="nav-link" href="/buy-again">
+                Buy Again
+            </a>
+        </li>
+        <?php
+    endif;
+    
+}
+
+add_shortcode( 'buy_again' , 'msp_buy_again_shortcode' );
+function msp_buy_again_shortcode(){
+    $order_items = msp_get_customer_unique_order_items( get_current_user_id() );
+    // loop and display buy again.
+}
+
+function msp_get_customer_unique_order_items( $user_id ){
+    $order_items = array();
+    $orders = wc_get_orders( array( 'customer_id' => get_current_user_id() ) );
+    
+    if( ! empty( $orders ) ){
+        foreach( $orders as $order ){
+            $items = $order->get_items();
+            foreach( $items as $id => $item ){
+                array_push( $order_items, $id );
+            }
+        }
+    }
+
+    return array_unique( $order_items );
+}
+
 function msp_get_user_products_history_btn(){
     global $history;
 
-    ?>
-    <li class="nav-item user-history">
-        <a class="nav-link dropdown-toggle">
-            Browsing History
-        </a>
-        <?php $history->get_user_products_history(); ?>
-    </li>
-    <?php
+    if( ! empty( $history->data['products'] ) ) :
+        ?>
+        <li class="nav-item user-history">
+            <a class="nav-link dropdown-toggle">
+                Browsing History
+            </a>
+            <?php $history->get_user_products_history(); ?>
+        </li>
+        <?php
+    endif;
     
+}
+
+function msp_quick_links_wrapper_close(){
+    echo '</ul>';
 }
 
 /**
