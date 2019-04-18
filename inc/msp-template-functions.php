@@ -56,23 +56,41 @@ function msp_header_search_bar(){
  */
 function msp_header_menu(){
     echo '<div id="header-menu" class="d-flex align-items-end">';
-        wp_nav_menu( array(
-            'depth'	          => 2, // 1 = no dropdowns, 2 = with dropdowns.
-            'container'       => 'div',
-            'container_id'    => 'header-middle',
-            'menu_class'      => 'navbar-nav m-0',
-            'theme_location' => 'primary',
-            'fallback_cb'     => 'WP_Bootstrap_Navwalker::fallback',
-            'walker'          => new WP_Bootstrap_Navwalker(),
-        ) );
+        // wp_nav_menu( array(
+        //     'depth'	          => 2, // 1 = no dropdowns, 2 = with dropdowns.
+        //     'container'       => 'div',
+        //     'container_id'    => 'header-middle',
+        //     'menu_class'      => 'navbar-nav m-0',
+        //     'theme_location' => 'primary',
+        //     'fallback_cb'     => 'WP_Bootstrap_Navwalker::fallback',
+        //     'walker'          => new WP_Bootstrap_Navwalker(),
+        // ) );
         
+        echo '<ul class="navbar-nav m-0">';
+         msp_get_user_products_history_btn();
+        echo '</ul>';
 
         echo '<div class="d-flex align-items-end ml-auto">';
             msp_header_right_menu();
             msp_header_cart();
         echo '</div>';
+
     echo '</div>';
 
+}
+
+function msp_get_user_products_history_btn(){
+    global $history;
+
+    ?>
+    <li class="nav-item user-history">
+        <a class="nav-link dropdown-toggle">
+            Browsing History
+        </a>
+        <?php $history->get_user_products_history(); ?>
+    </li>
+    <?php
+    
 }
 
 /**
