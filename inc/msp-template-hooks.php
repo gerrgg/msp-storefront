@@ -33,3 +33,11 @@ add_action( 'storefront_before_site', 'msp_mobile_menu', 50 );
 add_action( 'storefront_before_site', 'msp_mobile_menu_account_links', 55 );
 add_action( 'storefront_before_site', 'msp_mobile_menu_wrapper_close', 100 );
 
+/**
+ * @see msp_quick_links()
+ */
+add_action( 'msp_quick_links', 'msp_quick_links_wrapper_open', 1 );
+add_action( 'msp_quick_links', 'msp_buy_again_btn', 5 );
+add_action( 'msp_quick_links', 'msp_get_user_products_history_btn', 10 );
+add_action( 'msp_quick_links', 'msp_quick_links_wrapper_close', 100 );
+
