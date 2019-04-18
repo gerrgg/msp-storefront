@@ -131,3 +131,15 @@
 }
 
 
+
+.browsing-history-block{
+    background-color: #fff;
+    border-bottom: 16px solid #333333;
+    height: 250px;
+    width: 100vw;
+    left: 0px;
+    z-index: 5;
+    position: absolute;
+}
+
+

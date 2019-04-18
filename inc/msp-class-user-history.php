@@ -28,7 +28,7 @@ class User_History{
     public function update_session(){
         foreach( $this->data as $key => $value ){
             $db_key = 'msp_' . $key;
-            
+
             if( is_user_logged_in() ){
                 $this->data[$key] = $this->unpackage( get_user_meta( get_current_user_id(), $db_key, true ) );
 
@@ -73,6 +73,7 @@ class User_History{
     public function sort( $category ){
         if( is_null( $category ) ){
             global $post;
+            // if id not equal to the last entry.
             array_push( $this->data['products'], array( $post->ID, time() ) );
         } else {
             array_push( $this->data['categories'], array( $category->term_id, time() ) );
@@ -105,10 +106,24 @@ class User_History{
      * @param int $limit - the numbers of results we'd liked returned.
      */
     public function get_user_products_history( $limit = 20 ){
-        $size = sizeof( $this->data['products'] );
-        $offset = $size - $limit;
-        ( $size > $limit ) ? wp_send_json( array_splice( $this->data['products'], $offset ) ) : wp_send_json( $this->data['products'] );
-
+        if( $_POST['build_html'] ){
+            ob_start();
+            echo '<div class="d-flex">';
+            foreach( $this->data['products'] as $data ){
+                $product = wc_get_product( $data[0] );
+                if( $product ){
+                    ?>
+                    <div class="mx-3">
+                        <?php echo $product->get_name(); ?>
+                    </div>
+                    <?php
+                }
+            }
+            echo '</div>';
+            wp_send_json( ob_get_clean() );
+        } else {
+            wp_send_json( $this->data['products']);
+        }
     }
 
     public function get_user_categories_history(){
