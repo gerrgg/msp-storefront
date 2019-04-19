@@ -140,8 +140,17 @@
     left: 0px;
     z-index: 100;
     position: absolute;
-    display: none;
+    /* display: none; */
     padding: 1rem 2rem;
+}
+
+#browsing-history-block .price{
+    color: #B0413E;
+    font-size: 18px !important;
+}
+
+#browsing-history-block:hover + .overlay{
+    background-color: rgba(0,0,0,0.5);
 }
 
 #browsing-history-block a{
@@ -160,10 +169,6 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
-}
-
-.buy-again-product{
-    /* height: 350px; */
 }
 
 .buy-again-product a{

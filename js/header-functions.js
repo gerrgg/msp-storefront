@@ -6,7 +6,8 @@ jQuery(document).ready(function( $ ){
 
         init: function(){
             this.init_slideout();
-            this.set_browsing_history();
+            // not used atm
+            // this.set_browsing_history();
 
             //events
             this.$msp_header.on( 'mouseenter', '.user-history', function(){
