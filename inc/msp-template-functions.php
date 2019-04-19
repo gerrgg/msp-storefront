@@ -91,18 +91,42 @@ function msp_buy_again_btn(){
 add_shortcode( 'buy_again' , 'msp_buy_again_shortcode' );
 function msp_buy_again_shortcode(){
     $order_items = msp_get_customer_unique_order_items( get_current_user_id() );
-    // loop and display buy again.
+    echo '<div class="owl-carousel owl-theme">';
+    foreach( $order_items as $id ){
+        $product = wc_get_product( $id );
+        global $product;
+
+        if( ! empty( $product ) ){
+            ?>
+            <div class="card buy-again-product">
+                <a class="link-normal" href="<?php echo $product->get_permalink(); ?>">
+                    <?php echo $product->get_image( 'woocommerce_thumbnail', array( 'class' => 'card-img-top' ) ) ?>
+                    <div class="card-body">
+                        <?php echo wc_get_rating_html( $product->get_average_rating(), $product->get_review_count() ) ?>
+                        <h5><?php echo $product->get_name(); ?></h5>
+                        <p><?php echo $product->get_price_html() ?></p>
+                        <?php woocommerce_template_loop_add_to_cart(); ?>
+                        
+                    </div>
+                </a>
+            </div>
+            <?php
+        }
+    }
+
+    echo '</div>';
+
 }
 
 function msp_get_customer_unique_order_items( $user_id ){
     $order_items = array();
-    $orders = wc_get_orders( array( 'customer_id' => get_current_user_id() ) );
+    $orders = wc_get_orders( array( 'customer_id' => $user_id ) );
     
     if( ! empty( $orders ) ){
         foreach( $orders as $order ){
             $items = $order->get_items();
             foreach( $items as $id => $item ){
-                array_push( $order_items, $id );
+                array_push( $order_items, $item->get_product_id() );
             }
         }
     }

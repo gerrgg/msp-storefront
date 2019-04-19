@@ -116,7 +116,7 @@ class User_History{
             $product = wc_get_product( $arr[$i][0] );
             if( $product ){
                 ?>
-                <a class="card p-2 mx-auto text-center" href="<?php echo $product->get_permalink() ?>">
+                <a class="card p-2 mx-auto text-center " href="<?php echo $product->get_permalink() ?>">
                     <p><?php echo $product->get_image(); ?></p>
                     <p class="text-muted"><?php echo date( 'M, jS' ) ?></p>
                 </a>
