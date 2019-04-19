@@ -74,6 +74,9 @@ class User_History{
         if( is_null( $category ) ){
             global $post;
             // if id not equal to the last entry.
+            // can we make this unique from the get-go? Maybe create an array with key equal to the id and properties like occurence(int) and timestamp.
+            // that way we can determine how much influence (priority) a product has when determining product recommendations.
+            // if we dont do this, we will just have to do it later when defining these functions ^^...
             array_push( $this->data['products'], array( $post->ID, time() ) );
         } else {
             array_push( $this->data['categories'], array( $category->term_id, time() ) );

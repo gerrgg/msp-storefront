@@ -140,7 +140,7 @@
     left: 0px;
     z-index: 100;
     position: absolute;
-    /* display: none; */
+    display: none;
     padding: 1rem 2rem;
 }
 
