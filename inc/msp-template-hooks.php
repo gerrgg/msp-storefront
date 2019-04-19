@@ -41,3 +41,4 @@ add_action( 'msp_quick_links', 'msp_buy_again_btn', 5 );
 add_action( 'msp_quick_links', 'msp_get_user_products_history_btn', 10 );
 add_action( 'msp_quick_links', 'msp_quick_links_wrapper_close', 100 );
 
+
