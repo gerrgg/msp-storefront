@@ -27,6 +27,8 @@ class MSP{
 
         add_action('wp_logout', array( $this, 'myEndSession') );
         add_action('wp_login', array( $this, 'myEndSession') );
+
+        add_filter( 'woocommerce_min_password_strength', array( $this, 'msp_password_strength' ) );
     }
 
     public function create_theme_pages(){
@@ -103,6 +105,10 @@ class MSP{
         register_nav_menus( array(
             'logged-out' => __('Secondary menu for logged out users', 'msp')
         ) );
+    }
+
+    public function msp_password_strength(){
+        return 1;
     }
 
 

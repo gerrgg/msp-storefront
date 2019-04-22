@@ -10,6 +10,12 @@
  Text Domain:  msp
 */
 
+a, a:hover, a:visited, a.active, a.focus{
+    color: #B0413E;
+    text-decoration: none;
+}
+
+
 .dgwt-wcas-search-wrapp{
     max-width: 650px !important;
     margin: 0px !important;
@@ -206,7 +212,10 @@ a.add_to_cart_button,
     background-color: #B0413E;
 }
 
-
+.woocommerce-password-strength,
+.woocommerce-password-hint{
+    display: none !important;
+}
 
 
 
