@@ -30,7 +30,7 @@ class MSP{
     }
 
     public function create_theme_pages(){
-        $slugs = array( 'buy-again' );
+        $slugs = array( 'buy-again', 'quote' );
 
         foreach( $slugs as $slug ){
             if( ! $this->the_slug_exists( $slug ) ){
@@ -42,18 +42,13 @@ class MSP{
                     'post_author' => 1,
                     'post_type' => 'page'
                 ) );
-            } 
+            }
         }
     }
 
     public function the_slug_exists( $post_name ) {
         global $wpdb;
-        
-        if( $wpdb->get_row("SELECT post_name FROM $wpdb->posts WHERE post_name = '" . $post_name . "'", 'ARRAY_A') ) {
-            return true;
-        } else {
-            return false;
-        }
+        return ( $wpdb->get_row("SELECT post_name FROM $wpdb->posts WHERE post_name = '" . $post_name . "'", 'ARRAY_A') );
     }
 
     public function myStartSession(){

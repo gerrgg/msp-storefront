@@ -88,6 +88,119 @@ function msp_buy_again_btn(){
     
 }
 
+function msp_quote_btn(){
+    ?>
+    <li class="nav-item">
+        <a class="nav-link" href="/quote">
+            Request Quote
+        </a>
+    </li>
+    <?php
+}
+
+add_shortcode( 'quote' , 'msp_quote_shortcode' );
+function msp_quote_shortcode(){
+    $input = isset( $_GET['input'] ) ? $_GET['input'] : 0;
+    $product = msp_get_product_by_mixed_data( $input );
+
+    if( empty( $product ) ){
+       get_msp_quote_find_product_id_form();
+    } else {
+        get_msp_quote_form( $product );
+    }
+}
+
+function get_msp_quote_find_product_id_form(){
+    ?>
+    <div class="alert alert-danger" style="max-width: 450px;" role="alert">
+        <form class="form" method="get">
+            <p for="input">Enter the ID, SKU or Name of the product you want to quote.</p>
+            <div class="form-group">
+                <input id="sku" type="text" name="input[sku]" class="form-control" placeholder="Stock Keeping Unit (SKU)" />
+            </div>
+            <div class="form-group">
+                <input id="name" type="text" name="input[name]" class="form-control" placeholder="Product Name" />
+            </div>
+            
+            <input class="btn btn-danger" type="submit" value="Submit" />
+        </form>
+    </div>
+<?php
+}
+
+function get_msp_quote_form( $product ){
+    set_query_var( 'msp_product_id', $product->get_id() );
+    wc_get_template( '/template/msp-quote.php' );
+}
+
+add_action( 'admin_post_msp_submit_bulk_form', 'msp_submit_bulk_form' );
+add_action( 'admin_post_nopriv_msp_submit_bulk_form', 'msp_submit_bulk_form' );
+
+function msp_submit_bulk_form(){
+    var_dump( $_POST );
+    $sitename = bloginfo( 'sitename' );
+    $products_arr = array();
+    foreach( $_POST['product'] as $id => $qty ){
+        if( ! empty( $qty ) ){
+            $product = wc_get_product( $id );
+            $products_arr[$id] = array( 
+                'qty' => $qty,
+                'name' => $product->get_formatted_name(),
+            );
+        }
+    }
+
+    if( ! empty( $products_arr ) ){
+        ob_start();
+        ?>
+        <h1>Bulk Quote Request</h1>
+        <h2>Ship To</h2>
+        <p>Reply To: <?php echo $_POST['email'] ?></p>
+        <address>
+            <?php echo $_POST['street'] . ', ' . $_POST['zip'] ?>
+        <address>
+        <hr>
+        <table>
+            <thead>
+                <th>Name</th>
+                <th>Quantity</th>
+            </thead>
+            <tbody>
+                <?php 
+                    foreach( $products_arr as $id => $item ){
+                        echo '<tr>';
+                        echo '<td>'. $item['name'] .'</td>';
+                        echo '<td>'. $item['qty'] .'</td>';
+                        echo '</tr>';
+                    }
+                ?>
+            </tbody>
+        </table>
+        <?php
+        $html = ob_get_clean();
+        
+        //confirm works.
+        wp_mail( get_option('admin_email'), $sitename . ' - Quote Request', $html );
+        // wc_add_notice( 'We got your quote request, please allow 1-2 business days for a response', 'success' );
+        wp_redirect( '/' );
+    }
+}
+
+function msp_get_product_by_mixed_data( $data ){
+    if( ! empty( $data ) ){
+        foreach( $data as $key => $query ){
+            $func = 'wc_get_product_id_by_' . $key;
+            $product_id = $func( $query );
+            if( ! empty( $product_id ) ) return wc_get_product( $product_id );
+        }
+    }
+}
+
+function wc_get_product_id_by_name( $str ){
+    global $wpdb;
+    return $wpdb->get_row( "SELECT ID FROM wp_posts WHERE post_title LIKE '%$str%'" );
+}
+
 add_shortcode( 'buy_again' , 'msp_buy_again_shortcode' );
 function msp_buy_again_shortcode(){
     $order_items = msp_get_customer_unique_order_items( get_current_user_id() );
@@ -106,16 +219,13 @@ function msp_buy_again_shortcode(){
                         <h5><?php echo $product->get_name(); ?></h5>
                         <p><?php echo $product->get_price_html() ?></p>
                         <?php woocommerce_template_loop_add_to_cart(); ?>
-                        
                     </div>
                 </a>
             </div>
             <?php
         }
     }
-
     echo '</div>';
-
 }
 
 function msp_get_customer_unique_order_items( $user_id ){

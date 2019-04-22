@@ -144,9 +144,19 @@
     padding: 1rem 2rem;
 }
 
-#browsing-history-block .price{
+#browsing-history-block .price,
+span.price{
     color: #B0413E;
     font-size: 18px !important;
+    font-weight: 600;
+}
+
+.price{
+    color: #B0413E;
+}
+
+label.price{
+    font-weight: 600;
 }
 
 #browsing-history-block:hover + .overlay{
@@ -191,6 +201,11 @@ a.add_to_cart_button,
     text-decoration: none!important;
     color: 333!important;
 }
+
+.btn-danger{
+    background-color: #B0413E;
+}
+
 
 
 
