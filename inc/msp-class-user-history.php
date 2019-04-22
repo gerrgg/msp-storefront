@@ -16,15 +16,21 @@ class User_History{
     );
 
     function __construct(){
-        add_action( 'init', array( $this, 'update_session' ) );
+        add_action( 'init', array( $this, 'import_data' ) );
         add_action( 'template_redirect', array( $this, 'check_template' ) );
+    }
+
+    public function update_session(){
+        foreach( $this->data as $key => $data ){
+            $_SESSION['msp_' . $key] = $this->data[$key];
+        }
     }
     
     /**
      * updates the $data array with user data from the db or session based on whether or not a user is logged in.
      * TODO: Possibly find a way to store $_SESSION on guests as well, like IP? How does woocommerce do it? Do they do it?
      */
-    public function update_session(){
+    public function import_data(){
         foreach( $this->data as $key => $value ){
             $db_key = 'msp_' . $key;
 
@@ -38,7 +44,6 @@ class User_History{
                 $this->data[$key] = ( isset( $_SESSION[$db_key] ) ) ? $_SESSION[$db_key] : array();
             }
         }
-
     }
 
     /**
@@ -49,8 +54,29 @@ class User_History{
         if( ! is_product() && ! is_product_category() ) return;
 
         $category = $this->get_category();
-        $this->sort( $category );
+        $this->build_item( $category );
+        $this->update_session();
         $this->update_user_products_history();
+    }
+
+    public function build_item( $data ){
+        global $post;
+        $id = ( isset( $data->term_id ) ) ? $data->term_id : $post->ID;
+        $type = ( isset( $data->term_id ) ) ? 'categories' : 'products';
+
+
+        if( isset( $this->data[$type][$id] ) ){
+            $arr = $this->data[$type][$id];
+        } else {
+            $arr = array( 
+                'count' => 0,
+             );
+        }
+        
+        $arr['count']++;
+        $arr['last_visit'] = time();
+        $this->data[$type][$id] = $arr;
+
     }
 
     /**
@@ -64,26 +90,6 @@ class User_History{
                 }
             }
         }
-    }
-
-    /**
-     * places the $_SESSION in a specific array based on the value of $category
-     * @param WP_Term $category
-     */
-    public function sort( $category ){
-        if( is_null( $category ) ){
-            global $post;
-            // if id not equal to the last entry.
-            // can we make this unique from the get-go? Maybe create an array with key equal to the id and properties like occurence(int) and timestamp.
-            // that way we can determine how much influence (priority) a product has when determining product recommendations.
-            // if we dont do this, we will just have to do it later when defining these functions ^^...
-            array_push( $this->data['products'], array( $post->ID, time() ) );
-        } else {
-            array_push( $this->data['categories'], array( $category->term_id, time() ) );
-        }
-
-        $_SESSION['msp_products'] = $this->data['products'];
-        $_SESSION['msp_categories'] = $this->data['categories'];
     }
 
     /**
@@ -142,8 +148,11 @@ class User_History{
     public function get_unique_items( $arr ){
         $unique = array();
         foreach( $arr as $data ){
-            array_push( $unique, $data[0] );
+            if( ! empty( $data[0] ) ){
+                array_push( $unique, $data[0] );
+            }
         }
+        
 
         // we use array_values becuase we dont want to preserve the keys.
         return array_values( array_unique( $unique ) );
