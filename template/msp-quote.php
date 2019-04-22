@@ -47,7 +47,7 @@ if( ! empty( $children ) ){
                 ?>
                 <div class="form-group">
                     <label>How many? </label>
-                    <input class="form-control" type="tel" name="<?php echo $product->get_id() ?>" min="0" />
+                    <input class="form-control" type="tel" name="product[<?php echo $product->get_id() ?>]" min="0" />
                 </div>
                 <?php
             }
