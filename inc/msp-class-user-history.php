@@ -117,24 +117,27 @@ class User_History{
     public function get_user_products_history( $limit = 20, $echo = false ){
         ob_start();
 
-        $arr = $this->get_unique_items( $this->data['products'] );
-        $arr = array_reverse( $arr );
+        $arr = $this->data['products'];
+        $count = 0;
         $limit = ( sizeof( $arr ) < $limit ) ? sizeof( $arr ) : $limit;
 
         echo '<div id="browsing-history-block" class="owl-carousel owl-theme">';
 
-        for( $i = 0; $i < $limit; $i++){
-            $product = wc_get_product( $arr[$i] );
-            if( $product ){
+        foreach( $arr as $id => $item ){
+            $product = wc_get_product( $id );
+            
+            if( $product && $count < $limit ){
                 ?>
                 <div class="text-center">
                     <a class="text-center mx-auto link-normal" href="<?php echo $product->get_permalink() ?>">
                         <?php echo $product->get_image(); ?>
                     </a>
-                    <p class="price">$<?php echo $product->get_price(); ?></p>
+                    <p class="price text-center mx-auto">$<?php echo $product->get_price(); ?></p>
                 </div>
                 <?php
             }
+            
+            $count++;
         }
         
         echo '</div><!-- #browsing-history-block -->';
