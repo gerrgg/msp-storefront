@@ -73,11 +73,8 @@ do_action( 'woocommerce_before_account_orders', $has_orders ); ?>
 						</td>
 					<?php endforeach; ?>
 				</tr>
-				<tr class="border-top">
-					<td colspan="5">	
-						<?php var_dump( $order->get_items() ) ?>
-					</td>
-				</tr>
+				<?php do_action( 'msp_my_order_details', $order ) ?>
+				
 			<?php endforeach; ?>
 		</tbody>
 	</table>
