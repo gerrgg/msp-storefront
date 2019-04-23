@@ -66,13 +66,11 @@ do_action( 'woocommerce_before_account_payment_methods', $has_methods ); ?>
 	</table>
 
 <?php else : ?>
-
 	<p class="woocommerce-Message woocommerce-Message--info woocommerce-info"><?php esc_html_e( 'No saved methods found.', 'woocommerce' ); ?></p>
-
 <?php endif; ?>
 
 <?php do_action( 'woocommerce_after_account_payment_methods', $has_methods ); ?>
 
 <?php if ( WC()->payment_gateways->get_available_payment_gateways() ) : ?>
-	<a class="btn btn-success link-normal" href="<?php echo esc_url( wc_get_endpoint_url( 'add-payment-method' ) ); ?>"><?php esc_html_e( 'Add payment method', 'woocommerce' ); ?></a>
+	<a class="btn btn-success text-light link-normal" href="<?php echo esc_url( wc_get_endpoint_url( 'add-payment-method' ) ); ?>"><?php esc_html_e( 'Add payment method', 'woocommerce' ); ?></a>
 <?php endif; ?>
