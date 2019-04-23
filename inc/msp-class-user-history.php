@@ -63,15 +63,8 @@ class User_History{
         global $post;
         $id = ( isset( $data->term_id ) ) ? $data->term_id : $post->ID;
         $type = ( isset( $data->term_id ) ) ? 'categories' : 'products';
-
-
-        if( isset( $this->data[$type][$id] ) ){
-            $arr = $this->data[$type][$id];
-        } else {
-            $arr = array( 
-                'count' => 0,
-             );
-        }
+        
+        $arr = ( isset( $this->data[$type][$id] ) ) ? $this->data[$type][$id] : array( 'count' => 0 );
         
         $arr['count']++;
         $arr['last_visit'] = time();
