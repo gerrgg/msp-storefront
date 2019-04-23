@@ -10,6 +10,7 @@ define('PATH', get_stylesheet_directory() );
 require_once( PATH . '/vendor/wp-bootstrap-navwalker-master/class-wp-bootstrap-navwalker.php' );
 require_once( PATH . '/admin-functions.php' );
 require_once( PATH . '/inc/msp-class-user-history.php' );
+require_once( PATH . '/inc/msp-class-ups.php' );
 require_once( PATH . '/inc/msp-template-hooks.php' );
 require_once( PATH . '/inc/msp-template-functions.php' );
 

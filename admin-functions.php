@@ -13,6 +13,41 @@ class MSP_Admin{
         add_theme_page( 'MSP Theme Options', 'MSP Theme Options', 'manage_options', 'msp_options', array( $this, 'msp_options_callback' ) );
 
         add_action( 'admin_init', array( $this, 'register_theme_settings' ) );
+        add_action( 'woocommerce_admin_order_data_after_order_details', array( $this, 'submit_tracking_form' ) );
+        add_action( 'woocommerce_process_shop_order_meta', array( $this, 'save_order_meta' ) );
+    }
+
+    public function submit_tracking_form(){
+        woocommerce_wp_select( array(
+            'id' => 'shipper',
+            'label' => 'Shipper:',
+            'value' => '',
+            'options' => array(
+            '' => '',
+                'ups' => 'UPS',
+                'fedex' => 'Fedex',
+                'usps' => 'Post Office',
+            ),
+            'wrapper_class' => 'form-field-wide'
+        ) );
+
+        woocommerce_wp_text_input( array(
+            'id' => 'tracking',
+            'label' => 'Tracking #:',
+            'value' => '',
+            'wrapper_class' => 'form-field-wide',
+        ) );
+
+        echo '<button class="button button-primary" style="width: 100%; margin-top: 1rem;">Send Tracking</button>';
+    }
+
+    public function save_order_meta( $order_id ){
+        $custom_meta_keys = array( 'shipper', 'tracking' );
+        foreach( $custom_meta_keys as $key ){
+            if( isset( $_POST[ $key ] ) && ! empty( $_POST[ $key ] ) ){
+                update_post_meta( $order_id, $key, wc_clean( $_POST[ $key ] ) );
+            }
+        }
     }
 
     public function register_theme_settings(){
@@ -30,7 +65,7 @@ class MSP_Admin{
             'msp_options' // the page to put it on
         );
 
-        $this->add_settings_field_and_register( 'msp_options', 'ups_api_creds', 'ups_api', array( 'key', 'username', 'password', 'account' ) );
+        $this->add_settings_field_and_register( 'msp_options', 'ups_api_creds', 'ups_api', array( 'key', 'username', 'password', 'account', 'mode', 'end_of_day' ) );
         $this->add_settings_field_and_register( 'msp_options', 'theme_options', 'msp', array( 'logo_width' ) );
     }
 
@@ -82,6 +117,14 @@ function ups_api_password_callback(){
 }
 function ups_api_account_callback(){
     echo '<input name="ups_api_account" id="ups_api_account" type="text" value="'. get_option( 'ups_api_account' ) .'" class="code" />';
+}
+function ups_api_mode_callback(){
+    echo '<input name="ups_api_mode" id="ups_api_mode_test" type="radio" value="https://wwwcie.ups.com/ups.app/xml/" class="code" '. checked( 'https://wwwcie.ups.com/ups.app/xml/', get_option( 'ups_api_mode' ), false ) .' />Test';
+    echo '<br>';
+    echo '<input name="ups_api_mode" id="ups_api_mode_production" type="radio" value="https://onlinetools.ups.com/ups.app/xml/" class="code" '. checked( 'https://onlinetools.ups.com/ups.app/xml/', get_option( 'ups_api_mode' ), false ) .' />Production';
+}
+function ups_api_end_of_day_callback(){
+    echo '<input type="time" id="ups_api_end_of_day" name="ups_api_end_of_day" value="'. get_option( 'ups_api_end_of_day' ) .'">';
 }
 
 function msp_logo_width_callback(){
