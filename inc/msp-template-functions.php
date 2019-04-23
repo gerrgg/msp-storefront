@@ -208,22 +208,7 @@ function msp_buy_again_shortcode(){
     foreach( $order_items as $id ){
         $product = wc_get_product( $id );
         global $product;
-
-        if( ! empty( $product ) ){
-            ?>
-            <div class="card buy-again-product">
-                <a class="link-normal" href="<?php echo $product->get_permalink(); ?>">
-                    <?php echo $product->get_image( 'woocommerce_thumbnail', array( 'class' => 'card-img-top' ) ) ?>
-                    <div class="card-body">
-                        <?php echo wc_get_rating_html( $product->get_average_rating(), $product->get_review_count() ) ?>
-                        <h5><?php echo $product->get_name(); ?></h5>
-                        <p><?php echo $product->get_price_html() ?></p>
-                        <?php woocommerce_template_loop_add_to_cart(); ?>
-                    </div>
-                </a>
-            </div>
-            <?php
-        }
+        wc_get_template_part( 'content', 'product-simple' );
     }
     echo '</div>';
 }
@@ -361,3 +346,70 @@ function msp_mobile_menu_wrapper_close(){
     echo "</div> <!-- #mobile-menu -->";
 }
 
+
+function msp_order_details_html( $order ){
+    // var_dump( $order->get_items() );
+    ?>
+    <tr class="border-top">
+        <td colspan="4">
+            <?php 
+                foreach( $order->get_items() as $item ){
+                    $product = wc_get_product( $item->get_product_id() );
+                    if( ! empty( $product ) ){
+                        $image_src = MSP::get_product_image_src( $product->get_image_id() );
+                        ?>
+                        <div class="d-flex">
+                            <a href="<?php echo $product->get_permalink() ?>">
+                                <img src="<?php echo $image_src ?>" style="width: 100px; height: 100px;" class="mb-2" />
+                            </a>
+                            <div class="pl-4">
+                                <a class="link-normal" href="<?php echo $product->get_permalink() ?>">
+                                <?php echo $product->get_name(); ?>
+                            </a>
+                            <p class="">Price: <span class="price">$<?php echo $product->get_price(); ?></span></p>
+                            <p class="m-0">Qty: <?php echo $item->get_quantity(); ?></p>
+                            </div>
+                        </div>
+                        <?php
+                    }
+                }
+            ?>
+        </td>
+        <td>
+            <div class="order-actions btn-group-vertical text-align-left">
+                    <?php do_action( 'msp_order_details_actions' ) ?>
+            </div>
+        </td>
+    </tr>
+    <?php
+}
+
+function msp_order_tracking_button(){
+    ?>
+        <button type="button" class="btn btn-success btn-block"><i class="fas fa-shipping-fast"></i>Track Package</button>
+    <?php
+}
+
+function msp_order_product_review_button(){
+    ?>
+        <button type="button" class="btn btn-secondary btn-block"><i class="fas fa-edit"></i>Write a Product Review</button>
+    <?php
+}
+
+function msp_order_feedback_button(){
+    ?>
+        <button type="button" class="btn btn-info btn-block"><i class="far fa-comments"></i>Leave Feedback</button>
+    <?php
+}
+
+function msp_order_return_button(){
+    ?>
+        <button type="button" class="btn btn-warning btn-block"><i class="fas fa-cube"></i>Return or replace items</button>
+    <?php
+}
+
+function msp_order_report_issue_button(){
+    ?>
+        <button type="button" class="btn btn-danger btn-block"><i class="fas fa-exclamation-circle"></i>Problem with order</button>
+    <?php
+}

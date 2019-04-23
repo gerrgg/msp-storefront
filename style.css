@@ -205,7 +205,6 @@ a.add_to_cart_button,
 
 .link-normal{
     text-decoration: none!important;
-    color: 333!important;
 }
 
 .btn-danger{
@@ -215,6 +214,14 @@ a.add_to_cart_button,
 .woocommerce-password-strength,
 .woocommerce-password-hint{
     display: none !important;
+}
+
+.btn-group-vertical.text-align-left button{
+    text-align: left !important;
+}
+
+.btn-group-vertical.text-align-left button > i{
+    padding-right: 1rem;
 }
 
 
