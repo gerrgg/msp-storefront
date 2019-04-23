@@ -348,7 +348,6 @@ function msp_mobile_menu_wrapper_close(){
 
 
 function msp_order_details_html( $order ){
-    // var_dump( $order->get_items() );
     ?>
     <tr class="border-top">
         <td colspan="4">
@@ -377,38 +376,99 @@ function msp_order_details_html( $order ){
         </td>
         <td>
             <div class="order-actions btn-group-vertical text-align-left">
-                    <?php do_action( 'msp_order_details_actions' ) ?>
+                    <?php do_action( 'msp_order_details_actions', $order ) ?>
             </div>
         </td>
     </tr>
     <?php
 }
 
-function msp_order_tracking_button(){
-    ?>
-        <button type="button" class="btn btn-success btn-block"><i class="fas fa-shipping-fast"></i>Track Package</button>
-    <?php
+function msp_order_tracking_button( $order ){
+    $tracking_info = array( 
+        'shipper' => get_post_meta( $order->get_id(), 'shipper', true ),
+        'tracking' => get_post_meta( $order->get_id(), 'tracking', true ),
+    );
+
+    if( $order->get_status() == 'completed' && ! empty( $tracking_info ) ) :
+        $tracking_link = msp_make_tracking_link( $tracking_info['shipper'], $tracking_info['tracking'] );
+        ?>
+        <a role="button" href="<?php echo $tracking_link; ?>" target="_new" class="btn btn-success btn-block link-normal">
+            <i class="fas fa-shipping-fast"></i>
+            Track Package
+        </a>
+        <?php
+    endif;
+}
+
+function msp_make_tracking_link( $shipper, $tracking ){
+    $base_urls = array(
+    'ups' => 'https://www.ups.com/track?loc=en_US&tracknum=',
+    'fedex' => 'https://www.fedex.com/apps/fedextrack/?tracknumbers=',
+    'usps' => 'https://tools.usps.com/go/TrackConfirmAction?tLabels='
+    );
+    return $base_urls[$shipper] . $tracking;
+}
+
+function msp_get_order_estimated_delivery( $order_id ){
+    $order = wc_get_order( $order_id );
+
+    $ship_to = array(
+        'street' => $order->get_shipping_address_1(),
+        'postal' => $order->get_shipping_postcode(),
+        'country' => $order->get_shipping_country(),
+    );
+
+    $ups = new UPS();
+    $response = $ups->time_in_transit( $ship_to );
+
+    if( $response['Response']['ResponseStatusCode'] ){
+        return $response['TransitResponse']['ServiceSummary'];
+    }
+}
+
+function msp_update_order_estimated_delivery( $order_id ){
+    $order = wc_get_order( $order_id );
+    $service_summary = msp_get_order_estimated_delivery( $order_id );
+
+    foreach( $service_summary as $service ){
+        // find the service which matches our chosen method
+        // include a default guess ( ground? ).
+        var_dump( $service );
+    }
+
 }
 
 function msp_order_product_review_button(){
+    /**
+     * Needs integration with custom reviews
+     */
     ?>
-        <button type="button" class="btn btn-secondary btn-block"><i class="fas fa-edit"></i>Write a Product Review</button>
+        <button type="button" class="btn btn-info btn-block"><i class="fas fa-edit"></i>Write a Product Review</button>
     <?php
 }
 
 function msp_order_feedback_button(){
+    /**
+     * Simple Modal Feedback Form - Ask how we can improve? Suggestions?
+     */
     ?>
-        <button type="button" class="btn btn-info btn-block"><i class="far fa-comments"></i>Leave Feedback</button>
+        <button type="button" class="btn btn-secondary btn-block"><i class="far fa-comments"></i>Leave Feedback</button>
     <?php
 }
 
 function msp_order_return_button(){
+    /**
+     * Integration with UPS / USPS?
+     */
     ?>
         <button type="button" class="btn btn-warning btn-block"><i class="fas fa-cube"></i>Return or replace items</button>
     <?php
 }
 
 function msp_order_report_issue_button(){
+    /**
+     * Simple modal designed to email store owner to potential problems.
+     */
     ?>
         <button type="button" class="btn btn-danger btn-block"><i class="fas fa-exclamation-circle"></i>Problem with order</button>
     <?php

@@ -15,6 +15,14 @@ a, a:hover, a:visited, a.active, a.focus{
     text-decoration: none;
 }
 
+a.btn-success{
+    color: #fff;
+}
+
+a.woocommerce-button.button{
+    background-color: #333;
+    color: #fff;
+}
 
 .dgwt-wcas-search-wrapp{
     max-width: 650px !important;
@@ -216,11 +224,15 @@ a.add_to_cart_button,
     display: none !important;
 }
 
-.btn-group-vertical.text-align-left button{
+.btn-group-vertical.text-align-left button,
+.btn-group-vertical.text-align-left a
+{
     text-align: left !important;
 }
 
-.btn-group-vertical.text-align-left button > i{
+.btn-group-vertical.text-align-left button > i,
+.btn-group-vertical.text-align-left a > i
+{
     padding-right: 1rem;
 }
 

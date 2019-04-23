@@ -72,8 +72,16 @@ add_action( 'msp_my_order_details', 'msp_order_details_html', 1, 1 );
  * @see msp_order_return_button();
  * @see msp_order_report_issue_button();
  */
-add_action( 'msp_order_details_actions', 'msp_order_tracking_button', 5 );
+add_action( 'msp_order_details_actions', 'msp_order_tracking_button', 5, 1 );
 add_action( 'msp_order_details_actions', 'msp_order_product_review_button', 10 );
 add_action( 'msp_order_details_actions', 'msp_order_feedback_button', 15 );
 add_action( 'msp_order_details_actions', 'msp_order_return_button', 20 );
 add_action( 'msp_order_details_actions', 'msp_order_report_issue_button', 25 );
+
+
+/**
+ * woocommerce_checkout_order_processed
+ * 
+ * @see msp_update_order_estimated_delivery();
+ */
+add_action( 'woocommerce_thankyou', 'msp_update_order_estimated_delivery', 5, 1 );
