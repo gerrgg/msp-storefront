@@ -111,6 +111,11 @@ class MSP{
         return 1;
     }
 
+    public static function get_product_image_src( $img_id ){
+        $src = wp_get_attachment_image_src( $img_id );
+        return $src[0];
+    }
+
 
 }
 
