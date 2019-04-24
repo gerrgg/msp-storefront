@@ -93,6 +93,12 @@ add_action( 'woocommerce_thankyou', 'msp_update_order_estimated_delivery', 5, 1 
 add_action( 'wp_ajax_msp_set_estimated_delivery_date', 'msp_set_estimated_delivery_date' );
 add_action( 'wp_ajax_nopriv_msp_set_estimated_delivery_date', 'msp_set_estimated_delivery_date' );
 
+/**
+ * Admin Post
+ */
+add_action( 'admin_post_msp_submit_bulk_form', 'msp_submit_bulk_form' );
+add_action( 'admin_post_nopriv_msp_submit_bulk_form', 'msp_submit_bulk_form' );
+
 // debug
 // add_action( 'wp_footer', 'get_cron_jobs' );
 // function get_cron_jobs(){

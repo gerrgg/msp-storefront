@@ -67,12 +67,17 @@ function msp_header_menu(){
     echo '</div>';
 
 }
+/**
+ * Opens up the center mid navbar
+ */
 
 function msp_quick_links_wrapper_open(){
     echo '<ul class="navbar-nav m-0">';
 }
 
-
+/**
+ * displays a navigation link based on whether or not the user has previous orders.
+ */
 function msp_buy_again_btn(){
     $orders = wc_get_orders( array( 'customer_id' => get_current_user_id() ) );
 
@@ -88,6 +93,9 @@ function msp_buy_again_btn(){
     
 }
 
+/**
+ * displays a navigation link for quote requests
+ */
 function msp_quote_btn(){
     ?>
     <li class="nav-item">
@@ -98,6 +106,10 @@ function msp_quote_btn(){
     <?php
 }
 
+/**
+ * shortcode used to display two differant forms depending on the value of $_GET['input']
+ * if we got a product from the input, show quote form, else show find_product_id_from
+ */
 add_shortcode( 'quote' , 'msp_quote_shortcode' );
 function msp_quote_shortcode(){
     $input = isset( $_GET['input'] ) ? $_GET['input'] : 0;
@@ -109,7 +121,10 @@ function msp_quote_shortcode(){
         get_msp_quote_form( $product );
     }
 }
-
+/**
+ * Simple html form used for finding a product based on a user's input.
+ * Ideally this form wont be used very often and this attribute is passed from a link somewhere else.
+ */
 function get_msp_quote_find_product_id_form(){
     ?>
     <div class="alert alert-danger" style="max-width: 450px;" role="alert">
@@ -128,16 +143,18 @@ function get_msp_quote_find_product_id_form(){
 <?php
 }
 
+/**
+ * sets up a variable for passing to the msp-quote.php template file
+ */
 function get_msp_quote_form( $product ){
     set_query_var( 'msp_product_id', $product->get_id() );
     wc_get_template( '/template/msp-quote.php' );
 }
 
-add_action( 'admin_post_msp_submit_bulk_form', 'msp_submit_bulk_form' );
-add_action( 'admin_post_nopriv_msp_submit_bulk_form', 'msp_submit_bulk_form' );
-
+/**
+ * Processes the data passed from the get_msp_quote_form, formats it and delivers to admin_email.
+ */
 function msp_submit_bulk_form(){
-    var_dump( $_POST );
     $sitename = bloginfo( 'sitename' );
     $products_arr = array();
     foreach( $_POST['product'] as $id => $qty ){
@@ -179,13 +196,15 @@ function msp_submit_bulk_form(){
         <?php
         $html = ob_get_clean();
         
-        //confirm works.
         wp_mail( get_option('admin_email'), $sitename . ' - Quote Request', $html );
-        // wc_add_notice( 'We got your quote request, please allow 1-2 business days for a response', 'success' );
         wp_redirect( '/' );
     }
 }
 
+/**
+ * Dynamically searches for a product in differant ways based on the value of the key
+ * @param mixed $data - the input from the get_msp_quote_find_product_id_form() function.
+ */
 function msp_get_product_by_mixed_data( $data ){
     if( ! empty( $data ) ){
         foreach( $data as $key => $query ){
@@ -196,11 +215,18 @@ function msp_get_product_by_mixed_data( $data ){
     }
 }
 
+/**
+ * A function which looks for a product by querying the DB for a post_title similar to $str
+ * @param $str
+ */
 function wc_get_product_id_by_name( $str ){
     global $wpdb;
     return $wpdb->get_row( "SELECT ID FROM wp_posts WHERE post_title LIKE '%$str%'" );
 }
 
+/**
+ * Simple shortcode used to display items already purchased by the user/customer.
+ */
 add_shortcode( 'buy_again' , 'msp_buy_again_shortcode' );
 function msp_buy_again_shortcode(){
     $order_items = msp_get_customer_unique_order_items( get_current_user_id() );
@@ -213,6 +239,11 @@ function msp_buy_again_shortcode(){
     echo '</div>';
 }
 
+/**
+ * Sorts through an array of customer orders, picks out the ids and stores them to $order_items.
+ * @param int $user_id - The id of the user
+ * @return array $order_items - An array of unique product ids purchased by the user.
+ */
 function msp_get_customer_unique_order_items( $user_id ){
     $order_items = array();
     $orders = wc_get_orders( array( 'customer_id' => $user_id ) );
@@ -220,7 +251,7 @@ function msp_get_customer_unique_order_items( $user_id ){
     if( ! empty( $orders ) ){
         foreach( $orders as $order ){
             $items = $order->get_items();
-            foreach( $items as $id => $item ){
+            foreach( $items as $item ){
                 array_push( $order_items, $item->get_product_id() );
             }
         }
@@ -229,6 +260,9 @@ function msp_get_customer_unique_order_items( $user_id ){
     return array_unique( $order_items );
 }
 
+/**
+ * Outputs the navigation button linking to the users browsing history
+ */
 function msp_get_user_products_history_btn(){
     global $history;
 
@@ -245,6 +279,9 @@ function msp_get_user_products_history_btn(){
     
 }
 
+/**
+ * Closes the naviation menu in the center of the header.
+ */
 function msp_quick_links_wrapper_close(){
     echo '</ul>';
 }
@@ -271,10 +308,10 @@ function msp_header_right_menu(){
     ) );
 }
 
+/**
+ * Displays the html markup for the cart button on the header - includes # of items in cart
+ */
 function msp_header_cart(){
-    /**
-     * Displays the html markup for the cart button on the header - includes # of items in cart
-     */
     $cart_size = sizeof( WC()->cart->get_cart_contents() ); ?>
     <div id="cart-wrapper" class="d-flex">
         <a class="nav-link" href="<?php echo wc_get_cart_url(); ?>">
@@ -291,10 +328,6 @@ function msp_header_cart(){
 function msp_header_wrapper_close(){
     echo '</div></nav>';
 }
-
-/**
- * @see Hook: storefront_before_site
- */
 
  /**
   * Displays the html required for opening up the mobile menu div
@@ -324,6 +357,9 @@ function msp_mobile_menu(){
     ));
 }
 
+/**
+ * Custom Mobile Menu - Static
+ */
 function msp_mobile_menu_account_links(){
     ?>
     <hr />
@@ -347,6 +383,9 @@ function msp_mobile_menu_wrapper_close(){
 }
 
 
+/**
+ * Displays for the user, the items on each order as well as introduce a new hook 'msp_order_details_actions'.
+ */
 function msp_order_details_html( $order ){
     ?>
     <tr class="border-top">
@@ -384,6 +423,10 @@ function msp_order_details_html( $order ){
     <?php
 }
 
+/**
+ * Displays an external link to track a package based on whether or not a tracking link is present.
+ * @param WC_Order $order
+ */
 function msp_order_tracking_button( $order ){
     $tracking_info = array( 
         'shipper' => get_post_meta( $order->get_id(), 'shipper', true ),
@@ -401,6 +444,11 @@ function msp_order_tracking_button( $order ){
     endif;
 }
 
+/**
+ * Creates a link based on the $shipper,
+ * @param string $shipper - The company we shipped with
+ * @param string $tracking - The tracking number on the package.
+ */
 function msp_make_tracking_link( $shipper, $tracking ){
     $base_urls = array(
     'ups' => 'https://www.ups.com/track?loc=en_US&tracknum=',
@@ -410,6 +458,10 @@ function msp_make_tracking_link( $shipper, $tracking ){
     return $base_urls[$shipper] . $tracking;
 }
 
+/**
+ * gets the msp_estimated_delivery_date meta value of the order
+ * @param int $order_id - ID of the order.
+ */
 function msp_get_order_estimated_delivery( $order_id ){
     $est_date = get_post_meta( $order_id, 'msp_estimated_delivery_date', true );
     if( ! empty( $est_date ) ){
@@ -418,6 +470,11 @@ function msp_get_order_estimated_delivery( $order_id ){
     }
 }
 
+/**
+ * Sends a request to the UPS Time in Transit API
+ * @param int $order_id
+ * @return array $response - UPS Time in Transit API response
+ */
 function msp_get_ups_time_in_transit( $order_id ){
     global $ups;
     $order = wc_get_order( $order_id );
@@ -437,12 +494,24 @@ function msp_get_ups_time_in_transit( $order_id ){
 
 
 
+/**
+ * This is primarily used as a simple estimate before a tracking # is added.
+ * Checks for the value of $_SESSION['msp_estimated_delivery_date']
+ * if it exists, updates the order msp_estimated_delivery_date.
+ * 
+ * @param int $order_id
+ * @return array $response - UPS Time in Transit API response
+ */
 function msp_update_order_estimated_delivery( $order_id ){
     global $ups;
     if( isset( $_SESSION['msp_estimated_delivery_date'] ) )
         update_post_meta( $order_id, 'msp_estimated_delivery_date', $_SESSION['msp_estimated_delivery_date'] );
 }
 
+/**
+ * TODO: Hard-coded; should add some kinda of UI to theme options.
+ * Creates a simple guess for when a package should deliver based on the method provided.
+ */
 function msp_get_default_est_delivery( $method ){
 	switch( $method ){
 		case '3 Day Select (UPS)':
@@ -473,6 +542,11 @@ function msp_get_default_est_delivery( $method ){
 	return $date_str;
 }
 
+/**
+ * Takes in an array of dates, takes into account the current day and hour and returns a guess as to when the package should arrive.
+ * @param array $dates - An array of numbers representing the number of days until delivery
+ * @return string 
+ */
 function iww_make_date( $dates ){
     date_default_timezone_set('EST');
     $current_hour = date('G');
@@ -498,6 +572,10 @@ function iww_make_date( $dates ){
     return '<h6 class="m-0 p-0 text-success iww-date-estimate">'.$date_str.'</h6>';
 }
 
+/**
+ * Takes the $_POST value of an ajax call, stores it to $_SESSION and sends back the value just to confirm.
+ * The session is used in msp_update_order_estimated_delivery() to update order meta.
+ */
 function msp_set_estimated_delivery_date(){
     $est_date = explode( ' - ', $_POST['date'] );
     $_SESSION['msp_estimated_delivery_date'] = end( $est_date );
@@ -505,37 +583,37 @@ function msp_set_estimated_delivery_date(){
 }
 
 
+/**
+ * Needs integration with custom reviews
+ */
 function msp_order_product_review_button(){
-    /**
-     * Needs integration with custom reviews
-     */
     ?>
         <button type="button" class="btn btn-info btn-block"><i class="fas fa-edit"></i>Write a Product Review</button>
     <?php
 }
 
+/**
+ * Simple Modal Feedback Form - Ask how we can improve? Suggestions?
+ */
 function msp_order_feedback_button(){
-    /**
-     * Simple Modal Feedback Form - Ask how we can improve? Suggestions?
-     */
     ?>
         <button type="button" class="btn btn-secondary btn-block"><i class="far fa-comments"></i>Leave Feedback</button>
     <?php
 }
 
+/**
+ * Integration with UPS / USPS?
+ */
 function msp_order_return_button(){
-    /**
-     * Integration with UPS / USPS?
-     */
     ?>
         <button type="button" class="btn btn-warning btn-block"><i class="fas fa-cube"></i>Return or replace items</button>
     <?php
 }
 
+/**
+ * Simple modal designed to email store owner to potential problems.
+ */
 function msp_order_report_issue_button(){
-    /**
-     * Simple modal designed to email store owner to potential problems.
-     */
     ?>
         <button type="button" class="btn btn-danger btn-block"><i class="fas fa-exclamation-circle"></i>Problem with order</button>
     <?php
@@ -543,7 +621,6 @@ function msp_order_report_issue_button(){
 
 function msp_update_order_tracking( $order_id ){
     global $ups;
-    //1ZA215E50312118827
     $tracking = get_post_meta( $order_id, 'tracking', true );
     $date_est = $ups->track( $tracking );
     if( ! empty( $date_est ) ){

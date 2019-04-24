@@ -9,6 +9,9 @@ class MSP_Admin{
         add_action('admin_menu', array( $this, 'theme_options') );
     }
 
+    /**
+     * hooked into the admin_init so we can create menus and customize site settings
+     */
     public function theme_options(){
         add_theme_page( 'MSP Theme Options', 'MSP Theme Options', 'manage_options', 'msp_options', array( $this, 'msp_options_callback' ) );
 
@@ -18,6 +21,9 @@ class MSP_Admin{
     }
 
     public function submit_tracking_form(){
+        /**
+         * simple form which allows backend users to submit tracking information.
+         */
         woocommerce_wp_select( array(
             'id' => 'shipper',
             'label' => 'Shipper:',
@@ -42,6 +48,10 @@ class MSP_Admin{
     }
 
     public function save_order_meta( $order_id ){
+        /**
+         * When order meta is saved via the backend, this function saves the data as well as check for dyanmic cron jobs.
+         * @param int $order_id
+         */
         $custom_meta_keys = array( 'shipper', 'tracking' );
         foreach( $custom_meta_keys as $key ){
             $this->check_for_cron_jobs( $key, $order_id );
@@ -52,6 +62,13 @@ class MSP_Admin{
     }
 
     public function check_for_cron_jobs( $key, $order_id ){
+        /**
+         * Run when saving order meta data, this function checks if the key is in the $cron_map array
+         * if true, clear any old cron_jobs, and create the new one mapped to the function in $cron_map.
+         * @param string $key - meta key
+         * @param int $order_id - order id
+         */
+
         $cron_map = array(
             'tracking' => 'msp_update_order_tracking'
         );
@@ -63,16 +80,18 @@ class MSP_Admin{
             //get rid of old job
             $timestamp = wp_next_scheduled( $cron_key, $order_id );
             wp_unschedule_event( $timestamp, $cron_key, $order_id );
-            
             update_post_meta( $order_id, $cron_key, $timestamp );
-
     
             // //make new job
             wp_schedule_event( time(), 'daily', $cron_key, $order_id );
-            add_action( $cron_key, "msp_update_order_tracking", 1, 1 );
+            add_action( $cron_key, $cron_map[$key], 1, 1 );
         }
     }
 
+    /**
+     *
+     * dynamically creates options fields based on the arguments passed to add_settings_section.
+     * */
     public function register_theme_settings(){
         add_settings_section(
             'ups_api_creds', //id
@@ -109,7 +128,11 @@ class MSP_Admin{
         }
     }
 
+    /**
+     * simple html wrapper for the theme options page.
+     */
     public function msp_options_callback(){
+        
         ?>
         <div class="wrap">
         <h1>MSP Theme Options</h1>
