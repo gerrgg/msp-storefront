@@ -61,6 +61,7 @@ add_action( 'msp_quick_links', 'msp_quick_links_wrapper_close', 100 );
  * @see msp_order_details_html();
  */
 add_action( 'msp_my_order_details', 'msp_order_details_html', 1, 1 );
+add_action( 'msp_my_order_details', 'msp_update_order_tracking', 2, 1 );
 
 
 /**
@@ -85,3 +86,15 @@ add_action( 'msp_order_details_actions', 'msp_order_report_issue_button', 25 );
  * @see msp_update_order_estimated_delivery();
  */
 add_action( 'woocommerce_thankyou', 'msp_update_order_estimated_delivery', 5, 1 );
+
+/**
+ * AJAX
+ */
+add_action( 'wp_ajax_msp_set_estimated_delivery_date', 'msp_set_estimated_delivery_date' );
+add_action( 'wp_ajax_nopriv_msp_set_estimated_delivery_date', 'msp_set_estimated_delivery_date' );
+
+// debug
+// add_action( 'wp_footer', 'get_cron_jobs' );
+// function get_cron_jobs(){
+//     var_dump( _get_cron_array() );
+// }
