@@ -44,9 +44,32 @@ class MSP_Admin{
     public function save_order_meta( $order_id ){
         $custom_meta_keys = array( 'shipper', 'tracking' );
         foreach( $custom_meta_keys as $key ){
+            $this->check_for_cron_jobs( $key, $order_id );
             if( isset( $_POST[ $key ] ) && ! empty( $_POST[ $key ] ) ){
                 update_post_meta( $order_id, $key, wc_clean( $_POST[ $key ] ) );
             }
+        }
+    }
+
+    public function check_for_cron_jobs( $key, $order_id ){
+        $cron_map = array(
+            'tracking' => 'msp_update_order_tracking'
+        );
+
+        if( isset( $cron_map[$key] ) ){
+            //create key
+            $cron_key = 'msp_update_order_' . $order_id . '_' . $key;
+    
+            //get rid of old job
+            $timestamp = wp_next_scheduled( $cron_key, $order_id );
+            wp_unschedule_event( $timestamp, $cron_key, $order_id );
+            
+            update_post_meta( $order_id, $cron_key, $timestamp );
+
+    
+            // //make new job
+            wp_schedule_event( time(), 'daily', $cron_key, $order_id );
+            add_action( $cron_key, "msp_update_order_tracking", 1, 1 );
         }
     }
 

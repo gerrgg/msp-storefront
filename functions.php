@@ -26,6 +26,7 @@ class MSP{
         add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
         add_action( 'after_setup_theme', array( $this, 'register_menus' ) );
 
+
         add_action('wp_logout', array( $this, 'myEndSession') );
         add_action('wp_login', array( $this, 'myEndSession') );
 
@@ -71,6 +72,7 @@ class MSP{
         // Custom javascript functions
         wp_enqueue_script( 'main', URI . '/js/functions.js', array('jquery'), filemtime( __DIR__ . '\js\functions.js' ), true );
         wp_enqueue_script( 'header', URI . '/js/header-functions.js', array('jquery'), filemtime( __DIR__ . '\js\header-functions.js' ), true );
+        wp_enqueue_script( 'checkout', URI . '/js/checkout-functions.js', array('jquery'), filemtime( __DIR__ . '\js\checkout-functions.js' ), true );
 
         
         $this->wp_localize_scripts( array('main') );
