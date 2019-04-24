@@ -7,7 +7,7 @@ class UPS{
   private $username;
   private $password;
   private $account;
-  
+
   public $access_request;
   public $api_path;
   public $end_of_day;
@@ -19,11 +19,6 @@ class UPS{
     '1DP' => 13,
     'GND' => 03,
   );
-
-// TODO: use base address instead. unless of course we are going to include dropship logic
-// https://woocommerce.wp-a2z.org/oik_api/wc_countriesget_base_address/
-
-
 
   public function __construct(){
     $this->api = get_option( 'ups_api_key' );
@@ -47,21 +42,52 @@ class UPS{
     return $address;
   }
 
+  public function create_request( $wrapper, $reference, $action, $option = ''){
+    $xml = $this->create_xml( $wrapper, array(
+      'Request' => array(
+        'TransactionReference' => $reference,
+        'RequestAction'        => $action,
+      )
+    ) );
+
+    if( ! empty( $option ) ){
+      $xml->Request->addChild( 'RequestOption', $option );
+    }
+
+    return $xml;
+  }
+
+  /**
+   * create_xml()
+   * @param $array - An array of $children to add to the XML
+   * @return SimpleXMLElement - $xml - The XML generated after looping through the child array.
+   */
+
+   public function create_xml( $wrapper, $args ){
+    $xml = new SimpleXMLElement("<$wrapper></$wrapper>");
+
+    foreach( $args as $child ){
+      foreach( $child as $key => $value ){
+        echo $key . ' => ' . $value . '<br>';
+      }
+    }
+
+    return $xml;
+   }
+
   public function time_in_transit( $ship_to ){
-    $time_in_transit_request = new SimpleXMLElement('<TimeInTransitRequest></TimeInTransitRequest>');
-    $time_in_transit_request->addChild( 'Request' );
-    $time_in_transit_request->Request->addChild( 'TransactionReference', 'greg' );
-    $time_in_transit_request->Request->addChild( 'RequestAction', 'TimeInTransit' );
+    $time_in_transit_request = $this->create_request( 'TimeInTransitRequest', $ship_to['postal'], 'TimeInTransit' );
+
     $from = new SimpleXMLElement('<TransitFrom></TransitFrom>');
     $from->addChild( 'AddressArtifactFormat' );
     $from->AddressArtifactFormat->addChild( 'StreetName', $this->from['address_1'] );
     $from->AddressArtifactFormat->addChild( 'PostcodePrimaryLow', $this->from['postal'] );
     $from->AddressArtifactFormat->addChild( 'CountryCode', $this->from['country'] );
     $to = new SimpleXMLElement('<TransitTo></TransitTo>');
-  	$to->addChild( 'AddressArtifactFormat' );
-  	$to->AddressArtifactFormat->addChild( 'StreetName', $ship_to['street'] );
-  	$to->AddressArtifactFormat->addChild( 'PostcodePrimaryLow', $ship_to['postal'] );
-  	$to->AddressArtifactFormat->addChild( 'CountryCode', $ship_to['country'] );
+    $to->addChild( 'AddressArtifactFormat' );
+    $to->AddressArtifactFormat->addChild( 'StreetName', $ship_to['street'] );
+    $to->AddressArtifactFormat->addChild( 'PostcodePrimaryLow', $ship_to['postal'] );
+    $to->AddressArtifactFormat->addChild( 'CountryCode', $ship_to['country'] );
     $this->append( $time_in_transit_request, $from );
     $this->append( $time_in_transit_request, $to );
 
@@ -99,8 +125,8 @@ class UPS{
   }
 
   function append(SimpleXMLElement $to, SimpleXMLElement $from) {
-  	// https://stackoverflow.com/questions/4778865/php-simplexml-addchild-with-another-simplexmlelement
-  	// LIFESAVER ^^^
+    // https://stackoverflow.com/questions/4778865/php-simplexml-addchild-with-another-simplexmlelement
+    // LIFESAVER ^^^
       $toDom = dom_import_simplexml($to);
       $fromDom = dom_import_simplexml($from);
       $toDom->appendChild($toDom->ownerDocument->importNode($fromDom, true));
@@ -114,7 +140,7 @@ class UPS{
   public function get_pickup_date(){
       return ( $this->is_end_of_day() ) ? date( 'Ymd', strtotime('+1 day') ) : date('Ymd');
   }
-  
+
   public function send( $url, $xml = '', $convert = true ){
     try{
         $ch = curl_init();
