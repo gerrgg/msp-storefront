@@ -13,6 +13,13 @@ class UPS{
   public $end_of_day;
   public $from = array();
 
+  public $service_code_mappings = array(
+    '1DM' => 14,
+    '1DA' => 01,
+    '1DP' => 13,
+    'GND' => 03,
+  );
+
 // TODO: use base address instead. unless of course we are going to include dropship logic
 // https://woocommerce.wp-a2z.org/oik_api/wc_countriesget_base_address/
 
@@ -64,11 +71,30 @@ class UPS{
     return $response;
   }
 
+  public function track ( $tracking ){
+    $track_request = new SimpleXMLElement( '<TrackRequest></TrackRequest>' );
+    $track_request->addChild( 'Request' );
+    $track_request->Request->addChild( 'TransactionReference' );
+    $track_request->Request->TransactionReference->addChild( 'CustomerContext', 'Tracking Update Cron Job' );
+    $track_request->Request->addChild( 'RequestAction', 'Track' );
+    $track_request->Request->addChild( 'RequestOption', 'activity' );
+    $track_request->addChild( 'TrackingNumber', $tracking );
+
+    $requestXML = $this->access_request->asXML() . $track_request->asXML();
+    $response = $this->send( $this->api_path . 'Track', $requestXML );
+
+    if( $response['Response']['ResponseStatusCode'] ){
+      return date( 'l, F jS', strtotime( $response['Shipment']['ScheduledDeliveryDate'] ) );
+    }
+
+  }
+
   public function get_access_request(){
     $accessRequest = new SimpleXMLElement('<AccessRequest></AccessRequest>');
     $accessRequest->addChild( 'AccessLicenseNumber', $this->api );
     $accessRequest->addChild( 'UserId', $this->username );
     $accessRequest->addChild( 'Password', $this->password );
+
     return $accessRequest;
   }
 
@@ -127,3 +153,6 @@ class UPS{
     }
   }
 }
+
+$ups = new UPS();
+global $ups;

@@ -351,6 +351,7 @@ function msp_order_details_html( $order ){
     ?>
     <tr class="border-top">
         <td colspan="4">
+            <h4 class="text-success iww-date-estimate"><?php echo msp_get_order_estimated_delivery( $order->get_id() ) ?></h4>
             <?php 
                 foreach( $order->get_items() as $item ){
                     $product = wc_get_product( $item->get_product_id() );
@@ -363,10 +364,10 @@ function msp_order_details_html( $order ){
                             </a>
                             <div class="pl-4">
                                 <a class="link-normal" href="<?php echo $product->get_permalink() ?>">
-                                <?php echo $product->get_name(); ?>
-                            </a>
-                            <p class="">Price: <span class="price">$<?php echo $product->get_price(); ?></span></p>
-                            <p class="m-0">Qty: <?php echo $item->get_quantity(); ?></p>
+                                    <?php echo $product->get_name(); ?>
+                                </a>
+                                <p class="">Price: <span class="price">$<?php echo $product->get_price(); ?></span></p>
+                                <p class="m-0">Qty: <?php echo $item->get_quantity(); ?></p>
                             </div>
                         </div>
                         <?php
@@ -410,6 +411,15 @@ function msp_make_tracking_link( $shipper, $tracking ){
 }
 
 function msp_get_order_estimated_delivery( $order_id ){
+    $est_date = get_post_meta( $order_id, 'msp_estimated_delivery_date', true );
+    if( ! empty( $est_date ) ){
+        $string = ( time() > strtotime( $est_date ) ) ? 'Delivered ' : 'Expected to deliver by ';
+        return $string . $est_date;
+    }
+}
+
+function msp_get_ups_time_in_transit( $order_id ){
+    global $ups;
     $order = wc_get_order( $order_id );
 
     $ship_to = array(
@@ -418,7 +428,6 @@ function msp_get_order_estimated_delivery( $order_id ){
         'country' => $order->get_shipping_country(),
     );
 
-    $ups = new UPS();
     $response = $ups->time_in_transit( $ship_to );
 
     if( $response['Response']['ResponseStatusCode'] ){
@@ -426,17 +435,75 @@ function msp_get_order_estimated_delivery( $order_id ){
     }
 }
 
+
+
 function msp_update_order_estimated_delivery( $order_id ){
-    $order = wc_get_order( $order_id );
-    $service_summary = msp_get_order_estimated_delivery( $order_id );
-
-    foreach( $service_summary as $service ){
-        // find the service which matches our chosen method
-        // include a default guess ( ground? ).
-        var_dump( $service );
-    }
-
+    global $ups;
+    if( isset( $_SESSION['msp_estimated_delivery_date'] ) )
+        update_post_meta( $order_id, 'msp_estimated_delivery_date', $_SESSION['msp_estimated_delivery_date'] );
 }
+
+function msp_get_default_est_delivery( $method ){
+	switch( $method ){
+		case '3 Day Select (UPS)':
+		$date_str = iww_make_date( [3] );
+		break;
+		case 'Ground (UPS)':
+		$date_str = iww_make_date( [2, 5] );
+		break;
+		case '2nd Day Air (UPS)':
+		$date_str = iww_make_date( [2] );
+		break;
+		case 'Next Day Air (UPS)':
+		$date_str = iww_make_date( [2] );
+		break;
+		case 'Next Day Air Saver (UPS)':
+		$date_str = iww_make_date( [1] );
+		break;
+		case 'Next Day Air Early AM (UPS)':
+		$date_str = iww_make_date( [1] );
+		break;
+		case 'Free shipping':
+		$date_str = iww_make_date( [5, 10] );
+		break;
+		default :
+		$date_str = iww_make_date( [5, 15] );
+		break;
+	}
+	return $date_str;
+}
+
+function iww_make_date( $dates ){
+    date_default_timezone_set('EST');
+    $current_hour = date('G');
+    $current_day = date('N');
+    $date_str = '';
+
+    foreach( $dates as $key => $date ){
+        if( $current_day > 5 ){
+            $date = ( $current_day == 6 ) ? $date + 1 : $date + 2;
+        } else {
+            // weekdays
+            if( $current_hour >= 12 ) $date++;
+        }
+        // if this isn't the first date, add a hyphen to the string
+            if( $key != 0 )$date_str .= ' - ';
+        // create date based on leadtime + $date passed to function
+            $future = date( 'l, F jS', strtotime('+' . $date . 'days') );
+        // if future lands on a sunday, add another day to it.
+            if( preg_match( '/Saturday/', $future ) ) $future = date( 'l, F jS', strtotime('+' . ($date + 2) . 'days') );
+            if( preg_match( '/Sunday/', $future ) ) $future = date( 'l, F jS', strtotime('+' . ($date + 1) . 'days') );
+            $date_str .= $future;
+    }
+    return '<h6 class="m-0 p-0 text-success iww-date-estimate">'.$date_str.'</h6>';
+}
+
+function msp_set_estimated_delivery_date(){
+    $est_date = explode( ' - ', $_POST['date'] );
+    $_SESSION['msp_estimated_delivery_date'] = end( $est_date );
+    wp_send_json( $_SESSION['msp_estimated_delivery_date'] );
+}
+
 
 function msp_order_product_review_button(){
     /**
@@ -473,3 +540,15 @@ function msp_order_report_issue_button(){
         <button type="button" class="btn btn-danger btn-block"><i class="fas fa-exclamation-circle"></i>Problem with order</button>
     <?php
 }
+
+function msp_update_order_tracking( $order_id ){
+    global $ups;
+    //1ZA215E50312118827
+    $tracking = get_post_meta( $order_id, 'tracking', true );
+    $date_est = $ups->track( $tracking );
+    if( ! empty( $date_est ) ){
+        update_post_meta( $order_id, 'msp_estimated_delivery_date', $date_est );
+    }
+}
+
+
