@@ -36,9 +36,7 @@ class UPS{
     $address['postal'] = get_option( 'woocommerce_store_postcode', '' );
     return $address;
   }
-
   public function create_xml( $xml, $array, $key = '', $parent_key = '' ){
-
     if ( ! is_array( $array ) ) {
       return $this->create_xml_child_node( $xml, $key, $array, $parent_key );
     } else {
@@ -53,20 +51,17 @@ class UPS{
       
     return $xml;
   }
-
   public function create_xml_child_node( $xml, $key, $value, $parent_key = '' ){
     $depth = array_reverse( explode( ', ', $parent_key ) );
     foreach( $depth as $path ){
       if( ! isset( $xml->$path ) ){
         $xml->addChild( $path );
       }
-
       $xml = $xml->$path;
       $xml->addChild( $key, $value );
     }
     echo '<br>';
   }
-
   public function create_request_xml( $wrapper, $reference, $action, $option = '' ){
     $xml = new SimpleXMLElement("<$wrapper></$wrapper>");
     $xml = $this->create_xml( $xml, array(
@@ -75,20 +70,16 @@ class UPS{
         'RequestAction' => $action
       )
     ) );
-
     if( ! empty( $option ) ){
       $xml->Request->addChild( 'RequestOption', $option );
     }
-
     return $xml;
   }
-
   public function create_xml_with_wrapper( $wrapper, $args ){
     $xml = new SimpleXMLElement("<$wrapper></$wrapper>");
     $xml = $this->create_xml( $xml, $args );
     return $xml;
   }
-
   public function time_in_transit( $ship_to ){
     $time_in_transit_request = $this->create_request_xml( 'TimeInTransitRequest', 'Reference string', 'TimeInTransit' );
 
@@ -116,16 +107,11 @@ class UPS{
     $response = $this->send( $this->api_path . 'TimeInTransit', $requestXML );
     return $response;
   }
+  public function track ( $tracking, $reference = 'UPS::Track()' ){
 
-
-  public function track ( $tracking ){
-    $track_request = new SimpleXMLElement( '<TrackRequest></TrackRequest>' );
-    $track_request->addChild( 'Request' );
-    $track_request->Request->addChild( 'TransactionReference' );
-    $track_request->Request->TransactionReference->addChild( 'CustomerContext', 'Tracking Update Cron Job' );
-    $track_request->Request->addChild( 'RequestAction', 'Track' );
-    $track_request->Request->addChild( 'RequestOption', 'activity' );
+    $track_request = $this->create_request_xml( 'TrackRequest', $reference, 'Track', 'activity' );
     $track_request->addChild( 'TrackingNumber', $tracking );
+    
     $requestXML = $this->access_request->asXML() . $track_request->asXML();
     $response = $this->send( $this->api_path . 'Track', $requestXML );
     if( $response['Response']['ResponseStatusCode'] ){

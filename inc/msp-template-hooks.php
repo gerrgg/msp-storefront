@@ -108,14 +108,5 @@ function get_cron_jobs(){
 add_action( 'wp_footer', 'test' );
 function test(){
     global $ups;
-
-    $ship_to = array(
-        'street' => '22 Pierce St',
-        'postal' => '03301',
-        'country' => 'US',
-    );
-
-    var_dump( $ups->time_in_transit( $ship_to ) );
-    
-
+    var_dump( $ups->track( '1Z9131620382950276' ) );
 }
