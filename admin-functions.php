@@ -54,14 +54,14 @@ class MSP_Admin{
          */
         $custom_meta_keys = array( 'shipper', 'tracking' );
         foreach( $custom_meta_keys as $key ){
-            $this->check_for_cron_jobs( $key, $order_id );
+            $this->manage_cron_jobs( $key, $order_id );
             if( isset( $_POST[ $key ] ) && ! empty( $_POST[ $key ] ) ){
                 update_post_meta( $order_id, $key, wc_clean( $_POST[ $key ] ) );
             }
         }
     }
 
-    public function check_for_cron_jobs( $key, $order_id ){
+    public static function manage_cron_jobs( $key, $order_id, $create = true  ){
         /**
          * Run when saving order meta data, this function checks if the key is in the $cron_map array
          * if true, clear any old cron_jobs, and create the new one mapped to the function in $cron_map.
@@ -81,10 +81,12 @@ class MSP_Admin{
             $timestamp = wp_next_scheduled( $cron_key, $order_id );
             wp_unschedule_event( $timestamp, $cron_key, $order_id );
             update_post_meta( $order_id, $cron_key, $timestamp );
-    
-            // //make new job
-            wp_schedule_event( time(), 'daily', $cron_key, $order_id );
-            add_action( $cron_key, $cron_map[$key], 1, 1 );
+            
+            if( $create ){
+                // //make new job
+                wp_schedule_event( time(), 'daily', $cron_key, $order_id );
+                add_action( $cron_key, $cron_map[$key], 1, 1 );
+            }
         }
     }
 
@@ -177,7 +179,3 @@ function msp_logo_width_callback(){
     echo '<input name="msp_logo_width" id="msp_logo_width" type="number" value="'. get_option( 'msp_logo_width' ) .'" class="code" />';
 }
 
-// helpers
-function deslugify( $str ){
-    return ucwords( str_replace( array('_', '-'), ' ', $str ) );
-}
