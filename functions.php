@@ -13,6 +13,7 @@ require_once( PATH . '/inc/msp-class-user-history.php' );
 require_once( PATH . '/inc/msp-class-ups.php' );
 require_once( PATH . '/inc/msp-template-hooks.php' );
 require_once( PATH . '/inc/msp-template-functions.php' );
+require_once( PATH . '/inc/msp-helper-functions.php' );
 
 /**
  * Front-end Theme Settings
@@ -115,15 +116,11 @@ class MSP{
     }
 
     public static function get_product_image_src( $img_id ){
-        $src = wp_get_attachment_image_src( $img_id );
-        return $src[0];
+        return msp_get_product_image_src( $img_id );
     }
 
 
 }
-
-
-
 
 //init
 new MSP();
