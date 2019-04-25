@@ -101,6 +101,21 @@ add_action( 'admin_post_nopriv_msp_submit_bulk_form', 'msp_submit_bulk_form' );
 
 // debug
 // add_action( 'wp_footer', 'get_cron_jobs' );
-// function get_cron_jobs(){
-//     var_dump( _get_cron_array() );
-// }
+function get_cron_jobs(){
+    var_dump( _get_cron_array() );
+}
+
+add_action( 'wp_footer', 'test' );
+function test(){
+    global $ups;
+
+    $ship_to = array(
+        'street' => '22 Pierce St',
+        'postal' => '03301',
+        'country' => 'US',
+    );
+
+    var_dump( $ups->time_in_transit( $ship_to ) );
+    
+
+}
