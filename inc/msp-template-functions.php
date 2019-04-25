@@ -459,15 +459,44 @@ function msp_make_tracking_link( $shipper, $tracking ){
 }
 
 /**
+ * Makes an API tracking request to UPS for expected delivery date and updates the db entry.
+ * @param int $order_id
+ */
+function msp_update_order_tracking( $order_id ){
+    global $ups;
+    $tracking = get_post_meta( $order_id, 'tracking', true );
+    $date_est = $ups->track( $tracking );
+    if( ! empty( $date_est ) ){
+        update_post_meta( $order_id, 'msp_estimated_delivery_date', $date_est );
+    }
+}
+
+/**
  * gets the msp_estimated_delivery_date meta value of the order
  * @param int $order_id - ID of the order.
  */
 function msp_get_order_estimated_delivery( $order_id ){
     $est_date = get_post_meta( $order_id, 'msp_estimated_delivery_date', true );
     if( ! empty( $est_date ) ){
-        $string = ( time() > strtotime( $est_date ) ) ? 'Delivered ' : 'Expected to deliver by ';
+        $string = ( msp_package_delivered( $est_date, $order_id ) ) ? 'Delivered ' : 'Expected to deliver by ';
         return $string . $est_date;
     }
+}
+
+/**
+ * Checks if the package delivered. If it does and has the order id, it deletes it.
+ * @param string - $est_date
+ * @param int - $order_id
+ * @return bool - $delivered
+ */
+function msp_package_delivered( $est_date, $order_id = 0 ){
+    $delivered = ( time() > strtotime( $est_date ) );
+
+    if( $delivered && ! empty( $order_id ) ){
+        MSP_Admin::manage_cron_jobs( 'tracking', $order_id, false );
+    }
+
+    return $delivered;
 }
 
 /**
@@ -511,6 +540,8 @@ function msp_update_order_estimated_delivery( $order_id ){
 /**
  * TODO: Hard-coded; should add some kinda of UI to theme options.
  * Creates a simple guess for when a package should deliver based on the method provided.
+ * @param string $method - The label of a shipper method
+ * @return string $date_str - A string created by @see iww_make_date();
  */
 function msp_get_default_est_delivery( $method ){
 	switch( $method ){
@@ -544,7 +575,7 @@ function msp_get_default_est_delivery( $method ){
 
 /**
  * Takes in an array of dates, takes into account the current day and hour and returns a guess as to when the package should arrive.
- * @param array $dates - An array of numbers representing the number of days until delivery
+ * @param array[int] $dates - An array of numbers representing the number of days until delivery
  * @return string 
  */
 function iww_make_date( $dates ){
@@ -619,13 +650,6 @@ function msp_order_report_issue_button(){
     <?php
 }
 
-function msp_update_order_tracking( $order_id ){
-    global $ups;
-    $tracking = get_post_meta( $order_id, 'tracking', true );
-    $date_est = $ups->track( $tracking );
-    if( ! empty( $date_est ) ){
-        update_post_meta( $order_id, 'msp_estimated_delivery_date', $date_est );
-    }
-}
+
 
 
