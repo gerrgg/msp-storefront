@@ -758,7 +758,7 @@ function msp_review_more_products(){
     $product_ids = explode( ',', $_GET['product_id'] );
 
     if( sizeof( $product_ids ) <= 1 ) return;
-    
+
     foreach( $product_ids as $id ){
         $product = wc_get_product( $id );
         if( ! empty( $product ) ){
@@ -766,8 +766,9 @@ function msp_review_more_products(){
             <div class="col-4">
                 <a href="<?php echo $product->get_permalink() ?>" class="pt-5 mt-3 text-center link-normal">
                     <img src="<?php echo msp_get_product_image_src( $product->get_image_id() ) ?>" class="mx-auto" />
-                    <p class="shorten link-normal"><?php echo $product->get_name() ?></p>
+                    <p class="shorten link-normal text-dark"><?php echo $product->get_name() ?></p>
                     <?php msp_get_review_more_star_links( $product->get_id() ) ?>
+                </a>
             </div>
             <?php
         }
@@ -775,6 +776,13 @@ function msp_review_more_products(){
 }
 
 function msp_get_review_more_star_links( $product_id, $echo = true ){
+    $comment = msp_get_user_product_review( $product_id );
+
+    if( ! empty( $comment ) ){
+        $rating = get_comment_meta( $comment['comment_ID'], 'product_rating', true );
+        echo $rating;
+    }
+
     ob_start();
 
     echo '<div class="d-flex justify-content-center">';
@@ -796,7 +804,7 @@ function msp_get_review_link( $product_id, $args = array() ){
     $base_url .= is_array($product_id) ? implode( ',', $product_id ) : $product_id;
 
     $defaults = array(
-        'action' => '',
+        'action' => 'create',
         'comment_id' => '',
         'star' => ''
     );
@@ -815,8 +823,7 @@ function msp_create_review_wrapper_open(){
     echo '<form method="POST" action="'. admin_url( 'admin-post.php' ) .'" enctype="multipart/form-data">';
 }
 
-function msp_create_review_top(){
-    $product_id = $_GET['product_id'];
+function msp_create_review_top( $product_id ){
     $src = msp_get_product_image_src_by_product_id( $product_id );
     ?>
     <div class="d-flex align-items-center mt-2 mb-4 pb-4 border-bottom">
@@ -827,20 +834,33 @@ function msp_create_review_top(){
 }
 
 function msp_get_review_more_star_buttons(){
+    $class = 'far';
+
     echo '<h3>Overall Rating</h3>';
     echo '<div class="d-flex pb-2">';
-    for( $i = 1; $i <= 5; $i++ ){  ?>
+
+    for( $i = 1; $i <= 5; $i++ ) :
+        if( isset( $_GET['star'] ) ){
+            $class = ( $i < $_GET['star'] ) ? 'fas' : 'far';
+        }
+    ?>
+
         <a class="link-normal" href="javascript:void(0)">
-            <i class="far fa-star fa-2x msp-star-rating rating-<?php echo $i ?>" data-rating="<?php echo $i; ?>"></i>
+            <i class="<?php echo $class; ?> fa-star fa-2x msp-star-rating rating-<?php echo $i ?>" data-rating="<?php echo $i; ?>"></i>
         </a>
-    <?php }
+
+    <?php endfor;
+
     echo '</div>';
     echo '<input type="hidden" id="product_rating" name="product_rating" value="" />';
 }
 
 
-function msp_create_review_upload_form(){
+function msp_create_review_upload_form( $product_id ){
     if( ! is_user_logged_in() ) return;
+
+    // if $product_id then get all images uploaded by this review
+
     echo '<div class="pt-4">';
         echo '<h3>Add a photo or video</h3>';
         echo '<p>Shoppers find images and videos more helpful than text alone.</p>';
@@ -876,7 +896,43 @@ function msp_create_review_wrapper_close(){
 
 function msp_process_create_review(){
     if( check_admin_referer( 'create-review_' . $_POST['product_id'] ) ){
+        $data = $_POST;
+        $user = wp_get_current_user();
         
+        $args = array(
+            'comment_post_ID' => $data['product_id'],
+            'comment_author'	=> $user->user_login,
+            'comment_author_email'	=> $user->user_email,
+            'comment_author_url'	=> $user->user_url,
+            'comment_content' =>  $data['content'],
+            'comment_type'			=> 'review',
+            'comment_author_IP' => $_SERVER['REMOTE_ADDR'],
+            'comment_agent' => $_SERVER['HTTP_USER_AGENT'],
+            'comment_date' => current_time( 'mysql', $gmt = 0 ),
+            'user_id' => get_current_user_id(),
+            'comment_approved' => 1,
+        );
+        
+        $comment = msp_get_user_product_review( $data['product_id'] );
+
+        if( empty( $comment ) ){
+            // comment_id needs to be available for after this if statement.
+            $comment_id = $comment['comment_ID'];
+            $args['comment_ID'] = $comment['comment_ID'];
+            wp_update_comment($args);
+        } else {
+            $comment_id = wp_insert_comment( $args );
+        }
+
+        update_comment_meta( $comment_id, 'product_rating', $data['product_rating'] );
+        update_comment_meta( $comment_id, 'headline', $data['headline'] );
+        update_comment_meta( $comment_id, 'verified',
+            wc_customer_bought_product( $user->user_email, get_current_user_id(), $data['product_id'] )
+        );
+
+        //redirect to review more products!
+        $review_more_ids = msp_get_customer_unique_order_items( get_current_user_id() );
+        wp_redirect( msp_get_review_link( $review_more_ids, array('action' => 'show_more') ) );
     }
 }
 
