@@ -313,3 +313,7 @@ img.avatar.avatar-60{
 .product-rating-histogram td:last-child{
     padding-left: 1.5rem;
 }
+
+.img-mini{
+    width: 75px;
+}

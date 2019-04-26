@@ -617,9 +617,16 @@ function msp_set_estimated_delivery_date(){
 /**
  * Needs integration with custom reviews
  */
-function msp_order_product_review_button(){
+function msp_order_product_review_button( $order ){
+    $id_arr = array();
+    foreach( $order->get_items() as $order_item ){
+        array_push( $id_arr, $order_item->get_product_id() );
+    }
+
     ?>
-        <button type="button" class="btn btn-info btn-block"><i class="fas fa-edit"></i>Write a Product Review</button>
+        <a href="/review?product_id=<?php echo implode( ',', $id_arr ); ?>" role="button" class="btn btn-info btn-block link-normal">
+            <i class="fas fa-edit"></i> Write a Product Review
+        </a>
     <?php
 }
 
@@ -695,7 +702,9 @@ function msp_woocommerce_review_before_wrapper_close(){
 }
 
 function msp_get_create_a_review_btn(){
-    echo '<p class=""><a href="#" role="button" class="btn btn-success btn-lg">Write a customer review</a></p>';
+    global $post;
+    $url = msp_get_review_link( $post->ID );
+    echo '<p class=""><a href="'. $url .'" role="button" class="btn btn-success btn-lg">Write a customer review</a></p>';
 }
 
 function msp_get_rating_histogram( $ratings, $count, $echo = true ){
@@ -739,5 +748,136 @@ function msp_single_product_create_review(){
         msp_get_create_a_review_btn();
 }
 
+add_shortcode( 'review' , 'msp_get_review_template' );
+function msp_get_review_template(){
+    wc_get_template( '/template/msp-review.php' );
+}
+
+function msp_review_more_products(){
+    if( ! isset( $_GET['product_id'] ) ) return;
+    $product_ids = explode( ',', $_GET['product_id'] );
+
+    if( sizeof( $product_ids ) <= 1 ) return;
+    
+    foreach( $product_ids as $id ){
+        $product = wc_get_product( $id );
+        if( ! empty( $product ) ){
+            ?>
+            <div class="col-4">
+                <a href="<?php echo $product->get_permalink() ?>" class="pt-5 mt-3 text-center link-normal">
+                    <img src="<?php echo msp_get_product_image_src( $product->get_image_id() ) ?>" class="mx-auto" />
+                    <p class="shorten link-normal"><?php echo $product->get_name() ?></p>
+                    <?php msp_get_review_more_star_links( $product->get_id() ) ?>
+            </div>
+            <?php
+        }
+    }
+}
+
+function msp_get_review_more_star_links( $product_id, $echo = true ){
+    ob_start();
+
+    echo '<div class="d-flex justify-content-center">';
+    for( $i = 1; $i <= 5; $i++ ){  ?>
+        <a href="<?php echo msp_get_review_link( $product_id, array('star' => $i) ) ?>" class="link-normal">
+            <i class="far fa-star fa-2x"></i>
+        </a>
+    <?php }
+    echo '</div>';
+
+    $html = ob_get_clean();
+
+    if( ! $echo ) return $html;
+    echo $html;
+}
+
+function msp_get_review_link( $product_id, $args = array() ){
+    $base_url = '/review/?product_id=';
+    $base_url .= is_array($product_id) ? implode( ',', $product_id ) : $product_id;
+
+    $defaults = array(
+        'action' => '',
+        'comment_id' => '',
+        'star' => ''
+    );
+
+    $args = wp_parse_args( $args, $defaults );
+
+    foreach( $args as $key => $arg ){
+        if( ! empty( $arg ) ) $base_url .= "&$key=$arg"; 
+    }
+
+    return $base_url;
+}
+
+function msp_create_review_wrapper_open(){
+    echo '<div class="col-12">';
+    echo '<form method="POST" action="'. admin_url( 'admin-post.php' ) .'" enctype="multipart/form-data">';
+}
+
+function msp_create_review_top(){
+    $product_id = $_GET['product_id'];
+    $src = msp_get_product_image_src_by_product_id( $product_id );
+    ?>
+    <div class="d-flex align-items-center mt-2 mb-4 pb-4 border-bottom">
+        <img src="<?php echo $src; ?>" class="img-mini pr-3">
+        <p class="m-0 p-0"><?php echo get_the_title( $product_id ); ?></p>
+    </div>
+    <?php
+}
+
+function msp_get_review_more_star_buttons(){
+    echo '<h3>Overall Rating</h3>';
+    echo '<div class="d-flex pb-2">';
+    for( $i = 1; $i <= 5; $i++ ){  ?>
+        <a class="link-normal" href="javascript:void(0)">
+            <i class="far fa-star fa-2x msp-star-rating rating-<?php echo $i ?>" data-rating="<?php echo $i; ?>"></i>
+        </a>
+    <?php }
+    echo '</div>';
+    echo '<input type="hidden" id="product_rating" name="product_rating" value="" />';
+}
+
+
+function msp_create_review_upload_form(){
+    if( ! is_user_logged_in() ) return;
+    echo '<div class="pt-4">';
+        echo '<h3>Add a photo or video</h3>';
+        echo '<p>Shoppers find images and videos more helpful than text alone.</p>';
+        echo '<input type="file" name="file" />';
+    echo '</div>';
+    
+}
+
+function msp_create_review_headline(){
+    echo '<div class="pt-4">';
+        echo '<h3>Add a headline</h3>';
+        echo '<input required type="text" name="headline" placeholder="What\'s the most important thing to know?" class="form-control w-50" />';
+    echo '</div>';
+}
+
+function msp_create_review_content(){
+    echo '<div class="pt-4">';
+        echo '<h3>Write your review</h3>';
+        echo '<textarea required name="content" class="form-control w-75" placeholder="What did you like or dislike? What did you use this product for?"></textarea>';
+    echo '</div>';
+}
+
+function msp_create_review_wrapper_close(){
+                echo '<div class="pt-4">';
+                    wp_nonce_field( 'create-review_' . $_GET['product_id'] );
+                    echo '<input type="hidden" name="product_id" value="'. $_GET['product_id'] .'" />';
+                    echo '<input type="hidden" name="action" value="msp_process_create_review" />';
+                    echo '<button class="btn btn-success submit-review" />Submit</button>';
+                echo '</div>';
+            echo '</form>';
+        echo '</div> <!-- .row -->';
+}
+
+function msp_process_create_review(){
+    if( check_admin_referer( 'create-review_' . $_POST['product_id'] ) ){
+        
+    }
+}
 
 

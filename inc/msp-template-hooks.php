@@ -74,7 +74,7 @@ add_action( 'msp_my_order_details', 'msp_update_order_tracking', 2, 1 );
  * @see msp_order_report_issue_button();
  */
 add_action( 'msp_order_details_actions', 'msp_order_tracking_button', 5, 1 );
-add_action( 'msp_order_details_actions', 'msp_order_product_review_button', 10 );
+add_action( 'msp_order_details_actions', 'msp_order_product_review_button', 10, 1 );
 add_action( 'msp_order_details_actions', 'msp_order_feedback_button', 15 );
 add_action( 'msp_order_details_actions', 'msp_order_return_button', 20 );
 add_action( 'msp_order_details_actions', 'msp_order_report_issue_button', 25 );
@@ -96,8 +96,14 @@ add_action( 'wp_ajax_nopriv_msp_set_estimated_delivery_date', 'msp_set_estimated
 /**
  * Admin Post
  */
+
+ //bulk form - /quote
 add_action( 'admin_post_msp_submit_bulk_form', 'msp_submit_bulk_form' );
 add_action( 'admin_post_nopriv_msp_submit_bulk_form', 'msp_submit_bulk_form' );
+
+//create_review - /review
+add_action( 'admin_post_msp_process_create_review', 'msp_process_create_review' );
+add_action( 'admin_post_nopriv_msp_process_create_review', 'msp_process_create_review' );
 
 /**
  * woocommerce_review_before
@@ -129,6 +135,31 @@ add_action( 'woocommerce_review_after_comment_text', 'msp_comment_actions_wrappe
  * @see comments_template();
  */
 add_action( 'woocommerce_after_single_product_summary', 'comments_template' );
+
+/**
+ * msp_before_create_review_form
+ * @see msp_review_more_products - 5;
+ */
+add_action( 'msp_before_create_review_form', 'msp_review_more_products' );
+
+/**
+ * msp_create_review_form
+ * @see msp_create_review_wrapper_open - 5;
+ * @see msp_create_review_top - 5;
+ * @see msp_get_review_more_star_buttons -10;
+ * @see msp_create_review_upload_form - 15;
+ * @see msp_create_review_headline - 20;
+ * @see msp_create_review_content - 25;
+ * @see msp_create_review_wrapper_close - 100;
+ * 
+ */
+add_action( 'msp_create_review_form', 'msp_create_review_wrapper_open', 1 );
+add_action( 'msp_create_review_form', 'msp_create_review_top', 5 );
+add_action( 'msp_create_review_form', 'msp_get_review_more_star_buttons', 10);
+add_action( 'msp_create_review_form', 'msp_create_review_upload_form', 15);
+add_action( 'msp_create_review_form', 'msp_create_review_headline', 20);
+add_action( 'msp_create_review_form', 'msp_create_review_content', 25);
+add_action( 'msp_create_review_form', 'msp_create_review_wrapper_close', 100);
 
 
 // debug
