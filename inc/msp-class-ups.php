@@ -96,8 +96,8 @@ class UPS{
         'StreetName' => $ship_to['street'],
         'PostcodePrimaryLow' => $ship_to['postal'],
         'CountryCode' => $ship_to['country'],
-      )
-    ) );
+      ) )
+    );
 
     $this->append( $time_in_transit_request, $from );
     $this->append( $time_in_transit_request, $to );
@@ -111,7 +111,7 @@ class UPS{
 
     $track_request = $this->create_request_xml( 'TrackRequest', $reference, 'Track', 'activity' );
     $track_request->addChild( 'TrackingNumber', $tracking );
-    
+
     $requestXML = $this->access_request->asXML() . $track_request->asXML();
     $response = $this->send( $this->api_path . 'Track', $requestXML );
     if( $response['Response']['ResponseStatusCode'] ){
