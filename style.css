@@ -10,6 +10,10 @@
  Text Domain:  msp
 */
 
+.form-row.col-12{
+    display: block;
+}
+
 a, a:hover, a:visited, a.active, a.focus{
     color: #B0413E;
     text-decoration: none;
@@ -239,4 +243,73 @@ a.add_to_cart_button,
 
 .iww-date-estimate{
     font-weight: 600;
+}
+
+#order_review, #order_review_heading{
+    width: unset;
+}
+
+#order_review_heading{
+    float: left;
+}
+
+#reviews .star-rating{
+    float: unset !important;
+}
+
+.comment-actions{
+    padding: .5rem 0;
+    border-top: 1px solid rgba(0,0,0,0.1);
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+
+.storefront-full-width-content.single-product #reviews .commentlist li .avatar{
+    width: 100%;
+    height: auto;
+    float: unset;
+}
+
+img.avatar.avatar-60{
+    height: 60px !important;
+    width: 60px !important;
+}
+
+.comment_container{
+    display: flex;
+}
+
+.comment-text .description{
+    min-height: 80px;
+}
+
+.karma-score{
+    font-size: 22px;
+}
+
+.karma{
+    cursor: pointer;
+}
+
+.karma:hover,
+.karma.voted{
+    color: #28a745!important;
+}
+
+.product-rating-histogram tr td{
+    background-color: #fff !important;
+}
+
+.product-rating-histogram td{
+    padding: 0px;
+    margin: 0px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.product-rating-histogram td:first-child{
+    padding-right: 1.5rem;
+}
+
+.product-rating-histogram td:last-child{
+    padding-left: 1.5rem;
 }

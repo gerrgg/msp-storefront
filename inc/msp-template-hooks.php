@@ -99,14 +99,45 @@ add_action( 'wp_ajax_nopriv_msp_set_estimated_delivery_date', 'msp_set_estimated
 add_action( 'admin_post_msp_submit_bulk_form', 'msp_submit_bulk_form' );
 add_action( 'admin_post_nopriv_msp_submit_bulk_form', 'msp_submit_bulk_form' );
 
+/**
+ * woocommerce_review_before
+ * 
+ * @see woocommerce_review_display_gravatar - 10();
+ * @see msp_chevron_karma_form - 15();
+ */
+
+add_action( 'woocommerce_review_before', 'msp_woocommerce_review_before_wrapper_open', 1 );
+add_action( 'woocommerce_review_before', 'msp_chevron_karma_form', 15 );
+add_action( 'woocommerce_review_before', 'msp_woocommerce_review_before_wrapper_close', 100 );
+
+/**
+ * woocommerce_review_after_comment_text
+ * 
+ * @see msp_comment_actions_wrapper_open();
+ * @see msp_reply_to_comment_btn();
+ * @see msp_flag_comment_btn();
+ * @see msp_comment_actions_wrapper_close();
+ */
+add_action( 'woocommerce_review_after_comment_text', 'msp_comment_actions_wrapper_open', 1 );
+add_action( 'woocommerce_review_after_comment_text', 'msp_reply_to_comment_btn', 5, 1 );
+add_action( 'woocommerce_review_after_comment_text', 'msp_flag_comment_btn', 10, 1 );
+add_action( 'woocommerce_review_after_comment_text', 'msp_comment_actions_wrapper_close', 100, 1 );
+
+
+/**
+ * woocommerce_after_single_product_summary
+ * @see comments_template();
+ */
+add_action( 'woocommerce_after_single_product_summary', 'comments_template' );
+
+
 // debug
 // add_action( 'wp_footer', 'get_cron_jobs' );
 function get_cron_jobs(){
     var_dump( _get_cron_array() );
 }
 
-add_action( 'wp_footer', 'test' );
+// add_action( 'wp_footer', 'test' );
 function test(){
-    global $ups;
-    var_dump( $ups->track( '1Z9131620382950276' ) );
+    echo 'hi';
 }

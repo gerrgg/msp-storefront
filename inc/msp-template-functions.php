@@ -651,5 +651,93 @@ function msp_order_report_issue_button(){
 }
 
 
+function msp_chevron_karma_form(){
+  ?>
+    <div class="d-flex flex-column mx-auto text-center mt-3">
+        <i class="fas fa-chevron-circle-up text-secondary fa-2x mb-1 karma karma-up-vote"></i>
+        <span class="mb-1 karma-score">0</span>
+        <i class="fas fa-chevron-circle-down text-secondary fa-2x karma karma-down-vote"></i>
+    </div>
+  <?php  
+}
+
+function msp_comment_actions_wrapper_open(){
+    echo '<div class="comment-actions">';
+}
+
+function msp_reply_to_comment_btn( $comment ){
+    ?>
+    <button class="btn btn-outline-secondary comment-on-comment">
+        Comment
+        <i class="far fa-comment-alt pl-2"></i>
+    </button>
+    <?php
+}
+
+function msp_flag_comment_btn( $comment ){
+    ?>
+    <button class="btn btn-outline-danger flag-comment">
+        Report Abuse
+        <i class="fab fa-font-awesome-flag"></i>
+    </button>
+    <?php
+}
+
+function msp_comment_actions_wrapper_close(){
+    echo '</div><!-- .comment-actions -->';
+}
+
+function msp_woocommerce_review_before_wrapper_open(){
+    echo '<div id="review_before_wrapper_open" class="">';
+}
+function msp_woocommerce_review_before_wrapper_close(){
+    echo '</div><!-- #review_before_wrapper_open -->';
+}
+
+function msp_get_create_a_review_btn(){
+    echo '<p class=""><a href="#" role="button" class="btn btn-success btn-lg">Write a customer review</a></p>';
+}
+
+function msp_get_rating_histogram( $ratings, $count, $echo = true ){
+    ob_start();
+    ?>
+        <table class="product-rating-histogram">
+            <?php 
+                for( $i = 5; $i > 0; $i-- ) :
+                    $now = ( isset( $ratings[$i] ) ) ? intval( ( $ratings[$i] / $count ) * 100 ) : 0; ?>
+                    <tr>
+                        <td nowrap>
+                            <a href=""><?php echo $i ?> stars</a>
+                        </td>
+                        <td style="width: 80%">
+                            <a class="progress">
+                                <div class="progress-bar" role="progressbar" style="width: <?php echo $now; ?>%"aria-valuenow="<?php echo $now ?>%" aria-valuemin="0" aria-valuemax="100"></div>
+                            </a>
+                        </td nowrap>
+                        <td>
+                            <a href=""><?php echo $now ?>%</a>
+                        </td>
+                    </tr>
+                <?php endfor; ?>
+            </table>
+    <?php
+    $html = ob_get_clean();
+
+    if( ! $echo ){
+        return $html;
+    }
+
+    echo $html;
+}
+
+function msp_single_product_create_review(){
+    ?>
+    <hr />
+    <h3>Review this product</h3>
+    <p>Share your thoughts with other customers.</p>
+    <?php
+        msp_get_create_a_review_btn();
+}
+
 
 
