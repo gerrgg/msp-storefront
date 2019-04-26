@@ -177,4 +177,5 @@ class User_History{
     }
 
 }
+global $history;
 $history = new User_History();
