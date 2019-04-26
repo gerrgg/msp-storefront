@@ -32,10 +32,27 @@ class MSP{
         add_action('wp_login', array( $this, 'myEndSession') );
 
         add_filter( 'woocommerce_min_password_strength', array( $this, 'msp_password_strength' ) );
+        add_filter( 'woocommerce_form_field_args', array( $this, 'msp_form_field_args' ), 10, 3 );
+        add_filter( 'woocommerce_product_tabs', array( $this, 'msp_remove_reviews_from_products_tab' ) );
+    }
+
+    public function msp_remove_reviews_from_products_tab( $tabs ){
+        /**
+         * We hook into woocommerce_after_single_product_summary();
+         */
+        // var_dump( $tabs );
+        unset( $tabs['reviews'] );
+        return $tabs;
+    }
+
+    public function msp_form_field_args( $args, $key, $value ){
+        $args['class'] = array('col-12');
+        $args['input_class'] = array('form-control');
+        return $args;
     }
 
     public function create_theme_pages(){
-        $slugs = array( 'buy-again', 'quote' );
+        $slugs = array( 'buy-again', 'quote', 'review' );
 
         foreach( $slugs as $slug ){
             if( ! $this->the_slug_exists( $slug ) ){
