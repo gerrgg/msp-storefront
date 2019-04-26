@@ -1,7 +1,8 @@
 jQuery(document).ready(function( $ ){
     var msp = {
         init: function(){
-            msp.init_owl_carousel();
+            msp.init_owl_carousel(),
+            msp.bind_create_review_star_buttons()
         },
 
         init_owl_carousel: function(){
@@ -47,6 +48,19 @@ jQuery(document).ready(function( $ ){
                 }
             })
         },
+
+        bind_create_review_star_buttons: function(){
+            $('i.msp-star-rating').click(function(){
+                let rating = $(this).data('rating');
+                $('.msp-star-rating').removeClass( 'fas' );
+
+                for( let i = 1; i <= rating; i++ ){
+                    $('i.msp-star-rating.rating-' + i).addClass('fas');
+                }
+
+                $('#product_rating').val( rating );
+            });
+        }
     }
 
     msp.init();
