@@ -18,3 +18,13 @@ function msp_get_product_image_src_by_product_id( $product_id ){
 function deslugify( $str ){
     return ucwords( str_replace( array('_', '-'), ' ', $str ) );
 }
+
+function msp_get_user_product_review( $p_id ){
+	$comments = get_comments(array(
+		'post_id' 						=> $p_id,
+		'user_id' 						=> get_current_user_id(),
+		'include_unapproved'  => false,
+	));
+	$comment = get_comment( $comments[0]->comment_ID , ARRAY_A );
+	return $comment;
+}
