@@ -93,6 +93,9 @@ add_action( 'woocommerce_thankyou', 'msp_update_order_estimated_delivery', 5, 1 
 add_action( 'wp_ajax_msp_set_estimated_delivery_date', 'msp_set_estimated_delivery_date' );
 add_action( 'wp_ajax_nopriv_msp_set_estimated_delivery_date', 'msp_set_estimated_delivery_date' );
 
+add_action( 'wp_ajax_msp_update_comment_karma', 'msp_update_comment_karma' );
+add_action( 'wp_ajax_mopriv_msp_update_comment_karma', 'msp_update_comment_karma' );
+
 /**
  * Admin Post
  */
@@ -108,18 +111,30 @@ add_action( 'admin_post_nopriv_msp_process_create_review', 'msp_process_create_r
 /**
  * woocommerce_review_before
  * 
- * @see msp_woocommerce_review_before_wrapper_open - 1;
- * @see woocommerce_review_display_gravatar - 10;
- * @see msp_chevron_karma_form - 15;
- * @see msp_woocommerce_review_before_wrapper_close - 100;
+ * @see msp_chevron_karma_form - 5;
  */
 
+add_action( 'woocommerce_review_before', 'msp_chevron_karma_form', 5, 1 );
 remove_action( 'woocommerce_review_before', 'woocommerce_review_display_gravatar', 10 );
-remove_action( 'woocommerce_review_before_comment_meta', 'woocommerce_review_display_rating', 10 );
 
-add_action( 'woocommerce_review_before', 'msp_chevron_karma_form', 5 );
+/**
+ * woocommerce_review_before_comment_meta
+ * @see woocommerce_review_display_gravatar - 5
+ */
+remove_action( 'woocommerce_review_before_comment_meta', 'woocommerce_review_display_rating', 10 );
 add_action( 'woocommerce_review_before_comment_meta', 'woocommerce_review_display_gravatar', 5 );
+
+/**
+ * woocommerce_review_comment_text
+ * @see msp_get_comment_headline - 5
+ */
 add_action( 'woocommerce_review_comment_text', 'msp_get_comment_headline', 5, 1 );
+
+ /**
+ * woocommerce_review_meta
+ * @see woocommerce_review_display_rating - 8
+ */
+
 add_action( 'woocommerce_review_meta', 'woocommerce_review_display_rating', 8 );
 
 /**
@@ -174,7 +189,8 @@ function get_cron_jobs(){
     var_dump( _get_cron_array() );
 }
 
-// add_action( 'wp_footer', 'test' );
+add_action( 'wp_footer', 'test' );
 function test(){
-    echo 'hi';
+    global $history;
+    var_dump( $history->data );
 }

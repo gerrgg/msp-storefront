@@ -13,6 +13,7 @@ class User_History{
         'categories' => array(),
         'searches' => array(),
         'orders' => array(),
+        'karma_given' => array(),
     );
 
     function __construct(){
@@ -22,7 +23,14 @@ class User_History{
 
     public function update_session(){
         foreach( $this->data as $key => $data ){
+
             $_SESSION['msp_' . $key] = $this->data[$key];
+
+            if( is_user_logged_in() ){
+                if( ! empty( $data ) ){
+                    update_user_meta( get_current_user_id(), 'msp_' . $key, $this->package( $data ) );
+                }
+            }
         }
     }
     
@@ -31,6 +39,7 @@ class User_History{
      * TODO: Possibly find a way to store $_SESSION on guests as well, like IP? How does woocommerce do it? Do they do it?
      */
     public function import_data(){
+        
         foreach( $this->data as $key => $value ){
             $db_key = 'msp_' . $key;
 
@@ -56,7 +65,6 @@ class User_History{
         $category = $this->get_category();
         $this->build_item( $category );
         $this->update_session();
-        $this->update_user_products_history();
     }
 
     public function build_item( $data ){
@@ -73,24 +81,11 @@ class User_History{
     }
 
     /**
-     * checks if the user is logged in, if so, saves the session to the DB.
-     */
-    public function update_user_products_history(){
-        if( is_user_logged_in() ){
-            foreach( $this->data as $key => $data ){
-                if( ! empty( $data ) ){
-                    update_user_meta( get_current_user_id(), 'msp_' . $key, $this->package( $data ) );
-                }
-            }
-        }
-    }
-
-    /**
      * packs up an array for saving to the DB
      * @param array $thing
      * @return string
      */
-    public function package( $thing ){
+    public static function package( $thing ){
         return base64_encode( serialize( $thing ) );
     }
 
@@ -99,7 +94,7 @@ class User_History{
      * @param string $thing
      * @return array
      */
-    public function unpackage( $thing ){
+    public static function unpackage( $thing ){
         return unserialize( base64_decode( $thing ) );
     }
 
@@ -176,6 +171,23 @@ class User_History{
         return $category[0];
     }
 
+    public function update( $array_key, $data ){
+        foreach( $data as $data_key => $data_value ){
+            $this->data[$array_key][$data_key] = $data_value;
+        }
+
+        $this->update_session();
+    }
+
+    public function user_has_voted( $comment_id ){
+        return ( isset( $this->data['karma_given'][$comment_id] ) );
+    }
+
+    public function get_karma_vote( $comment_id ){
+        return( $this->data['karma_given'][$comment_id] );
+    }
+
 }
-global $history;
+
 $history = new User_History();
+global $history;

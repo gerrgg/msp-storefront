@@ -658,12 +658,14 @@ function msp_order_report_issue_button(){
 }
 
 
-function msp_chevron_karma_form(){
+function msp_chevron_karma_form( $comment ){
+    global $history;
+    $vote = $history->get_karma_vote( $comment->comment_ID );
   ?>
     <div class="d-flex flex-column mx-auto text-center mt-3">
-        <i class="fas fa-chevron-circle-up text-secondary fa-2x mb-1 karma karma-up-vote"></i>
-        <span class="mb-1 karma-score">0</span>
-        <i class="fas fa-chevron-circle-down text-secondary fa-2x karma karma-down-vote"></i>
+        <i class="fas fa-chevron-circle-up text-secondary fa-2x mb-1 karma karma-up-vote <?php if( $vote == 1 ) echo 'voted'; ?>"></i>
+        <span class="mb-1 karma-score"><?php echo $comment->comment_karma ?></span>
+        <i class="fas fa-chevron-circle-down text-secondary fa-2x karma karma-down-vote <?php if( $vote == -1 ) echo 'voted'; ?>" ></i>
     </div>
   <?php  
 }
@@ -694,12 +696,6 @@ function msp_comment_actions_wrapper_close(){
     echo '</div><!-- .comment-actions -->';
 }
 
-function msp_woocommerce_review_before_wrapper_open(){
-    echo '<div id="review_before_wrapper_open" class="">';
-}
-function msp_woocommerce_review_before_wrapper_close(){
-    echo '</div><!-- #review_before_wrapper_open -->';
-}
 
 function msp_get_create_a_review_btn(){
     global $post;
@@ -957,5 +953,28 @@ function msp_get_comment_headline( $comment ){
     if( ! empty( $headline ) ){
         echo '<h4 class="review-headline">'. $headline .'</h4>';
     }
+}
+
+/**
+ * Updates the karma of a comment. Checks if the user has either not already voted or updates the users vote.
+ * @param $_POST['comment_id'] - $_POST['vote'] passed from wp_ajax_msp_update_comment_karma hook.
+ */
+function msp_update_comment_karma(){
+    global $history;
+    if( ! isset( $_POST['comment_id'], $_POST['vote'] ) ) return;
+
+    if( ! $history->user_has_voted( $_POST['comment_id'] ) || $_POST['vote'] != $history->get_karma_vote( $_POST['comment_id'] ) ){
+        $comment = get_comment( $_POST['comment_id'], ARRAY_A );
+        $comment['comment_karma'] = $comment['comment_karma'] + $_POST['vote'];
+        wp_update_comment( $comment );
+    
+        $history->update( 'karma_given', array( $_POST['comment_id'] => $_POST['vote'] ) );
+        
+        wp_send_json( $comment );
+    } else {
+        echo 'Already voted in this direction!';
+    }
+
+    wp_die();
 }
 

@@ -28,28 +28,37 @@ if ( ! defined( 'ABSPATH' ) ) {
         /**
          * The woocommerce_review_before hook
          *
-         * @hooked woocommerce_review_display_gravatar - 10
+         * @hooked msp_chevron_karma_form - 5
          */
         do_action( 'woocommerce_review_before', $comment );
         ?>
 
-		<div class="comment-text">
+		<div class="comment-text msp-comment">
+			<div class="d-flex">
+				<?php
+				/**
+				 * The woocommerce_review_before_comment_meta hook.
+				 *	
+				 * @hooked woocommerce_review_display_gravatar - 10
+				 * @hooked woocommerce_review_display_rating - 10
+				 */
+				do_action( 'woocommerce_review_before_comment_meta', $comment );
+
+				echo '<div>';
+				
+				/**
+				 * The woocommerce_review_meta hook.
+				 *
+				 * @hooked woocommerce_review_display_meta - 10
+				 * @hooked WC_Structured_Data::generate_review_data() - 20
+				 */
+				do_action( 'woocommerce_review_meta', $comment );
+				do_action( 'woocommerce_review_before_comment_text', $comment );
+				?>
+				</div> <!-- .d-flex -->
+			</div> <!-- .comment-text -->
 
 			<?php
-			/**
-			 * The woocommerce_review_before_comment_meta hook.
-			 *
-			 * @hooked woocommerce_review_display_rating - 10
-			 */
-			do_action( 'woocommerce_review_before_comment_meta', $comment );
-			/**
-			 * The woocommerce_review_meta hook.
-			 *
-			 * @hooked woocommerce_review_display_meta - 10
-			 * @hooked WC_Structured_Data::generate_review_data() - 20
-			 */
-			do_action( 'woocommerce_review_meta', $comment );
-			do_action( 'woocommerce_review_before_comment_text', $comment );
 			/**
 			 * The woocommerce_review_comment_text hook
 			 *

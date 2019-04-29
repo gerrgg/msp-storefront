@@ -279,7 +279,7 @@ img.avatar.avatar-60{
 }
 
 .comment-text .description{
-    min-height: 80px;
+    min-height: 40px;
 }
 
 .karma-score{
@@ -316,4 +316,8 @@ img.avatar.avatar-60{
 
 .img-mini{
     width: 75px;
+}
+
+.msp-comment img.avatar{
+    margin: 0px !important;
 }
