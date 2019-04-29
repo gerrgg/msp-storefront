@@ -624,7 +624,7 @@ function msp_order_product_review_button( $order ){
     }
 
     ?>
-        <a href="/review?product_id=<?php echo implode( ',', $id_arr ); ?>" role="button" class="btn btn-info btn-block link-normal">
+        <a href="<?php echo msp_get_review_link( $id_arr ) ?>" role="button" class="btn btn-info btn-block link-normal">
             <i class="fas fa-edit"></i> Write a Product Review
         </a>
     <?php
@@ -777,20 +777,24 @@ function msp_review_more_products(){
 
 function msp_get_review_more_star_links( $product_id, $echo = true ){
     $comment = msp_get_user_product_review( $product_id );
+    $highlight = 'far';
 
     if( ! empty( $comment ) ){
-        $rating = get_comment_meta( $comment['comment_ID'], 'product_rating', true );
-        echo $rating;
+        $rating = get_comment_meta( $comment['comment_ID'], 'rating', true );
     }
 
     ob_start();
 
     echo '<div class="d-flex justify-content-center">';
-    for( $i = 1; $i <= 5; $i++ ){  ?>
+    for( $i = 1; $i <= 5; $i++ ) :
+        if( isset( $rating ) ){
+            $highlight = ( $i <= $rating ) ? 'fas' : 'far';
+        }
+    ?>
         <a href="<?php echo msp_get_review_link( $product_id, array('star' => $i) ) ?>" class="link-normal">
-            <i class="far fa-star fa-2x"></i>
+            <i class="<?php echo $highlight; ?> fa-star fa-2x"></i>
         </a>
-    <?php }
+    <?php endfor;
     echo '</div>';
 
     $html = ob_get_clean();
@@ -800,11 +804,13 @@ function msp_get_review_more_star_links( $product_id, $echo = true ){
 }
 
 function msp_get_review_link( $product_id, $args = array() ){
+    $comment = msp_get_user_product_review( $product_id );
+
     $base_url = '/review/?product_id=';
     $base_url .= is_array($product_id) ? implode( ',', $product_id ) : $product_id;
 
     $defaults = array(
-        'action' => 'create',
+        'action' => ( empty( $comment ) ) ? 'create' : 'edit',
         'comment_id' => '',
         'star' => ''
     );
@@ -841,7 +847,7 @@ function msp_get_review_more_star_buttons(){
 
     for( $i = 1; $i <= 5; $i++ ) :
         if( isset( $_GET['star'] ) ){
-            $class = ( $i < $_GET['star'] ) ? 'fas' : 'far';
+            $class = ( $i <= $_GET['star'] ) ? 'fas' : 'far';
         }
     ?>
 
@@ -852,7 +858,7 @@ function msp_get_review_more_star_buttons(){
     <?php endfor;
 
     echo '</div>';
-    echo '<input type="hidden" id="product_rating" name="product_rating" value="" />';
+    echo '<input type="hidden" id="rating" name="rating" value="" />';
 }
 
 
@@ -869,17 +875,27 @@ function msp_create_review_upload_form( $product_id ){
     
 }
 
-function msp_create_review_headline(){
+function msp_create_review_headline( $product_id ){
+    $headline = '';
+    if( $_GET['action'] == 'edit' ){
+        $comment = msp_get_user_product_review( $product_id );
+        $headline = get_comment_meta( $comment['comment_ID'], 'headline', true );
+    }
+
     echo '<div class="pt-4">';
         echo '<h3>Add a headline</h3>';
-        echo '<input required type="text" name="headline" placeholder="What\'s the most important thing to know?" class="form-control w-50" />';
+        echo '<input required type="text" name="headline" placeholder="What\'s the most important thing to know?" class="form-control w-50" value="'. $headline .'" />';
     echo '</div>';
 }
 
-function msp_create_review_content(){
+function msp_create_review_content( $product_id ){
+    $content['comment_content'] = '';
+    if( $_GET['action'] == 'edit' ){
+        $content = msp_get_user_product_review( $product_id );
+    }
     echo '<div class="pt-4">';
         echo '<h3>Write your review</h3>';
-        echo '<textarea required name="content" class="form-control w-75" placeholder="What did you like or dislike? What did you use this product for?"></textarea>';
+        echo '<textarea required name="content" class="form-control w-75" placeholder="What did you like or dislike? What did you use this product for?">'. $content['comment_content'] .'</textarea>';
     echo '</div>';
 }
 
@@ -910,12 +926,12 @@ function msp_process_create_review(){
             'comment_agent' => $_SERVER['HTTP_USER_AGENT'],
             'comment_date' => current_time( 'mysql', $gmt = 0 ),
             'user_id' => get_current_user_id(),
-            'comment_approved' => 1,
+            'comment_approved' => 0,
         );
         
         $comment = msp_get_user_product_review( $data['product_id'] );
 
-        if( empty( $comment ) ){
+        if( ! is_null( $comment ) ){
             // comment_id needs to be available for after this if statement.
             $comment_id = $comment['comment_ID'];
             $args['comment_ID'] = $comment['comment_ID'];
@@ -924,11 +940,11 @@ function msp_process_create_review(){
             $comment_id = wp_insert_comment( $args );
         }
 
-        update_comment_meta( $comment_id, 'product_rating', $data['product_rating'] );
+        update_comment_meta( $comment_id, 'rating', $data['rating'] );
         update_comment_meta( $comment_id, 'headline', $data['headline'] );
-        update_comment_meta( $comment_id, 'verified',
-            wc_customer_bought_product( $user->user_email, get_current_user_id(), $data['product_id'] )
-        );
+
+        $verified = ( wc_customer_bought_product( $user->user_email, get_current_user_id(), $data['product_id'] ) ) ? 1 : 0;
+        update_comment_meta( $comment_id, 'verified', $verified);
 
         //redirect to review more products!
         $review_more_ids = msp_get_customer_unique_order_items( get_current_user_id() );
@@ -936,4 +952,10 @@ function msp_process_create_review(){
     }
 }
 
+function msp_get_comment_headline( $comment ){
+    $headline = get_comment_meta( $comment->comment_ID, 'headline', true );
+    if( ! empty( $headline ) ){
+        echo '<h4 class="review-headline">'. $headline .'</h4>';
+    }
+}
 

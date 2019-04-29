@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
      */
     do_action( 'msp_before_create_review_form' );
 
-    if( $_GET['action'] != 'create' ) return;
+    if( $_GET['action'] == 'show_more' ) return;
 
     /**
      * The msp_create_review_form hook.

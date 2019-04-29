@@ -114,9 +114,13 @@ add_action( 'admin_post_nopriv_msp_process_create_review', 'msp_process_create_r
  * @see msp_woocommerce_review_before_wrapper_close - 100;
  */
 
-add_action( 'woocommerce_review_before', 'msp_woocommerce_review_before_wrapper_open', 1 );
-add_action( 'woocommerce_review_before', 'msp_chevron_karma_form', 15 );
-add_action( 'woocommerce_review_before', 'msp_woocommerce_review_before_wrapper_close', 100 );
+remove_action( 'woocommerce_review_before', 'woocommerce_review_display_gravatar', 10 );
+remove_action( 'woocommerce_review_before_comment_meta', 'woocommerce_review_display_rating', 10 );
+
+add_action( 'woocommerce_review_before', 'msp_chevron_karma_form', 5 );
+add_action( 'woocommerce_review_before_comment_meta', 'woocommerce_review_display_gravatar', 5 );
+add_action( 'woocommerce_review_comment_text', 'msp_get_comment_headline', 5, 1 );
+add_action( 'woocommerce_review_meta', 'woocommerce_review_display_rating', 8 );
 
 /**
  * woocommerce_review_after_comment_text
@@ -159,8 +163,8 @@ add_action( 'msp_create_review_form', 'msp_create_review_wrapper_open', 1 );
 add_action( 'msp_create_review_form', 'msp_create_review_top', 5, 1 );
 add_action( 'msp_create_review_form', 'msp_get_review_more_star_buttons', 10 );
 add_action( 'msp_create_review_form', 'msp_create_review_upload_form', 15, 1 );
-add_action( 'msp_create_review_form', 'msp_create_review_headline', 20 );
-add_action( 'msp_create_review_form', 'msp_create_review_content', 25 );
+add_action( 'msp_create_review_form', 'msp_create_review_headline', 20, 1 );
+add_action( 'msp_create_review_form', 'msp_create_review_content', 25, 1 );
 add_action( 'msp_create_review_form', 'msp_create_review_wrapper_close', 100 );
 
 

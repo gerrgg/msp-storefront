@@ -58,7 +58,7 @@ jQuery(document).ready(function( $ ){
                     $('i.msp-star-rating.rating-' + i).addClass('fas');
                 }
 
-                $('#product_rating').val( rating );
+                $('#rating').val( rating );
             });
         }
     }
