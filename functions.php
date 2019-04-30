@@ -23,10 +23,10 @@ class MSP{
     function __construct(){
         add_action( 'init', array( $this, 'myStartSession' ), 1 );
         add_action( 'init', array( $this, 'create_theme_pages' ), 2 );
+        $this->create_custom_tables();
 
         add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
         add_action( 'after_setup_theme', array( $this, 'register_menus' ) );
-
 
         add_action('wp_logout', array( $this, 'myEndSession') );
         add_action('wp_login', array( $this, 'myEndSession') );
@@ -34,6 +34,28 @@ class MSP{
         add_filter( 'woocommerce_min_password_strength', array( $this, 'msp_password_strength' ) );
         add_filter( 'woocommerce_form_field_args', array( $this, 'msp_form_field_args' ), 10, 3 );
         add_filter( 'woocommerce_product_tabs', array( $this, 'msp_remove_reviews_from_products_tab' ) );
+    }
+
+    public function create_custom_tables(){
+        // Add one library admin function for next function
+        require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+        global $wpdb;
+        $charset_collate = $wpdb->get_charset_collate();
+
+        $tables = array(
+            'msp_karma' => "CREATE TABLE msp_karma (
+                            karma_id mediumint(9) NOT NULL AUTO_INCREMENT,
+                            karma_user_id mediumint(9) NOT NULL,
+                            karma_comment_id mediumint(9) NOT NULL,
+                            karma_value mediumint(9) NOT NULL,
+                            PRIMARY KEY  (karma_id)
+                        ) $charset_collate;",
+            );
+
+        foreach( $tables as $table_name => $ddl ){
+            maybe_create_table( $table_name, $ddl );
+        }
+        
     }
 
     public function msp_remove_reviews_from_products_tab( $tabs ){
