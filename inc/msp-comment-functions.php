@@ -360,4 +360,3 @@ function msp_get_user_karma_vote( $user_id, $comment_id ){
 
     return $row;
 }
-

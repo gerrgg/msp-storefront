@@ -13,6 +13,7 @@ class User_History{
         'categories' => array(),
         'searches' => array(),
         'orders' => array(),
+        'karma_given' => array(),
     );
 
     function __construct(){

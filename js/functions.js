@@ -1,9 +1,9 @@
 jQuery(document).ready(function( $ ){
     var msp = {
         init: function(){
-            msp.init_owl_carousel(),
+            msp.init_owl_carousel()
             msp.bind_create_review_star_buttons(),
-            msp.bind_karma_buttons()
+            msp.bind_karma_buttons(),
         },
 
         init_owl_carousel: function(){
@@ -65,6 +65,8 @@ jQuery(document).ready(function( $ ){
 
         bind_karma_buttons: function(){
             $('i.karma').click( function(){
+                if( $(this).hasClass('voted') ) return 'Sorry, no.';
+
                 $('i.karma').removeClass( 'voted' );
                 let $karma =  $(this).parent().find( '.karma-score' );
                 let $button_clicked = $(this);
