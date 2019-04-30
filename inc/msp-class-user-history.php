@@ -13,7 +13,6 @@ class User_History{
         'categories' => array(),
         'searches' => array(),
         'orders' => array(),
-        'karma_given' => array(),
     );
 
     function __construct(){
@@ -177,14 +176,6 @@ class User_History{
         }
 
         $this->update_session();
-    }
-
-    public function user_has_voted( $comment_id ){
-        return ( isset( $this->data['karma_given'][$comment_id] ) );
-    }
-
-    public function get_karma_vote( $comment_id ){
-        return( $this->data['karma_given'][$comment_id] );
     }
 
 }

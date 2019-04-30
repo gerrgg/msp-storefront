@@ -659,6 +659,7 @@ function msp_order_report_issue_button(){
 
 
 function msp_chevron_karma_form( $comment ){
+    if( ! $comment->comment_approved ) return;
     global $history;
     $vote = $history->get_karma_vote( $comment->comment_ID );
   ?>
@@ -956,25 +957,66 @@ function msp_get_comment_headline( $comment ){
 }
 
 /**
- * Updates the karma of a comment. Checks if the user has either not already voted or updates the users vote.
- * @param $_POST['comment_id'] - $_POST['vote'] passed from wp_ajax_msp_update_comment_karma hook.
+ * Updates a users karma vote on a comment.
  */
-function msp_update_comment_karma(){
-    global $history;
+function msp_add_to_karma_table(){
     if( ! isset( $_POST['comment_id'], $_POST['vote'] ) ) return;
+    global $wpdb;
+    $table_name = 'msp_karma';
 
-    if( ! $history->user_has_voted( $_POST['comment_id'] ) || $_POST['vote'] != $history->get_karma_vote( $_POST['comment_id'] ) ){
-        $comment = get_comment( $_POST['comment_id'], ARRAY_A );
-        $comment['comment_karma'] = $comment['comment_karma'] + $_POST['vote'];
-        wp_update_comment( $comment );
-    
-        $history->update( 'karma_given', array( $_POST['comment_id'] => $_POST['vote'] ) );
-        
-        wp_send_json( $comment );
+    $last_vote = msp_get_user_karma_vote( get_current_user_id(), $_POST['comment_id'] );
+
+    $args = array(
+        'karma_user_id'    => get_current_user_id(),
+        'karma_comment_id' => $_POST['comment_id'],
+        'karma_value'      => $_POST['vote']
+    );
+
+    if( empty( $last_vote ) ){
+        $wpdb->insert( $table_name, $args );
     } else {
-        echo 'Already voted in this direction!';
+        $wpdb->update( $table_name, $args, array( 'karma_id' => $last_vote->karma_id ) );
     }
 
+    $karma_score = msp_update_comment_karma( $_POST['comment_id'] );
+    wp_send_json( $karma_score );
+
     wp_die();
+}
+
+function msp_update_comment_karma( $comment_id ){
+    $comment = get_comment( $comment_id, ARRAY_A );
+    if( empty( $comment ) ) return;
+
+    global $wpdb;
+    $score = 0;
+
+    $results = $wpdb->get_results(
+        "SELECT karma_value
+         FROM msp_karma
+         WHERE karma_comment_id = $comment_id"
+    );
+
+    foreach( $results as $vote ){
+        $score += $vote->karma_value;
+    }
+
+    $comment['comment_karma'] = $score;
+    wp_update_comment( $comment );
+    
+    return $score;
+}
+
+function msp_get_user_karma_vote( $user_id, $comment_id ){
+    global $wpdb;
+
+    $row = $wpdb->get_row( 
+        "SELECT * 
+         FROM msp_karma
+         WHERE karma_user_id = $user_id
+         AND karma_comment_id = $comment_id" 
+    );
+
+    return $row;
 }
 

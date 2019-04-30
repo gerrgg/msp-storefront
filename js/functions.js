@@ -68,21 +68,22 @@ jQuery(document).ready(function( $ ){
                 $('i.karma').removeClass( 'voted' );
                 let $karma =  $(this).parent().find( '.karma-score' );
                 let $button_clicked = $(this);
-                $button_clicked.addClass( 'voted' );
-
+                
+                
                 let data = {
                     action: 'msp_update_comment_karma',
                     comment_id: $(this).parent().parent().attr('id').replace('comment-', ''),
                     vote: ( $(this).hasClass( 'karma-up-vote' ) ) ? 1 : -1,
                 }
-
+                
                 $.post( wp_ajax.url, data, function( response ){
-                    if( typeof response.comment_karma !== 'undefined' ){
-                        $karma.text( response.comment_karma );
-                    } else {
-                       // show error message saying that the user already voted this way.
+                    console.log( response );
+                    if( ! response.length ){
+                        $karma.text( response )
+                        $button_clicked.addClass( 'voted' );
                     }
                 });
+
             });
         },
     }

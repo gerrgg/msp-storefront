@@ -93,8 +93,8 @@ add_action( 'woocommerce_thankyou', 'msp_update_order_estimated_delivery', 5, 1 
 add_action( 'wp_ajax_msp_set_estimated_delivery_date', 'msp_set_estimated_delivery_date' );
 add_action( 'wp_ajax_nopriv_msp_set_estimated_delivery_date', 'msp_set_estimated_delivery_date' );
 
-add_action( 'wp_ajax_msp_update_comment_karma', 'msp_update_comment_karma' );
-add_action( 'wp_ajax_mopriv_msp_update_comment_karma', 'msp_update_comment_karma' );
+add_action( 'wp_ajax_msp_update_comment_karma', 'msp_add_to_karma_table' );
+add_action( 'wp_ajax_mopriv_msp_update_comment_karma', 'msp_add_to_karma_table' );
 
 /**
  * Admin Post
@@ -191,6 +191,5 @@ function get_cron_jobs(){
 
 add_action( 'wp_footer', 'test' );
 function test(){
-    global $history;
-    var_dump( $history->data );
+   
 }
