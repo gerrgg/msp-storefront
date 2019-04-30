@@ -7,6 +7,7 @@ class MSP_Admin{
     
     function __construct(){
         add_action('admin_menu', array( $this, 'theme_options') );
+        add_action( 'wp_ajax_msp_admin_sync_vendor', 'msp_admin_sync_vendor' );
     }
 
     /**
@@ -16,8 +17,29 @@ class MSP_Admin{
         add_theme_page( 'MSP Theme Options', 'MSP Theme Options', 'manage_options', 'msp_options', array( $this, 'msp_options_callback' ) );
 
         add_action( 'admin_init', array( $this, 'register_theme_settings' ) );
+        add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+        add_action( 'wp_dashboard_setup', array( $this, 'add_dashboard_widgets' ) );
         add_action( 'woocommerce_admin_order_data_after_order_details', array( $this, 'submit_tracking_form' ) );
         add_action( 'woocommerce_process_shop_order_meta', array( $this, 'save_order_meta' ) );
+    }
+
+    public function enqueue_scripts( $hook ){
+        wp_enqueue_script('admin', get_stylesheet_directory_uri() . '/js/admin.js');
+    }
+
+    public function add_dashboard_widgets(){
+        wp_add_dashboard_widget(
+            'msp_add_update_stock',
+            'Update Vendors Stock',
+            'msp_add_update_stock_widget'
+        );
+    
+        global $wp_meta_boxes;
+        $normal_dash = $wp_meta_boxes['dashboard']['normal']['core'];
+        $custom_dash = array( 'msp_add_update_stock' => $normal_dash['msp_add_update_stock'] );
+        unset( $normal_dash['msp_add_update_stock'] );
+        $sorted_dash = array_merge( $custom_dash, $normal_dash );
+        $wp_meta_boxes['dashboard']['normal']['core'] = $sorted_dash;
     }
 
     public function submit_tracking_form(){
@@ -179,3 +201,100 @@ function msp_logo_width_callback(){
     echo '<input name="msp_logo_width" id="msp_logo_width" type="number" value="'. get_option( 'msp_logo_width' ) .'" class="code" />';
 }
 
+
+function msp_add_update_stock_widget(){
+    ?>
+    <form id="msp_add_update_stock_form" method="post" action="<?php echo admin_url( 'admin-ajax.php' ) ?>">
+        <p>
+            <label>Vendor: </label>
+            <select name="vendor" >
+                <option value="portwest" selected>Portwest</option>
+                <option value="helly_hansen">Helly Hansen</option>
+            </select>
+        </p>
+        <p>
+            <label>Url: </label>
+            <input type="url" name="url" required/>
+        </p>
+
+        <span class="feedback" style="font-weight: 600; font-color: red; font-size: 18px; "></span>
+        <input type="hidden" name="action" value="msp_admin_sync_vendor" />
+        <button id="submit_update_vendor" type="button" class="button button-primary" style="margin-top: 1rem;">Submit Vendor!</button>
+    </form>
+    <?php
+}
+
+function msp_admin_sync_vendor(){
+    ob_start();
+    $data = array( 
+        'name' => $_POST['vendor'],
+        'src'    => $_POST['url'],
+        'sku_index' => ( $_POST['vendor'] == 'portwest' ) ? 1 : 16,
+        'stock_index' => ( $_POST['vendor'] == 'portwest' ) ? 8 : 7
+    );
+
+    msp_get_data_and_sync( $data );
+    $html = ob_get_clean();
+    echo $html;
+    wp_die();
+}
+
+function msp_get_data_and_sync( $vendor ){
+    $start = microtime(true);
+
+    $count = 0;
+
+    $data = file_get_contents( $vendor['src'] );
+    if( ! empty( $data ) ){
+        foreach( msp_csv_to_array( $data ) as $item ){
+            // sku_index and stock_index are the position of the data in the array,
+            if( isset( $item[ $vendor['sku_index'] ] ) && isset( $item[ $vendor[ 'stock_index'] ] ) ){
+                $sku = $item[ $vendor['sku_index'] ];
+                $stock = $item[ $vendor['stock_index'] ];
+                if( ! empty( $sku ) ){
+                    $id = msp_get_product_id_by_sku( $sku );
+                    if( ! empty( $id ) ){
+                        msp_update_stock( $id, $stock );
+                        $count++;
+                    }
+                }
+            }
+        }
+    }
+
+    $time_elapsed_secs = microtime(true) - $start;
+
+    echo '<h2>Report</h2>';
+    echo 'Products Updated: ' . $count . '.<br>';
+    echo 'Time Elasped: ' . number_format( $time_elapsed_secs, 2 ) . ' seconds.<br>';
+}
+
+function msp_get_product_id_by_sku( $sku = false ) {
+    if( ! $sku ) return null;
+
+    global $wpdb;
+    $product_id = $wpdb->get_var( $wpdb->prepare( "SELECT post_id FROM $wpdb->postmeta WHERE meta_key='_sku' AND meta_value='%s' LIMIT 1", $sku ) );
+    return $product_id;
+}
+
+function msp_csv_to_array( $data ){
+    $rows = explode("\n", $data);
+    $s = array();
+
+    foreach($rows as $row) {
+        $s[] = str_getcsv($row);
+    }
+
+    return $s;
+}
+
+
+function msp_update_stock( $id, $stock){
+    $instock = ( $stock > 0 ) ? 'instock' : 'outofstock';
+      update_post_meta( $id, '_manage_stock', 'yes' );
+      update_post_meta( $id, '_stock_status', $instock );
+      update_post_meta( $id, '_stock', $stock );
+  }
+
+  
+  
