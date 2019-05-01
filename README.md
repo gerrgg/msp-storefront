@@ -1,7 +1,5 @@
 # storefront-child
-
-Purpose: Extend storefront to represent Michigan Safety Products in the cleanest way possible.
-
+# Purpose: Extend storefront to represent Michigan Safety Products in the cleanest way possible.
 
 TODO: ( Ordered by priority )
 

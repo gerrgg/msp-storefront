@@ -203,12 +203,10 @@ function msp_get_review_more_star_buttons(){
 function msp_create_review_upload_form( $product_id ){
     if( ! is_user_logged_in() ) return;
 
-    // if $product_id then get all images uploaded by this review
-
     echo '<div class="pt-4">';
         echo '<h3>Add a photo or video</h3>';
         echo '<p>Shoppers find images and videos more helpful than text alone.</p>';
-        echo '<input type="file" name="file" />';
+        echo '<input class="dropzone" />';
     echo '</div>';
     
 }

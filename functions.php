@@ -37,6 +37,40 @@ class MSP{
         add_filter( 'woocommerce_product_tabs', array( $this, 'msp_remove_reviews_from_products_tab' ) );
     }
 
+    /**
+     * Enqueue scripts & css for child theme.
+     */
+    public function enqueue_scripts(){
+        // Custom javascript functions
+        wp_enqueue_script( 'main', URI . '/js/functions.js', array('jquery'), filemtime( __DIR__ . '\js\functions.js' ), true );
+        wp_enqueue_script( 'header', URI . '/js/header-functions.js', array('jquery'), filemtime( __DIR__ . '\js\header-functions.js' ), true );
+        wp_enqueue_script( 'checkout', URI . '/js/checkout-functions.js', array('jquery'), filemtime( __DIR__ . '\js\checkout-functions.js' ), true );
+
+        
+        $this->wp_localize_scripts( array('main') );
+
+        // Font Awesome
+        wp_enqueue_style( 'font-awesome', 'https://use.fontawesome.com/releases/v5.8.1/css/all.css' );
+
+        //Twitter Bootstrap - https://getbootstrap.com/docs/4.3/getting-started/introduction/
+        wp_enqueue_style( 'bootstrap', URI . '/vendor/bootstrap-4.3.1-dist/css/bootstrap.min.css' );
+        wp_enqueue_script( 'bootstrap', URI . '/vendor/bootstrap-4.3.1-dist/js/bootstrap.bundle.min.js', array( 'jquery' ), '', true );
+
+        //Owl Carousel - https://owlcarousel2.github.io/OwlCarousel2/
+        wp_enqueue_style( 'owl-carousel', URI . '/vendor/OwlCarousel2-2.3.4/dist/assets/owl.carousel.min.css' );
+        wp_enqueue_style( 'owl-carousel-theme', URI . '/vendor/OwlCarousel2-2.3.4/dist/assets/owl.theme.default.min.css' );
+        wp_enqueue_script( 'owl-carousel', URI . '/vendor/OwlCarousel2-2.3.4/dist/owl.carousel.min.js', array( 'jquery' ), '', true );
+
+        //Dropzone.JS - https://www.dropzonejs.com/#installation
+        wp_enqueue_style( 'dropzone', URI . '/vendor/dropzone-js-5.2/dropzone.min.css' );
+        wp_enqueue_script( 'dropzone', URI . '/vendor/dropzone-js-5.2/dropzone.min.js' );
+
+
+        //slideout.js - https://github.com/Mango/slideout
+        wp_enqueue_script( 'slideout', URI . '/vendor/slideout/dist/slideout.min.js', array(), 
+            filemtime( __DIR__ . '\vendor\slideout\dist\slideout.min.js' ), true );
+    }
+
     public function create_custom_tables(){
         // Add one library admin function for next function
         require_once ABSPATH . 'wp-admin/includes/upgrade.php';
@@ -105,35 +139,7 @@ class MSP{
         session_destroy ();
     }
 
-    /**
-     * Enqueue scripts & css for child theme.
-     */
-    public function enqueue_scripts(){
-        // Custom javascript functions
-        wp_enqueue_script( 'main', URI . '/js/functions.js', array('jquery'), filemtime( __DIR__ . '\js\functions.js' ), true );
-        wp_enqueue_script( 'header', URI . '/js/header-functions.js', array('jquery'), filemtime( __DIR__ . '\js\header-functions.js' ), true );
-        wp_enqueue_script( 'checkout', URI . '/js/checkout-functions.js', array('jquery'), filemtime( __DIR__ . '\js\checkout-functions.js' ), true );
-
-        
-        $this->wp_localize_scripts( array('main') );
-
-        // Font Awesome
-        wp_enqueue_style( 'font-awesome', 'https://use.fontawesome.com/releases/v5.8.1/css/all.css' );
-
-        //Twitter Bootstrap - https://getbootstrap.com/docs/4.3/getting-started/introduction/
-        wp_enqueue_style( 'bootstrap', URI . '/vendor/bootstrap-4.3.1-dist/css/bootstrap.min.css' );
-        wp_enqueue_script( 'bootstrap', URI . '/vendor/bootstrap-4.3.1-dist/js/bootstrap.bundle.min.js' );
-
-        //Owl Carousel - https://owlcarousel2.github.io/OwlCarousel2/
-        wp_enqueue_style( 'owl-carousel', URI . '/vendor/OwlCarousel2-2.3.4/dist/assets/owl.carousel.min.css' );
-        wp_enqueue_style( 'owl-carousel-theme', URI . '/vendor/OwlCarousel2-2.3.4/dist/assets/owl.theme.default.min.css' );
-
-        wp_enqueue_script( 'owl-carousel', URI . '/vendor/OwlCarousel2-2.3.4/dist/owl.carousel.min.js', array( 'jquery' ), '', true );
-
-        //slideout.js - https://github.com/Mango/slideout
-        wp_enqueue_script( 'slideout', URI . '/vendor/slideout/dist/slideout.min.js', array(), 
-            filemtime( __DIR__ . '\vendor\slideout\dist\slideout.min.js' ), true );
-    }
+    
 
     public function wp_localize_scripts( $arr ){
         foreach( $arr as $handle ){

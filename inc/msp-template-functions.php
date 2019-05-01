@@ -623,8 +623,10 @@ function msp_order_product_review_button( $order ){
         array_push( $id_arr, $order_item->get_product_id() );
     }
 
+    $action = ( sizeof( $id_arr ) > 1 ) ? 'show_more' : 'create';
+
     ?>
-        <a href="<?php echo msp_get_review_link( $id_arr, array( 'action' => 'show_more' ) ) ?>" role="button" class="btn btn-info btn-block link-normal">
+        <a href="<?php echo msp_get_review_link( $id_arr, array( 'action' => $action ) ) ?>" role="button" class="btn btn-info btn-block link-normal">
             <i class="fas fa-edit"></i> Write a Product Review
         </a>
     <?php
