@@ -61,11 +61,6 @@ class MSP{
         wp_enqueue_style( 'owl-carousel-theme', URI . '/vendor/OwlCarousel2-2.3.4/dist/assets/owl.theme.default.min.css' );
         wp_enqueue_script( 'owl-carousel', URI . '/vendor/OwlCarousel2-2.3.4/dist/owl.carousel.min.js', array( 'jquery' ), '', true );
 
-        //Dropzone.JS - https://www.dropzonejs.com/#installation
-        wp_enqueue_style( 'dropzone', URI . '/vendor/dropzone-js-5.2/dropzone.min.css' );
-        wp_enqueue_script( 'dropzone', URI . '/vendor/dropzone-js-5.2/dropzone.min.js' );
-
-
         //slideout.js - https://github.com/Mango/slideout
         wp_enqueue_script( 'slideout', URI . '/vendor/slideout/dist/slideout.min.js', array(), 
             filemtime( __DIR__ . '\vendor\slideout\dist\slideout.min.js' ), true );
