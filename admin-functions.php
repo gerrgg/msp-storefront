@@ -159,14 +159,14 @@ class MSP_Admin{
         
         ?>
         <div class="wrap">
-        <h1>MSP Theme Options</h1>
+            <h1>MSP Theme Options</h1>
 
-        <form method="post" action="options.php">
-            <?php settings_fields( 'msp_options' ); ?>
-    
-            <?php do_settings_sections( 'msp_options' ); ?>
-            <?php submit_button(); ?>
-        </form>
+            <form method="post" action="options.php">
+                <?php settings_fields( 'msp_options' ); ?>
+        
+                <?php do_settings_sections( 'msp_options' ); ?>
+                <?php submit_button(); ?>
+            </form>        
         </div>
         <?php
     }
@@ -249,12 +249,10 @@ function msp_get_data_and_sync( $vendor ){
         foreach( msp_csv_to_array( $data ) as $item ){
             // sku_index and stock_index are the position of the data in the array,
             if( isset( $item[ $vendor['sku_index'] ] ) && isset( $item[ $vendor[ 'stock_index'] ] ) ){
-                $sku = $item[ $vendor['sku_index'] ];
-                $stock = $item[ $vendor['stock_index'] ];
-                if( ! empty( $sku ) ){
-                    $id = msp_get_product_id_by_sku( $sku );
+                if( ! empty( $item[ $vendor['sku_index'] ] ) ){
+                    $id = msp_get_product_id_by_sku( $item[ $vendor['sku_index'] ] );
                     if( ! empty( $id ) ){
-                        msp_update_stock( $id, $stock );
+                        msp_update_stock( $id, $item[ $vendor['stock_index'] ] );
                         $count++;
                     }
                 }

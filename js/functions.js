@@ -3,7 +3,7 @@ jQuery(document).ready(function( $ ){
         init: function(){
             msp.init_owl_carousel()
             msp.bind_create_review_star_buttons(),
-            msp.bind_karma_buttons(),
+            msp.bind_karma_buttons()
         },
 
         init_owl_carousel: function(){

@@ -195,5 +195,6 @@ function get_cron_jobs(){
 
 add_action( 'wp_footer', 'test' );
 function test(){
-   
+   global $history;
+   var_dump( $history->data );
 }
