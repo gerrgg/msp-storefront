@@ -22,7 +22,7 @@ if ( ! comments_open() ) {
 	return;
 }
 ?>
-<div id="reviews" class="woocommerce-Reviews row">
+<div id="reviews" class="woocommerce-Reviews row border-top border-bottom py-2 my-2">
 	<div id="comments" class="col-4">
 		<h2 class="woocommerce-Reviews-title">
 			<?php
@@ -57,6 +57,27 @@ if ( ! comments_open() ) {
 		<?php endif; ?>
 	</div>
 	<div class="col">
+
+	<?php 
+	$ids = msp_get_user_uploaded_product_image_id();
+
+
+	
+	if( ! empty( $ids ) ){
+		$limit = ( sizeof( $ids ) < 4 ) ? sizeof( $ids ) : 4;
+		echo '<h3>'. sizeof( $ids ) .' customer uploaded images</h3>';
+		echo '<div id="user-uploads" class="d-flex pb-3 mb-3 border-bottom">';
+		for( $i = 0; $i < $limit; $i++ ){
+			$srcset = msp_get_product_image_srcset( $ids[$i] );
+			echo '<a href="'. $srcset['full'] .'">';
+				echo '<img src="'. $srcset['thumbnail'] .'" class="mx-2 img-small" />';
+			echo '</a>';
+		}
+		echo '</div>';
+	}
+
+	?>
+
 	<?php if ( have_comments() ) : ?>
 			<ol class="commentlist">
 				<?php wp_list_comments( apply_filters( 'woocommerce_product_review_list_args', array( 'callback' => 'woocommerce_comments' ) ) ); ?>

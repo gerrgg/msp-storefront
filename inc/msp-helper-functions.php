@@ -2,9 +2,20 @@
 
 defined( 'ABSPATH' ) || exit;
 
-function msp_get_product_image_src( $img_id ){
-    $src = wp_get_attachment_image_src( $img_id );
+function msp_get_product_image_src( $img_id, $size = 'medium' ){
+    $src = wp_get_attachment_image_src( $img_id, $size );
     return $src[0];
+}
+
+function msp_get_product_image_srcset( $img_id ){
+	$sizes = array( 'woocommerce_thumbnail', 'woocommerce_single' );
+
+	$srcset = array(
+		'thumbnail' => msp_get_product_image_src( $img_id, 'woocommerce_thumbnail' ),
+		'full' => msp_get_product_image_src( $img_id, 'woocommerce_single' ),
+	);
+
+    return $srcset;
 }
 
 function msp_get_product_image_src_by_product_id( $product_id ){

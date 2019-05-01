@@ -3,11 +3,12 @@
 function msp_chevron_karma_form( $comment ){
     if( ! $comment->comment_approved ) return;
     $vote = msp_get_user_karma_vote( get_current_user_id(), $comment->comment_ID );
+    $vote = ( ! empty( $vote->karma_value ) ) ? $vote->karma_value : 0;
   ?>
     <div class="d-flex flex-column mx-auto text-center mt-3">
-        <i class="fas fa-chevron-circle-up text-secondary fa-2x mb-1 karma karma-up-vote <?php if( $vote->karma_value == 1 ) echo 'voted'; ?>"></i>
+        <i class="fas fa-chevron-circle-up text-secondary fa-2x mb-1 karma karma-up-vote <?php if( $vote == 1 ) echo 'voted'; ?>"></i>
         <span class="mb-1 karma-score"><?php echo $comment->comment_karma ?></span>
-        <i class="fas fa-chevron-circle-down text-secondary fa-2x karma karma-down-vote <?php if( $vote->karma_value == -1 ) echo 'voted'; ?>" ></i>
+        <i class="fas fa-chevron-circle-down text-secondary fa-2x karma karma-down-vote <?php if( $vote == -1 ) echo 'voted'; ?>" ></i>
     </div>
   <?php  
 }
@@ -196,19 +197,21 @@ function msp_get_review_more_star_buttons(){
     <?php endfor;
 
     echo '</div>';
-    echo '<input type="hidden" id="rating" name="rating" value="" />';
+    echo '<input type="hidden" id="rating" name="rating" value="" required />';
 }
 
 
 function msp_create_review_upload_form( $product_id ){
     if( ! is_user_logged_in() ) return;
+    ?>
 
-    echo '<div class="pt-4">';
-        echo '<h3>Add a photo or video</h3>';
-        echo '<p>Shoppers find images and videos more helpful than text alone.</p>';
-        echo '<input class="dropzone" />';
-    echo '</div>';
-    
+     <div class="pt-4">
+        <h3>Add a photo or video</h3>
+        <p>Shoppers find images much more helpful than text alone.</p>
+        <input type="file" name="file" />
+     </div>
+
+    <?php
 }
 
 function msp_create_review_headline( $product_id ){
@@ -246,10 +249,16 @@ function msp_create_review_wrapper_close(){
         echo '</div> <!-- .row -->';
 }
 
+
 function msp_process_create_review(){
     if( check_admin_referer( 'create-review_' . $_POST['product_id'] ) ){
         $data = $_POST;
         $user = wp_get_current_user();
+
+        if( isset( $_FILES['file'] ) && ! empty( $_FILES['file'] ) ){
+            $attachment_id = media_handle_upload( 'file', $_POST['product_id'], array( 'post_name' => 'user_upload_' . uniqid() ) );
+        }
+
         
         $args = array(
             'comment_post_ID' => $data['product_id'],
@@ -276,13 +285,14 @@ function msp_process_create_review(){
             $comment_id = wp_insert_comment( $args );
         }
 
+        update_post_meta( $attachment_id, '_msp_attached_to_comment', $comment_id );
         update_comment_meta( $comment_id, 'rating', $data['rating'] );
         update_comment_meta( $comment_id, 'headline', $data['headline'] );
 
         $verified = ( wc_customer_bought_product( $user->user_email, get_current_user_id(), $data['product_id'] ) ) ? 1 : 0;
         update_comment_meta( $comment_id, 'verified', $verified);
 
-        //redirect to review more products!
+        // redirect to review more products!
         $review_more_ids = msp_get_customer_unique_order_items( get_current_user_id() );
         wp_redirect( msp_get_review_link( $review_more_ids, array('action' => 'show_more') ) );
     }
@@ -358,3 +368,61 @@ function msp_get_user_karma_vote( $user_id, $comment_id ){
 
     return $row;
 }
+
+function msp_get_user_uploaded_product_image_id(){
+    global $wpdb;
+    global $post;
+    
+    $sql = "SELECT DISTINCT ID
+            FROM {$wpdb->posts}, {$wpdb->postmeta}
+            WHERE {$wpdb->posts}.post_parent = {$post->ID}
+            AND {$wpdb->posts}.post_type = 'attachment'
+            AND {$wpdb->posts}.ID = {$wpdb->postmeta}.post_id
+            AND {$wpdb->postmeta}.meta_key = '_msp_attached_to_comment'";
+    
+    $results = $wpdb->get_results( $sql, ARRAY_A );
+
+    $arr = array();
+    foreach( $results as $id ){
+        array_push( $arr, $id['ID'] );
+    }
+
+    return $arr;
+}
+
+function msp_get_user_attachment_uploaded_to_comment( $comment ){
+    global $wpdb;
+    global $post;
+    $user_id = get_current_user_id();
+    
+    $sql = "SELECT DISTINCT ID
+            FROM {$wpdb->posts}, {$wpdb->postmeta}
+            WHERE {$wpdb->posts}.post_parent = {$post->ID}
+            AND {$wpdb->posts}.post_type = 'attachment'
+            AND {$wpdb->posts}.ID = {$wpdb->postmeta}.post_id
+            AND {$wpdb->postmeta}.meta_key = '_msp_attached_to_comment'
+            AND {$wpdb->postmeta}.meta_value = {$comment->comment_ID}
+            AND {$wpdb->posts}.post_author = {$user_id}";
+    
+    $results = $wpdb->get_results( $sql, ARRAY_A );
+
+    $arr = array();
+    foreach( $results as $id ){
+        array_push( $arr, $id['ID'] );
+    }
+
+    return $arr;
+}
+
+function msp_review_get_user_upload_image( $comment ){
+    $ids = msp_get_user_attachment_uploaded_to_comment( $comment );
+    foreach( $ids as $id ){
+        $srcset = msp_get_product_image_srcset( $id );
+        ?>
+        <a href="<?php echo $srcset['full'] ?>">
+            <img src="<?php echo $srcset['thumbnail'] ?>" class="mr-2 border img-mini" />
+        </a>
+        <?php
+    }
+}
+

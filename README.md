@@ -3,6 +3,9 @@
 
 TODO: ( Ordered by priority )
 
+-- images -- 
+1. colorbox integration
+
 -- comments -- 
 1. Create review photo upload. ( Dropzone? )
 2. Display all photos uploaded by users of a product.

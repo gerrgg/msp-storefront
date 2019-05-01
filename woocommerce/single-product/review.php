@@ -33,7 +33,7 @@ if ( ! defined( 'ABSPATH' ) ) {
         do_action( 'woocommerce_review_before', $comment );
         ?>
 
-		<div class="comment-text msp-comment border-bottom">
+		<div class="comment-text msp-comment">
 			<div class="d-flex">
 				<?php
 				/**
@@ -56,6 +56,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 				do_action( 'woocommerce_review_before_comment_text', $comment );
 				?>
 				</div> <!-- .d-flex -->
+				<div class="ml-auto">
+					<?php do_action( 'msp_review_top_right', $comment ) ?>
+				</div>
 			</div> <!-- .comment-text -->
 
 			<?php

@@ -318,7 +318,26 @@ img.avatar.avatar-60{
     width: 75px;
 }
 
+.img-small{
+    width: 125px;
+}
+
+.img-med{
+    width: 175px;
+}
+
 .msp-comment img.avatar{
     margin: 0px !important;
+}
+
+.msp-dropzone{
+    min-height: 150px;
+    border: 2px solid rgba(0,0,0,0.3);
+    background: white;
+    padding: 20px 20px;
+}
+
+#user-uploads{
+
 }
 

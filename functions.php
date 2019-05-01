@@ -145,6 +145,7 @@ class MSP{
         foreach( $arr as $handle ){
             wp_localize_script( $handle, 'wp_ajax', array(
                 'url' => admin_url( 'admin-ajax.php' ),
+                'post' => admin_url( 'admin-post.php' )
             ) );
         }
     }

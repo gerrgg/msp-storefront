@@ -128,6 +128,12 @@ remove_action( 'woocommerce_review_before_comment_meta', 'woocommerce_review_dis
 add_action( 'woocommerce_review_before_comment_meta', 'woocommerce_review_display_gravatar', 5 );
 
 /**
+ * msp_review_top_right
+ * @see msp_review_get_user_upload_image - 5
+ */
+add_action( 'msp_review_top_right', 'msp_review_get_user_upload_image', 5, 1 );
+
+/**
  * woocommerce_review_comment_text
  * @see msp_get_comment_headline - 5
  */
@@ -139,6 +145,7 @@ add_action( 'woocommerce_review_comment_text', 'msp_get_comment_headline', 5, 1 
  */
 
 add_action( 'woocommerce_review_meta', 'woocommerce_review_display_rating', 8 );
+
 
 /**
  * woocommerce_review_after_comment_text

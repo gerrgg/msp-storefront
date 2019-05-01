@@ -1,15 +1,22 @@
 jQuery(document).ready(function( $ ){
     var msp = {
         init: function(){
-            msp.init_owl_carousel()
-            msp.bind_create_review_star_buttons(),
-            msp.bind_karma_buttons()
+            msp.init_owl_carousel();
+            msp.init_drop_zone();
+            msp.bind_create_review_star_buttons();
+            msp.bind_karma_buttons();
+        },
+
+        init_drop_zone: function(){
+            Dropzone.autoDiscover = false;
+            $('.dropzone').dropzone({
+                url: wp_ajax.post
+            });
         },
 
         init_owl_carousel: function(){
             console.log( 'init carousel' );
             $('#browsing-history-block').owlCarousel({
-                // loop:true,
                 margin:10,
                 responsiveClass:true,
                 responsive:{
@@ -29,7 +36,6 @@ jQuery(document).ready(function( $ ){
             })
 
             $('.owl-carousel').owlCarousel({
-                // loop:true,
                 margin:10,
                 responsiveClass:true,
                 nav: true,
@@ -55,10 +61,12 @@ jQuery(document).ready(function( $ ){
                 let rating = $(this).data('rating');
                 $('.msp-star-rating').removeClass( 'fas' );
 
-                for( let i = 1; i <= rating; i++ ){
-                    $('i.msp-star-rating.rating-' + i).addClass('fas');
+                for( let i = 1; i <= 5; i++ ){
+                    let star_class = ( i <= rating ) ? 'fas' : 'far';
+                    $('i.msp-star-rating.rating-' + i).addClass(star_class);
                 }
 
+               
                 $('#rating').val( rating );
             });
         },
