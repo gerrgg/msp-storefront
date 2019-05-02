@@ -8,8 +8,6 @@ jQuery( function( $ ){
         },
 
         save_estimated_delivery_date: function(){
-            
-
             est_date = $('input[name="shipping_method[0]"]:checked').prev().text();
             
             $.post( wp_ajax.url, { action: 'msp_set_estimated_delivery_date', date: est_date }, function( data ){

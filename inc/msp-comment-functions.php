@@ -373,7 +373,7 @@ function msp_get_user_uploaded_product_image_id(){
     global $wpdb;
     global $post;
     
-    $sql = "SELECT DISTINCT ID
+    $sql = "SELECT DISTINCT {$wpdb->posts}.ID, {$wpdb->postmeta}.meta_value
             FROM {$wpdb->posts}, {$wpdb->postmeta}
             WHERE {$wpdb->posts}.post_parent = {$post->ID}
             AND {$wpdb->posts}.post_type = 'attachment'
@@ -384,7 +384,8 @@ function msp_get_user_uploaded_product_image_id(){
 
     $arr = array();
     foreach( $results as $id ){
-        array_push( $arr, $id['ID'] );
+        $comment = get_comment( $id['meta_value'] );
+        if( $comment->comment_approved ) array_push( $arr, $id['ID'] );
     }
 
     return $arr;
