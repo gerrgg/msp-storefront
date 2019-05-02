@@ -13,7 +13,7 @@ TODO: ( Ordered by priority )
 1. Create review photo upload. ✅
 2. Display all photos uploaded by users of a product. ✅
 3. Display the photo's attached to a users commment. ✅
-4. Give the user the ability to remove photos from edit/create 
+4. Give the user the ability to remove photos from edit/create ✅
 5. Add comment actions - comment / flag / share
 
 -- orders --
