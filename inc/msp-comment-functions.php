@@ -151,7 +151,7 @@ function msp_get_review_link( $product_id, $args = array() ){
     $defaults = array(
         'action' => ( empty( $comment ) ) ? 'create' : 'edit',
         'comment_id' => '',
-        'star' => ''
+        'star' => ( empty( $comment ) ) ? '' : get_comment_meta( $comment['comment_ID'], 'rating', true ), 
     );
 
     $args = wp_parse_args( $args, $defaults );
