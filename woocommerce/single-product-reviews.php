@@ -61,19 +61,8 @@ if ( ! comments_open() ) {
 	<?php 
 	$ids = msp_get_user_uploaded_product_image_id();
 
-
-	
 	if( ! empty( $ids ) ){
-		$limit = ( sizeof( $ids ) < 4 ) ? sizeof( $ids ) : 4;
-		echo '<h3>'. sizeof( $ids ) .' customer uploaded images</h3>';
-		echo '<div id="user-uploads" class="d-flex pb-3 mb-3 border-bottom">';
-		for( $i = 0; $i < $limit; $i++ ){
-			$srcset = msp_get_product_image_srcset( $ids[$i] );
-			echo '<a href="'. $srcset['full'] .'">';
-				echo '<img src="'. $srcset['thumbnail'] .'" class="mx-2 img-small" />';
-			echo '</a>';
-		}
-		echo '</div>';
+		msp_display_user_uploaded_product_images( $ids );
 	}
 
 	?>
