@@ -44,7 +44,9 @@ class MSP{
         // Custom javascript functions
         wp_enqueue_script( 'main', URI . '/js/functions.js', array('jquery'), filemtime( __DIR__ . '\js\functions.js' ), true );
         wp_enqueue_script( 'header', URI . '/js/header-functions.js', array('jquery'), filemtime( __DIR__ . '\js\header-functions.js' ), true );
-        wp_enqueue_script( 'checkout', URI . '/js/checkout-functions.js', array('jquery'), filemtime( __DIR__ . '\js\checkout-functions.js' ), true );
+
+        if( is_checkout() )
+            wp_enqueue_script( 'checkout', URI . '/js/checkout-functions.js', array('jquery'), filemtime( __DIR__ . '\js\checkout-functions.js' ), true );
 
         
         $this->wp_localize_scripts( array('main') );
