@@ -2,20 +2,11 @@ jQuery(document).ready(function( $ ){
     var msp = {
         init: function(){
             msp.init_owl_carousel();
-            msp.init_drop_zone();
             msp.bind_create_review_star_buttons();
             msp.bind_karma_buttons();
         },
 
-        init_drop_zone: function(){
-            Dropzone.autoDiscover = false;
-            $('.dropzone').dropzone({
-                url: wp_ajax.post
-            });
-        },
-
         init_owl_carousel: function(){
-            console.log( 'init carousel' );
             $('#browsing-history-block').owlCarousel({
                 margin:10,
                 responsiveClass:true,
