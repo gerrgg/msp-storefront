@@ -4,13 +4,16 @@
 TODO: ( Ordered by priority )
 
 -- images -- 
-1. colorbox integration
+1. custom product gallery
+2. include videos in product gallery ( fpsua repo)
+3. colorbox integration -- integrate with the above layout
+
 
 -- comments -- 
-1. Create review photo upload. ( Dropzone? )
-2. Display all photos uploaded by users of a product.
-3. Display the photo's attached to a users commment.
-4. Give the user the ability to remove photos from edit/create
+1. Create review photo upload. ✅
+2. Display all photos uploaded by users of a product. ✅
+3. Display the photo's attached to a users commment. ✅
+4. Give the user the ability to remove photos from edit/create 
 5. Add comment actions - comment / flag / share
 
 -- orders --
@@ -29,3 +32,9 @@ TODO: ( Ordered by priority )
 
 -- user history --
 1. Product recommendations
+
+-- myaccount --
+1. add recent reviews endpoint
+
+-- refactor --
+1. seperate 'helpers' and template functions ( functions which display html. )
