@@ -203,12 +203,31 @@ function msp_get_review_more_star_buttons(){
 
 function msp_create_review_upload_form( $product_id ){
     if( ! is_user_logged_in() ) return;
+    $comment = msp_get_user_product_review( $product_id, OBJECT );
     ?>
 
      <div class="pt-4">
         <h3>Add a photo or video</h3>
         <p>Shoppers find images much more helpful than text alone.</p>
-        <input type="file" name="file" />
+        <?php 
+            if( ! empty( $comment ) ){
+                $attachment_ids = msp_get_user_attachment_uploaded_to_comment( $comment, $product_id );
+                if( ! empty( $attachment_ids ) ){
+                    echo '<div class="d-flex">';
+                    foreach( $attachment_ids as $image_id ){
+                        $image_src = msp_get_product_image_src( $image_id, 'woocommerce_thumbnail' );
+                        ?>
+                        <div class="product-review-upload">
+                            <img src="<?php echo $image_src ?>" class="mr-2 img-mini" />
+                            <i class="far fa-times-circle fa-2x remove-product-image-from-review" data-id="<?php echo $image_id; ?>"></i>
+                        </div>
+                        <?php
+                    }
+                    echo '</div>';
+                }
+            }
+        ?>
+        <input type="file" name="file" class="pt-3" />
      </div>
 
     <?php
@@ -369,13 +388,15 @@ function msp_get_user_karma_vote( $user_id, $comment_id ){
     return $row;
 }
 
-function msp_get_user_uploaded_product_image_id(){
+function msp_get_user_uploaded_product_image_id( $product_id = '' ){
     global $wpdb;
     global $post;
+
+    $product_id = ( ! empty( $product_id ) ) ? $product_id : $post->ID;
     
     $sql = "SELECT DISTINCT {$wpdb->posts}.ID, {$wpdb->postmeta}.meta_value
             FROM {$wpdb->posts}, {$wpdb->postmeta}
-            WHERE {$wpdb->posts}.post_parent = {$post->ID}
+            WHERE {$wpdb->posts}.post_parent = {$product_id}
             AND {$wpdb->posts}.post_type = 'attachment'
             AND {$wpdb->posts}.ID = {$wpdb->postmeta}.post_id
             AND {$wpdb->postmeta}.meta_key = '_msp_attached_to_comment'";
@@ -391,14 +412,15 @@ function msp_get_user_uploaded_product_image_id(){
     return $arr;
 }
 
-function msp_get_user_attachment_uploaded_to_comment( $comment ){
+function msp_get_user_attachment_uploaded_to_comment( $comment, $product_id = '' ){
     global $wpdb;
     global $post;
+    $product_id = ( empty( $product_id ) ) ? $post->ID : $product_id;
     $user_id = get_current_user_id();
     
     $sql = "SELECT DISTINCT ID
             FROM {$wpdb->posts}, {$wpdb->postmeta}
-            WHERE {$wpdb->posts}.post_parent = {$post->ID}
+            WHERE {$wpdb->posts}.post_parent = {$product_id}
             AND {$wpdb->posts}.post_type = 'attachment'
             AND {$wpdb->posts}.ID = {$wpdb->postmeta}.post_id
             AND {$wpdb->postmeta}.meta_key = '_msp_attached_to_comment'
@@ -427,3 +449,23 @@ function msp_review_get_user_upload_image( $comment ){
     }
 }
 
+function msp_display_user_uploaded_product_images( $ids ){
+    $limit = ( sizeof( $ids ) < 4 ) ? sizeof( $ids ) : 4;
+
+    echo '<h3>'. sizeof( $ids ) .' customer uploaded images</h3>';
+    echo '<div id="user-uploads" class="d-flex pb-3 mb-3 border-bottom">';
+
+    for( $i = 0; $i < $limit; $i++ ){
+        $srcset = msp_get_product_image_srcset( $ids[$i] );
+        echo '<a href="'. $srcset['full'] .'">';
+            echo '<img src="'. $srcset['thumbnail'] .'" class="mx-2 img-small" />';
+        echo '</a>';
+    }
+    echo '</div>';
+}
+
+function msp_delete_user_product_image(){
+    global $wpdb;
+    echo $wpdb->delete( $wpdb->posts, array( 'ID' => $_POST['id'] ) );
+    wp_die();
+}

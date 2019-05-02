@@ -56,7 +56,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 				do_action( 'woocommerce_review_before_comment_text', $comment );
 				?>
 				</div> <!-- .d-flex -->
-				<div class="ml-auto">
+				<div class="ml-auto d-flex">
 					<?php do_action( 'msp_review_top_right', $comment ) ?>
 				</div>
 			</div> <!-- .comment-text -->

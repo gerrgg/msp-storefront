@@ -99,6 +99,8 @@ add_action( 'wp_ajax_mopriv_msp_update_comment_karma', 'msp_add_to_karma_table' 
 add_action( 'wp_ajax_msp_comment_on_comment', 'msp_comment_on_comment_callback' );
 add_action( 'wp_ajax_nopriv_msp_comment_on_comment', 'msp_comment_on_comment_callback' );
 
+add_action( 'wp_ajax_msp_delete_user_product_image', 'msp_delete_user_product_image' );
+
 /**
  * Admin Post
  */

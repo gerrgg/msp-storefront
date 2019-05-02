@@ -30,12 +30,12 @@ function deslugify( $str ){
     return ucwords( str_replace( array('_', '-'), ' ', $str ) );
 }
 
-function msp_get_user_product_review( $p_id ){
+function msp_get_user_product_review( $p_id, $format = ARRAY_A ){
 	$comments = get_comments(array(
 		'post_id' 						=> $p_id,
 		'user_id' 						=> get_current_user_id(),
 		'include_unapproved'  => false,
 	));
-	$comment = get_comment( $comments[0]->comment_ID , ARRAY_A );
+	$comment = get_comment( $comments[0]->comment_ID , $format );
 	return $comment;
 }

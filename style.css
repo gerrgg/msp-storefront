@@ -316,6 +316,7 @@ img.avatar.avatar-60{
 
 .img-mini{
     width: 75px;
+    height: 75px;
 }
 
 .img-small{
@@ -337,7 +338,22 @@ img.avatar.avatar-60{
     padding: 20px 20px;
 }
 
-#user-uploads{
-
+.product-review-upload{
+    position: relative;
 }
+
+.remove-product-image-from-review{
+    display: none;
+    cursor: pointer;
+    color: red;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.product-review-upload:hover > .remove-product-image-from-review{
+    display: block;
+}
+
 

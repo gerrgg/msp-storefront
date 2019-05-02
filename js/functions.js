@@ -4,6 +4,23 @@ jQuery(document).ready(function( $ ){
             msp.init_owl_carousel();
             msp.bind_create_review_star_buttons();
             msp.bind_karma_buttons();
+            $('#msp_review').on( 'click', '.remove-product-image-from-review', msp.delete_user_product_image )
+        },
+
+        delete_user_product_image: function( e ){
+            $parent = $(e.target).parent();
+
+            let data = {
+                action: 'msp_delete_user_product_image',
+                id: $(e.target).data('id')
+            }
+
+            $.post( wp_ajax.url, data, function( response ){
+                console.log( response );
+                if( response >= 1 ){
+                    $parent.fadeOut();
+                }
+            });
         },
 
         init_owl_carousel: function(){
