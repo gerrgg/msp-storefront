@@ -118,7 +118,7 @@ class User_History{
                 ?>
                 <div class="text-center">
                     <a class="text-center mx-auto link-normal" href="<?php echo $product->get_permalink() ?>">
-                        <?php echo $product->get_image(); ?>
+                        <img src="<?php echo msp_get_product_image_src( $product->get_image_id(), 'woocommerce_thumbnail' ); ?>" class="mx-auto img-sm" />
                     </a>
                     <p class="price text-center mx-auto">$<?php echo $product->get_price(); ?></p>
                 </div>
