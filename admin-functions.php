@@ -287,6 +287,12 @@ function msp_add_update_stock_widget(){
             <input type="url" name="url" required/>
         </p>
 
+        <h3>Extras:</h3>
+        <p>
+            <label>Price</label>
+            <input type="checkbox" name="price" />
+        </p>
+
         <span class="feedback" style="font-weight: 600; font-color: red; font-size: 18px; "></span>
         <input type="hidden" name="action" value="msp_admin_sync_vendor" />
         <button id="submit_update_vendor" type="button" class="button button-primary" style="margin-top: 1rem;">Submit Vendor!</button>
@@ -300,8 +306,12 @@ function msp_admin_sync_vendor(){
         'name' => $_POST['vendor'],
         'src'    => $_POST['url'],
         'sku_index' => ( $_POST['vendor'] == 'portwest' ) ? 1 : 16,
-        'stock_index' => ( $_POST['vendor'] == 'portwest' ) ? 8 : 7
+        'stock_index' => ( $_POST['vendor'] == 'portwest' ) ? 8 : 7,
     );
+
+    if( ! empty( $_POST['price'] ) ){
+        $data['price_index'] = ( $_POST['vendor'] == 'portwest' ) ? 3 : 10;
+    }
 
     msp_get_data_and_sync( $data );
     $html = ob_get_clean();
@@ -323,6 +333,13 @@ function msp_get_data_and_sync( $vendor ){
                     $id = msp_get_product_id_by_sku( $item[ $vendor['sku_index'] ] );
                     if( ! empty( $id ) ){
                         msp_update_stock( $id, $item[ $vendor['stock_index'] ] );
+                        if( isset( $vendor['extras']['price'] ) ){
+                            $msrp = $item[ $vendor['price_index'] ] * 2;
+                            update_post_meta( $id, '_regular_price', $msrp );
+                            update_post_meta( $id, '_sale_price', '' );
+                            update_post_meta( $id, '_sale_price_dates_from', '' );
+                            update_post_meta( $id, '_sale_price_dates_to', '' );
+                        }
                         $count++;
                     }
                 }
