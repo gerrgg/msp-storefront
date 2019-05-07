@@ -3,6 +3,7 @@ jQuery( function( $ ){
 
         init: function(){
            this.update_stock_widget();
+           $('#resource_tab').on( 'click', 'button.add_input_line', msp_admin.add_line_item );
         },
 
         update_stock_widget: function(){
@@ -30,6 +31,30 @@ jQuery( function( $ ){
                 });
             })
         },
+
+        add_line_item: function( e ){
+            let button = $(e.target);
+            count = +button.attr('data-count') + 1;
+
+            let $parent = $('#resource_input_wrapper');
+            
+            let fields = {
+                label: $('#resource_label').clone(),
+                url: $('#resource_url').clone()
+            }
+            
+            Object.keys( fields ).forEach( function ( field ){
+                fields[field].attr({
+                    id: '',
+                    name: 'resource_' + field + '[' + count + ']'
+                });
+                $parent.append( fields[field].val('') );
+            });
+
+            $parent.append( '<br>' );
+            
+            $(e.target).attr( 'data-count', count++ );
+        }
 
     }
     msp_admin.init();

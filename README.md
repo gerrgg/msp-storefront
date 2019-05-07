@@ -3,8 +3,19 @@
 
 TODO: ( Ordered by priority )
 
+-- backend --
+1. Resources tab for including links to docs / spec sheets and other external resources
+2. Product videos with the product images?
+3. log in with google/facebook/etc.
+
+-- single product --
+1. bulk form
+2. specifications / docs / datasheets / drawings - Technical details?
+3. contact form
+4. Use tags for linking to specific safety standards. If we do this, tags cant really be used for anything else.
+5. Product specifications table? or use the product attributes tab and use advanced filtering on archive page.
+
 -- images -- 
-1. custom product gallery
 2. include videos in product gallery ( fpsua repo)
 3. colorbox integration -- integrate with the above layout
 

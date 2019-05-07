@@ -7,6 +7,8 @@ class MSP_Admin{
     
     function __construct(){
         add_action('admin_menu', array( $this, 'theme_options') );
+        add_action( 'woocommerce_product_options_advanced', array( $this, 'submit_resources_tab' ) );
+        add_action( 'woocommerce_process_product_meta', array( $this, 'process_product_meta' ), 10, 2 );
         add_action( 'wp_ajax_msp_admin_sync_vendor', 'msp_admin_sync_vendor' );
     }
 
@@ -19,8 +21,49 @@ class MSP_Admin{
         add_action( 'admin_init', array( $this, 'register_theme_settings' ) );
         add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
         add_action( 'wp_dashboard_setup', array( $this, 'add_dashboard_widgets' ) );
+
         add_action( 'woocommerce_admin_order_data_after_order_details', array( $this, 'submit_tracking_form' ) );
         add_action( 'woocommerce_process_shop_order_meta', array( $this, 'save_order_meta' ) );
+    }
+
+    public function process_product_meta( $id ){
+        $limit = sizeof($_POST['resource_url']);
+        $arr = array();
+        for( $i = 0; $i <= $limit; $i++ ){
+            if( ! empty( $_POST['resource_label'][$i] ) && ! empty( $_POST['resource_url'][$i] ) ){
+                array_push( $arr, array( $_POST['resource_label'][$i], $_POST['resource_url'][$i] ) );
+            }
+        }
+
+        update_post_meta( $id, '_msp_resources', User_History::package( $arr ) );
+    }
+
+    public function submit_resources_tab(){
+        global $post;
+        $resources = msp_get_product_resources( $post->ID );
+        ?>
+        <div id="resource_tab" class="option_group">
+            <p class="form-field resource_label_field">
+                <label for="resource_label">Resources</label>
+                <div style="display: flex;">
+                    <p id="resource_input_wrapper">
+                        <?php if( empty( $resources ) ) : ?>
+                            <input type="text" id="resource_label" name="resource_label[0]" style="margin-right: 1rem;" placeholder="Label" />
+                            <input type="text" id="resource_url" name="resource_url[0]" placeholder="URL" />
+                            <br>
+                        <?php else : ?>
+                            <?php foreach( $resources as $index => $arr ) : ?>
+                                <input type="text" id="resource_label" name="resource_label[<?php echo $index ?>]" style="margin-right: 1rem;" placeholder="Label" value="<?php echo $arr[0] ?>" />
+                                <input type="text" id="resource_url" name="resource_url[<?php echo $index ?>]" placeholder="URL" value="<?php echo $arr[1] ?>" />
+                                <br>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </p>
+                </div>
+                <button type="button" class="add_input_line" data-count=0>+</button>
+            </p>
+        </div>
+        <?php
     }
 
     public function enqueue_scripts( $hook ){
@@ -286,13 +329,9 @@ function msp_csv_to_array( $data ){
     return $s;
 }
 
-
 function msp_update_stock( $id, $stock){
     $instock = ( $stock > 0 ) ? 'instock' : 'outofstock';
       update_post_meta( $id, '_manage_stock', 'yes' );
       update_post_meta( $id, '_stock_status', $instock );
       update_post_meta( $id, '_stock', $stock );
   }
-
-  
-  

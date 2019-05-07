@@ -39,3 +39,7 @@ function msp_get_user_product_review( $p_id, $format = ARRAY_A ){
 	$comment = get_comment( $comments[0]->comment_ID , $format );
 	return $comment;
 }
+
+function msp_get_product_resources( $id ){
+	return User_history::unpackage( get_post_meta( $id, '_msp_resources', true ) );
+}

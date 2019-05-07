@@ -34,7 +34,8 @@ class MSP{
 
         add_filter( 'woocommerce_min_password_strength', array( $this, 'msp_password_strength' ) );
         add_filter( 'woocommerce_form_field_args', array( $this, 'msp_form_field_args' ), 10, 3 );
-        add_filter( 'woocommerce_product_tabs', array( $this, 'msp_remove_reviews_from_products_tab' ) );
+        add_filter( 'woocommerce_product_tabs', array( $this, 'msp_product_tabs' ) );
+        
     }
 
     /**
@@ -90,11 +91,23 @@ class MSP{
         
     }
 
-    public function msp_remove_reviews_from_products_tab( $tabs ){
-        /**
-         * We hook into woocommerce_after_single_product_summary();
-         */
+    public function msp_product_tabs( $tabs ){
+        global $post;
+        $resources = msp_get_product_resources( $post->ID );
+
+        if( ! empty( $resources ) ){
+            $tabs['resources'] = array(
+                'title'    => 'Resources',
+                'callback' => 'msp_get_resource_tab',
+                'priority' => 40,
+            );
+        }
+
+        // Renamed additional info
+        $tabs['additional_information']['title'] = 'Specifications';
+        // seperate reviews tab
         unset( $tabs['reviews'] );
+
         return $tabs;
     }
 
@@ -161,8 +174,6 @@ class MSP{
     public static function get_product_image_src( $img_id ){
         return msp_get_product_image_src( $img_id );
     }
-
-
 }
 
 //init
