@@ -43,3 +43,7 @@ function msp_get_user_product_review( $p_id, $format = ARRAY_A ){
 function msp_get_product_resources( $id ){
 	return User_history::unpackage( get_post_meta( $id, '_msp_resources', true ) );
 }
+
+function msp_get_product_videos( $id ){
+	return User_history::unpackage( get_post_meta( $id, '_msp_product_videos', true ) );
+}

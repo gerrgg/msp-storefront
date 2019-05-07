@@ -659,14 +659,27 @@ function msp_order_report_issue_button(){
     <?php
 }
 
-function msp_get_resource_tab(){
+function msp_get_resources_tab(){
     global $post;
     $resources = msp_get_product_resources( $post->ID );
+
     echo '<h2>Resources</h2>';
     echo '<ul>';
     foreach( $resources as $arr ) : ?>
         <li><a target="new" href="<?php echo $arr[1] ?>"><?php echo $arr[0] ?></a></li>
     <?php endforeach;
     echo '</ul>';
+}
+
+function msp_get_product_videos_tab(){
+    global $post;
+    $resources = msp_get_product_videos( $post->ID );
+
+    echo '<h2>Product Videos</h2>';
+    foreach( $resources as $arr ) : ?>
+        <div class="embed-responsive embed-responsive-16by9 mb-2">
+            <iframe class="embed-responsive-item" src="<?php echo $arr[0] ?>"allowfullscreen></iframe>
+        </div>
+    <?php endforeach;
 }
 

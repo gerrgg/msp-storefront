@@ -7,9 +7,22 @@ class MSP_Admin{
     
     function __construct(){
         add_action('admin_menu', array( $this, 'theme_options') );
+        add_action( 'add_meta_boxes', array( $this, 'msp_meta_boxes' ) );
         add_action( 'woocommerce_product_options_advanced', array( $this, 'submit_resources_tab' ) );
-        add_action( 'woocommerce_process_product_meta', array( $this, 'process_product_meta' ), 10, 2 );
+        add_action( 'woocommerce_process_product_meta', array( $this, 'process_product_resources_meta' ), 10, 2 );
+        add_action( 'woocommerce_process_product_meta', array( $this, 'process_product_videos_meta' ), 10, 2 );
         add_action( 'wp_ajax_msp_admin_sync_vendor', 'msp_admin_sync_vendor' );
+    }
+
+    public function msp_meta_boxes(){
+        add_meta_box(
+            'msp-product-video',
+            __('Product Videos', 'msp'),
+            'msp_product_video_callback',
+            'product',
+            'side',
+            'low'
+        );
     }
 
     /**
@@ -26,7 +39,21 @@ class MSP_Admin{
         add_action( 'woocommerce_process_shop_order_meta', array( $this, 'save_order_meta' ) );
     }
 
-    public function process_product_meta( $id ){
+    public function process_product_videos_meta( $id ){
+        
+        $limit = sizeof($_POST['product_video']);
+        $arr = array();
+        for( $i = 0; $i <= $limit; $i++ ){
+            if( ! empty( $_POST['product_video'][$i] ) ){
+                array_push( $arr, array( $_POST['product_video'][$i] ) );
+            }
+        }
+
+        update_post_meta( $id, '_msp_product_videos', User_History::package( $arr ) );
+    }
+
+    public function process_product_resources_meta( $id ){
+        
         $limit = sizeof($_POST['resource_url']);
         $arr = array();
         for( $i = 0; $i <= $limit; $i++ ){
@@ -335,3 +362,21 @@ function msp_update_stock( $id, $stock){
       update_post_meta( $id, '_stock_status', $instock );
       update_post_meta( $id, '_stock', $stock );
   }
+
+  function msp_product_video_callback( $post ){
+    wp_nonce_field( basename( __FILE__ ), 'msp_product_video_callback' );
+    $saved_urls = msp_get_product_videos( $post->ID );
+    ?>
+    <div id="msp_product_video_input_table">
+        <p>Video Url(s)</p>
+        <?php if( empty( $saved_urls ) ) : ?>
+            <input type="text" name="product_video[0]">
+        <?php else : ?>
+            <?php foreach( $saved_urls as $index => $url ) : ?>
+                <input type="text" name="product_video[<?php echo $index ?>]" value="<?php echo $url[0]; ?>">
+            <?php endforeach; ?>
+        <?php endif; ?>
+    </div>
+    <button type="button" class="add" data-count=<?php echo sizeof( $saved_urls ) ?>>Add</button>
+    <?php
+}

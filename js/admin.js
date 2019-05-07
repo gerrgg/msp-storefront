@@ -4,6 +4,7 @@ jQuery( function( $ ){
         init: function(){
            this.update_stock_widget();
            $('#resource_tab').on( 'click', 'button.add_input_line', msp_admin.add_line_item );
+           $('#msp-product-video').on( 'click', 'button.add', msp_admin.add_video_line );
         },
 
         update_stock_widget: function(){
@@ -30,6 +31,18 @@ jQuery( function( $ ){
                     $('.feedback').html( response );
                 });
             })
+        },
+        
+        add_video_line: function( e ){
+            let button = $(e.target);
+            let $table = $('#msp_product_video_input_table');
+            count = ( ! isNaN( button.attr('data-count') ) ) ? +button.attr('data-count') + 1 : 0;
+
+            $table.append(
+                $('<input />', { name: 'product_video['+ count +']' }), 
+            );
+
+            button.attr( 'data-count', count++ );
         },
 
         add_line_item: function( e ){

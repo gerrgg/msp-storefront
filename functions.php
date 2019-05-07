@@ -93,15 +93,23 @@ class MSP{
 
     public function msp_product_tabs( $tabs ){
         global $post;
-        $resources = msp_get_product_resources( $post->ID );
+        $priority = 30;
+        $custom_tabs = array(
+            'product_videos' => msp_get_product_videos( $post->ID ),
+            'resources' => msp_get_product_resources( $post->ID ),
+        );
 
-        if( ! empty( $resources ) ){
-            $tabs['resources'] = array(
-                'title'    => 'Resources',
-                'callback' => 'msp_get_resource_tab',
-                'priority' => 40,
-            );
+
+        foreach( $custom_tabs as $key => $data ){
+            if( ! empty( $data ) ){
+                $tabs[$key] = array(
+                    'title'    => deslugify($key),
+                    'callback' => 'msp_get_'. $key .'_tab',
+                    'priority' => $priority += 5,
+                );
+            }
         }
+
 
         // Renamed additional info
         $tabs['additional_information']['title'] = 'Specifications';
