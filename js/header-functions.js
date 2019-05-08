@@ -6,8 +6,7 @@ jQuery(document).ready(function( $ ){
 
         init: function(){
             this.init_slideout();
-            // not used atm
-            // this.set_browsing_history();
+            this.get_user_browsing_history();
 
             //events
             this.$msp_header.on( 'mouseenter', '.user-history', function(){
@@ -51,14 +50,29 @@ jQuery(document).ready(function( $ ){
             });
         },
 
-        set_browsing_history: function(){
-            $.post( wp_ajax.url, { action: 'msp_get_user_browsing_history' }, function( data ){
-                header.browsing_history = data;
-            } );
-        },
 
-        get_browsing_history: function(){
-            return header.browsing_history;
+        get_user_browsing_history: function(){
+            $.post( wp_ajax.url, { action: 'msp_get_user_browsing_history' }, function( response ){
+                $('.nav-item.user-history').append( response );
+                $('#browsing-history-block').owlCarousel({
+                    margin:10,
+                    responsiveClass:true,
+                    responsive:{
+                        0:{
+                            items:4,
+                            nav:true
+                        },
+                        600:{
+                            items:8,
+                            nav:false
+                        },
+                        1000:{
+                            items:14,
+                            loop:false
+                        }
+                    }
+                });
+            } );
         },
 
         spinner: function(){

@@ -26,25 +26,6 @@ jQuery(document).ready(function( $ ){
         },
 
         init_owl_carousel: function(){
-            $('#browsing-history-block').owlCarousel({
-                margin:10,
-                responsiveClass:true,
-                responsive:{
-                    0:{
-                        items:4,
-                        nav:true
-                    },
-                    600:{
-                        items:8,
-                        nav:false
-                    },
-                    1000:{
-                        items:14,
-                        loop:false
-                    }
-                }
-            })
-
             $('.owl-carousel').owlCarousel({
                 margin:10,
                 responsiveClass:true,

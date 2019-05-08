@@ -260,6 +260,12 @@ function msp_get_customer_unique_order_items( $user_id ){
     return array_unique( $order_items );
 }
 
+function msp_get_user_browsing_history(){
+    global $history;
+    echo $history->get_user_products_history();
+    wp_die();
+}
+
 /**
  * Outputs the navigation button linking to the users browsing history
  */
@@ -272,7 +278,7 @@ function msp_get_user_products_history_btn(){
             <a class="nav-link dropdown-toggle">
                 Browsing History
             </a>
-            <?php $history->get_user_products_history(); ?>
+            <?php // $history->get_user_products_history(); ?>
         </li>
         <?php
     endif;

@@ -101,6 +101,9 @@ add_action( 'wp_ajax_nopriv_msp_comment_on_comment', 'msp_comment_on_comment_cal
 
 add_action( 'wp_ajax_msp_delete_user_product_image', 'msp_delete_user_product_image' );
 
+add_action( 'wp_ajax_msp_get_user_browsing_history', 'msp_get_user_browsing_history' );
+
+
 /**
  * Admin Post
  */
@@ -202,21 +205,4 @@ function get_cron_jobs(){
     var_dump( _get_cron_array() );
 }
 
-function maybe_hide_ltl_shipping_option( $rates )	{
-	$targeted_class = 54; // ltl shipping class id
-    
-    // if its not there, remove the LTL shipping option
-    foreach( WC()->cart->cart_contents as $key => $values ) {
-        if( $values[ 'data' ]->get_shipping_class_id() == $targeted_class ) {
-			
-            $ltl = $rates['flat_rate:6'];
-            $rates = array( 'flat_rate:6' => $ltl );
-            return $rates;
-        } 
-    }
 
-    unset( $rates['flat_rate:6']);
-    return $rates;
-}
-
-add_filter( 'woocommerce_package_rates', 'maybe_hide_ltl_shipping_option', 50, 2 );
