@@ -334,6 +334,7 @@ function msp_get_data_and_sync( $vendor ){
                     if( ! empty( $id ) ){
                         msp_update_stock( $id, $item[ $vendor['stock_index'] ] );
                         if( isset( $vendor['extras']['price'] ) ){
+                            // easily make a class of this.
                             $msrp = $item[ $vendor['price_index'] ] * 2;
                             update_post_meta( $id, '_regular_price', $msrp );
                             update_post_meta( $id, '_sale_price', '' );

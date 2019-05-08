@@ -7,6 +7,8 @@ jQuery(document).ready(function( $ ){
             $('#msp_review').on( 'click', '.remove-product-image-from-review', msp.delete_user_product_image )
         },
 
+
+
         delete_user_product_image: function( e ){
             $parent = $(e.target).parent();
 

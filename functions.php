@@ -35,6 +35,7 @@ class MSP{
         add_filter( 'woocommerce_min_password_strength', array( $this, 'msp_password_strength' ) );
         add_filter( 'woocommerce_form_field_args', array( $this, 'msp_form_field_args' ), 10, 3 );
         add_filter( 'woocommerce_product_tabs', array( $this, 'msp_product_tabs' ) );
+        add_filter( 'woocommerce_package_rates', array( $this, 'maybe_hide_ltl_shipping_option' ), 50, 2 );
         
     }
 
@@ -181,6 +182,23 @@ class MSP{
 
     public static function get_product_image_src( $img_id ){
         return msp_get_product_image_src( $img_id );
+    }
+
+    public function maybe_hide_ltl_shipping_option( $rates )	{
+        $targeted_class = 54; // ltl shipping class id
+        
+        // if its not there, remove the LTL shipping option
+        foreach( WC()->cart->cart_contents as $key => $values ) {
+            if( $values[ 'data' ]->get_shipping_class_id() == $targeted_class ) {
+                
+                $ltl = $rates['flat_rate:6'];
+                $rates = array( 'flat_rate:6' => $ltl );
+                return $rates;
+            } 
+        }
+    
+        unset( $rates['flat_rate:6']);
+        return $rates;
     }
 }
 

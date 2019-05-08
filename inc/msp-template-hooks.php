@@ -202,8 +202,21 @@ function get_cron_jobs(){
     var_dump( _get_cron_array() );
 }
 
-add_action( 'wp_footer', 'test' );
-function test(){
-   global $history;
-   var_dump( $history->data );
+function maybe_hide_ltl_shipping_option( $rates )	{
+	$targeted_class = 54; // ltl shipping class id
+    
+    // if its not there, remove the LTL shipping option
+    foreach( WC()->cart->cart_contents as $key => $values ) {
+        if( $values[ 'data' ]->get_shipping_class_id() == $targeted_class ) {
+			
+            $ltl = $rates['flat_rate:6'];
+            $rates = array( 'flat_rate:6' => $ltl );
+            return $rates;
+        } 
+    }
+
+    unset( $rates['flat_rate:6']);
+    return $rates;
 }
+
+add_filter( 'woocommerce_package_rates', 'maybe_hide_ltl_shipping_option', 50, 2 );
