@@ -49,7 +49,11 @@ function msp_get_product_videos( $id ){
 }
 
 function make_modal_btn( $args = array() ){
+	$a_text = '<a data-toggle="modal" href="#msp_modal" data-title="%s" data-model="%s" data-action="%s" data-id="%d" class="%s">%s</a>';
+	$button_text = '<button data-toggle="modal" data-target="#msp_modal" data-title="%s" data-model="%s" data-action="%s" data-id="%d" class="%s">%s</button>';
 	$defaults = array(
+		'type'	 => 'a',
+		'class'	 => '',
 		'text'   => 'text',
 		'title'  => 'title',
 		'model'  => '',
@@ -57,13 +61,8 @@ function make_modal_btn( $args = array() ){
 		'id'		 => '',
 	);
 	$args = wp_parse_args( $args, $defaults );
-	echo sprintf( '<a href="#msp_modal" data-toggle="modal"
-										data-title="%s" data-model="%s" data-action="%s"
-										data-id="%d" class="">%s</a>',
-		$args['title'],
-		$args['model'],
-		$args['action'],
-		$args['id'],
-		$args['text']
- 	);
+
+	$base_html = ( $args['type'] === 'a' ) ? $a_text : $button_text;
+	
+	echo sprintf( $base_html, $args['title'], $args['model'], $args['action'], $args['id'], $args['class'], $args['text'] );
 }
