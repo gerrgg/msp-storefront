@@ -356,3 +356,5 @@ img.avatar.avatar-60{
     display: block;
 }
 
+.woocommerce .col-1, .col-2{ max-width:none !important;}
+
