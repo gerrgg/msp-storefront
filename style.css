@@ -58,6 +58,7 @@ a.woocommerce-button.button{
 }
 
 /* Slideout.JS */
+
 #mobile-menu{
     display: none;
 }
@@ -72,7 +73,7 @@ a.woocommerce-button.button{
     padding-left: 1.5rem;
     color: rgba(0,0,0,0.5);
     font-weight: 600;
-    /* border-bottom: 1px solid rgba(0,0,0,0.1); */
+    border-bottom: 1px solid rgba(0,0,0,0.1);
 }
   
 .slideout-menu {
@@ -98,7 +99,7 @@ a.woocommerce-button.button{
 
 .slideout-panel {
     position: relative;
-    z-index: 1;
+    z-index: 1001;
     will-change: transform;
     background-color: #FFF; /* A background-color is required */
     min-height: 100vh;
@@ -120,6 +121,13 @@ a.woocommerce-button.button{
     background-color: rgba(0,0,0,0);
     transition: background-color 0.25s ease-in-out;
 }
+
+body.modal-open .slideout-panel {
+    transform: none !important;
+    z-index: unset !important;
+    will-change: unset !important;
+}
+  
   
 .panel-open:before {
     position: absolute;
@@ -178,9 +186,6 @@ label.price{
     font-weight: 600;
 }
 
-#browsing-history-block:hover + .overlay{
-    background-color: rgba(0,0,0,0.5);
-}
 
 #browsing-history-block a{
     color: #333;
