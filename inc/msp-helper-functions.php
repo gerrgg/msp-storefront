@@ -47,3 +47,23 @@ function msp_get_product_resources( $id ){
 function msp_get_product_videos( $id ){
 	return User_history::unpackage( get_post_meta( $id, '_msp_product_videos', true ) );
 }
+
+function make_modal_btn( $args = array() ){
+	$defaults = array(
+		'text'   => 'text',
+		'title'  => 'title',
+		'model'  => '',
+		'action' => '',
+		'id'		 => '',
+	);
+	$args = wp_parse_args( $args, $defaults );
+	echo sprintf( '<a href="#msp_modal" data-toggle="modal"
+										data-title="%s" data-model="%s" data-action="%s"
+										data-id="%d" class="">%s</a>',
+		$args['title'],
+		$args['model'],
+		$args['action'],
+		$args['id'],
+		$args['text']
+ 	);
+}

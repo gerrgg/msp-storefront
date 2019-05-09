@@ -689,11 +689,17 @@ function msp_get_product_videos_tab(){
     <?php endforeach;
 }
 
-function msp_show_product_size_guide(){
+function msp_show_product_size_guide_btn(){
     global $product;
     $size_guide = get_post_meta( $product->get_id(), '_msp_size_guide', true );
     if( ! empty( $size_guide ) ){
-        echo "<a href='$size_guide'> <i class='fas fa-ruler-vertical'></i> Size Guide</a>";
+        make_modal_btn( array(
+            'text' => 'Size Guide',
+            'title' => $product->get_name() . ' Size Guide',
+            'model' => 'size_guide',
+            'action' => 'show',
+            'id' => $product->get_id(),
+        ));
     }
 }
 
@@ -704,4 +710,37 @@ function msp_shameless_self_plug(){
     </p>
     <?php
 }
+
+function msp_dynamic_modal(){
+    ?>
+    <div class="modal fade" id="msp_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="spinner-border text-success" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+            </div>
+        </div>
+        </div>
+
+    <?php
+}
+
+function msp_get_product_size_guide_src(){
+    echo get_post_meta( $_POST['id'], '_msp_size_guide', true );
+    wp_die();
+}
+
 

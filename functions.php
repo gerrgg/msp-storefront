@@ -46,6 +46,7 @@ class MSP{
         // Custom javascript functions
         wp_enqueue_script( 'main', URI . '/js/functions.js', array('jquery'), filemtime( __DIR__ . '\js\functions.js' ), true );
         wp_enqueue_script( 'header', URI . '/js/header-functions.js', array('jquery'), filemtime( __DIR__ . '\js\header-functions.js' ), true );
+        wp_enqueue_script( 'modal', URI . '/js/modal.js', array('jquery'), filemtime( __DIR__ . '\js\modal.js' ), true );
 
         if( is_checkout() )
             wp_enqueue_script( 'checkout', URI . '/js/checkout-functions.js', array('jquery'), filemtime( __DIR__ . '\js\checkout-functions.js' ), true );
@@ -55,6 +56,10 @@ class MSP{
 
         // Font Awesome
         wp_enqueue_style( 'font-awesome', 'https://use.fontawesome.com/releases/v5.8.1/css/all.css' );
+        
+        // slideout.js - https://github.com/Mango/slideout
+        wp_enqueue_script( 'slideout', URI . '/vendor/slideout/dist/slideout.min.js', array(), 
+            filemtime( __DIR__ . '\vendor\slideout\dist\slideout.min.js' ), true );
 
         //Twitter Bootstrap - https://getbootstrap.com/docs/4.3/getting-started/introduction/
         wp_enqueue_style( 'bootstrap', URI . '/vendor/bootstrap-4.3.1-dist/css/bootstrap.min.css' );
@@ -65,9 +70,6 @@ class MSP{
         wp_enqueue_style( 'owl-carousel-theme', URI . '/vendor/OwlCarousel2-2.3.4/dist/assets/owl.theme.default.min.css' );
         wp_enqueue_script( 'owl-carousel', URI . '/vendor/OwlCarousel2-2.3.4/dist/owl.carousel.min.js', array( 'jquery' ), '', true );
 
-        //slideout.js - https://github.com/Mango/slideout
-        wp_enqueue_script( 'slideout', URI . '/vendor/slideout/dist/slideout.min.js', array(), 
-            filemtime( __DIR__ . '\vendor\slideout\dist\slideout.min.js' ), true );
     }
 
     public function create_custom_tables(){

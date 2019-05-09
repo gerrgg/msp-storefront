@@ -7,6 +7,7 @@ defined( 'ABSPATH' ) || exit;
  * @see msp_shameless_self_plug - 5
  */
 add_action( 'storefront_after_footer', 'msp_shameless_self_plug', 5 );
+add_action( 'storefront_after_footer', 'msp_dynamic_modal', 10 );
 
 /**
  * msp_header.
@@ -110,6 +111,8 @@ add_action( 'wp_ajax_msp_delete_user_product_image', 'msp_delete_user_product_im
 add_action( 'wp_ajax_msp_get_user_browsing_history', 'msp_get_user_browsing_history' );
 add_action( 'wp_ajax_nopriv_msp_get_user_browsing_Wistory', 'msp_get_user_browsing_history' );
 
+add_action( 'wp_ajax_msp_get_product_size_guide_src', 'msp_get_product_size_guide_src' );
+
 /**
  * Admin Post
  */
@@ -183,7 +186,7 @@ add_action( 'woocommerce_after_single_product_summary', 'comments_template' );
  * woocommerce_template_single_excerpt
  * @see msp_show_product_size_guide - 25
  */
-add_action( 'woocommerce_single_product_summary', 'msp_show_product_size_guide', 25 );
+add_action( 'woocommerce_single_product_summary', 'msp_show_product_size_guide_btn', 25 );
 
 /**
  * msp_before_create_review_form
