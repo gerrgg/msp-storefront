@@ -27,6 +27,8 @@ TODO: ( Ordered by priority )
 3. Display the photo's attached to a users commment. ✅
 4. Give the user the ability to remove photos from edit/create ✅
 5. Add comment actions - comment / flag / share
+6. Add cron to email customer about product with link to create review
+7. integrate custom questions/awnsers
 
 -- orders --
 1. create track progress page ( class? )
