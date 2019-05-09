@@ -642,8 +642,15 @@ function msp_order_product_review_button( $order ){
  * Simple Modal Feedback Form - Ask how we can improve? Suggestions?
  */
 function msp_order_feedback_button(){
+    make_modal_btn( array(
+        'type'  => 'button',
+        'class' => 'btn btn-secondary btn-block',
+        'text'  => "<i class='far fa-comments'></i>Leave Feedback",
+        'title' => 'Leave Us Feedback',
+        'model' => 'leave_feedback',
+    ));
     ?>
-        <button type="button" class="btn btn-secondary btn-block"><i class="far fa-comments"></i>Leave Feedback</button>
+        <!-- <button type="button" class="btn btn-secondary btn-block"><i class="far fa-comments"></i>Leave Feedback</button> -->
     <?php
 }
 
@@ -695,7 +702,7 @@ function msp_show_product_size_guide_btn(){
     if( ! empty( $size_guide ) ){
         make_modal_btn( array(
             'text' => 'Size Guide',
-            'title' => $product->get_name() . ' Size Guide',
+            'title' => $product->get_name() . ' - Size Guide',
             'model' => 'size_guide',
             'action' => 'show',
             'id' => $product->get_id(),
@@ -713,24 +720,24 @@ function msp_shameless_self_plug(){
 
 function msp_dynamic_modal(){
     ?>
-    <div class="modal fade" id="msp_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal fade" id="msp_modal" tabindex="-1" role="dialog" aria-labelledby="msp_modal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="spinner-border text-success" role="status">
-                    <span class="sr-only">Loading...</span>
+                <div class="modal-header">
+                    <h5 class="modal-title" id="msp_modal">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
+                <div class="modal-body text-center">
+                    <div class="spinner-border text-success" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
             </div>
         </div>
         </div>
