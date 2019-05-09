@@ -11,6 +11,7 @@ class MSP_Admin{
         add_action( 'woocommerce_product_options_advanced', array( $this, 'submit_resources_tab' ) );
         add_action( 'woocommerce_process_product_meta', array( $this, 'process_product_resources_meta' ), 10, 2 );
         add_action( 'woocommerce_process_product_meta', array( $this, 'process_product_videos_meta' ), 10, 2 );
+        add_action( 'woocommerce_process_product_meta', array( $this, 'process_product_size_guide_meta' ), 10, 2 );
         add_action( 'wp_ajax_msp_admin_sync_vendor', 'msp_admin_sync_vendor' );
     }
 
@@ -19,6 +20,15 @@ class MSP_Admin{
             'msp-product-video',
             __('Product Videos', 'msp'),
             'msp_product_video_callback',
+            'product',
+            'side',
+            'low'
+        );
+
+        add_meta_box(
+            'msp-size-guide',
+            __('Product Size Guide', 'msp'),
+            'msp_size_guide_callback',
             'product',
             'side',
             'low'
@@ -37,6 +47,12 @@ class MSP_Admin{
 
         add_action( 'woocommerce_admin_order_data_after_order_details', array( $this, 'submit_tracking_form' ) );
         add_action( 'woocommerce_process_shop_order_meta', array( $this, 'save_order_meta' ) );
+    }
+
+    public function process_product_size_guide_meta( $id ){
+        if( isset( $_POST['_msp_size_guide'] ) ){
+            update_post_meta( $id, '_msp_size_guide', $_POST['_msp_size_guide'] );
+        }
     }
 
     public function process_product_videos_meta( $id ){
@@ -376,12 +392,12 @@ function msp_csv_to_array( $data ){
 
 function msp_update_stock( $id, $stock){
     $instock = ( $stock > 0 ) ? 'instock' : 'outofstock';
-      update_post_meta( $id, '_manage_stock', 'yes' );
-      update_post_meta( $id, '_stock_status', $instock );
-      update_post_meta( $id, '_stock', $stock );
-  }
+    update_post_meta( $id, '_manage_stock', 'yes' );
+    update_post_meta( $id, '_stock_status', $instock );
+    update_post_meta( $id, '_stock', $stock );
+}
 
-  function msp_product_video_callback( $post ){
+function msp_product_video_callback( $post ){
     wp_nonce_field( basename( __FILE__ ), 'msp_product_video_callback' );
     $saved_urls = msp_get_product_videos( $post->ID );
     ?>
@@ -396,5 +412,15 @@ function msp_update_stock( $id, $stock){
         <?php endif; ?>
     </div>
     <button type="button" class="add" data-count=<?php echo sizeof( $saved_urls ) ?>>Add</button>
+    <?php
+}
+
+function msp_size_guide_callback( $post ){
+    $size_guide_src = get_post_meta( $post->ID, '_msp_size_guide', true );
+    ?>
+    <div id="msp_product_video_input_table">
+        <p>Size Guide</p>
+        <input type="url" name="_msp_size_guide" class="code" value="<?php echo $size_guide_src ?>" />
+    </div>
     <?php
 }

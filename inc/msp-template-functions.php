@@ -79,9 +79,9 @@ function msp_quick_links_wrapper_open(){
  * displays a navigation link based on whether or not the user has previous orders.
  */
 function msp_buy_again_btn(){
-    $orders = wc_get_orders( array( 'customer_id' => get_current_user_id() ) );
+    $order_items = msp_get_customer_unique_order_items( get_current_user_id() );
 
-    if( ! empty( $orders ) ) :
+    if( ! empty( $order_items ) ) :
         ?>
         <li class="nav-item buy-again">
             <a class="nav-link" href="/buy-again">
@@ -247,12 +247,12 @@ function msp_buy_again_shortcode(){
 function msp_get_customer_unique_order_items( $user_id ){
     $order_items = array();
     $orders = wc_get_orders( array( 'customer_id' => $user_id ) );
-    
+
     if( ! empty( $orders ) ){
         foreach( $orders as $order ){
-            $items = $order->get_items();
-            foreach( $items as $item ){
-                array_push( $order_items, $item->get_product_id() );
+            foreach( $order->get_items() as $order_item ){
+                $product = $order_item->get_product();
+                if( $product && $product->is_visible() ) array_push( $order_items, $product->get_id() );
             }
         }
     }
@@ -573,7 +573,7 @@ function msp_get_default_est_delivery( $method ){
 		$date_str = iww_make_date( [5, 10] );
 		break;
 		default :
-		$date_str = iww_make_date( [5, 15] );
+		$date_str = '';
 		break;
 	}
 	return $date_str;
@@ -687,5 +687,13 @@ function msp_get_product_videos_tab(){
             <iframe class="embed-responsive-item" src="<?php echo $arr[0] ?>"allowfullscreen></iframe>
         </div>
     <?php endforeach;
+}
+
+function msp_show_product_size_guide(){
+    global $product;
+    $size_guide = get_post_meta( $product->get_id(), '_msp_size_guide', true );
+    if( ! empty( $size_guide ) ){
+        echo "<a href='$size_guide'> <i class='fas fa-ruler-vertical'></i> Size Guide</a>";
+    }
 }
 

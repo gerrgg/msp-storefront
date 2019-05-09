@@ -8,7 +8,6 @@ global $product;
 if ( empty( $product ) || ! $product->is_visible() ) {
 	return;
 }
-    
 ?>
 <div class="card buy-again-product">
     <a class="link-normal" href="<?php echo $product->get_permalink(); ?>">
