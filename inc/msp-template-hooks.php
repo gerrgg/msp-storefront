@@ -3,6 +3,12 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
+ * storefront_after_footer
+ * @see msp_shameless_self_plug - 5
+ */
+add_action( 'storefront_after_footer', 'msp_shameless_self_plug', 5 );
+
+/**
  * msp_header.
  * 
  * @see msp_header_wrapper_open();

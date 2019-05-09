@@ -8,6 +8,7 @@ TODO: ( Ordered by priority )
 2. Product videos with the product images? ✅
 3. log in with google/facebook/etc.
 4. Bulk Pricing ( Maybe use plugin ).
+5. Size guide
 
 -- single product --
 1. bulk form

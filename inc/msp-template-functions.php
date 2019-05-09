@@ -697,3 +697,11 @@ function msp_show_product_size_guide(){
     }
 }
 
+function msp_shameless_self_plug(){
+    ?>
+    <p class="text-center bg-dark text-light m-0 p-0">
+        <a class="text-light link-normal" href="http://drunk.kiwi">Made with <i class="fas fa-coffee mx-2"></i> & <i class="fas fa-heart text-danger mx-2"></i> by Greg Bastianelli</a>
+    </p>
+    <?php
+}
+
