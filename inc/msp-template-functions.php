@@ -750,4 +750,12 @@ function msp_get_product_size_guide_src(){
     wp_die();
 }
 
+function msp_get_leave_feedback_form(){
+    ob_start();
+    wc_get_template( '/template/msp-leave-feedback-form.php' );
+    $html = ob_get_clean();
+    echo $html;
+    wp_die();
+}
+
 

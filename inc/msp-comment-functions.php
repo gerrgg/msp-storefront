@@ -181,7 +181,6 @@ function msp_create_review_top( $product_id ){
 function msp_get_review_more_star_buttons(){
     $class = 'far';
 
-    echo '<h3>Overall Rating</h3>';
     echo '<div class="d-flex pb-2">';
 
     for( $i = 1; $i <= 5; $i++ ) :

@@ -1,4 +1,9 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+
+
 $product = wc_get_product( get_query_var('msp_product_id') );
 $children = $product->get_children();
 $children_product_arr = array();

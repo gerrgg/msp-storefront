@@ -25,6 +25,14 @@ jQuery( function ( $ ){
             $.post(wp_ajax.url, { action: 'msp_get_product_size_guide_src', id: id }, function( response ){
                msp.$modal.find('.modal-body').html( $('<img/>', { src: response, class: 'mx-auto' } ) )
             });
+          },
+
+          ['leave_feedback']: function(){
+              let body = msp.$modal.find('.modal-body');
+            $.post( wp_ajax.url, { action: 'msp_get_leave_feedback_form' }, function( response ){
+                console.log( response );
+                body.html( response );
+            } );
           }
 
 
