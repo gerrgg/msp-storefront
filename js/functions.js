@@ -5,6 +5,7 @@ jQuery(document).ready(function( $ ){
             msp.bind_create_review_star_buttons();
             msp.bind_karma_buttons();
             $('#msp_review').on( 'click', '.remove-product-image-from-review', msp.delete_user_product_image )
+            $('#msp_modal').on( 'click', 'i', msp.bind_create_review_star_buttons )
         },
 
 

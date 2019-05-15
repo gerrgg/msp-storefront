@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 ?>
 
-<form method="POST" action="<?php echo admin_url( 'admin-post.php' ) ?>" class='d-flex flex-column justify-content-center align-items-center'>
+<form id="msp-feedback-form" class='d-flex flex-column justify-content-center align-items-center'>
     <div class="form-group">
         <h3>How are we doing?</h3>
         <?php msp_get_review_more_star_buttons() ?>
@@ -18,4 +18,6 @@ if ( ! defined( 'ABSPATH' ) ) {
     </div>
     <input type="hidden" name="user_id" value="<?php echo get_current_user_id() ?>" />
     <input type="hidden" name="action" value="msp_process_feedback_form" />
+    <input type="hidden" name="rating" />
+    <button type="submit" class="btn btn-success btn-block">Submit Feedback</button>
 </form>

@@ -4,6 +4,7 @@ jQuery( function ( $ ){
 
         init: function(){
             this.$modal.on( 'show.bs.modal', this.route )
+            this.$modal.on( 'submit', 'form', this.submit )
         },
 
         route: function( e ){
@@ -21,6 +22,20 @@ jQuery( function ( $ ){
 
           },
 
+          submit: function( e ){
+            e.preventDefault();
+            let body = msp.$modal.find('.modal-body');
+            let data = {
+              action: 'msp_process_feedback_form',
+              form_data: $(e.target).serialize(),
+            }
+
+            $.post( wp_ajax.url, data, function( response ){
+              console.log( response );
+            });
+            
+          },
+
           ['size_guide']: function( action, id ){
             $.post(wp_ajax.url, { action: 'msp_get_product_size_guide_src', id: id }, function( response ){
                msp.$modal.find('.modal-body').html( $('<img/>', { src: response, class: 'mx-auto' } ) )
@@ -29,10 +44,9 @@ jQuery( function ( $ ){
 
           ['leave_feedback']: function(){
               let body = msp.$modal.find('.modal-body');
-            $.post( wp_ajax.url, { action: 'msp_get_leave_feedback_form' }, function( response ){
-                console.log( response );
-                body.html( response );
-            } );
+              $.post( wp_ajax.url, { action: 'msp_get_leave_feedback_form' }, function( response ){
+                  body.html( response );
+              } );
           }
 
 

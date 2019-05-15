@@ -736,7 +736,6 @@ function msp_dynamic_modal(){
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
                 </div>
             </div>
         </div>
@@ -758,4 +757,11 @@ function msp_get_leave_feedback_form(){
     wp_die();
 }
 
+function msp_process_feedback_form(){
+    $form_data = array();
+    parse_str( $_POST['form_data'], $form_data );
 
+    $user = wp_get_current_user();
+
+    wp_send_json( $form_data );
+}
