@@ -764,22 +764,21 @@ function msp_process_feedback_form(){
     if( empty( $form_data['rating'] ) ) return;
     $user = wp_get_current_user();
 
-    // $comment_id = wp_insert_comment( array(
-    //     'comment_post_ID' => 0,
-    //     'comment_author'	=> $user->user_login,
-    //     'comment_author_email'	=> $user->user_email,
-    //     'comment_author_url'	=> $user->user_url,
-    //     'comment_content' =>  $form_data['comments'],
-    //     'comment_type'			=> 'store_review',
-    //     'comment_author_IP' => $_SERVER['REMOTE_ADDR'],
-    //     'comment_agent' => $_SERVER['HTTP_USER_AGENT'],
-    //     'comment_date' => current_time( 'mysql', $gmt = 0 ),
-    //     'user_id' => get_current_user_id(),
-    //     'comment_approved' => 1,
-    // ) );
+    $comment_id = wp_insert_comment( array(
+        'comment_post_ID' => 0,
+        'comment_author'	=> $user->user_login,
+        'comment_author_email'	=> $user->user_email,
+        'comment_author_url'	=> $user->user_url,
+        'comment_content' =>  $form_data['comments'],
+        'comment_type'			=> 'store_review',
+        'comment_author_IP' => $_SERVER['REMOTE_ADDR'],
+        'comment_agent' => $_SERVER['HTTP_USER_AGENT'],
+        'comment_date' => current_time( 'mysql', $gmt = 0 ),
+        'user_id' => get_current_user_id(),
+        'comment_approved' => 1,
+    ) );
 
-    // update_comment_meta( $comment_id, 'rating', $form_data['rating'] );
-    $comment_id = 102;
+    update_comment_meta( $comment_id, 'rating', $form_data['rating'] );
     echo $comment_id;
     wp_die();
 }
