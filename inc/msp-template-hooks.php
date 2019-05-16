@@ -91,8 +91,10 @@ add_action( 'msp_order_details_actions', 'msp_order_report_issue_button', 25 );
  * woocommerce_checkout_order_processed
  * 
  * @see msp_update_order_estimated_delivery();
+ * @see commerce_connector_tracking();
  */
 add_action( 'woocommerce_thankyou', 'msp_update_order_estimated_delivery', 5, 1 );
+add_action( 'woocommerce_thankyou', 'commerce_connector_tracking', 10, 1 );
 
 /**
  * AJAX
