@@ -80,13 +80,13 @@ class MSP{
 
         $tables = array(
             'msp_karma' => "CREATE TABLE msp_karma (
-                            karma_id mediumint(9) NOT NULL AUTO_INCREMENT,
-                            karma_user_id mediumint(9) NOT NULL,
-                            karma_comment_id mediumint(9) NOT NULL,
-                            karma_value mediumint(9) NOT NULL,
-                            PRIMARY KEY  (karma_id)
-                        ) $charset_collate;",
-            );
+                                karma_id mediumint(9) NOT NULL AUTO_INCREMENT,
+                                karma_user_id mediumint(9) NOT NULL,
+                                karma_comment_id mediumint(9) NOT NULL,
+                                karma_value mediumint(9) NOT NULL,
+                                PRIMARY KEY  (karma_id)
+                            ) $charset_collate;",
+        );
 
         foreach( $tables as $table_name => $ddl ){
             maybe_create_table( $table_name, $ddl );

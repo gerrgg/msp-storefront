@@ -18,6 +18,6 @@ if ( ! defined( 'ABSPATH' ) ) {
     </div>
     <input type="hidden" name="user_id" value="<?php echo get_current_user_id() ?>" />
     <input type="hidden" name="action" value="msp_process_feedback_form" />
-    <input type="hidden" name="rating" />
+    <div class="alert alert-warning feedback" role="alert"></div>
     <button type="submit" class="btn btn-success btn-block">Submit Feedback</button>
 </form>

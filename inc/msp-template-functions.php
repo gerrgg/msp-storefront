@@ -761,7 +761,41 @@ function msp_process_feedback_form(){
     $form_data = array();
     parse_str( $_POST['form_data'], $form_data );
 
+    if( empty( $form_data['rating'] ) ) return;
     $user = wp_get_current_user();
 
-    wp_send_json( $form_data );
+    // $comment_id = wp_insert_comment( array(
+    //     'comment_post_ID' => 0,
+    //     'comment_author'	=> $user->user_login,
+    //     'comment_author_email'	=> $user->user_email,
+    //     'comment_author_url'	=> $user->user_url,
+    //     'comment_content' =>  $form_data['comments'],
+    //     'comment_type'			=> 'store_review',
+    //     'comment_author_IP' => $_SERVER['REMOTE_ADDR'],
+    //     'comment_agent' => $_SERVER['HTTP_USER_AGENT'],
+    //     'comment_date' => current_time( 'mysql', $gmt = 0 ),
+    //     'user_id' => get_current_user_id(),
+    //     'comment_approved' => 1,
+    // ) );
+
+    // update_comment_meta( $comment_id, 'rating', $form_data['rating'] );
+    $comment_id = 102;
+    echo $comment_id;
+    wp_die();
+}
+
+function commerce_connector_tracking( $order_id ){
+    $order = wc_get_order( $order_id );
+    $product_str = 'https://www.commerce-connector.com/tracking/tracking.gif?shop=1234567890ABC&';
+    $count = 0;
+    foreach( $order->get_items() as $order_item ){
+        $product_id = ( $order_item->get_variation_id() != 0 ) ? $order_item->get_variation_id() : $order_item->get_product_id();
+        $product = wc_get_product( $product_id );
+            $gpf = get_post_meta( $product->get_id(), '_woocommerce_gpf_data', true );
+            $product_str .= sprintf( '&ean[%d]=%s&sale[%d]=%d', $count, $gpf['gtin'], $count, $order_item['quantity'] );
+        $count++;
+    }
+    ?>
+    <img src="<?php echo $product_str ?>" width="1" height="1" border="0"/>
+    <?php
 }

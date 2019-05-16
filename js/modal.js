@@ -22,16 +22,27 @@ jQuery( function ( $ ){
 
           },
 
-          submit: function( e ){
+          submit: function( e ){ // this obviously wont work for other modal submissions.
             e.preventDefault();
             let body = msp.$modal.find('.modal-body');
+            let action = $(e.target).find('input[name="action"]').val()
             let data = {
-              action: 'msp_process_feedback_form',
+              action: action,
               form_data: $(e.target).serialize(),
             }
 
             $.post( wp_ajax.url, data, function( response ){
-              console.log( response );
+              if( ! response ){
+                body.find('.feedback').text( 'Feedback requires atleast a star rating; thanks!' );
+              } else {
+                body.html(` <div class="text-center">
+                              <i class="fas fa-check-circle fa-2x text-success"></i>
+                              <h1>Thank you for your feedback!</h1>
+                            </div>`);
+                setTimeout(function(){
+                  msp.$modal.modal( 'toggle' );
+                }, 3000);
+              }
             });
             
           },
