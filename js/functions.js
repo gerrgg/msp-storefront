@@ -2,10 +2,9 @@ jQuery(document).ready(function( $ ){
     var msp = {
         init: function(){
             msp.init_owl_carousel();
-            msp.bind_create_review_star_buttons();
             msp.bind_karma_buttons();
+            $(document.body).on( 'click', 'i.msp-star-rating', msp.bind_create_review_star_buttons );
             $('#msp_review').on( 'click', '.remove-product-image-from-review', msp.delete_user_product_image )
-            $('#msp_modal').on( 'click', 'i', msp.bind_create_review_star_buttons )
         },
 
 
@@ -48,19 +47,18 @@ jQuery(document).ready(function( $ ){
             })
         },
 
-        bind_create_review_star_buttons: function(){
-            $('i.msp-star-rating').click(function(){
-                let rating = $(this).data('rating');
-                $('.msp-star-rating').removeClass( 'fas' );
+        bind_create_review_star_buttons: function( e ){
+            let rating = $(e.target).data('rating');
+            $('.msp-star-rating').removeClass( 'fas' );
 
-                for( let i = 1; i <= 5; i++ ){
-                    let star_class = ( i <= rating ) ? 'fas' : 'far';
-                    $('i.msp-star-rating.rating-' + i).addClass(star_class);
-                }
+            console.log( rating );
 
-               
-                $('#rating').val( rating );
-            });
+            for( let i = 1; i <= 5; i++ ){
+                let star_class = ( i <= rating ) ? 'fas' : 'far';
+                $('i.msp-star-rating.rating-' + i).addClass(star_class);
+            }
+            
+            $('#rating').val( rating );
         },
 
         bind_karma_buttons: function(){
