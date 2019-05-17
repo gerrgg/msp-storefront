@@ -405,7 +405,7 @@ function msp_order_details_html( $order ){
                         ?>
                         <div class="d-flex">
                             <a href="<?php echo $product->get_permalink() ?>" style="width: 100px;">
-                                <img src="<?php echo $image_src ?>" style="height: 100px;" class="mb-2" />
+                                <img src="<?php echo $image_src ?>" style="height: 100px;" class="mb-2 mx-auto" />
                             </a>
                             <div class="pl-4">
                                 <a class="link-normal" href="<?php echo $product->get_permalink() ?>">

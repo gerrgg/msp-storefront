@@ -372,3 +372,7 @@ img.avatar.avatar-60{
     display: flex;
     justify-content: center;
 }
+
+#msp-feedback-form .msp-star-wrapper{
+    justify-content: center;
+}
