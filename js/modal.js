@@ -24,26 +24,18 @@ jQuery( function ( $ ){
 
           submit: function( e ){ // this obviously wont work for other modal submissions.
             e.preventDefault();
+            console.log( e );
             let body = msp.$modal.find('.modal-body');
             let action = $(e.target).find('input[name="action"]').val()
+            let model = $(e.target).find('input[name="model"]').val()
             let data = {
               action: action,
               form_data: $(e.target).serialize(),
             }
 
-            $.post( wp_ajax.url, data, function( response ){
-              if( ! response ){
-                body.find('.feedback').text( 'Feedback requires atleast a star rating; thanks!' );
-              } else {
-                body.html(` <div class="text-center">
-                              <i class="fas fa-check-circle fa-2x text-success"></i>
-                              <h1>Thank you for your feedback!</h1>
-                            </div>`);
-                setTimeout(function(){
-                  msp.$modal.modal( 'toggle' );
-                }, 3000);
-              }
-            });
+            $.post( wp_ajax.url, data, function( response ) { 
+              msp[ model ]( 'post', '', response ) 
+            } );
             
           },
 
@@ -53,11 +45,30 @@ jQuery( function ( $ ){
             });
           },
 
-          ['leave_feedback']: function(){
+          ['leave_feedback']: function( action, id, response ){
               let body = msp.$modal.find('.modal-body');
-              $.post( wp_ajax.url, { action: 'msp_get_leave_feedback_form' }, function( response ){
-                  body.html( response );
-              } );
+
+              switch( action ){
+                case 'get':
+                    $.post( wp_ajax.url, { action: 'msp_get_leave_feedback_form', id: id }, function( response ){
+                      body.html( response );
+                    } );
+                break;
+                case 'post':
+                    console.log( response );
+                    if( ! response ){
+                      body.find('.feedback').text( 'Feedback requires atleast a star rating; thanks!' );
+                    } else {
+                      body.html(` <div class="text-center">
+                                    <i class="fas fa-check-circle fa-2x text-success"></i>
+                                    <h1>Thank you for your feedback!</h1>
+                                  </div>`);
+                      setTimeout(function(){
+                        msp.$modal.modal( 'toggle' );
+                      }, 3000);
+                    }
+                break;
+              }
           }
 
 
