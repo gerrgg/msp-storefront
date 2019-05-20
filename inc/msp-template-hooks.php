@@ -82,7 +82,7 @@ add_action( 'msp_my_order_details', 'msp_update_order_tracking', 2, 1 );
  */
 add_action( 'msp_order_details_actions', 'msp_order_tracking_button', 5, 1 );
 add_action( 'msp_order_details_actions', 'msp_order_product_review_button', 10, 1 );
-add_action( 'msp_order_details_actions', 'msp_order_feedback_button', 15 );
+add_action( 'msp_order_details_actions', 'msp_order_feedback_button', 15, 1 );
 add_action( 'msp_order_details_actions', 'msp_order_return_button', 20 );
 add_action( 'msp_order_details_actions', 'msp_order_report_issue_button', 25 );
 

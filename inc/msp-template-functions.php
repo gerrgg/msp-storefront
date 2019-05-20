@@ -641,13 +641,15 @@ function msp_order_product_review_button( $order ){
 /**
  * Simple Modal Feedback Form - Ask how we can improve? Suggestions?
  */
-function msp_order_feedback_button(){
+function msp_order_feedback_button( $order ){
     make_modal_btn( array(
         'type'  => 'button',
         'class' => 'btn btn-secondary btn-block',
         'text'  => "<i class='far fa-comments'></i>Leave Feedback",
         'title' => 'Leave Us Feedback',
         'model' => 'leave_feedback',
+        'action' => 'get',
+        'id'    => $order->get_id(),
     ));
     ?>
         <!-- <button type="button" class="btn btn-secondary btn-block"><i class="far fa-comments"></i>Leave Feedback</button> -->
@@ -751,6 +753,7 @@ function msp_get_product_size_guide_src(){
 
 function msp_get_leave_feedback_form(){
     ob_start();
+    set_query_var('order_id', $_POST['id']);
     wc_get_template( '/template/msp-leave-feedback-form.php' );
     $html = ob_get_clean();
     echo $html;
@@ -759,12 +762,12 @@ function msp_get_leave_feedback_form(){
 
 function msp_process_feedback_form(){
     $form_data = array();
+    $user = wp_get_current_user();
     parse_str( $_POST['form_data'], $form_data );
 
     if( empty( $form_data['rating'] ) ) return;
-    $user = wp_get_current_user();
 
-    $comment_id = wp_insert_comment( array(
+    $args = array(
         'comment_post_ID' => 0,
         'comment_author'	=> $user->user_login,
         'comment_author_email'	=> $user->user_email,
@@ -776,9 +779,20 @@ function msp_process_feedback_form(){
         'comment_date' => current_time( 'mysql', $gmt = 0 ),
         'user_id' => get_current_user_id(),
         'comment_approved' => 1,
-    ) );
+    );
 
+    $comment = msp_customer_feedback( $form_data['order_id'] );
+    if( ! empty( $comment ) ){
+        $args['comment_ID'] = $comment->comment_ID;
+        $comment_id = $args['comment_ID'];
+        wp_update_comment($args);
+    } else {
+        $comment_id = wp_insert_comment($args);
+    }
+
+    
     update_comment_meta( $comment_id, 'rating', $form_data['rating'] );
+    update_comment_meta( $comment_id, 'order_id', $form_data['order_id'] );
     echo $comment_id;
     wp_die();
 }
@@ -801,40 +815,4 @@ function commerce_connector_tracking( $order_id ){
 
 function msp_get_additional_information( $product ){
     echo apply_filters( 'msp_additional_information_html', $product );
-}
-
-function msp_get_product_pool( $product ){
-    return ( $product->get_children() ) ? $product->get_children() : array( $product->get_id() );
-}
-
-function msp_get_product_metadata( $product_ids ){
-    $data_sets = array( 'sku' => '_sku', 'gtin' => '_woocommerce_gpf_data' );
-    foreach( $data_sets as $label => $meta_key ){
-        $str = '';
-        foreach( $product_ids as $id ){
-            $product = wc_get_product( $id );
-            $data = get_post_meta( $id, $meta_key, true );
-            if( is_array( $data ) ){
-                $data = $data[$label];
-            }
-
-            if( ! empty( $data ) ){
-                $str .= '<a href="'. $product->get_permalink() .'">'. $data .'</a>, ';
-            }
-        }
-        $data_sets[$label] = $str;
-    }
-    return $data_sets;
-}
-
-function msp_product_additional_information_html( $inner_html ){
-    if( empty( $inner_html ) ) return;
-    echo '<table>';
-    foreach( $inner_html as $label => $value ) : ?>
-        <tr class="woocommerce-product-attributes-item">
-            <th class="woocommerce-product-attributes-item__label"><?php echo ucfirst($label); ?></th>
-            <td class="woocommerce-product-attributes-item__value"><?php echo $value ?></td>
-        </tr>
-    <?php endforeach;
-    echo '</table>';
 }

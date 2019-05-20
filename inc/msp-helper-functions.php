@@ -40,11 +40,13 @@ function msp_get_user_product_review( $p_id, $format = ARRAY_A ){
 	return $comment;
 }
 
-function msp_customer_feedback( $format = ARRAY_A ){
+function msp_customer_feedback( $order_id, $format = ARRAY_A ){
     $comments = get_comments(array(
 		'post_id' 						=> 0,
 		'user_id' 						=> get_current_user_id(),
 		'type' 					=> 'store_review',
+		'meta_key'				=> 'order_id',
+		'meta_value'			=> $order_id,
 		'include_unapproved'  => false,
 	));
 	return( $comments[0] );
