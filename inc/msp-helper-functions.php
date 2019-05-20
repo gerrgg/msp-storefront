@@ -76,3 +76,39 @@ function make_modal_btn( $args = array() ){
 	
 	echo sprintf( $base_html, $args['title'], $args['model'], $args['action'], $args['id'], $args['class'], $args['text'] );
 }
+
+function msp_get_product_pool( $product ){
+    return ( $product->get_children() ) ? $product->get_children() : array( $product->get_id() );
+}
+
+function msp_get_product_metadata( $product_ids ){
+    $data_sets = array( 'sku' => '_sku', 'gtin' => '_woocommerce_gpf_data' );
+    foreach( $data_sets as $label => $meta_key ){
+        $str = '';
+        foreach( $product_ids as $id ){
+            $product = wc_get_product( $id );
+            $data = get_post_meta( $id, $meta_key, true );
+            if( is_array( $data ) ){
+                $data = $data[$label];
+            }
+
+            if( ! empty( $data ) ){
+                $str .= '<a href="'. $product->get_permalink() .'">'. $data .'</a>, ';
+            }
+        }
+        $data_sets[$label] = $str;
+    }
+    return $data_sets;
+}
+
+function msp_product_additional_information_html( $inner_html ){
+    if( empty( $inner_html ) ) return;
+    echo '<table>';
+    foreach( $inner_html as $label => $value ) : ?>
+        <tr class="woocommerce-product-attributes-item">
+            <th class="woocommerce-product-attributes-item__label"><?php echo ucfirst($label); ?></th>
+            <td class="woocommerce-product-attributes-item__value"><?php echo $value ?></td>
+        </tr>
+    <?php endforeach;
+    echo '</table>';
+}
