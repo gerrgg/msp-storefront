@@ -96,6 +96,8 @@ class MSP{
 
     public function msp_product_tabs( $tabs ){
         global $post;
+        global $product;
+        
         $priority = 30;
         $custom_tabs = array(
             'product_videos' => msp_get_product_videos( $post->ID ),
@@ -115,7 +117,10 @@ class MSP{
 
 
         // Renamed additional info
-        $tabs['additional_information']['title'] = 'Specifications';
+        if( $product->has_attributes() || $product->has_dimensions() || $product->has_weight() ) {
+            $tabs['additional_information']['title'] = 'Specifications';
+        }
+
         // seperate reviews tab
         unset( $tabs['reviews'] );
 
