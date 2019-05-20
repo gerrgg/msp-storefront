@@ -219,11 +219,17 @@ add_action( 'msp_create_review_form', 'msp_create_review_headline', 20, 1 );
 add_action( 'msp_create_review_form', 'msp_create_review_content', 25, 1 );
 add_action( 'msp_create_review_form', 'msp_create_review_wrapper_close', 100 );
 
+/**
+ * woocommerce_product_additional_information
+ * @see msp_add_to_product_additional_information - 50
+ */
+add_action( 'woocommerce_product_additional_information', 'msp_get_additional_information', 5, 1 );
+add_filter( 'msp_additional_information_html', 'msp_get_product_pool', 5, 1 );
+add_filter( 'msp_additional_information_html', 'msp_get_product_metadata', 10, 1 );
+add_filter( 'msp_additional_information_html', 'msp_product_additional_information_html', 15, 1 );
 
 // debug
 // add_action( 'wp_footer', 'get_cron_jobs' );
-function get_cron_jobs(){
-    var_dump( _get_cron_array() );
-}
-
-
+// function get_cron_jobs(){
+//     // var_dump( _get_cron_array() );
+// }

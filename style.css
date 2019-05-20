@@ -376,3 +376,8 @@ img.avatar.avatar-60{
 #msp-feedback-form .msp-star-wrapper{
     justify-content: center;
 }
+
+table.woocommerce-product-attributes{
+    margin: 0px;
+    padding: 0px;
+}
