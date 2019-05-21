@@ -39,6 +39,10 @@ jQuery( function ( $ ){
             
           },
 
+          close: function(){
+            msp.$modal.modal( 'toggle' );
+          },
+
           ['size_guide']: function( action, id ){
             $.post(wp_ajax.url, { action: 'msp_get_product_size_guide_src', id: id }, function( response ){
                msp.$modal.find('.modal-body').html( $('<img/>', { src: response, class: 'mx-auto' } ) )
@@ -64,7 +68,7 @@ jQuery( function ( $ ){
                                     <h1>Thank you for your feedback!</h1>
                                   </div>`);
                       setTimeout(function(){
-                        msp.$modal.modal( 'toggle' );
+                        msp.close();
                       }, 3000);
                     }
                 break;
