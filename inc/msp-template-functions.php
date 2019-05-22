@@ -818,5 +818,5 @@ function msp_get_additional_information( $product ){
 }
 
 function msp_template_loop_product_link_open(){
-    echo '<a href="'. get_permalink() .'"></a>';
+    echo '<a href="'. get_permalink() .'">';
 }
