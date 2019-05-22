@@ -233,6 +233,23 @@ add_filter( 'msp_additional_information_html', 'msp_product_additional_informati
  */
 add_action( 'woocommerce_sidebar', 'msp_get_shop_sidebar', 20 );
 
+/**
+ * woocommerce_before_shop_loop_item_title
+ * @see we do this to wrap a product image in an a tag - CSS
+ */
+add_action( 'woocommerce_before_shop_loop_item_title', 'woocommerce_template_loop_product_link_close', 15 );
+
+/**
+ * woocommerce_before_shop_loop_item_title
+ * @see we do this to wrap the rest of the product in another tag - CSS
+ */
+add_action( 'woocommerce_shop_loop_item_title', 'woocommerce_template_loop_product_link_open', 5 );
+
+/**
+ * woocommerce_after_shop_loop_item
+ */
+remove_action( 'woocommerce_after_shop_loop_item', 'woocommerce_template_loop_add_to_cart', 10 );
+
 // debug
 add_action( 'wp_footer', 'get_cron_jobs' );
 function get_cron_jobs(){

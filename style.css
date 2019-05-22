@@ -381,3 +381,28 @@ table.woocommerce-product-attributes{
     margin: 0px;
     padding: 0px;
 }
+
+.woocommerce-loop-product__title{
+    font-size: 18px;
+}
+
+.woocommerce-LoopProduct-link.woocommerce-loop-product__link{
+    height: 175px!important;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.woocommerce-LoopProduct-link.woocommerce-loop-product__link span.price,
+.woocommerce-LoopProduct-link.woocommerce-loop-product__link .star-rating{
+    width: 100%;
+}
+
+a.woocommerce-LoopProduct-link.woocommerce-loop-product__link > img{
+    width: auto;
+    max-height: 100%;
+}
+
+.woocommerce-products-header__title.page-title{
+    text-align: left;
+}
