@@ -71,7 +71,7 @@ do_action( 'storefront_before_site' );
 	?>
 
 	<div id="content" class="site-content" tabindex="-1">
-		<div class="col-full">
+		<div class="<?php echo MSP::get_wrapper_class() ?>">
 
 		<?php
 		do_action( 'storefront_content_top' );
