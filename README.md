@@ -3,6 +3,12 @@
 
 TODO: ( Ordered by priority )
 
+-- shop --
+1. ajax filter
+2. sub nav under header of sub categories. PARENT >> best sellers >> select other sibling categories
+3. show sibling categories as first above filter
+4. 
+
 -- backend --
 1. Resources tab for including links to docs / spec sheets and other external resources ✅
 2. Product videos with the product images? ✅
