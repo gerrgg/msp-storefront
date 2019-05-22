@@ -10,7 +10,7 @@ defined( 'ABSPATH' ) || exit;
  * Opens the header wrapper
  */
 function msp_header_wrapper_open(){
-    echo '<nav class="navbar navbar-expand-lg navbar-light bg-dark mb-2"><div class="container align-items-end">';
+    echo '<nav class="navbar navbar-expand-lg navbar-light bg-dark"><div class="container align-items-end">';
 }
 
 /**
@@ -819,4 +819,22 @@ function msp_get_additional_information( $product ){
 
 function msp_template_loop_product_link_open(){
     echo '<a href="'. get_permalink() .'">';
+}
+
+function msp_get_shop_subnav(){
+    $nav_items = msp_get_category_children();
+    if( empty( $nav_items ) ) return;
+
+    array_unshift( $nav_items, msp_get_current_category() );
+    ?>
+    <nav class="navbar navbar-light bg-light msp-shop-subnav border-bottom">
+        <div class="navbar-nav flex-row">
+            <?php foreach( $nav_items as $item ) : ?>
+                <li class="nav-item border-right px-2">
+                    <a class="nav-link" href="<?php echo get_term_link( $item->term_id ) ?>" ><?php echo $item->name ?></a>
+                </li>
+            <?php endforeach; ?>
+        </div>
+    </nav>
+    <?php
 }

@@ -393,6 +393,10 @@ table.woocommerce-product-attributes{
     align-items: center;
 }
 
+#msp-archive > .product{
+    margin-bottom: 1rem;
+}
+
 .woocommerce-LoopProduct-link.woocommerce-loop-product__link span.price,
 .woocommerce-LoopProduct-link.woocommerce-loop-product__link .star-rating{
     width: 100%;
@@ -419,4 +423,22 @@ a.woocommerce-LoopProduct-link.woocommerce-loop-product__link > img{
 
 #shop-filters .widget-title{
     padding: 0px;
+}
+
+.msp-shop-subnav{
+    margin-left: -30px;
+    margin-right: -30px;
+}
+
+.msp-shop-subnav a.nav-link{
+    color: #333 !important;
+}
+
+.msp-shop-subnav > .navbar-nav > li:first-child > a.nav-link{
+    color: #000;
+    font-weight: 700;
+}
+
+#primary{
+    margin-top: 2rem;
 }

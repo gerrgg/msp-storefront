@@ -119,6 +119,7 @@ add_action( 'wp_ajax_msp_get_leave_feedback_form', 'msp_get_leave_feedback_form'
 add_action( 'wp_ajax_msp_process_feedback_form', 'msp_process_feedback_form' );
 add_action( 'wp_ajax_nopriv_msp_process_feedback_form', 'msp_process_feedback_form' );
 
+
 /**
  * Admin Post
  */
@@ -266,7 +267,8 @@ remove_action( 'woocommerce_after_shop_loop_item', 'woocommerce_template_loop_ad
  */
 add_action( 'woocommerce_before_single_product_summary', 'woocommerce_breadcrumb', 5 );
 
+add_action( 'woocommerce_before_main_content', 'msp_get_shop_subnav', 5 );
+
+
 // debug
 // add_action( 'woocommerce_before_main_content', 'get_cron_jobs' );
-function get_cron_jobs(){
-}

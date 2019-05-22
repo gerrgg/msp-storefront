@@ -62,7 +62,7 @@ class User_History{
         // if its not a product or category, we dont want none!
         if( ! is_product() && ! is_product_category() ) return;
 
-        $category = $this->get_category();
+        $category = msp_get_current_category();
         $this->build_item( $category );
         $this->update_session();
     }
@@ -157,18 +157,8 @@ class User_History{
     * Checks if we are in a category using the URI, if so, grab the slug of the next cat and return WP_Term
     * @return WP_Term $category
     */
-    public function get_category(){
-        $categories = explode( '/', $_SERVER['REQUEST_URI'] );
-        if( $categories[1] = 'product-category' ){
-            // store all the categories! or atleast the last...
-            $category = get_terms( array(
-                'slug' => $categories[2],
-                'taxonomy' => 'product_cat',
-            ));
-            if( empty( $category ) ) return null;
-        
-        }
-        return $category[0];
+    public static function get_category(){
+       var_dump( get_the_category() );
     }
 
     public function update( $array_key, $data ){

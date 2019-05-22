@@ -3,11 +3,9 @@ jQuery(document).ready(function( $ ){
         init: function(){
             msp.init_owl_carousel();
             msp.bind_karma_buttons();
-            $(document.body).on( 'click', 'i.msp-star-rating', msp.bind_create_review_star_buttons );
+            $(document.body).on( 'click', 'i.msp-star-rating', msp.bind_create_review_star_buttons )
             $('#msp_review').on( 'click', '.remove-product-image-from-review', msp.delete_user_product_image )
         },
-
-
 
         delete_user_product_image: function( e ){
             $parent = $(e.target).parent();

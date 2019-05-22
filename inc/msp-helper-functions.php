@@ -114,3 +114,29 @@ function msp_product_additional_information_html( $inner_html ){
     <?php endforeach;
     echo '</table>';
 }
+
+
+function msp_get_current_category(){
+	/**
+	* Checks if we are in a category using the URI, if so, grab the slug of the next cat and return WP_Term
+	* @return WP_Term $category
+	*/
+	global $wp_query;
+	return $wp_query->get_queried_object();
+}
+
+function msp_get_category_children(){
+	/**
+	* Used to get the children of a product category
+	* @return WP_Term $children - The children taxonomys of a product category
+	*/
+	if( ! is_shop() && ! is_archive() ) return;
+
+	$term = get_queried_object();
+	$children = get_terms( $term->taxonomy, array(
+		'parent'    => $term->term_id,
+		'hide_empty' => false
+	));
+
+	return $children;
+}
