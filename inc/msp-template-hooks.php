@@ -261,6 +261,11 @@ add_action( 'woocommerce_shop_loop_item_title', 'msp_template_loop_product_link_
  */
 remove_action( 'woocommerce_after_shop_loop_item', 'woocommerce_template_loop_add_to_cart', 10 );
 
+/**
+ * woocommerce_before_single_product_summary
+ */
+add_action( 'woocommerce_before_single_product_summary', 'woocommerce_breadcrumb', 5 );
+
 // debug
 // add_action( 'woocommerce_before_main_content', 'get_cron_jobs' );
 function get_cron_jobs(){
