@@ -228,8 +228,14 @@ add_filter( 'msp_additional_information_html', 'msp_get_product_pool', 5, 1 );
 add_filter( 'msp_additional_information_html', 'msp_get_product_metadata', 10, 1 );
 add_filter( 'msp_additional_information_html', 'msp_product_additional_information_html', 15, 1 );
 
+/**
+ * add msp sidebar specifically for use with archive pages.
+ */
+add_action( 'woocommerce_sidebar', 'msp_get_shop_sidebar', 20 );
+
 // debug
-// add_action( 'wp_footer', 'get_cron_jobs' );
-// function get_cron_jobs(){
-//     // var_dump( _get_cron_array() );
-// }
+add_action( 'wp_footer', 'get_cron_jobs' );
+function get_cron_jobs(){
+    // var_dump( _get_cron_array() );
+    echo 'hi';
+}

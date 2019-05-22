@@ -14,6 +14,7 @@ require_once( PATH . '/inc/msp-comment-functions.php' );
 require_once( PATH . '/inc/msp-class-ups.php' );
 require_once( PATH . '/inc/msp-template-hooks.php' );
 require_once( PATH . '/inc/msp-template-functions.php' );
+require_once( PATH . '/inc/msp-template-filters.php' );
 require_once( PATH . '/inc/msp-helper-functions.php' );
 
 /**
@@ -24,6 +25,7 @@ class MSP{
     function __construct(){
         add_action( 'init', array( $this, 'myStartSession' ), 1 );
         add_action( 'init', array( $this, 'create_theme_pages' ), 2 );
+        add_action( 'widgets_init', array( $this, 'register_sidebar_shop' ), 100 );
         $this->create_custom_tables();
 
         add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
@@ -36,7 +38,17 @@ class MSP{
         add_filter( 'woocommerce_form_field_args', array( $this, 'msp_form_field_args' ), 10, 3 );
         add_filter( 'woocommerce_product_tabs', array( $this, 'msp_product_tabs' ) );
         add_filter( 'woocommerce_package_rates', array( $this, 'maybe_hide_ltl_shipping_option' ), 50, 2 );
-        
+    }
+
+    public function register_sidebar_shop(){
+        register_sidebar( array(
+            'name'          => __( 'Shop Sidebar', 'msp' ),
+            'id'            => 'sidebar-msp-shop',
+            'before_widget' => '<aside id="%1$s" class="widget %2$s">',
+            'after_widget'  => '</aside>',
+            'before_title'  => '<h3 class="widget-title">',
+            'after_title'   => '</h3>',
+        ) );
     }
 
     /**
@@ -191,7 +203,7 @@ class MSP{
         return msp_get_product_image_src( $img_id );
     }
 
-    public function maybe_hide_ltl_shipping_option( $rates )	{
+    public function maybe_hide_ltl_shipping_option( $rates ){
         $targeted_class = 54; // ltl shipping class id
         
         // if its not there, remove the LTL shipping option
@@ -206,6 +218,9 @@ class MSP{
     
         unset( $rates['flat_rate:6']);
         return $rates;
+    }
+    public static function get_wrapper_class(){
+        return ( is_archive() ) ? 'container-fluid' : 'col-full';
     }
 }
 
