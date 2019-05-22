@@ -233,6 +233,17 @@ add_filter( 'msp_additional_information_html', 'msp_product_additional_informati
  */
 add_action( 'woocommerce_sidebar', 'msp_get_shop_sidebar', 20 );
 
+add_action( 'init', 'z_remove_wc_breadcrumbs');
+
+function z_remove_wc_breadcrumbs() {
+    remove_action( 'storefront_before_content', 'woocommerce_breadcrumb', 10);
+}
+
+/**
+ * woocommerce_archive_description
+ */
+add_action( 'woocommerce_archive_description', 'woocommerce_breadcrumb', 5 );
+
 /**
  * woocommerce_before_shop_loop_item_title
  * @see we do this to wrap a product image in an a tag - CSS
@@ -243,7 +254,7 @@ add_action( 'woocommerce_before_shop_loop_item_title', 'woocommerce_template_loo
  * woocommerce_before_shop_loop_item_title
  * @see we do this to wrap the rest of the product in another tag - CSS
  */
-add_action( 'woocommerce_shop_loop_item_title', 'woocommerce_template_loop_product_link_open', 5 );
+add_action( 'woocommerce_shop_loop_item_title', 'msp_template_loop_product_link_open', 5 );
 
 /**
  * woocommerce_after_shop_loop_item
@@ -251,8 +262,6 @@ add_action( 'woocommerce_shop_loop_item_title', 'woocommerce_template_loop_produ
 remove_action( 'woocommerce_after_shop_loop_item', 'woocommerce_template_loop_add_to_cart', 10 );
 
 // debug
-add_action( 'wp_footer', 'get_cron_jobs' );
+// add_action( 'woocommerce_before_main_content', 'get_cron_jobs' );
 function get_cron_jobs(){
-    // var_dump( _get_cron_array() );
-    echo 'hi';
 }
