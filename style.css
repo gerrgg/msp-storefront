@@ -386,8 +386,8 @@ table.woocommerce-product-attributes{
     font-size: 18px;
 }
 
-.woocommerce-LoopProduct-link.woocommerce-loop-product__link{
-    height: 175px!important;
+.product > .woocommerce-LoopProduct-link.woocommerce-loop-product__link{
+    height: 200px!important;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -404,5 +404,11 @@ a.woocommerce-LoopProduct-link.woocommerce-loop-product__link > img{
 }
 
 .woocommerce-products-header__title.page-title{
+    text-align: left;
+}
+
+.storefront-breadcrumb, .storefront-breadcrumb > .col-full{
+    padding: 0;
+    margin: 0;
     text-align: left;
 }

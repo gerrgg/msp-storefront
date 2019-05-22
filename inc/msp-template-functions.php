@@ -816,3 +816,7 @@ function commerce_connector_tracking( $order_id ){
 function msp_get_additional_information( $product ){
     echo apply_filters( 'msp_additional_information_html', $product );
 }
+
+function msp_template_loop_product_link_open(){
+    echo '<a href="'. get_permalink() .'"></a>';
+}

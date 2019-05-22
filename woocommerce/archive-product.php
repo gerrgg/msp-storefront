@@ -16,6 +16,7 @@
  */
 defined( 'ABSPATH' ) || exit;
 get_header( 'shop' );
+
 /**
  * Hook: woocommerce_before_main_content.
  *
@@ -24,9 +25,10 @@ get_header( 'shop' );
  * @hooked WC_Structured_Data::generate_website_data() - 30
  */
 do_action( 'woocommerce_before_main_content' );
+
 ?>
 <div class="row">
-	<div class="col-12 col-sm-2">
+	<div class="col-12 col-sm-4 col-md-2">
 		<?php get_sidebar('shop'); ?>
 	</div>
 	<div class="col">
