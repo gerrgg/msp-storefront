@@ -14,18 +14,15 @@ TODO: ( Ordered by priority )
 2. Product videos with the product images? ✅
 3. log in with google/facebook/etc.
 4. Bulk Pricing ( Maybe use plugin ).
-5. Size guide
+5. Size guide ✅
 
 -- single product --
 1. bulk form
 2. Resources Tab ✅
-3. contact form
-4. Use tags for linking to specific safety standards. If we do this, tags cant really be used for anything else.
-5. Product specifications table? or use the product attributes tab and use advanced filtering on archive page.
+3. contact form 
 
 -- images -- 
 2. include videos in product gallery ( fpsua repo) ✅
-3. colorbox integration -- integrate with the above layout
 
 
 -- comments -- 
@@ -39,7 +36,7 @@ TODO: ( Ordered by priority )
 
 -- orders --
 1. create track progress page ( class? )
-2. integrate with modal.js for ( feedback / problem )
+2. integrate with modal.js for ( feedback / problem ) ✅
 3. integrate with returns ( UPS )
 
 -- API --

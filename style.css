@@ -412,3 +412,11 @@ a.woocommerce-LoopProduct-link.woocommerce-loop-product__link > img{
     margin: 0;
     text-align: left;
 }
+
+.product > .storefront-breadcrumb{
+    margin: .5rem 0 2rem 0;
+}
+
+#shop-filters .widget-title{
+    padding: 0px;
+}
