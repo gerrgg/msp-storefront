@@ -83,8 +83,7 @@ class MSP{
         wp_enqueue_style( 'owl-carousel-theme', URI . '/vendor/OwlCarousel2-2.3.4/dist/assets/owl.theme.default.min.css' );
         wp_enqueue_script( 'owl-carousel', URI . '/vendor/OwlCarousel2-2.3.4/dist/owl.carousel.min.js', array( 'jquery' ), '', true );
 
-        //jquery-pjax - https://github.com/defunkt/jquery-pjax
-        wp_enqueue_script( 'jquery-pjax', URI . '/vendor/jquery.pjax.js', array( 'jquery' ), '', true );
+        
 
     }
 

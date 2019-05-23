@@ -113,7 +113,6 @@ class User_History{
 
         foreach( $arr as $id => $item ){
             $product = wc_get_product( $id );
-            
             if( $product && $count < $limit ){
                 ?>
                 <div class="text-center">
@@ -123,9 +122,9 @@ class User_History{
                     <p class="price text-center mx-auto">$<?php echo $product->get_price(); ?></p>
                 </div>
                 <?php
+            $count++;
             }
             
-            $count++;
         }
         
         echo '</div><!-- #browsing-history-block -->';

@@ -9,15 +9,15 @@ jQuery(document).ready(function( $ ){
         },
 
         get_product_query: function( e ){
-            e.preventDefault();
-            console.log( e );
-            let search = e.target.search;
-            var obj = msp.get_json_from_url(search);
-            console.log( obj );
+            // e.preventDefault();
+            // console.log( e );
+            // let search = e.target.search;
+            // var obj = msp.get_json_from_url(search);
+            // console.log( obj );
 
-            $.post( e.target.href, obj, function( data ){
-                console.log( data );
-            } );
+            // $.post( e.target.href, obj, function( data ){
+            //     console.log( data );
+            // } );
         },
 
         delete_user_product_image: function( e ){

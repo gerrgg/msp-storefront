@@ -229,10 +229,6 @@ add_filter( 'msp_additional_information_html', 'msp_get_product_pool', 5, 1 );
 add_filter( 'msp_additional_information_html', 'msp_get_product_metadata', 10, 1 );
 add_filter( 'msp_additional_information_html', 'msp_product_additional_information_html', 15, 1 );
 
-/**
- * add msp sidebar specifically for use with archive pages.
- */
-add_action( 'woocommerce_sidebar', 'msp_get_shop_sidebar', 20 );
 
 add_action( 'init', 'z_remove_wc_breadcrumbs');
 
@@ -271,4 +267,7 @@ add_action( 'woocommerce_before_main_content', 'msp_get_shop_subnav', 5 );
 
 
 // debug
-// add_action( 'woocommerce_before_main_content', 'get_cron_jobs' );
+add_action( 'wp_footer', 'msp_debug' );
+function msp_debug(){
+
+}
