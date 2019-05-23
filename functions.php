@@ -65,8 +65,9 @@ class MSP{
 
         
         $this->wp_localize_scripts( array('main') );
+        
 
-        // Font Awesome
+        // Font Awesome - https://fontawesome.com/icons?d=gallery
         wp_enqueue_style( 'font-awesome', 'https://use.fontawesome.com/releases/v5.8.1/css/all.css' );
         
         // slideout.js - https://github.com/Mango/slideout
@@ -81,6 +82,9 @@ class MSP{
         wp_enqueue_style( 'owl-carousel', URI . '/vendor/OwlCarousel2-2.3.4/dist/assets/owl.carousel.min.css' );
         wp_enqueue_style( 'owl-carousel-theme', URI . '/vendor/OwlCarousel2-2.3.4/dist/assets/owl.theme.default.min.css' );
         wp_enqueue_script( 'owl-carousel', URI . '/vendor/OwlCarousel2-2.3.4/dist/owl.carousel.min.js', array( 'jquery' ), '', true );
+
+        //jquery-pjax - https://github.com/defunkt/jquery-pjax
+        wp_enqueue_script( 'jquery-pjax', URI . '/vendor/jquery.pjax.js', array( 'jquery' ), '', true );
 
     }
 
