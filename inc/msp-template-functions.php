@@ -261,8 +261,11 @@ function msp_get_customer_unique_order_items( $user_id ){
 }
 
 function msp_get_user_browsing_history(){
-    global $history;
-    echo $history->get_user_products_history();
+    if( is_user_logged_in() ){
+        global $history;
+        echo $history->get_user_products_history();
+    }
+
     wp_die();
 }
 
