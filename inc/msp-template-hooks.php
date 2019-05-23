@@ -269,5 +269,7 @@ add_action( 'woocommerce_before_main_content', 'msp_get_shop_subnav', 5 );
 // debug
 add_action( 'wp_footer', 'msp_debug' );
 function msp_debug(){
-
+    global $history;
+    // uasort( $history->data['products'], 'msp_sort_by_timestamp' );
+    // var_dump( $history->data['products'] );
 }

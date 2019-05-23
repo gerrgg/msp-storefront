@@ -105,7 +105,7 @@ class User_History{
     public function get_user_products_history( $limit = 20, $echo = false ){
         ob_start();
 
-        $arr = $this->data['products'];
+        $arr = $this->sort_arr_by_timestamp( $this->data['products'] );
         $count = 0;
         $limit = ( sizeof( $arr ) < $limit ) ? sizeof( $arr ) : $limit;
 
@@ -116,7 +116,7 @@ class User_History{
             if( $product && $count < $limit ){
                 ?>
                 <div class="text-center">
-                    <a class="text-center mx-auto link-normal" href="<?php echo $product->get_permalink() ?>">
+                    <a class="text-center mx-auto link-normal woocommerce-LoopProduct-link woocommerce-loop-product__link" href="<?php echo $product->get_permalink() ?>">
                         <img src="<?php echo msp_get_product_image_src( $product->get_image_id(), 'woocommerce_thumbnail' ); ?>" class="mx-auto img-sm" />
                     </a>
                     <p class="price text-center mx-auto">$<?php echo $product->get_price(); ?></p>
@@ -166,6 +166,18 @@ class User_History{
         }
 
         $this->update_session();
+    }
+
+    public function sort_arr_by_timestamp( $arr ){
+        uasort( $arr, array( $this, 'sort_by_timestamp' ) );
+        return $arr;
+    }
+
+    function sort_by_timestamp( $a, $b ){
+        if ($a['last_visit'] == $b['last_visit']) {
+            return 0;
+        }
+        return ($a['last_visit'] > $b['last_visit']) ? -1 : 1;
     }
 
 }

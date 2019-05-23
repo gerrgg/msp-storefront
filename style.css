@@ -195,7 +195,7 @@ label.price{
     color: #333;
 }
 #browsing-history-block img{
-    width: 75px;
+    height: 75px;
 }
 
 .user-history{
@@ -386,11 +386,14 @@ table.woocommerce-product-attributes{
     font-size: 18px;
 }
 
-.product > .woocommerce-LoopProduct-link.woocommerce-loop-product__link{
-    height: 200px!important;
+.woocommerce-LoopProduct-link.woocommerce-loop-product__link{
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.product > .woocommerce-LoopProduct-link.woocommerce-loop-product__link{
+    height: 200px!important;
 }
 
 #msp-archive > .product{
