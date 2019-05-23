@@ -28,6 +28,7 @@ class UPS{
     $this->access_request = $this->get_access_request();
     $this->from = $this->get_base_shop_address();
   }
+  
   public function get_base_shop_address(){
     $address = wc_get_base_location();
     $address['address_1'] = get_option( 'woocommerce_store_address', '' );

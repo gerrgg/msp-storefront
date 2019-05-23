@@ -678,6 +678,10 @@ function msp_order_report_issue_button(){
 }
 
 function msp_get_resources_tab(){
+    /**
+     * A callback used to an HTML list based on product meta data
+     * @see msp_get_product_resources()
+     */
     global $post;
     $resources = msp_get_product_resources( $post->ID );
 
@@ -690,6 +694,10 @@ function msp_get_resources_tab(){
 }
 
 function msp_get_product_videos_tab(){
+    /**
+     * A callback used to an HTML list based on product meta data
+     * @see msp_get_product_resources()
+     */
     global $post;
     $resources = msp_get_product_videos( $post->ID );
 
@@ -702,6 +710,10 @@ function msp_get_product_videos_tab(){
 }
 
 function msp_show_product_size_guide_btn(){
+    /**
+     * Creates a link to the dynamic modal ( modal.js ) if has size_guide attached. ( custom meta box )
+     * @see msp_get_product_resources()
+     */
     global $product;
     $size_guide = get_post_meta( $product->get_id(), '_msp_size_guide', true );
     if( ! empty( $size_guide ) ){
@@ -716,6 +728,9 @@ function msp_show_product_size_guide_btn(){
 }
 
 function msp_shameless_self_plug(){
+    /**
+     * Simply says that I made this website / theme.
+     */
     ?>
     <p class="text-center bg-dark text-light m-0 p-0">
         <a class="text-light link-normal" href="http://drunk.kiwi">Made with <i class="fas fa-coffee mx-2"></i> & <i class="fas fa-heart text-danger mx-2"></i> by Greg Bastianelli</a>
@@ -724,6 +739,10 @@ function msp_shameless_self_plug(){
 }
 
 function msp_dynamic_modal(){
+    /**
+     * Creates the HTML for a dynamic bootstrap modal
+     * @see js\modal.js
+     */
     ?>
     <div class="modal fade" id="msp_modal" tabindex="-1" role="dialog" aria-labelledby="msp_modal" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
@@ -750,11 +769,18 @@ function msp_dynamic_modal(){
 }
 
 function msp_get_product_size_guide_src(){
+    /**
+     * returns the meta value _msp_size_guide - used for AJAX.
+     * @return string - path to uploaded size guide ( custom meta box ).
+     */
     echo get_post_meta( $_POST['id'], '_msp_size_guide', true );
     wp_die();
 }
 
 function msp_get_leave_feedback_form(){
+    /**
+     * Simply gets the HTML template for the feedback form.
+     */
     ob_start();
     set_query_var('order_id', $_POST['id']);
     wc_get_template( '/template/msp-leave-feedback-form.php' );
@@ -764,6 +790,12 @@ function msp_get_leave_feedback_form(){
 }
 
 function msp_process_feedback_form(){
+    /**
+     * Either creates a new comment or edits an order one, based on whether or not the user has
+     * reviews a product.
+     * 
+     * @return string - $comment_id
+     */
     $form_data = array();
     $user = wp_get_current_user();
     parse_str( $_POST['form_data'], $form_data );
@@ -801,6 +833,10 @@ function msp_process_feedback_form(){
 }
 
 function commerce_connector_tracking( $order_id ){
+    /**
+     * Integration with Commerce Connector and hooked into woocommerce_thankyou
+     * @param int $order_id
+     */
     $order = wc_get_order( $order_id );
     $product_str = 'https://www.commerce-connector.com/tracking/tracking.gif?shop=1234567890ABC&';
     $count = 0;
@@ -817,14 +853,24 @@ function commerce_connector_tracking( $order_id ){
 }
 
 function msp_get_additional_information( $product ){
+    /**
+     * Simply outputs the html returned by the msp_additional_information_html filter.
+     * @see msp_additional_information_html()
+     */
     echo apply_filters( 'msp_additional_information_html', $product );
 }
 
 function msp_template_loop_product_link_open(){
+    /**
+     * Opens up another a tag within the content-product.php
+     */
     echo '<a href="'. get_permalink() .'">';
 }
 
 function msp_get_shop_subnav(){
+    /**
+     * Outputs the html for a subnav if applicable
+     */
     $nav_items = msp_get_category_children();
     if( empty( $nav_items ) ) return;
 

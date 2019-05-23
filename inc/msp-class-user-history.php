@@ -20,19 +20,6 @@ class User_History{
         add_action( 'init', array( $this, 'import_data' ) );
         add_action( 'template_redirect', array( $this, 'check_template' ) );
     }
-
-    public function update_session(){
-        foreach( $this->data as $key => $data ){
-
-            $_SESSION['msp_' . $key] = $this->data[$key];
-
-            if( is_user_logged_in() ){
-                if( ! empty( $data ) ){
-                    update_user_meta( get_current_user_id(), 'msp_' . $key, $this->package( $data ) );
-                }
-            }
-        }
-    }
     
     /**
      * updates the $data array with user data from the db or session based on whether or not a user is logged in.
@@ -68,6 +55,9 @@ class User_History{
     }
 
     public function build_item( $data ){
+        /**
+         * Packages up a data entry based on the type
+         */
         global $post;
         $id = ( isset( $data->term_id ) ) ? $data->term_id : $post->ID;
         $type = ( isset( $data->term_id ) ) ? 'categories' : 'products';
@@ -78,6 +68,22 @@ class User_History{
         $arr['last_visit'] = time();
         $this->data[$type][$id] = $arr;
 
+    }
+
+    public function update_session(){
+        /**
+         * updates the user $_SESSION variable after all the data is loaded in.
+         */
+        foreach( $this->data as $key => $data ){
+
+            $_SESSION['msp_' . $key] = $this->data[$key];
+
+            if( is_user_logged_in() ){
+                if( ! empty( $data ) ){
+                    update_user_meta( get_current_user_id(), 'msp_' . $key, $this->package( $data ) );
+                }
+            }
+        }
     }
 
     /**
@@ -136,6 +142,9 @@ class User_History{
     }
 
     public function get_unique_items( $arr ){
+        /**
+         * Returns an array of unique item values.
+         */
         $unique = array();
         foreach( $arr as $data ){
             if( ! empty( $data[0] ) ){
@@ -149,18 +158,16 @@ class User_History{
     }
 
     public function get_user_categories_history(){
+        /**
+         * Returns the catagories array.
+         */
         return( $this->data['categories'] );
     }
 
-    /**
-    * Checks if we are in a category using the URI, if so, grab the slug of the next cat and return WP_Term
-    * @return WP_Term $category
-    */
-    public static function get_category(){
-       var_dump( get_the_category() );
-    }
-
     public function update( $array_key, $data ){
+        /**
+         * Updates all the object arrays and then stores to $_SESSION
+         */
         foreach( $data as $data_key => $data_value ){
             $this->data[$array_key][$data_key] = $data_value;
         }
@@ -169,11 +176,19 @@ class User_History{
     }
 
     public function sort_arr_by_timestamp( $arr ){
+        /**
+         * Sorts an array by timestamp.
+         * @param array
+         * @return array $arr - Returns a sorted copy of the products array. 
+         */
         uasort( $arr, array( $this, 'sort_by_timestamp' ) );
         return $arr;
     }
 
     function sort_by_timestamp( $a, $b ){
+        /**
+         * Sorts decending based on timestamp.
+         */
         if ($a['last_visit'] == $b['last_visit']) {
             return 0;
         }

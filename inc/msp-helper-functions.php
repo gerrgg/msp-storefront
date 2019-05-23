@@ -3,12 +3,20 @@
 defined( 'ABSPATH' ) || exit;
 
 function msp_get_product_image_src( $img_id, $size = 'medium' ){
+    /** returns the src of a wp_attachment
+	 * @param int $img_id - The ID of the image being passed.
+	 * @param string $size - The size of the image returned
+	 * @return string - image src
+	 */
     $src = wp_get_attachment_image_src( $img_id, $size );
     return $src[0];
 }
 
 function msp_get_product_image_srcset( $img_id ){
-	$sizes = array( 'woocommerce_thumbnail', 'woocommerce_single' );
+	/**
+	 * Calls msp_get_product_image_src() on a number image sizes
+	 * @return array - array of srcs
+	 */
 
 	$srcset = array(
 		'thumbnail' => msp_get_product_image_src( $img_id, 'woocommerce_thumbnail' ),
@@ -19,6 +27,11 @@ function msp_get_product_image_srcset( $img_id ){
 }
 
 function msp_get_product_image_src_by_product_id( $product_id ){
+	/**
+	 * returns the src of the WC_Product main image ID
+	 * @param int $product_id
+	 * @return string|null - either a src or null
+	 */
     $product = wc_get_product( $product_id );
     $product_image_id = ( ! empty( $product ) ) ? $product->get_image_id() : 0;
     
@@ -27,10 +40,19 @@ function msp_get_product_image_src_by_product_id( $product_id ){
 
 
 function deslugify( $str ){
+	/**
+	 * Simply takes in a string, converts any _ to - and capitalizes each word in the string.
+	 * @param string
+	 * @return string
+	 */
     return ucwords( str_replace( array('_', '-'), ' ', $str ) );
 }
 
 function msp_get_user_product_review( $p_id, $format = ARRAY_A ){
+	/**
+	 * returns a customers product review
+	 * @param int $product_id - The id of a product.
+	 */
 	$comments = get_comments(array(
 		'post_id' 						=> $p_id,
 		'user_id' 						=> get_current_user_id(),
@@ -40,7 +62,12 @@ function msp_get_user_product_review( $p_id, $format = ARRAY_A ){
 	return $comment;
 }
 
-function msp_customer_feedback( $order_id, $format = ARRAY_A ){
+function msp_customer_feedback( $order_id ){
+	/**
+	 * returns a customer store review connected to $order_id
+	 * @param int $order_id - The ID of an order.
+	 * @return WP_Comment
+	 */
     $comments = get_comments(array(
 		'post_id' 						=> 0,
 		'user_id' 						=> get_current_user_id(),
@@ -53,14 +80,27 @@ function msp_customer_feedback( $order_id, $format = ARRAY_A ){
 }
 
 function msp_get_product_resources( $id ){
+	/**
+	 * used to get and unpack array of product resource links stored in DB.
+	 * @return array
+	 */
 	return User_history::unpackage( get_post_meta( $id, '_msp_resources', true ) );
 }
 
 function msp_get_product_videos( $id ){
+	/**
+	 * used to get and unpack array of product video links stored in DB.
+	 * @return array
+	 */
 	return User_history::unpackage( get_post_meta( $id, '_msp_product_videos', true ) );
 }
 
 function make_modal_btn( $args = array() ){
+	/**
+	 * A simple helper function used to properly format a button to work in conjunction with dynamic modals (/js/modal.js).
+	 * @param array - $args - An array of arguments
+	 * @return string - the HTML output of the button.
+	 */
 	$a_text = '<a data-toggle="modal" href="#msp_modal" data-title="%s" data-model="%s" data-action="%s" data-id="%d" class="%s">%s</a>';
 	$button_text = '<button data-toggle="modal" data-target="#msp_modal" data-title="%s" data-model="%s" data-action="%s" data-id="%d" class="%s">%s</button>';
 	$defaults = array(
@@ -80,10 +120,20 @@ function make_modal_btn( $args = array() ){
 }
 
 function msp_get_product_pool( $product ){
+	/**
+	 * Checks whether the product has children ( variations ).
+	 * @param WC_Product - $product
+	 * @return array
+	 */
     return ( $product->get_children() ) ? $product->get_children() : array( $product->get_id() );
 }
 
 function msp_get_product_metadata( $product_ids ){
+	/**
+	 * loops through an array where the key is the label and value is the meta_key
+	 * @param array $product_ids - An array of ids.
+	 * @return array $data_sets - An array of key => value pairs.
+	 */
     $data_sets = array( 'sku' => '_sku', 'gtin' => '_woocommerce_gpf_data' );
     foreach( $data_sets as $label => $meta_key ){
         $str = '';
@@ -104,6 +154,10 @@ function msp_get_product_metadata( $product_ids ){
 }
 
 function msp_product_additional_information_html( $inner_html ){
+	/**
+	 * takes in an array of key : value pairs and displays them as a table row
+	 * @param array - $inner_html - an array of key value pairs
+	 */
     if( empty( $inner_html ) ) return;
     echo '<table>';
     foreach( $inner_html as $label => $value ) : ?>
