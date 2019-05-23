@@ -130,7 +130,7 @@ function msp_get_category_children(){
 	* Used to get the children of a product category
 	* @return WP_Term $children - The children taxonomys of a product category
 	*/
-	if( ! is_shop() && ! is_archive() ) return;
+	if( ! is_product_category() ) return;
 
 	$term = get_queried_object();
 	$children = get_terms( $term->taxonomy, array(
