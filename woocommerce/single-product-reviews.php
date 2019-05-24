@@ -22,7 +22,7 @@ if ( ! comments_open() ) {
 	return;
 }
 ?>
-<div id="reviews" class="woocommerce-Reviews row border-top border-bottom py-2 my-2">
+<div id="reviews" class="woocommerce-Reviews row">
 	<div id="comments" class="col-4">
 		<h2 class="woocommerce-Reviews-title">
 			<?php

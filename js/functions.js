@@ -5,19 +5,47 @@ jQuery(document).ready(function( $ ){
             msp.bind_karma_buttons();
             $(document.body).on( 'click', 'i.msp-star-rating', msp.bind_create_review_star_buttons )
             $('#msp_review').on( 'click', '.remove-product-image-from-review', msp.delete_user_product_image )
-            $('#shop-filters').on( 'click', '.woocommerce-widget-layered-nav-list__item > a', msp.get_product_query )
+            $('#msp_submit_question').on( 'blur', 'input[name="question"]', msp.customer_faq_validate_question )
+            $('#msp_submit_question').on( 'click', 'button', msp.customer_submit_question )
+            $('#msp_submit_answer').on( 'click', 'button.msp-submit-answer', msp.customer_submit_awnser );
         },
 
-        get_product_query: function( e ){
-            // e.preventDefault();
-            // console.log( e );
-            // let search = e.target.search;
-            // var obj = msp.get_json_from_url(search);
-            // console.log( obj );
+        customer_faq_validate_question: function( e ){
+            let question = $('#msp_submit_question input[name="question"]').val();
+            if( question.length > 10 ){
+                $('#msp_submit_question_btn').prop( 'disabled', false );
+            } else {
+                $('#msp_submit_question_btn').prop( 'disabled', true );
+            }
 
-            // $.post( e.target.href, obj, function( data ){
-            //     console.log( data );
-            // } );
+            return ( question.length > 10 );
+        },
+
+        customer_submit_awnser: function( e ){
+            let answer = $('#msp_submit_answer input[name="answer"]').val();
+            console.log( answer );
+            if( answer.length > 0 ){
+                let data = { 
+                    action: 'msp_process_customer_submit_awnser',
+                    form_data: $('#msp_submit_answer *').serialize()
+                }
+                $.post( wp_ajax.url, data, function( response ){
+                    console.log( response );
+                } );
+            }
+        },
+
+        customer_submit_question: function( e ){
+            if( msp.customer_faq_validate_question() ){
+                let data = {
+                    action: 'msp_process_customer_submit_question',
+                    formdata: $('#msp_submit_question *').serialize()
+                }
+
+                $.post( wp_ajax.url, data, function( response ){
+                    console.log( response );
+                } );
+            }
         },
 
         delete_user_product_image: function( e ){

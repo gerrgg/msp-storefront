@@ -4,9 +4,8 @@
 TODO:
 
 -- shop --
-1. ajax filter - maybe too difficult for not much value.
-2. sub nav under header of sub categories. PARENT >> best sellers >> select other sibling categories
-3. show sibling categories as first above filter
+2. sub nav under header of sub categories. PARENT >> best sellers >> select other sibling categories ✅
+3. show sibling categories as first above filter ✅
 4. show featured sub categories for Top level categories
 5. show best sellers / top rated / personalization for top level categories
 

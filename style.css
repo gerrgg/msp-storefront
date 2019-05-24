@@ -449,3 +449,10 @@ a.woocommerce-LoopProduct-link.woocommerce-loop-product__link > img{
 #primary{
     margin-top: 2rem;
 }
+.product_question_inner label{
+    font-weight: 800;
+}
+
+#msp_customer_faq .msp-karma{
+    float: left;
+}

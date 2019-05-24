@@ -887,3 +887,7 @@ function msp_get_shop_subnav(){
     </nav>
     <?php
 }
+
+function msp_customer_faq(){
+    wc_get_template( '/template/msp-customer-faq.php' );
+}

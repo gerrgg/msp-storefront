@@ -10,7 +10,7 @@ function msp_chevron_karma_form( $comment ){
     $vote = msp_get_user_karma_vote( get_current_user_id(), $comment->comment_ID );
     $vote = ( ! empty( $vote->karma_value ) ) ? $vote->karma_value : 0;
   ?>
-    <div class="d-flex flex-column mx-auto text-center mt-3">
+    <div class="d-flex msp-karma flex-column text-center mr-3">
         <i class="fas fa-chevron-circle-up text-secondary fa-2x mb-1 karma karma-up-vote <?php if( $vote == 1 ) echo 'voted'; ?>"></i>
         <span class="mb-1 karma-score"><?php echo $comment->comment_karma ?></span>
         <i class="fas fa-chevron-circle-down text-secondary fa-2x karma karma-down-vote <?php if( $vote == -1 ) echo 'voted'; ?>" ></i>
@@ -106,7 +106,6 @@ function msp_single_product_create_review(){
      * Creates the parent div
      */
     ?>
-    <hr />
     <h3>Review this product</h3>
     <p>Share your thoughts with other customers.</p>
     <?php
@@ -546,5 +545,113 @@ function msp_delete_user_product_image(){
      */
     global $wpdb;
     echo $wpdb->delete( $wpdb->posts, array( 'ID' => $_POST['id'] ) );
+    wp_die();
+}
+
+function msp_submit_question_form(){
+    $user = get_userdata( get_current_user_id() );
+    ?>
+        <div id="msp_submit_question" class="form-group mt-3">
+            <input type="input" name="question" class="form-control" placeholder="Ask your question">
+            <?php if( ! isset( $user->user_email ) ) : ?>
+                <input type="email" name="email" class="form-control" placeholder="Where can we email you the answer?" />
+            <?php else : ?>
+                <input type="hidden" name="email" value="<?php echo $user->user_email ?>"/>
+            <?php endif; ?>
+            <input type="hidden" name="post_id" value="<?php echo get_the_ID() ?>">
+            <button id="msp_submit_question_btn" class="btn btn-success btn-lg ml-auto mt-2" disabled>Submit question</button>
+        </div> 
+    <?php
+}
+
+function msp_get_submit_answer_form( $comment_id ){
+    ?>  
+        <div id="msp_submit_answer" class="d-flex">
+            <input type="input" name="answer" class="form-control" placeholder="Do you have an answer to this question?" />
+            <input type="hidden" name="comment_id" value="<?php echo $comment_id ?>" />
+            <input type="hidden" name="user_id" value="<?php echo get_current_user_id() ?>" />
+            <button class="btn btn-success btn-sm msp-submit-answer">answer</button>
+        </div> 
+    <?php
+}
+
+function msp_process_customer_submit_question(){
+    parse_str( $_POST['formdata'], $form_data );
+    if( isset( $form_data['question'], $form_data['email'] ) ){
+        $args = array(
+            'comment_post_ID'      => $form_data['post_id'],
+            'comment_author_email' => $form_data['email'],
+            'comment_content'      => wp_strip_all_tags($form_data['question']),
+            'comment_type'      => 'product_question',
+            'comment_approved' => 0
+        );
+
+        // $comment_id = wp_insert_comment( $args );
+        // echo $comment_id;
+        echo 126;
+    }
+    wp_die();
+}
+
+
+
+function product_question_wrapper_open(){
+    echo '<div class="p-3 border">';
+}
+
+
+function msp_get_product_question( $question ){
+    ?>  <div class="product_question_inner">
+            <div class="question">
+                <p>
+                    <label class="pr-4">Question:</label>
+                    <span><?php echo $question->comment_content ?></span>
+                </p>
+            </div>
+    <?php
+    
+}
+
+
+function product_question_wrapper_end(){
+    echo '</div>';
+}
+
+function msp_get_product_question_answers( $question ){
+    $answers = get_comments( array(
+        'post_id' => get_the_ID(),
+        'type' => 'product_answer',
+        'post_parent' => $question->comment_ID,
+    ) );
+    ?>
+
+        <div class="answer d-flex">
+        <label class="pr-4">answer:</label>
+            <p>
+                <?php 
+                    if( ! empty( $answers ) ) {
+                        foreach( $answers as $answer ){
+                            var_dump( $answer );
+                        }
+                    } else {
+                        echo '<p class="text-muted">We still dont have an answer for this one.</p>';
+                    }
+
+                    ?>
+            </p>
+        </div><!-- .answer -->
+        <p> 
+            <?php msp_get_submit_answer_form( $question->comment_ID ); ?> 
+        </p>
+    </div><!-- .product_question_inner -->
+    <?php
+}
+
+function msp_process_customer_submit_awnser(){
+    parse_str( $_POST['form_data'], $form_data );
+    wp_send_json( $form_data );
+
+    
+
     wp_die();
 }
