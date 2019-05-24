@@ -140,7 +140,7 @@ function msp_get_product_metadata( $product_ids ){
         foreach( $product_ids as $id ){
             $product = wc_get_product( $id );
             $data = get_post_meta( $id, $meta_key, true );
-            if( is_array( $data ) ){
+            if( is_array( $data ) && isset( $data[$label] ) ){
                 $data = $data[$label];
             }
 
@@ -160,11 +160,13 @@ function msp_product_additional_information_html( $inner_html ){
 	 */
     if( empty( $inner_html ) ) return;
     echo '<table>';
-    foreach( $inner_html as $label => $value ) : ?>
-        <tr class="woocommerce-product-attributes-item">
-            <th class="woocommerce-product-attributes-item__label"><?php echo ucfirst($label); ?></th>
-            <td class="woocommerce-product-attributes-item__value"><?php echo $value ?></td>
-        </tr>
+	foreach( $inner_html as $label => $value ) : ?>
+		<?php if( ! empty( $value ) ) : ?>
+			<tr class="woocommerce-product-attributes-item">
+				<th class="woocommerce-product-attributes-item__label"><?php echo ucfirst($label); ?></th>
+				<td class="woocommerce-product-attributes-item__value"><?php echo $value ?></td>
+			</tr>
+		<?php endif; ?>
     <?php endforeach;
     echo '</table>';
 }
