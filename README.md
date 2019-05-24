@@ -33,6 +33,8 @@ TODO:
 5. Add comment actions - comment / flag / share
 6. Add cron to email customer about product with link to create review
 7. integrate custom questions/awnsers
+8. email people who bought this product about a users question
+9. email question poster when a question is given an awnser
 
 -- orders --
 1. create track progress page ( class? )
