@@ -891,3 +891,20 @@ function msp_get_shop_subnav(){
 function msp_customer_faq(){
     wc_get_template( '/template/msp-customer-faq.php' );
 }
+
+function msp_contact_btn(){
+    ?>
+    <li class="nav-item">
+        <a class="nav-link" href="/contact">
+            Contact Us
+        </a>
+    </li>
+    <?php
+}
+
+add_shortcode( 'contact', 'msp_get_contact_page' );
+function msp_get_contact_page(){
+    ob_start();
+    wc_get_template('/template/msp-contact.php');
+    echo ob_get_clean();
+}

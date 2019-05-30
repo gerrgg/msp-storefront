@@ -149,7 +149,7 @@ class MSP{
     }
 
     public function create_theme_pages(){
-        $slugs = array( 'buy-again', 'quote', 'review' );
+        $slugs = array( 'buy-again', 'quote', 'review', 'contact' );
 
         foreach( $slugs as $slug ){
             if( ! $this->the_slug_exists( $slug ) ){
@@ -229,3 +229,4 @@ class MSP{
 
 //init
 new MSP();
+add_shortcode( 'contact', 'msp_get_contact_page' );
