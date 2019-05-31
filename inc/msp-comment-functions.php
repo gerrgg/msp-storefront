@@ -106,7 +106,6 @@ function msp_single_product_create_review(){
      * Creates the parent div
      */
     ?>
-    <h3>Review this product</h3>
     <p>Share your thoughts with other customers.</p>
     <?php
         msp_get_create_a_review_btn();
@@ -551,7 +550,7 @@ function msp_delete_user_product_image(){
 function msp_submit_question_form(){
     $user = get_userdata( get_current_user_id() );
     ?>
-        <div id="msp_submit_question" class="form-group mt-3">
+        <div id="msp_submit_question" class="mt-3 d-flex">
             <input type="input" name="question" class="form-control" placeholder="Ask your question">
             <?php if( ! isset( $user->user_email ) ) : ?>
                 <input type="email" name="email" class="form-control" placeholder="Where can we email you the answer?" />
@@ -559,7 +558,7 @@ function msp_submit_question_form(){
                 <input type="hidden" name="email" value="<?php echo $user->user_email ?>"/>
             <?php endif; ?>
             <input type="hidden" name="post_id" value="<?php echo get_the_ID() ?>">
-            <button id="msp_submit_question_btn" class="btn btn-success btn-lg ml-auto mt-2" disabled>Submit question</button>
+            <button id="msp_submit_question_btn" class="btn btn-success btn-sm ml-auto" disabled>Ask Question</button>
         </div> 
     <?php
 }
@@ -568,6 +567,7 @@ function msp_get_submit_answer_form( $comment_id ){
     ?>  
         <div id="msp_submit_answer" class="d-flex">
             <input type="input" name="answer" class="form-control" placeholder="Do you have an answer to this question?" />
+            <input type="hidden" name="post_id" value="<?php echo get_the_ID() ?>">
             <input type="hidden" name="comment_id" value="<?php echo $comment_id ?>" />
             <input type="hidden" name="user_id" value="<?php echo get_current_user_id() ?>" />
             <button class="btn btn-success btn-sm msp-submit-answer">answer</button>
@@ -586,9 +586,8 @@ function msp_process_customer_submit_question(){
             'comment_approved' => 0
         );
 
-        // $comment_id = wp_insert_comment( $args );
-        // echo $comment_id;
-        echo 126;
+        $comment_id = wp_insert_comment( $args );
+        echo $comment_id;
     }
     wp_die();
 }
@@ -621,7 +620,7 @@ function msp_get_product_question_answers( $question ){
     $answers = get_comments( array(
         'post_id' => get_the_ID(),
         'type' => 'product_answer',
-        'post_parent' => $question->comment_ID,
+        'comment_parent' => $question->comment_ID,
     ) );
     ?>
 
@@ -629,15 +628,15 @@ function msp_get_product_question_answers( $question ){
         <label class="pr-4">answer:</label>
             <p>
                 <?php 
-                    if( ! empty( $answers ) ) {
-                        foreach( $answers as $answer ){
-                            var_dump( $answer );
-                        }
-                    } else {
-                        echo '<p class="text-muted">We still dont have an answer for this one.</p>';
+                if( ! empty( $answers ) ) {
+                    foreach( $answers as $answer ){
+                        echo $answer->comment_content;
                     }
+                } else {
+                    echo '<p class="text-muted">We still dont have an answer for this one.</p>';
+                }
 
-                    ?>
+                ?>
             </p>
         </div><!-- .answer -->
         <p> 
@@ -649,9 +648,24 @@ function msp_get_product_question_answers( $question ){
 
 function msp_process_customer_submit_awnser(){
     parse_str( $_POST['form_data'], $form_data );
-    wp_send_json( $form_data );
 
+    $args = array(
+        'comment_post_ID'      => $form_data['post_id'],
+        'comment_author_email' => $form_data['email'],
+        'comment_content'      => $form_data['answer'],
+        'comment_type'         => 'product_answer',
+        'comment_parent'       => $form_data['comment_id'],
+        'comment_approved'     => 1
+    );
+
+    $comment_id = wp_insert_comment( $args );
+    echo $comment_id;
     
-
     wp_die();
+}
+
+add_filter( 'woocommerce_product_review_list_args', 'msp_product_review_list_args', 100, 1 );
+function msp_product_review_list_args( $args ){
+    $args['type'] = 'review';
+    return $args;
 }

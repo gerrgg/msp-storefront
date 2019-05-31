@@ -12,7 +12,7 @@ $questions = get_comments( array(
 
 ?>
 
-<div id="msp_customer_faq" class="pb-2">
+<div id="msp_customer_faq" class="border-top border-bottom py-5">
     <h2>Customer questions & awnsers</h2>
     
     <?php 
@@ -22,10 +22,8 @@ $questions = get_comments( array(
 
     <?php if( empty( $questions ) ) : ?>
 
-        <div class="alert alert-info" role="alert">
-            <h2><i class="fas fa-exclamation-circle pr-2"></i>Whoops...</h2>
-            <p>No questions yet; be the first to ask about this product!</p>
-        </div>
+        
+        <p><i class="fas fa-exclamation-circle pr-2"></i>No questions yet; be the first to ask about this product!</p>
 
     <?php 
         else :

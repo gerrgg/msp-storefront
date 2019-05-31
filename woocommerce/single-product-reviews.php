@@ -22,9 +22,9 @@ if ( ! comments_open() ) {
 	return;
 }
 ?>
-<div id="reviews" class="woocommerce-Reviews row">
+<div id="reviews" class="woocommerce-Reviews row pt-5">
 	<div id="comments" class="col-4">
-		<h2 class="woocommerce-Reviews-title">
+		<h2 class="">
 			<?php
 			$ratings = $product->get_rating_counts();
 			$avg = $product->get_average_rating();
@@ -33,9 +33,8 @@ if ( ! comments_open() ) {
 				/* translators: 1: reviews count 2: product name */
 				$reviews_title = sprintf( esc_html( _n( '%1$s review for %2$s', '%1$s reviews for %2$s', $count, 'woocommerce' ) ), esc_html( $count ), '<span>' . get_the_title() . '</span>' );
 				echo apply_filters( 'woocommerce_reviews_title', $reviews_title, $count, $product ); // WPCS: XSS ok.
-
 			} else {
-				esc_html_e( 'Reviews', 'woocommerce' );
+				esc_html_e( 'Review this product', 'woocommerce' );
 			}
 			?>
 		</h2>

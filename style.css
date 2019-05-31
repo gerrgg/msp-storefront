@@ -485,3 +485,7 @@ a.woocommerce-LoopProduct-link.woocommerce-loop-product__link > img{
 	top: 50%;
 	transform: translate(-50%, -60%);
 }
+
+#msp_submit_question_btn{
+    white-space: nowrap;
+}
