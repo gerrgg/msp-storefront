@@ -53,6 +53,7 @@ add_action( 'storefront_before_site', 'msp_mobile_menu_wrapper_close', 100 );
  * msp_buy_again_btn();
  * msp_get_user_products_history_btn();
  * msp_quote_btn();
+ * msp_contact_btn();
  * msp_quick_links_wrapper_close();
  */
 add_action( 'msp_quick_links', 'msp_quick_links_wrapper_open', 1 );
@@ -136,6 +137,10 @@ add_action( 'admin_post_nopriv_msp_submit_bulk_form', 'msp_submit_bulk_form' );
 //create_review - /review
 add_action( 'admin_post_msp_process_create_review', 'msp_process_create_review' );
 add_action( 'admin_post_nopriv_msp_process_create_review', 'msp_process_create_review' );
+
+//contact_form - /contact
+add_action( 'admin_post_msp_process_contact_form', 'msp_process_contact_form' );
+add_action( 'admin_post_nopriv_msp_process_contact_form', 'msp_process_contact_form' );
 
 /**
  * woocommerce_review_before

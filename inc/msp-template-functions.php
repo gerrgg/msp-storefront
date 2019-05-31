@@ -908,3 +908,30 @@ function msp_get_contact_page(){
     wc_get_template('/template/msp-contact.php');
     echo ob_get_clean();
 }
+
+function msp_process_contact_form(){
+    if( ! empty( $_POST ) ){
+        $to = get_bloginfo( 'admin_email' );
+        $subject = ( ! empty( $_POST['subject'] ) ) ? $_POST['subject'] : wp_trim_words( $_POST['message'], 25 );
+        $headers = array(
+            'Content-Type: text/html; charset=UTF-8', 
+            'Reply-To:' . $_POST['email']
+        );
+
+        ob_start();
+        ?>
+        <h4><?php echo $subject; ?></h4>
+        <p><?php echo $_POST['message']; ?></p>
+        <br>
+        <p>Reply to: <?php echo $_POST['name'] . ' - ' . $_POST['email'] ?></p>
+        <hr>
+        <p>Sent from <?php echo get_bloginfo( 'url' ) . '/contact' ?></p>
+        <?php
+        $html = ob_get_clean();
+
+        wp_mail( $to, $subject, $html, $headers );
+        wp_mail( $_POST['email'], $subject, $html, $headers );
+        wp_redirect( '/' );
+        exit;
+    }
+}

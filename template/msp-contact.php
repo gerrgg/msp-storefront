@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 <div>
     <p class="lead">You can expect a response same or next business day.</p>
-    <form method="POST" action="<?php admin_url( 'admin-post.php' ) ?>" class="mx-auto" style="max-width: 500px;">
+    <form method="POST" action="<?php echo admin_url( 'admin-post.php' ) ?>" class="mx-auto" style="max-width: 500px;">
         <div class="form-group">
             <label for="name">Name</label>
             <input type="text" id="name" name="name" class="form-control" />
@@ -28,6 +28,7 @@ if ( ! defined( 'ABSPATH' ) ) {
             <input type="text" id="message" name="message" class="form-control" required/>
         </div>
 
+        <input type="hidden" name="action" value="msp_process_contact_form" />
         <button class="btn btn-success">Submit Message</button>
     </form>
 </div>
