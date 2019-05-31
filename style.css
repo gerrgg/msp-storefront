@@ -2,7 +2,7 @@
  Theme Name:   MSP Storefront
  Description:  "Michigan Safety Products" flavored Storefront Theme.
  Author:       Greg Bastianelli
- Template:     Storefront
+ Template:     storefront
  Version:      1.0.0
  License:      GNU General Public License v2 or later
  License URI:  http://www.gnu.org/licenses/gpl-2.0.html
@@ -467,7 +467,7 @@ a.woocommerce-LoopProduct-link.woocommerce-loop-product__link > img{
     padding: 1rem 0;
     border-top: 1px solid rgba(0,0,0,0.1);
     border-bottom: unset;
-    background-color: #fff;
+    background-color: #f7f7f7;
 }
 #custom_html-2{
     margin: 0px;

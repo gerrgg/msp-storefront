@@ -24,7 +24,7 @@ class UPS{
     $this->password = get_option( 'ups_api_password' );
     $this->account = get_option( 'ups_api_account' );
     $this->api_path = get_option( 'ups_api_mode' );
-    $this->end_of_day = get_option( 'ups_api_end_of_day' ) - 1;
+    $this->end_of_day = get_option( 'ups_api_end_of_day' );
     $this->access_request = $this->get_access_request();
     $this->from = $this->get_base_shop_address();
   }
