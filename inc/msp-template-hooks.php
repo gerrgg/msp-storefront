@@ -1,6 +1,20 @@
 <?php
 
 defined( 'ABSPATH' ) || exit;
+/**
+ * init - maybe move to functions.php
+ */
+add_action( 'init', 'msp_remove_wc_breadcrumbs' );
+add_action( 'init', 'msp_remove_storefront_credits' );
+
+function msp_remove_wc_breadcrumbs() {
+    remove_action( 'storefront_before_content', 'woocommerce_breadcrumb', 10);
+}
+
+function msp_remove_storefront_credits(){
+    remove_action( 'storefront_footer', 'storefront_credit', 20 );
+}
+
 
 /**
  * storefront_after_footer
@@ -239,13 +253,6 @@ add_action( 'woocommerce_product_additional_information', 'msp_get_additional_in
 add_filter( 'msp_additional_information_html', 'msp_get_product_pool', 5, 1 );
 add_filter( 'msp_additional_information_html', 'msp_get_product_metadata', 10, 1 );
 add_filter( 'msp_additional_information_html', 'msp_product_additional_information_html', 15, 1 );
-
-
-add_action( 'init', 'z_remove_wc_breadcrumbs');
-
-function z_remove_wc_breadcrumbs() {
-    remove_action( 'storefront_before_content', 'woocommerce_breadcrumb', 10);
-}
 
 /**
  * woocommerce_archive_description

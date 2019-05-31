@@ -456,3 +456,32 @@ a.woocommerce-LoopProduct-link.woocommerce-loop-product__link > img{
 #msp_customer_faq .msp-karma{
     float: left;
 }
+
+.footer-widgets.col-1{
+    width: 100%;
+    max-width: 100%;
+    padding-top: unset;
+    border-bottom: unset;
+}
+.site-footer{
+    padding: 1rem 0;
+    border-top: 1px solid rgba(0,0,0,0.1);
+    border-bottom: unset;
+    background-color: #fff;
+}
+#custom_html-2{
+    margin: 0px;
+}
+
+#custom_html-2 > .textwidget.custom-html-widget{
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+.footer-logo{
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -60%);
+}

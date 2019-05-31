@@ -38,6 +38,7 @@ class MSP{
         add_filter( 'woocommerce_form_field_args', array( $this, 'msp_form_field_args' ), 10, 3 );
         add_filter( 'woocommerce_product_tabs', array( $this, 'msp_product_tabs' ) );
         add_filter( 'woocommerce_package_rates', array( $this, 'maybe_hide_ltl_shipping_option' ), 50, 2 );
+        add_filter( 'storefront_footer_widget_columns', function(){ return 1; } );
     }
 
     public function register_sidebar_shop(){
