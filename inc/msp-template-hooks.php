@@ -304,7 +304,23 @@ add_action( 'msp_product_question_html', 'product_question_wrapper_end', 100 );
 add_action( 'wp_footer', 'msp_add_google_analytics', 100 );
 add_action( 'wp_footer', 'msp_debug' );
 function msp_debug(){
-    global $history;
-    // uasort( $history->data['products'], 'msp_sort_by_timestamp' );
-    // var_dump( $history->data['products'] );
+    // var_dump( msp_get_customers_who_purchased_product( get_the_ID() ) );
+}
+
+function msp_get_customers_who_purchased_product( $product_id ){
+    global $wpdb;
+    $order_item = $wpdb->prefix . 'woocommerce_order_items';
+    $order_item_meta = $wpdb->prefix . 'woocommerce_order_itemmeta';
+
+    $sql = "SELECT DISTINCT u.id
+            FROM $wpdb->users u, $wpdb->posts p, $order_item i, $order_item_meta meta
+            WHERE p.post_type = 'shop_order'
+            AND p.post_status = 'wc-completed'
+            AND p.ID = i.order_id
+            AND i.order_item_type = 'line_item'
+            AND i.order_item_id = meta.order_item_id
+            AND meta.meta_key = '_product_id'
+            AND meta.meta_value = $product_id";
+            
+    return $wpdb->get_results( $sql );
 }
