@@ -217,8 +217,17 @@ class MSP_Admin{
             'msp_options' // the page to put it on
         );
 
+        add_settings_section(
+            'integration', //id
+            'Integration:', // header
+            '', // section label
+            'msp_options' // the page to put it on
+        );
+
+
         $this->add_settings_field_and_register( 'msp_options', 'ups_api_creds', 'ups_api', array( 'key', 'username', 'password', 'account', 'mode', 'end_of_day' ) );
         $this->add_settings_field_and_register( 'msp_options', 'theme_options', 'msp', array( 'logo_width' ) );
+        $this->add_settings_field_and_register( 'msp_options', 'integration', 'integration', array( 'google_analytics_account_id' ) );
     }
 
     public function add_settings_field_and_register( $page, $section, $prefix, $keys ){
@@ -287,6 +296,10 @@ function msp_logo_width_callback(){
     echo '<input name="msp_logo_width" id="msp_logo_width" type="number" value="'. get_option( 'msp_logo_width' ) .'" class="code" />';
 }
 
+function integration_google_analytics_account_id_callback(){
+    echo '<input name="integration_google_analytics_account_id" id="integration_google_analytics_account_id" type="text" value="'. get_option( 'integration_google_analytics_account_id' ) .'" class="code" />';
+}
+
 
 function msp_add_update_stock_widget(){
     ?>
@@ -314,87 +327,6 @@ function msp_add_update_stock_widget(){
         <button id="submit_update_vendor" type="button" class="button button-primary" style="margin-top: 1rem;">Submit Vendor!</button>
     </form>
     <?php
-}
-
-function msp_admin_sync_vendor(){
-    ob_start();
-    $data = array( 
-        'name' => $_POST['vendor'],
-        'src'    => $_POST['url'],
-        'sku_index' => ( $_POST['vendor'] == 'portwest' ) ? 1 : 16,
-        'stock_index' => ( $_POST['vendor'] == 'portwest' ) ? 8 : 7,
-    );
-
-    if( ! empty( $_POST['price'] ) ){
-        $data['price_index'] = ( $_POST['vendor'] == 'portwest' ) ? 3 : 10;
-    }
-
-    msp_get_data_and_sync( $data );
-    $html = ob_get_clean();
-    echo $html;
-    wp_die();
-}
-
-function msp_get_data_and_sync( $vendor ){
-    $start = microtime(true);
-
-    $count = 0;
-
-    $data = file_get_contents( $vendor['src'] );
-    if( ! empty( $data ) ){
-        foreach( msp_csv_to_array( $data ) as $item ){
-            // sku_index and stock_index are the position of the data in the array,
-            if( isset( $item[ $vendor['sku_index'] ] ) && isset( $item[ $vendor[ 'stock_index'] ] ) ){
-                if( ! empty( $item[ $vendor['sku_index'] ] ) ){
-                    $id = msp_get_product_id_by_sku( $item[ $vendor['sku_index'] ] );
-                    if( ! empty( $id ) ){
-                        msp_update_stock( $id, $item[ $vendor['stock_index'] ] );
-                        if( isset( $vendor['extras']['price'] ) ){
-                            // easily make a class of this.
-                            $msrp = $item[ $vendor['price_index'] ] * 2;
-                            update_post_meta( $id, '_regular_price', $msrp );
-                            update_post_meta( $id, '_sale_price', '' );
-                            update_post_meta( $id, '_sale_price_dates_from', '' );
-                            update_post_meta( $id, '_sale_price_dates_to', '' );
-                        }
-                        $count++;
-                    }
-                }
-            }
-        }
-    }
-
-    $time_elapsed_secs = microtime(true) - $start;
-
-    echo '<h2>Report</h2>';
-    echo 'Products Updated: ' . $count . '.<br>';
-    echo 'Time Elasped: ' . number_format( $time_elapsed_secs, 2 ) . ' seconds.<br>';
-}
-
-function msp_get_product_id_by_sku( $sku = false ) {
-    if( ! $sku ) return null;
-
-    global $wpdb;
-    $product_id = $wpdb->get_var( $wpdb->prepare( "SELECT post_id FROM $wpdb->postmeta WHERE meta_key='_sku' AND meta_value='%s' LIMIT 1", $sku ) );
-    return $product_id;
-}
-
-function msp_csv_to_array( $data ){
-    $rows = explode("\n", $data);
-    $s = array();
-
-    foreach($rows as $row) {
-        $s[] = str_getcsv($row);
-    }
-
-    return $s;
-}
-
-function msp_update_stock( $id, $stock){
-    $instock = ( $stock > 0 ) ? 'instock' : 'outofstock';
-    update_post_meta( $id, '_manage_stock', 'yes' );
-    update_post_meta( $id, '_stock_status', $instock );
-    update_post_meta( $id, '_stock', $stock );
 }
 
 function msp_product_video_callback( $post ){

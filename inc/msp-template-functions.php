@@ -935,3 +935,21 @@ function msp_process_contact_form(){
         exit;
     }
 }
+
+function msp_add_google_analytics(){
+    $user_account = get_option( 'integration_google_analytics_account_id' );
+    if( empty( $user_account ) ) return;
+
+    ?>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=<?php echo $user_account ?>"></script>
+
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', '<?php echo $user_account ?>');
+    </script>
+
+    <?php
+}

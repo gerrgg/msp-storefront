@@ -299,6 +299,7 @@ add_action( 'msp_product_question_html', 'product_question_wrapper_end', 100 );
 
 
 // debug
+add_action( 'wp_footer', 'msp_add_google_analytics', 100 );
 add_action( 'wp_footer', 'msp_debug' );
 function msp_debug(){
     global $history;
