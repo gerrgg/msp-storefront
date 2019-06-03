@@ -953,12 +953,3 @@ function msp_add_google_analytics(){
 
     <?php
 }
-
-function msp_get_question_count(){
-    $questions = get_comments( array(
-        'post_id' => get_the_ID(),
-        'type' => 'product_question'
-    ) );
-
-    return sizeof( $questions );
-}
