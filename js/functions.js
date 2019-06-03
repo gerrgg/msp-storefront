@@ -10,6 +10,10 @@ jQuery(document).ready(function( $ ){
             $('#msp_submit_answer').on( 'click', 'button.msp-submit-answer', msp.customer_submit_awnser );
         },
 
+        alert: function( message, type = 'primary' ){
+            return $('<div/>', { class: 'alert alert-' + type, role: 'alert' }).text( message );
+        },
+
         customer_faq_validate_question: function( e ){
             let question = $('#msp_submit_question input[name="question"]').val();
             if( question.length > 10 ){
@@ -23,14 +27,17 @@ jQuery(document).ready(function( $ ){
 
         customer_submit_awnser: function( e ){
             let answer = $('#msp_submit_answer input[name="answer"]').val();
-            console.log( answer );
             if( answer.length > 0 ){
                 let data = { 
                     action: 'msp_process_customer_submit_awnser',
                     form_data: $('#msp_submit_answer *').serialize()
                 }
                 $.post( wp_ajax.url, data, function( response ){
-                    console.log( response );
+                    if( response > 0 ){
+                        $('#msp_submit_answer').html( msp.alert( 'Thanks for your help!', 'success' ) );
+                    } else {
+                        $('#msp_submit_answer').append( msp.alert( 'Something went wrong, please try again', 'error' ) );
+                    }
                 } );
             }
         },

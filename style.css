@@ -489,3 +489,12 @@ a.woocommerce-LoopProduct-link.woocommerce-loop-product__link > img{
 #msp_submit_question_btn{
     white-space: nowrap;
 }
+
+.single-product div.product .woocommerce-product-rating{
+    margin: 0px;
+}
+
+.msp-qa-link{
+    font-weight: 600;
+    text-decoration: underline;
+}

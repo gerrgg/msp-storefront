@@ -549,7 +549,8 @@ function msp_delete_user_product_image(){
 
 function msp_submit_question_form(){
     $user = get_userdata( get_current_user_id() );
-    ?>
+    ?>  
+        <h5 class="mt-4">Dont see what you are looking for? Ask a question!</h5>
         <div id="msp_submit_question" class="mt-3 d-flex">
             <input type="input" name="question" class="form-control" placeholder="Ask your question">
             <?php if( ! isset( $user->user_email ) ) : ?>
@@ -622,28 +623,55 @@ function msp_get_product_question_answers( $question ){
         'type' => 'product_answer',
         'comment_parent' => $question->comment_ID,
     ) );
+
+    $div_id = 'awnsers-to-question-' . $question->comment_ID;
     ?>
 
         <div class="answer d-flex">
         <label class="pr-4">answer:</label>
-            <p>
+            <div>
                 <?php 
-                if( ! empty( $answers ) ) {
-                    foreach( $answers as $answer ){
-                        echo $answer->comment_content;
-                    }
-                } else {
-                    echo '<p class="text-muted">We still dont have an answer for this one.</p>';
-                }
+                    if( isset( $answers[0] ) ) echo msp_get_product_awnser_template( $answers[0] );
 
+                    if( sizeof( $answers ) > 1 ){
+                        msp_get_awnsers_thread( $question->comment_ID, $answers );
+                    }
                 ?>
-            </p>
+            </div>
         </div><!-- .answer -->
         <p> 
             <?php msp_get_submit_answer_form( $question->comment_ID ); ?> 
         </p>
     </div><!-- .product_question_inner -->
     <?php
+}
+
+function msp_get_awnsers_thread( $parent_id, $comments ){
+    $div_id = 'awnsers-to-question-' . $parent_id;
+    ?>
+        <a data-toggle="collapse" href="#<?php echo $div_id ?>" aria-expanded="false" aria-controls="<?php echo $div_id ?>"> See more awnsers (<?php echo sizeof( $comments ) ?>) </a>
+        <div class="collapse" id="<?php echo $div_id ?>">
+            <?php 
+                for( $i = 1; $i < sizeof( $comments ); $i++ ){
+                    echo msp_get_product_awnser_template( $comments[$i] );
+                }
+            ?>
+        </div>
+    <?php 
+}
+
+function msp_get_product_awnser_template( $comment ){
+    if( empty( $comment->comment_content ) ) return;
+    $author = ( ! empty( $comment->comment_author ) ) ? $comment->comment_author : get_bloginfo( 'name' ) . ' Customer';
+
+    ob_start();
+    ?>
+    <div>
+        <p class="p-0 m-0"><?php echo $comment->comment_content ?></p>
+        <small class="text-muted">By <?php echo $author . ' on ' . date( 'F d, Y', strtotime( $comment->comment_date ) ) ?></small>
+    </div>
+    <?php
+    return ob_get_clean();
 }
 
 function msp_process_customer_submit_awnser(){

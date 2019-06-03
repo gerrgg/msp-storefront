@@ -196,3 +196,12 @@ function msp_get_category_children(){
 
 	return $children;
 }
+
+function msp_get_question_count(){
+    $questions = get_comments( array(
+        'post_id' => get_the_ID(),
+        'type' => 'product_question'
+    ) );
+
+    return sizeof( $questions );
+}
