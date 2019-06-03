@@ -50,7 +50,9 @@ jQuery(document).ready(function( $ ){
                 }
 
                 $.post( wp_ajax.url, data, function( response ){
-                    console.log( response );
+                    if( response > 0 ){
+                        $('#msp_submit_question').html( msp.alert( 'We just sent your question to our best people, we\'ll email you when we get an awnser', 'success' ) );
+                    }
                 } );
             }
         },

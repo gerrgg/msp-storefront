@@ -39,10 +39,12 @@ if ( $rating_count > 0 ) : ?>
 		<?php endif ?>
 	</div>
 
+	<?php if( $question_count > 0 ) echo '<span class="pl-1"> | </span>'; ?>
+
 <?php endif;
 
 if ( $question_count > 0 ) : ?>
-    <span class="pl-1"> | </span><a href="#msp_customer_faq" class="woocommerce-review-link msp-qa-link pl-1" rel="nofollow">customer questions (<?php echo $question_count ?>)</a>
+    <a href="#msp_customer_faq" class="woocommerce-review-link msp-qa-link pl-1" rel="nofollow">customer questions (<?php echo $question_count ?>)</a>
 <?php endif; ?>
 
 </div> <!-- .d-flex -->

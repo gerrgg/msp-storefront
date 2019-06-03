@@ -596,7 +596,7 @@ function msp_process_customer_submit_question(){
 
 
 function product_question_wrapper_open(){
-    echo '<div class="p-3 border">';
+    echo '<div class="p-3 border mb-2">';
 }
 
 
