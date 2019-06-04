@@ -4,7 +4,7 @@ jQuery( function( $ ){
 
         init: function(){
             this.save_estimated_delivery_date();
-            this.$checkout_form.on( 'click', 'input[name="shipping_method[0]"]', this.save_estimated_delivery_date );
+            $( document.body ).on( 'update_checkout', this.save_estimated_delivery_date );
         },
 
         save_estimated_delivery_date: function(){
