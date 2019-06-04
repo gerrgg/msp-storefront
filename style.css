@@ -499,3 +499,10 @@ a.woocommerce-LoopProduct-link.woocommerce-loop-product__link > img{
     font-weight: 600;
     text-decoration: underline;
 }
+
+a.anchor {
+    display: block;
+    position: relative;
+    top: -250px;
+    visibility: hidden;
+}

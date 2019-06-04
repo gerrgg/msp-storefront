@@ -205,3 +205,21 @@ function msp_get_question_count(){
 
     return sizeof( $questions );
 }
+
+function msp_get_customers_who_purchased_product( $product_id ){
+    global $wpdb;
+    $order_item = $wpdb->prefix . 'woocommerce_order_items';
+    $order_item_meta = $wpdb->prefix . 'woocommerce_order_itemmeta';
+
+    $sql = "SELECT DISTINCT u.id, u.display_name, u.user_email
+            FROM $wpdb->users u, $wpdb->posts p, $order_item i, $order_item_meta meta
+            WHERE p.post_type = 'shop_order'
+            AND p.post_status = 'wc-completed'
+            AND p.ID = i.order_id
+            AND i.order_item_type = 'line_item'
+            AND i.order_item_id = meta.order_item_id
+            AND meta.meta_key = '_product_id'
+            AND meta.meta_value = $product_id";
+            
+    return $wpdb->get_results( $sql );
+}

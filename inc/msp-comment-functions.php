@@ -566,7 +566,7 @@ function msp_submit_question_form(){
 
 function msp_get_submit_answer_form( $comment_id ){
     ?>  
-        <div id="msp_submit_answer" class="d-flex">
+        <div class="d-flex">
             <input type="input" name="answer" class="form-control" placeholder="Do you have an answer to this question?" />
             <input type="hidden" name="post_id" value="<?php echo get_the_ID() ?>">
             <input type="hidden" name="comment_id" value="<?php echo $comment_id ?>" />
@@ -578,17 +578,19 @@ function msp_get_submit_answer_form( $comment_id ){
 
 function msp_process_customer_submit_question(){
     parse_str( $_POST['formdata'], $form_data );
+
     if( isset( $form_data['question'], $form_data['email'] ) ){
         $args = array(
             'comment_post_ID'      => $form_data['post_id'],
             'comment_author_email' => $form_data['email'],
             'comment_content'      => wp_strip_all_tags($form_data['question']),
             'comment_type'      => 'product_question',
-            'comment_approved' => 0
+            'comment_approved' => 1
         );
 
         $comment_id = wp_insert_comment( $args );
         echo $comment_id;
+
     }
     wp_die();
 }
@@ -601,13 +603,15 @@ function product_question_wrapper_open(){
 
 
 function msp_get_product_question( $question ){
-    ?>  <div class="product_question_inner">
-            <div class="question">
-                <p>
-                    <label class="pr-4">Question:</label>
-                    <span><?php echo $question->comment_content ?></span>
-                </p>
-            </div>
+    ?>
+    <a class="anchor" id="comment-id-<?php echo $question->comment_ID ?>"></a>
+    <div class="product_question_inner">
+        <div class="question">
+            <p>
+                <label class="pr-4">Question:</label>
+                <span><?php echo $question->comment_content ?></span>
+            </p>
+        </div>
     <?php
     
 }
@@ -628,7 +632,7 @@ function msp_get_product_question_answers( $question ){
     ?>
 
         <div class="answer d-flex">
-        <label class="pr-4">answer:</label>
+        <label class="pr-4">Answer:</label>
             <div>
                 <?php 
                     if( isset( $answers[0] ) ) echo msp_get_product_awnser_template( $answers[0] );
@@ -696,4 +700,44 @@ add_filter( 'woocommerce_product_review_list_args', 'msp_product_review_list_arg
 function msp_product_review_list_args( $args ){
     $args['type'] = 'review';
     return $args;
+}
+
+
+function msp_ask_customers_question( $question_id, $product_id ){
+    $question = get_comment( $question_id );
+    $product = wc_get_product( $product_id );
+    $url = $product->get_permalink() . '#comment-id-' . $question_id;
+    $user_list = msp_get_customers_who_purchased_product( $product_id );
+
+    if( empty( $user_list ) ) return; // could set a daily cron job which checks if anyone has purchased this product yet... could be taxing tho
+
+    foreach( $user_list as $user ){
+        if( get_user_meta( $user->id, '_can_email', true ) !== '0' ) 
+            msp_send_product_question_email( $question, $user, $url );
+    }
+
+    //also email product author question
+}
+
+function msp_send_product_question_email( $question, $user, $url ){
+    $to = $user->user_email;
+    $subject = $user->display_name . ', ' . 'do you know the question to this question?';
+    $headers = 'Content-Type: text/html; charset=UTF-8';
+    
+    ob_start();
+    ?>
+        <div style="margin: 1rem auto; max-width: 450px;" >
+            <?php msp_header_site_identity(); ?>
+            <h3><?php echo $subject; ?></h3>
+            <p><?php echo $question->comment_content ?></p>
+            <br>
+
+            <a href="<?php echo $url ?>">Click here to awnser the question and help others.</a>
+            <br>
+            <a href="<?php echo wp_nonce_url( '/email-preferences?user_id='. $user->id, 'update-user-' . $user->display_name ) ?>" style="color: rgba(0,0,0,0.5);">Opt-out of product questions</a>
+        </div>
+    <?php
+    $html = ob_get_clean();
+
+    echo $html;
 }

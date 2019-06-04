@@ -150,7 +150,7 @@ class MSP{
     }
 
     public function create_theme_pages(){
-        $slugs = array( 'buy-again', 'quote', 'review', 'contact' );
+        $slugs = array( 'buy-again', 'quote', 'review', 'contact', 'email-preferences' );
 
         foreach( $slugs as $slug ){
             if( ! $this->the_slug_exists( $slug ) ){

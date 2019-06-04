@@ -951,3 +951,13 @@ function msp_add_google_analytics(){
 
     <?php
 }
+
+add_shortcode( 'email_preferences', 'msp_user_email_preferences' );
+function msp_user_email_preferences(){
+    $display_name = get_user_meta( $_GET['user_id'], 'nickname', true );
+    if( wp_verify_nonce( $_REQUEST['_wpnonce'], 'update-user-' . $display_name ) ){
+        update_user_meta( $_GET['user_id'], '_can_email', 0 );
+        wc_add_notice( 'Email preferences updated.', 'success' );
+    } 
+
+}
