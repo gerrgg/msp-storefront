@@ -564,7 +564,7 @@ function msp_get_default_est_delivery( $method ){
 		$date_str = iww_make_date( [2] );
 		break;
 		case 'Next Day Air (UPS)':
-		$date_str = iww_make_date( [2] );
+		$date_str = iww_make_date( [1] );
 		break;
 		case 'Next Day Air Saver (UPS)':
 		$date_str = iww_make_date( [1] );
@@ -584,31 +584,29 @@ function msp_get_default_est_delivery( $method ){
 
 /**
  * Takes in an array of dates, takes into account the current day and hour and returns a guess as to when the package should arrive.
- * @param array[int] $dates - An array of numbers representing the number of days until delivery
+ * @param array[int] $dates - An array of numbers representing the numberd of days until delivery
  * @return string 
  */
 function iww_make_date( $dates ){
     date_default_timezone_set('EST');
-    $current_hour = date('G');
-    $current_day = date('N');
+    $day_of_the_week = date('N');
+    $hour_of_the_day = date('G');
+    
     $date_str = '';
 
     foreach( $dates as $key => $date ){
-        if( $current_day > 5 ){
-            $date = ( $current_day == 6 ) ? $date + 1 : $date + 2;
+        if( $key != 0 ) $date_str .= ' - ';
+
+        if( $day_of_the_week > 4 ){
+            if( $day_of_the_week == 5 && $hour_of_the_day < 12 ) $date--;
+            $date_str .= date( 'l, F jS', strtotime( '+'. $date .'days', strtotime( 'next monday' ) ) );
         } else {
-            // weekdays
-            if( $current_hour >= 12 ) $date++;
+            if( $hour_of_the_day > 12 ) $date++;
+            $date_str .= date( 'l, F jS', strtotime( '+'. $date .'days' ) );
         }
-        // if this isn't the first date, add a hyphen to the string
-            if( $key != 0 )$date_str .= ' - ';
-        // create date based on leadtime + $date passed to function
-            $future = date( 'l, F jS', strtotime('+' . $date . 'days') );
-        // if future lands on a sunday, add another day to it.
-            if( preg_match( '/Saturday/', $future ) ) $future = date( 'l, F jS', strtotime('+' . ($date + 2) . 'days') );
-            if( preg_match( '/Sunday/', $future ) ) $future = date( 'l, F jS', strtotime('+' . ($date + 1) . 'days') );
-            $date_str .= $future;
+
     }
+
     return '<h6 class="m-0 p-0 text-success iww-date-estimate">'.$date_str.'</h6>';
 }
 
