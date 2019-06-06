@@ -11,7 +11,7 @@ function msp_remove_actions(){
     remove_action( 'storefront_footer', 'storefront_credit', 20 );
 
     //http://drunk.kiwi/how-to-remove_action-woocommerce-upsell-related-items-hook-with-storefront-theme/
-    remove_action( 'woocommerce_after_single_product_summary', 'woocommerce_output_related_products', 20);
+    // remove_action( 'woocommerce_after_single_product_summary', 'woocommerce_output_related_products', 20);
     remove_action( 'woocommerce_after_single_product_summary', 'woocommerce_upsell_display', 15 );
     remove_action( 'woocommerce_after_single_product_summary', 'storefront_upsell_display', 15 );
 }
@@ -212,9 +212,11 @@ add_action( 'woocommerce_review_meta', 'woocommerce_review_display_rating', 8 );
  * woocommerce_after_single_product_summary
  * @see comments_template();
  */
+add_action( 'woocommerce_after_single_product_summary', 'woocommerce_upsell_display', 5 );
+// add_action( 'woocommerce_after_single_product_summary', 'woocommerce_output_related_products', 15);
+add_action( 'woocommerce_after_single_product_summary', 'msp_customer_faq', 20 );
+add_action( 'woocommerce_after_single_product_summary', 'comments_template', 25 );
 
-add_action( 'woocommerce_after_single_product_summary', 'msp_customer_faq' );
-add_action( 'woocommerce_after_single_product_summary', 'comments_template' );
 
 /**
  * woocommerce_single_product_summary
