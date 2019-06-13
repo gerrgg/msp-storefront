@@ -92,7 +92,8 @@ function msp_get_product_videos( $id ){
 	 * used to get and unpack array of product video links stored in DB.
 	 * @return array
 	 */
-	return User_history::unpackage( get_post_meta( $id, '_msp_product_videos', true ) );
+	$arr = User_history::unpackage( get_post_meta( $id, '_msp_product_videos', true ) ); 
+	return ( ! empty( $arr ) ) ? $arr : array();
 }
 
 function make_modal_btn( $args = array() ){
