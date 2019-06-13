@@ -567,10 +567,10 @@ function msp_submit_question_form(){
 function msp_get_submit_answer_form( $comment_id ){
     ?>  
         <div class="d-flex">
-            <input type="input" name="answer" class="form-control" placeholder="Do you have an answer to this question?" />
             <input type="hidden" name="post_id" value="<?php echo get_the_ID() ?>">
             <input type="hidden" name="comment_id" value="<?php echo $comment_id ?>" />
             <input type="hidden" name="user_id" value="<?php echo get_current_user_id() ?>" />
+            <input type="input" name="answer" class="form-control" placeholder="Do you have an answer to this question?" />
             <button class="btn btn-success btn-sm msp-submit-answer">answer</button>
         </div> 
     <?php

@@ -7,7 +7,7 @@ jQuery(document).ready(function( $ ){
             $('#msp_review').on( 'click', '.remove-product-image-from-review', msp.delete_user_product_image )
             $('#msp_submit_question').on( 'blur', 'input[name="question"]', msp.customer_faq_validate_question )
             $('#msp_submit_question').on( 'click', 'button', msp.customer_submit_question )
-            $('#msp_submit_answer').on( 'click', 'button.msp-submit-answer', msp.customer_submit_awnser );
+            $('#msp_customer_faq').on( 'click', '.msp-submit-answer', msp.customer_submit_awnser )
         },
 
         alert: function( message, type = 'primary' ){
@@ -26,17 +26,20 @@ jQuery(document).ready(function( $ ){
         },
 
         customer_submit_awnser: function( e ){
-            let answer = $('#msp_submit_answer input[name="answer"]').val();
+            let $parent = $(e.target).parent();
+            let answer = $(e.delegateTarget).find( 'input[name="answer"]' ).val();
+            
             if( answer.length > 0 ){
                 let data = { 
                     action: 'msp_process_customer_submit_awnser',
-                    form_data: $('#msp_submit_answer *').serialize()
+                    form_data: $parent.serialize()
                 }
                 $.post( wp_ajax.url, data, function( response ){
+                    console.log( response );
                     if( response > 0 ){
-                        $('#msp_submit_answer').html( msp.alert( 'Thanks for your help!', 'success' ) );
+                        $parent.html( msp.alert( 'Thanks for your help!', 'success' ) );
                     } else {
-                        $('#msp_submit_answer').append( msp.alert( 'Something went wrong, please try again', 'error' ) );
+                        $parent.append( msp.alert( 'Something went wrong, please try again', 'error' ) );
                     }
                 } );
             }
@@ -77,6 +80,7 @@ jQuery(document).ready(function( $ ){
             $('.owl-carousel').owlCarousel({
                 margin:10,
                 responsiveClass:true,
+                stagePadding: 20,
                 nav: true,
                 responsive:{
                     0:{
