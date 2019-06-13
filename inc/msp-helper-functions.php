@@ -165,7 +165,7 @@ function msp_product_additional_information_html( $inner_html ){
 		<?php if( ! empty( $value ) ) : ?>
 			<tr class="woocommerce-product-attributes-item">
 				<th class="woocommerce-product-attributes-item__label"><?php echo ucfirst($label); ?></th>
-				<td class="woocommerce-product-attributes-item__value"><?php echo $value ?></td>
+				<td class="woocommerce-product-attributes-item__value"><?php echo rtrim($value, ', ') ?></td>
 			</tr>
 		<?php endif; ?>
     <?php endforeach;
