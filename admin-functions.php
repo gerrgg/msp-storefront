@@ -332,6 +332,7 @@ function msp_add_update_stock_widget(){
 function msp_product_video_callback( $post ){
     wp_nonce_field( basename( __FILE__ ), 'msp_product_video_callback' );
     $saved_urls = msp_get_product_videos( $post->ID );
+    $count = ( sizeof( $saved_urls ) > 0 ) ? sizeof( $saved_urls ) : 0;
     ?>
     <div id="msp_product_video_input_table">
         <p>Video Url(s)</p>
@@ -343,7 +344,7 @@ function msp_product_video_callback( $post ){
             <?php endforeach; ?>
         <?php endif; ?>
     </div>
-    <button type="button" class="add" data-count=<?php echo sizeof( $saved_urls ) ?>>Add</button>
+    <button type="button" class="add" data-count=<?php echo $count ?>>Add</button>
     <?php
 }
 
