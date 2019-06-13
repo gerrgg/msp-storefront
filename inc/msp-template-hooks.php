@@ -11,7 +11,7 @@ function msp_remove_actions(){
     remove_action( 'storefront_footer', 'storefront_credit', 20 );
 
     //http://drunk.kiwi/how-to-remove_action-woocommerce-upsell-related-items-hook-with-storefront-theme/
-    // remove_action( 'woocommerce_after_single_product_summary', 'woocommerce_output_related_products', 20);
+    remove_action( 'woocommerce_after_single_product_summary', 'woocommerce_output_related_products', 20);
     remove_action( 'woocommerce_after_single_product_summary', 'woocommerce_upsell_display', 15 );
     remove_action( 'woocommerce_after_single_product_summary', 'storefront_upsell_display', 15 );
 }
