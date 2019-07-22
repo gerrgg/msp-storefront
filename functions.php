@@ -41,6 +41,10 @@ class MSP{
         add_filter( 'storefront_footer_widget_columns', function(){ return 1; } );
     }
 
+    public function msp_add_to_description( $tags ){
+
+    }
+
     public function register_sidebar_shop(){
         register_sidebar( array(
             'name'          => __( 'Shop Sidebar', 'msp' ),
@@ -119,6 +123,8 @@ class MSP{
             'product_videos' => msp_get_product_videos( $post->ID ),
             'resources' => msp_get_product_resources( $post->ID ),
         );
+
+        $tabs['description']['callback'] = "msp_maybe_append_description";
 
 
         foreach( $custom_tabs as $key => $data ){

@@ -961,3 +961,16 @@ function msp_user_email_preferences(){
     } 
 
 }
+
+function msp_maybe_append_description(){
+    global $product;
+    $the_content = get_the_content();
+    foreach( $product->get_category_ids() as $id ){
+        $category = get_term( $id );
+        if( ! empty( $category->description ) ){
+            $the_content .= '<p>' . $category->description . '</p>';
+            // echo $category->description;
+        }
+    }
+    echo $the_content;
+}
