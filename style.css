@@ -181,13 +181,13 @@ body.modal-open .slideout-panel {
 #browsing-history-block .price,
 span.price,
 label > span.woocommerce-Price-amount{
-    color: #B0413E;
-    font-size: 18px !important;
+    color: green;
+    font-size: 21px !important;
     font-weight: 600;
 }
 
 .price{
-    color: #B0413E;
+    color: green;
 }
 
 label.price{
@@ -398,6 +398,8 @@ table.woocommerce-product-attributes{
 
 .product > .woocommerce-LoopProduct-link.woocommerce-loop-product__link{
     height: 200px!important;
+    justify-content: center;
+    
 }
 
 #msp-archive > .product{
@@ -505,4 +507,84 @@ a.anchor {
     position: relative;
     top: -250px;
     visibility: hidden;
+}
+#mobile-menu > a.close{
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    font-size: 32px;
+    color: #fff;
+    text-align: center;
+    cursor: pointer;
+}
+
+@media (max-width: 500px) {
+    #search-wrapper{
+        margin-top: 1rem;
+    }
+
+    #shop-filters{
+        display: none;
+    }
+    body.archive > .woocommerce-LoopProduct-link.woocommerce-loop-product__link{
+        height: auto !important;
+    }
+
+    #msp-archive > .product{
+        border: 1px solid rgba(0,0,0,0.1);
+        margin: 0;
+        padding: .5rem;
+    }
+    
+    #custom_html-2 > div.textwidget.custom-html-widget{
+        flex-direction: column;
+    }
+
+    #custom_html-2 > div.textwidget.custom-html-widget > div.align-items-baseline{
+        align-items: unset !important;
+    }
+    .woocommerce-ordering{
+        margin: 1rem 0;
+    }
+
+    body.archive .storefront-breadcrumb{
+        display: none;
+    }
+    p.mobile-label{
+        padding-bottom: 0px;
+        margin-bottom: 0px;
+    }
+    #mobile-menu li{
+        padding: .25rem;
+        padding-left: 1.5rem;
+    }
+    .navbar-brand > img{
+        width: 75%;
+        float: right;
+    }
+    body.single-product h1.product_title{
+        font-size: 2em;
+    }
+    .single-product div.product .images, 
+    .single-product div.product .summary, 
+    .single-product div.product .woocommerce-product-gallery{
+        margin-bottom: 0px;
+    }
+
+    .single-product div.product p.price{
+        margin: .25rem 0;
+        font-size: 1.5em;
+    }
+    .woocommerce-orders-table__row.order{
+        display: none;
+    }
+    #msp_review input[name="headline"], 
+    #msp_review textarea[name="content"]{
+        width: 100% !important;
+    }
+
+    .buy-again-product a h5{
+        display: none;
+    }
+
 }

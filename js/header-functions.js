@@ -3,6 +3,7 @@ jQuery(document).ready(function( $ ){
     var header = {
         $msp_header: $('#masthead'),
         browsing_history: '',
+        
 
         init: function(){
             this.init_slideout();
@@ -23,19 +24,22 @@ jQuery(document).ready(function( $ ){
             var slideout = new Slideout({
                 'panel': document.getElementById('page'),
                 'menu': document.getElementById('mobile-menu'),
-                'padding': 356,
-                'tolerance': 70
+                'padding': 300,
+                'tolerance': 70,
+                'touch': false,
             });
             
             document.querySelector('.mobile-menu-button').addEventListener('click', function() {
                 $('#mobile-menu').show();
                 slideout.toggle();
             });
-          
+
+            document.querySelector('a.close').addEventListener('click', close );
+
             function close(eve) {
                 eve.preventDefault();
                 slideout.close();
-            }
+              }
               
             slideout
                 .on('beforeopen', function() {
@@ -47,7 +51,7 @@ jQuery(document).ready(function( $ ){
                 .on('beforeclose', function() {
                   this.panel.classList.remove('panel-open');
                   this.panel.removeEventListener('click', close);
-            });
+                });
         },
 
 

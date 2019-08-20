@@ -124,7 +124,7 @@ class MSP{
             'resources' => msp_get_product_resources( $post->ID ),
         );
 
-        $tabs['description']['callback'] = "msp_maybe_append_description";
+        // $tabs['description']['callback'] = "msp_maybe_append_description";
 
 
         foreach( $custom_tabs as $key => $data ){

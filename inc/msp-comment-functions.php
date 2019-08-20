@@ -132,8 +132,8 @@ function msp_review_more_products(){
         $product = wc_get_product( $id );
         if( ! empty( $product ) ){
             ?>
-            <div class="col-4">
-                <a href="<?php echo $product->get_permalink() ?>" class="pt-5 mt-3 text-center link-normal">
+            <div class="col-12 col-sm-4">
+                <a href="<?php echo msp_get_review_link( $product->get_id() ) ?>" class="pt-5 mt-3 text-center link-normal">
                     <img src="<?php echo msp_get_product_image_src( $product->get_image_id() ) ?>" class="mx-auto" />
                     <p class="shorten link-normal text-dark"><?php echo $product->get_name() ?></p>
                     <?php msp_get_review_more_star_links( $product->get_id() ) ?>
@@ -152,7 +152,7 @@ function msp_get_review_more_star_links( $product_id, $echo = true ){
      */
     $comment = msp_get_user_product_review( $product_id );
     $highlight = 'far';
-
+    
     if( ! empty( $comment ) ){
         $rating = get_comment_meta( $comment['comment_ID'], 'rating', true );
     }
@@ -347,7 +347,7 @@ function msp_process_create_review(){
         );
         
         $comment = msp_get_user_product_review( $data['product_id'] );
-
+                
         if( ! is_null( $comment ) ){
             // comment_id needs to be available for after this if statement.
             $comment_id = $comment['comment_ID'];
@@ -365,7 +365,7 @@ function msp_process_create_review(){
         update_comment_meta( $comment_id, 'verified', $verified);
 
         // redirect to review more products!
-        $review_more_ids = msp_get_customer_unique_order_items( get_current_user_id() );
+        $review_more_ids = msp_get_customer_unique_order_items( get_current_user_id(), true );
         wp_redirect( msp_get_review_link( $review_more_ids, array('action' => 'show_more') ) );
     }
 }

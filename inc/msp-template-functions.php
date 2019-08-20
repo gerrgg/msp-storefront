@@ -40,7 +40,7 @@ function msp_header_site_identity(){
  * Opens the header middle wrapping div
  */
 function msp_header_middle_open(){
-    echo '<div class="flex-grow-1">';
+    echo '<div id="search-wrapper" class="flex-grow-1">';
 }
 
 /**
@@ -55,7 +55,7 @@ function msp_header_search_bar(){
  * outputs the header navigation
  */
 function msp_header_menu(){
-    echo '<div id="header-menu" class="d-flex align-items-end">';
+    echo '<div id="header-menu" class="d-none d-sm-flex align-items-end">';
 
         do_action( 'msp_quick_links' );
 
@@ -244,7 +244,7 @@ function msp_buy_again_shortcode(){
  * @param int $user_id - The id of the user
  * @return array $order_items - An array of unique product ids purchased by the user.
  */
-function msp_get_customer_unique_order_items( $user_id ){
+function msp_get_customer_unique_order_items( $user_id){
     $order_items = array();
     $orders = wc_get_orders( array( 'customer_id' => $user_id ) );
 
@@ -352,6 +352,7 @@ function msp_mobile_menu_header(){
     $user = get_userdata( get_current_user_id() );
     $username = ( ! empty( $user->user_login ) ) ? $user->user_login : 'Sign up or login';
     echo "<h3 class='title py-2 pl-4'>Hello, $username</h3>";
+    echo "<a class='close'><i class='fas fa-times'></i></a>";
 }
 
 /**
@@ -422,6 +423,7 @@ function msp_order_details_html( $order ){
                     }
                 }
             ?>
+            <?php woocommerce_order_again_button( $order ); ?>
         </td>
         <td>
             <div class="order-actions btn-group-vertical text-align-left">
@@ -442,7 +444,7 @@ function msp_order_tracking_button( $order ){
         'tracking' => get_post_meta( $order->get_id(), 'tracking', true ),
     );
 
-    if( $order->get_status() == 'completed' && ! empty( $tracking_info ) ) :
+    if( $order->get_status() == 'completed' && ! empty( $tracking_info['shipper'] ) ) :
         $tracking_link = msp_make_tracking_link( $tracking_info['shipper'], $tracking_info['tracking'] );
         ?>
         <a role="button" href="<?php echo $tracking_link; ?>" target="_new" class="btn btn-success btn-block link-normal">
@@ -662,7 +664,7 @@ function msp_order_feedback_button( $order ){
  */
 function msp_order_return_button(){
     ?>
-        <button type="button" class="btn btn-warning btn-block"><i class="fas fa-cube"></i>Return or replace items</button>
+        <a href="tel:8887233864" role="button" class="btn btn-warning btn-block"><i class="fas fa-cube"></i>Return or replace items</a>
     <?php
 }
 
@@ -671,7 +673,7 @@ function msp_order_return_button(){
  */
 function msp_order_report_issue_button(){
     ?>
-        <button type="button" class="btn btn-danger btn-block"><i class="fas fa-exclamation-circle"></i>Problem with order</button>
+        <a href="tel:8887233864" role="button"class="btn btn-danger btn-block"><i class="fas fa-exclamation-circle"></i>Problem with order</a>
     <?php
 }
 
@@ -702,7 +704,7 @@ function msp_get_product_videos_tab(){
     echo '<h2>Product Videos</h2>';
     foreach( $resources as $arr ) : ?>
         <div class="embed-responsive embed-responsive-16by9 mb-2">
-            <iframe class="embed-responsive-item" src="<?php echo $arr[0] ?>"allowfullscreen></iframe>
+            <iframe class="embed-responsive-item" src="<?php echo $arr[0] ?>" allowfullscreen></iframe>
         </div>
     <?php endforeach;
 }
@@ -731,7 +733,7 @@ function msp_shameless_self_plug(){
      */
     ?>
     <p class="text-center bg-dark text-light m-0 p-0">
-        <a class="text-light link-normal" href="http://drunk.kiwi">Made with <i class="fas fa-coffee mx-2"></i> & <i class="fas fa-heart text-danger mx-2"></i> by Greg Bastianelli</a>
+        <a class="text-light link-normal" href="http://drunk.kiwi">Coded with <i class="fas fa-coffee mx-2"></i> & <i class="fas fa-heart text-danger mx-2"></i> by Gergg</a>
     </p>
     <?php
 }
@@ -789,8 +791,8 @@ function msp_get_leave_feedback_form(){
 
 function msp_process_feedback_form(){
     /**
-     * Either creates a new comment or edits an order one, based on whether or not the user has
-     * reviews a product.
+     * Either creates a new comment or edits an older one, based on whether or not the user has
+     * reviewed a product.
      * 
      * @return string - $comment_id
      */
@@ -870,19 +872,19 @@ function msp_get_shop_subnav(){
      * Outputs the html for a subnav if applicable
      */
     $nav_items = msp_get_category_children();
-    if( empty( $nav_items ) ) return;
+    if( empty( $nav_items ) || wp_is_mobile() ) return;
 
     array_unshift( $nav_items, msp_get_current_category() );
     ?>
-    <nav class="navbar navbar-light bg-light msp-shop-subnav border-bottom">
-        <div class="navbar-nav flex-row">
-            <?php foreach( $nav_items as $item ) : ?>
-                <li class="nav-item border-right px-2">
-                    <a class="nav-link" href="<?php echo get_term_link( $item->term_id ) ?>" ><?php echo $item->name ?></a>
-                </li>
-            <?php endforeach; ?>
-        </div>
-    </nav>
+        <nav class="navbar navbar-light bg-light msp-shop-subnav border-bottom">
+            <div class="navbar-nav flex-row">
+                <?php foreach( $nav_items as $item ) : ?>
+                    <li class="nav-item border-right px-2">
+                        <a class="nav-link" href="<?php echo get_term_link( $item->term_id ) ?>" ><?php echo $item->name ?></a>
+                    </li>
+                <?php endforeach; ?>
+            </div>
+        </nav>
     <?php
 }
 
@@ -952,7 +954,6 @@ function msp_add_google_analytics(){
     <?php
 }
 
-add_shortcode( 'email_preferences', 'msp_user_email_preferences' );
 function msp_user_email_preferences(){
     $display_name = get_user_meta( $_GET['user_id'], 'nickname', true );
     if( wp_verify_nonce( $_REQUEST['_wpnonce'], 'update-user-' . $display_name ) ){
@@ -973,4 +974,42 @@ function msp_maybe_append_description(){
         }
     }
     echo $the_content;
+}
+
+add_action( 'init', 'jk_remove_storefront_handheld_footer_bar' );
+
+function jk_remove_storefront_handheld_footer_bar() {
+  remove_action( 'storefront_footer', 'storefront_handheld_footer_bar', 999 );
+}
+
+function msp_add_sub_cat_links(){
+    $nav_items = msp_get_category_children();
+    if( empty( $nav_items ) ) return;
+    $echo = 'Shop for ';
+    echo '<p class="text-left">';
+    foreach( $nav_items as $item ){
+        $echo .= '<a href="'. get_term_link( $item->term_id ) .'">'. $item->name .'</a>, ';
+    }
+    echo rtrim($echo, ', ') . '.</p>';
+}
+
+define('temp_file', ABSPATH.'/_temp_out.txt' );
+
+add_action("activated_plugin", "activation_handler1");
+function activation_handler1(){
+    $cont = ob_get_contents();
+    if(!empty($cont)) file_put_contents(temp_file, $cont );
+}
+
+add_action( "pre_current_active_plugins", "pre_output1" );
+function pre_output1($action){
+    if(is_admin() && file_exists(temp_file))
+    {
+        $cont= file_get_contents(temp_file);
+        if(!empty($cont))
+        {
+            echo '<div class="error"> Error Message:' . $cont . '</div>';
+            @unlink(temp_file);
+        }
+    }
 }

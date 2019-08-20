@@ -16,6 +16,10 @@ function msp_remove_actions(){
     remove_action( 'woocommerce_after_single_product_summary', 'storefront_upsell_display', 15 );
 }
 
+if ( wp_is_mobile() ){
+    remove_action('woocommerce_single_product_summary', 'woocommerce_template_single_title', 5);
+    add_action('woocommerce_before_single_product_summary', 'woocommerce_template_single_title', 8);
+}
 
 /**
  * storefront_after_footer
@@ -262,6 +266,7 @@ add_filter( 'msp_additional_information_html', 'msp_product_additional_informati
  * woocommerce_archive_description
  */
 add_action( 'woocommerce_archive_description', 'woocommerce_breadcrumb', 5 );
+add_action( 'woocommerce_archive_description', 'msp_add_sub_cat_links', 1 );
 
 /**
  * woocommerce_before_shop_loop_item_title

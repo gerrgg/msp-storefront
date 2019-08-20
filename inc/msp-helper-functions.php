@@ -62,7 +62,7 @@ function msp_get_user_product_review( $p_id, $format = ARRAY_A ){
 	return $comment;
 }
 
-function msp_customer_feedback( $order_id ){
+function msp_customer_feedback( $order_id, $include_unapproved = false ){
 	/**
 	 * returns a customer store review connected to $order_id
 	 * @param int $order_id - The ID of an order.
@@ -74,9 +74,9 @@ function msp_customer_feedback( $order_id ){
 		'type' 					=> 'store_review',
 		'meta_key'				=> 'order_id',
 		'meta_value'			=> $order_id,
-		'include_unapproved'  => false,
+		'include_unapproved'  => $include_unapproved,
 	));
-	return( $comments[0] );
+	if( isset( $comments[0] ) ) return( $comments[0] );
 }
 
 function msp_get_product_resources( $id ){
@@ -135,22 +135,21 @@ function msp_get_product_metadata( $product_ids ){
 	 * @param array $product_ids - An array of ids.
 	 * @return array $data_sets - An array of key => value pairs.
 	 */
-    $data_sets = array( 'sku' => '_sku', 'gtin' => '_woocommerce_gpf_data' );
+    $data_sets = array( 'mpn' => '_sku', 'gtin' => '_woocommerce_gpf_data' );
     foreach( $data_sets as $label => $meta_key ){
         $str = '';
         foreach( $product_ids as $id ){
             $product = wc_get_product( $id );
-            $data = get_post_meta( $id, $meta_key, true );
+			$data = get_post_meta( $id, $meta_key, true );
+			// if data is an array, we set $data to equal the string we want; specified by the $label attribute.
             if( is_array( $data ) && isset( $data[$label] ) ){
-                $data = $data[$label];
-            }
+				$data = $data[$label];
+			}
 
-            if( ! empty( $data ) ){
-                $str .= '<a href="'. $product->get_permalink() .'">'. $data .'</a>, ';
-            }
+			if( ! empty( $data ) ) $str .= '<a href="'. $product->get_permalink() .'">'. $data .'</a>, ';
         }
         $data_sets[$label] = $str;
-    }
+	}
     return $data_sets;
 }
 

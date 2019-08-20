@@ -23,7 +23,7 @@ if ( ! comments_open() ) {
 }
 ?>
 <div id="reviews" class="woocommerce-Reviews row pt-5">
-	<div id="comments" class="col-4">
+	<div id="comments" class="col-12 col-sm-4">
 		<h2 class="">
 			<?php
 			$ratings = $product->get_rating_counts();
