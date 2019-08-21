@@ -112,43 +112,27 @@ function msp_quote_btn(){
  */
 add_shortcode( 'quote' , 'msp_quote_shortcode' );
 function msp_quote_shortcode(){
-    $input = isset( $_GET['input'] ) ? $_GET['input'] : 0;
-    $product = msp_get_product_by_mixed_data( $input );
-
-    if( empty( $product ) ){
-       get_msp_quote_find_product_id_form();
-    } else {
-        get_msp_quote_form( $product );
-    }
+    get_msp_quote_find_product_id_form();
+    wc_get_template( '/template/msp-quote.php' );
 }
 /**
- * Simple html form used for finding a product based on a user's input.
- * Ideally this form wont be used very often and this attribute is passed from a link somewhere else.
+ * Uses Select2 to allow a user easily find and add products to a list for quote.
+ * https://rudrastyh.com/wordpress/select2-for-metaboxes-with-ajax.html#respond
  */
 function get_msp_quote_find_product_id_form(){
-    ?>
-    <div class="alert alert-danger" style="max-width: 450px;" role="alert">
-        <form class="form" method="get">
-            <p for="input">Enter the ID, SKU or Name of the product you want to quote.</p>
-            <div class="form-group">
-                <input id="sku" type="text" name="input[sku]" class="form-control" placeholder="Stock Keeping Unit (SKU)" />
-            </div>
-            <div class="form-group">
-                <input id="name" type="text" name="input[name]" class="form-control" placeholder="Product Name" />
-            </div>
-            
-            <input class="btn btn-danger" type="submit" value="Submit" />
-        </form>
-    </div>
-<?php
-}
+    $product_ids = isset( $_GET['p'] ) ? msp_get_products() : array();
 
-/**
- * sets up a variable for passing to the msp-quote.php template file
- */
-function get_msp_quote_form( $product ){
-    set_query_var( 'msp_product_id', $product->get_id() );
-    wc_get_template( '/template/msp-quote.php' );
+    $html = '<label for="msp_select2_products">Products:</label><br />';
+    $html .= '<form method="GET" class="form-inline"><select id="msp_select2_products" name="ids[]" multiple="multiple" class="form-control w-100">';
+    if( $product_ids ){
+        foreach( $product_ids as $id ) {
+            $title = get_the_title( $id );
+            $title = ( mb_strlen( $title ) > 50 ) ? mb_substr( $title, 0, 49 ) . '...' : $title;
+            $html .=  '<option value="' . $id . '" selected="selected">' . $title . '</option>';
+        }
+    }
+    $html .= '</select><button role="submit" class="btn btn-success" />Submit</button></form>';
+    echo $html;
 }
 
 /**
@@ -195,8 +179,9 @@ function msp_submit_bulk_form(){
         </table>
         <?php
         $html = ob_get_clean();
-        
+        $customer_msg = "<p>We got your message, expect a response in 1-3 business days. Your quote is below: </p>";
         wp_mail( get_option('admin_email'), $sitename . ' - Quote Request', $html );
+        wp_mail( $_POST['email'], 'We got your quote request!', $customer_msg . $html );
         wp_redirect( '/' );
     }
 }
@@ -261,10 +246,8 @@ function msp_get_customer_unique_order_items( $user_id){
 }
 
 function msp_get_user_browsing_history(){
-    if( is_user_logged_in() ){
-        global $history;
-        echo $history->get_user_products_history();
-    }
+    global $history;
+    echo $history->get_user_products_history();
 
     wp_die();
 }
@@ -733,7 +716,7 @@ function msp_shameless_self_plug(){
      */
     ?>
     <p class="text-center bg-dark text-light m-0 p-0">
-        <a class="text-light link-normal" href="http://drunk.kiwi">Coded with <i class="fas fa-coffee mx-2"></i> & <i class="fas fa-heart text-danger mx-2"></i> by Gergg</a>
+        <a class="text-light link-normal" href="http://drunk.kiwi">Made possible by <i class="fas fa-coffee mx-2"></i> & <i class="fas fa-heart text-danger mx-2"></i></a>
     </p>
     <?php
 }

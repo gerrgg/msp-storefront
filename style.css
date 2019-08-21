@@ -94,7 +94,6 @@ a.woocommerce-button.button{
     -webkit-overflow-scrolling: touch;
     z-index: 0;
     display: none;
-    margin-top: 2rem;
 }
 
 .slideout-menu-left {
@@ -329,7 +328,7 @@ img.avatar.avatar-60{
 
 .img-mini{
     width: 75px;
-    height: 75px;
+    /* height: 75px; */
 }
 
 .img-small{
@@ -575,8 +574,9 @@ a.anchor {
         margin: .25rem 0;
         font-size: 1.5em;
     }
-    .woocommerce-orders-table__row.order{
-        display: none;
+    .woocommerce-orders-table tr{
+        display: block;
+        margin-bottom: 1rem;
     }
     #msp_review input[name="headline"], 
     #msp_review textarea[name="content"]{

@@ -132,7 +132,7 @@ add_action( 'wp_ajax_nopriv_msp_comment_on_comment', 'msp_comment_on_comment_cal
 add_action( 'wp_ajax_msp_delete_user_product_image', 'msp_delete_user_product_image' );
 
 add_action( 'wp_ajax_msp_get_user_browsing_history', 'msp_get_user_browsing_history' );
-add_action( 'wp_ajax_nopriv_msp_get_user_browsing_Wistory', 'msp_get_user_browsing_history' );
+add_action( 'wp_ajax_nopriv_msp_get_user_browsing_history', 'msp_get_user_browsing_history' );
 
 add_action( 'wp_ajax_msp_get_product_size_guide_src', 'msp_get_product_size_guide_src' );
 add_action( 'wp_ajax_msp_get_leave_feedback_form', 'msp_get_leave_feedback_form' );
@@ -145,6 +145,9 @@ add_action( 'wp_ajax_nopriv_msp_process_customer_submit_question', 'msp_process_
 
 add_action( 'wp_ajax_msp_process_customer_submit_awnser', 'msp_process_customer_submit_awnser' );
 add_action( 'wp_ajax_nopriv_msp_process_customer_submit_awnser', 'msp_process_customer_submit_awnser' );
+
+add_action( 'wp_ajax_msp_get_products', 'msp_get_products' );
+add_action( 'wp_ajax_nopriv_msp_get_products', 'msp_get_products' );
 /**
  * Admin Post
  */
@@ -218,7 +221,7 @@ add_action( 'woocommerce_review_meta', 'woocommerce_review_display_rating', 8 );
  */
 add_action( 'woocommerce_after_single_product_summary', 'woocommerce_upsell_display', 5 );
 // add_action( 'woocommerce_after_single_product_summary', 'woocommerce_output_related_products', 15);
-add_action( 'woocommerce_after_single_product_summary', 'msp_customer_faq', 20 );
+// add_action( 'woocommerce_after_single_product_summary', 'msp_customer_faq', 20 );
 add_action( 'woocommerce_after_single_product_summary', 'comments_template', 25 );
 
 

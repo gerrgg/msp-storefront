@@ -82,6 +82,8 @@ class User_History{
                 if( ! empty( $data ) ){
                     update_user_meta( get_current_user_id(), 'msp_' . $key, $this->package( $data ) );
                 }
+            } else {
+                
             }
         }
     }
@@ -125,7 +127,7 @@ class User_History{
                     <a class="text-center mx-auto link-normal woocommerce-LoopProduct-link woocommerce-loop-product__link" href="<?php echo $product->get_permalink() ?>">
                         <img src="<?php echo msp_get_product_image_src( $product->get_image_id(), 'woocommerce_thumbnail' ); ?>" class="mx-auto img-sm" />
                     </a>
-                    <p class="price text-center mx-auto">$<?php echo $product->get_price(); ?></p>
+                    <p class="price text-center mx-auto"><?php echo '$' . $product->get_price(); ?></p>
                 </div>
                 <?php
             $count++;
