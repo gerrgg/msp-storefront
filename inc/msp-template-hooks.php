@@ -107,6 +107,7 @@ add_action( 'msp_order_details_actions', 'msp_order_feedback_button', 15, 1 );
 add_action( 'msp_order_details_actions', 'msp_order_return_button', 20 );
 add_action( 'msp_order_details_actions', 'msp_order_report_issue_button', 25 );
 
+add_action( 'woocommerce_before_cart_table', 'woocommerce_button_proceed_to_checkout' );
 
 /**
  * woocommerce_checkout_order_processed

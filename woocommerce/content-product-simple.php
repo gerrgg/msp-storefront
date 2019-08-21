@@ -11,7 +11,7 @@ if ( empty( $product ) || ! $product->is_visible() ) {
 ?>
 <div class="card buy-again-product">
     <a class="link-normal" href="<?php echo $product->get_permalink(); ?>">
-        <?php echo $product->get_image( 'woocommerce_thumbnail', array( 'class' => 'card-img-top' ) ) ?>
+        <img src="<?php echo msp_get_product_image_src( $product->get_image_id(), 'thumbnail' ) ?>" />
         <div class="card-body">
             <?php echo wc_get_rating_html( $product->get_average_rating(), $product->get_review_count() ) ?>
             <h5><?php echo $product->get_name(); ?></h5>

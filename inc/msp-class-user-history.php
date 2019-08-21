@@ -1,6 +1,8 @@
 <?php 
 defined( 'ABSPATH' ) || exit;
 
+# TODO: Really need to cache our objects.
+
 class User_History{
     /**
      * A class which records the ID of a page visited by a user. 
@@ -199,5 +201,5 @@ class User_History{
 
 }
 
-$history = new User_History();
-global $history;
+// $history = new User_History();
+// global $history;

@@ -39,10 +39,12 @@ class MSP{
         add_filter( 'woocommerce_product_tabs', array( $this, 'msp_product_tabs' ) );
         add_filter( 'woocommerce_package_rates', array( $this, 'maybe_hide_ltl_shipping_option' ), 50, 2 );
         add_filter( 'storefront_footer_widget_columns', function(){ return 1; } );
+        add_filter( 'woocommerce_checkout_fields', array( $this, 'msp_checkout_fields' ) );
     }
 
-    public function msp_add_to_description( $tags ){
-
+    public function msp_checkout_fields( $fields ){
+        $fields['billing']['billing_email']['priority'] = 1;
+        return $fields;
     }
 
     public function register_sidebar_shop(){
@@ -90,13 +92,10 @@ class MSP{
         wp_enqueue_style( 'owl-carousel-theme', URI . '/vendor/OwlCarousel2-2.3.4/dist/assets/owl.theme.default.min.css' );
         wp_enqueue_script( 'owl-carousel', URI . '/vendor/OwlCarousel2-2.3.4/dist/owl.carousel.min.js', array( 'jquery' ), '', true );
         
-        wp_register_style('select2', 'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css' );
-	    wp_register_style('select2', 'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js', array('jquery') );
+        wp_enqueue_style('select2', 'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css' );
+	    wp_enqueue_script('select2', 'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js', array('jquery') );
         
-        if ($pagename == 'quote'){
-            wp_enqueue_style('select2');
-            wp_enqueue_script('select2');
-        }
+
     }
 
     public function create_custom_tables(){
@@ -244,3 +243,4 @@ class MSP{
 //init
 new MSP();
 add_shortcode( 'contact', 'msp_get_contact_page' );
+

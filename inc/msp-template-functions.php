@@ -120,9 +120,10 @@ function msp_quote_shortcode(){
  * https://rudrastyh.com/wordpress/select2-for-metaboxes-with-ajax.html#respond
  */
 function get_msp_quote_find_product_id_form(){
-    $product_ids = isset( $_GET['p'] ) ? msp_get_products() : array();
+    $product_ids = isset( $_GET['q'] ) ? msp_get_products() : array();
+    $html = '<h4>Enter the part number(s) or name(s) of the item(s) you want quoted. Submit, tell us how many, where its going and expect an email same or next business day.</h4>';
 
-    $html = '<label for="msp_select2_products">Products:</label><br />';
+    $html .= '<label for="msp_select2_products">Products:</label><br />';
     $html .= '<form method="GET" class="form-inline"><select id="msp_select2_products" name="ids[]" multiple="multiple" class="form-control w-100">';
     if( $product_ids ){
         foreach( $product_ids as $id ) {
