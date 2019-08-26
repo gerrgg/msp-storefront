@@ -13,6 +13,31 @@ class MSP_Admin{
         add_action( 'woocommerce_process_product_meta', array( $this, 'process_product_videos_meta' ), 10, 2 );
         add_action( 'woocommerce_process_product_meta', array( $this, 'process_product_size_guide_meta' ), 10, 2 );
         add_action( 'wp_ajax_msp_admin_sync_vendor', 'msp_admin_sync_vendor' );
+        add_action( 'edit_user_profile', array( $this, 'add_net30_metabox'), 1 );
+        add_action( 'edit_user_profile_update', array( $this, 'update_user_to_net30_terms'), 5 );
+    }
+
+    public function add_net30_metabox(  $user){
+        $is_net30 = get_user_meta( $user->ID, 'iww_net30', true );
+        ?>
+        <h1><?php esc_html_e( 'Activate Net 30', 'iww' ) ?></h1>
+        <table class="form-table" style="background-color: red; color: #fff;">
+                <tr>
+                    <th><label for="iww_net30"><?php esc_html_e( 'Activate NET 30', 'iww' ); ?></label></th>
+                    <td>
+                <input type="checkbox" id="iww_net30" name="iww_net_30_data" value="1" <?php if ( $is_net30 ) echo ' checked="checked"'; ?> />
+                    </td>
+                </tr>
+            </table>
+        <?php
+    }
+
+    public function update_user_to_net30_terms( $user_id ){
+        if( current_user_can( 'edit_user', $user_id ) ) {
+            update_user_meta( $user_id, 'iww_net30', $_POST['iww_net_30_data'] );
+            $sessions = WP_Session_Tokens::get_instance( $user_id );
+            $sessions->destroy_all();
+        }
     }
 
     public function msp_meta_boxes(){

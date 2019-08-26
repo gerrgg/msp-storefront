@@ -707,7 +707,7 @@ function msp_show_product_size_guide_btn(){
     $size_guide = get_post_meta( $product->get_id(), '_msp_size_guide', true );
     if( ! empty( $size_guide ) ){
         make_modal_btn( array(
-            'text' => 'Size Guide',
+            'text' => '<i class="fas fa-ruler pr-2"></i>Size Guide',
             'title' => $product->get_name() . ' - Size Guide',
             'model' => 'size_guide',
             'action' => 'show',

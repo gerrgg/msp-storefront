@@ -40,6 +40,18 @@ class MSP{
         add_filter( 'woocommerce_package_rates', array( $this, 'maybe_hide_ltl_shipping_option' ), 50, 2 );
         add_filter( 'storefront_footer_widget_columns', function(){ return 1; } );
         add_filter( 'woocommerce_checkout_fields', array( $this, 'msp_checkout_fields' ) );
+        add_filter( 'woocommerce_available_payment_gateways', array($this, 'msp_enable_net30'), 99999 );
+    }
+
+    public function msp_enable_net30( $available_gateways ){
+        $user = wp_get_current_user();
+        $is_net30 = get_user_meta( $user->ID, 'iww_net30', true );
+
+        if( isset( $available_gateways['cheque'] ) && !$is_net30 ){
+            unset( $available_gateways['cheque'] );
+        }
+
+        return $available_gateways;
     }
 
     public function msp_checkout_fields( $fields ){
@@ -267,3 +279,4 @@ function pre_output1($action){
 function pluralize( $count, $str ){
     return ( $count <= 1 ) ? $str : $str . 's'; 
 }
+

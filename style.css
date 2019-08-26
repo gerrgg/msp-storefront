@@ -63,6 +63,15 @@ a.woocommerce-button.button{
     list-style: none;
 }
 
+#payment .payment_methods li.woocommerce-PaymentMethod > input[type="radio"]:first-child:checked + label::before, 
+#payment .payment_methods li.wc_payment_method > input[type="radio"]:first-child:checked + label::before{
+    color: #28a745;
+}
+
+.star-rating span::before, .quantity .plus, .quantity .minus, p.stars a:hover::after, p.stars a::after, .star-rating span::before{
+    color: #e3c000 !important;
+}
+
 
 /* TODO: FIX - link turns black on click and dehover */
 .navbar-light .navbar-nav .nav-link:hover,
