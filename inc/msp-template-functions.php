@@ -10,7 +10,7 @@ defined( 'ABSPATH' ) || exit;
  * Opens the header wrapper
  */
 function msp_header_wrapper_open(){
-    echo '<nav class="navbar navbar-expand-lg navbar-light bg-dark"><div class="container align-items-end">';
+    echo '<nav class="navbar navbar-light bg-dark"><div class="container align-items-end">';
 }
 
 /**
@@ -40,6 +40,9 @@ function msp_header_site_identity(){
  * Opens the header middle wrapping div
  */
 function msp_header_middle_open(){
+    echo '<div id="hidden-cart-button" class="d-lg-none">';
+    msp_header_cart();
+    echo '</div>';
     echo '<div id="search-wrapper" class="flex-grow-1">';
 }
 
@@ -55,7 +58,7 @@ function msp_header_search_bar(){
  * outputs the header navigation
  */
 function msp_header_menu(){
-    echo '<div id="header-menu" class="d-none d-sm-flex align-items-end">';
+    echo '<div id="header-menu" class="d-none d-lg-flex align-items-end">';
 
         do_action( 'msp_quick_links' );
 
@@ -306,7 +309,7 @@ function msp_header_right_menu(){
  */
 function msp_header_cart(){
     $cart_size = sizeof( WC()->cart->get_cart_contents() ); ?>
-    <div id="cart-wrapper" class="d-flex">
+    <div class="d-flex cart-wrapper">
         <a class="nav-link" href="<?php echo wc_get_cart_url(); ?>">
             <i class="fas fa-shopping-cart fa-2x"></i>
             <span class="item-counter"><?php echo $cart_size; ?></span>
@@ -347,7 +350,7 @@ function msp_mobile_menu(){
     wp_nav_menu( array(
         'theme_location' => 'handheld',
         'menu_id'        => 'mobile-menu-categories',
-        'menu_class'     => 'm-0 list-unstyled',
+        'menu_class'     => 'm-0 list-unstyled mb-2',
     ));
 }
 
@@ -356,13 +359,15 @@ function msp_mobile_menu(){
  */
 function msp_mobile_menu_account_links(){
     ?>
-    <hr />
+
     <p class="mobile-label">ACCOUNT & HELP</p>
     <ul class="m-0 list-unstyled">
-        <li class="menu-item"><a href="<?php echo wc_get_page_permalink( 'myaccount' ) ?>">My Account</a></li>
-        <li class="menu-item"><a href="#">Help</a></li>
+        <li class="menu-item"><a href="/contact"><i class="fas fa-question pr-3"></i>Help</a></li>
+        <li class="menu-item"><a href="/order-tracking"><i class="fas fa-truck pr-3"></i>Track my order</a></li>
+        <li class="menu-item"><a href="/quote"><i class="fas fa-pencil-alt pr-3"></i>Get a quote</a></li>
+        <li class="menu-item"><a href="<?php echo wc_get_page_permalink( 'myaccount' ) ?>"> <i class="fas fa-user pr-3"></i>My Account</a></li>
         <?php if( is_user_logged_in() ) : ?>
-            <li class="menu-item"><a href="<?php echo wp_logout_url( '/' ) ?>">Sign out</a></li>
+            <li class="menu-item"><a href="<?php echo wp_logout_url( '/' ) ?>"><i class="fas fa-sign-out-alt pr-3"></i>Sign out</a></li>
         <?php endif; ?>
     <?php
 
@@ -717,7 +722,7 @@ function msp_shameless_self_plug(){
      */
     ?>
     <p class="text-center bg-dark text-light m-0 p-0">
-        <a class="text-light link-normal" href="http://drunk.kiwi">Made possible by <i class="fas fa-coffee mx-2"></i> & <i class="fas fa-heart text-danger mx-2"></i></a>
+        <a class="text-light link-normal" href="http://gerrg.com">Made possible with <i class="fas fa-coffee mx-2"></i> & <i class="fas fa-heart text-danger mx-2"></i></a>
     </p>
     <?php
 }
@@ -860,7 +865,7 @@ function msp_get_shop_subnav(){
 
     array_unshift( $nav_items, msp_get_current_category() );
     ?>
-        <nav class="navbar navbar-light bg-light msp-shop-subnav border-bottom">
+        <nav class="navbar navbar-dark bg-light msp-shop-subnav border-bottom">
             <div class="navbar-nav flex-row">
                 <?php foreach( $nav_items as $item ) : ?>
                     <li class="nav-item border-right px-2">
@@ -914,7 +919,7 @@ function msp_process_contact_form(){
         $html = ob_get_clean();
 
         wp_mail( $to, $subject, $html, $headers );
-        wp_mail( $_POST['email'], $subject, $html, $headers );
+        wp_mail( $_POST['email'], 'We got your request.' . $subject, $html, $headers );
         wp_redirect( '/' );
         exit;
     }
@@ -977,23 +982,47 @@ function msp_add_sub_cat_links(){
     echo rtrim($echo, ', ') . '.</p>';
 }
 
-define('temp_file', ABSPATH.'/_temp_out.txt' );
-
-add_action("activated_plugin", "activation_handler1");
-function activation_handler1(){
-    $cont = ob_get_contents();
-    if(!empty($cont)) file_put_contents(temp_file, $cont );
+function msp_mobile_product_filter_button(){
+    ?>
+    <div id="filter-button" class="d-block d-lg-none">
+        <a role="button" class=><i class="fas fa-filter fa-3x d-block"></i>Filter Products</a>
+    </div>
+    <?php
 }
 
-add_action( "pre_current_active_plugins", "pre_output1" );
-function pre_output1($action){
-    if(is_admin() && file_exists(temp_file))
-    {
-        $cont= file_get_contents(temp_file);
-        if(!empty($cont))
-        {
-            echo '<div class="error"> Error Message:' . $cont . '</div>';
-            @unlink(temp_file);
-        }
+function msp_bulk_discount_table(){
+    global $product;
+    if( get_post_meta( $product->get_id(), '_bulkdiscount_enabled', true ) == 'yes' ){
+        ?>
+        <h3 class="m-2">Buy More, Save Money.</h4>
+        <table class="table-bordered">
+            <thead class="bg-dark text-light">
+                <?php 
+                    $qtys = get_bulk_discount_data( $product, 'quantity' );
+                    foreach( $qtys as $value ){
+                        echo '<td>'. $value .'+</td>';
+                    }
+                ?>
+            </thead>
+            <tbody>
+                <?php 
+                    $qtys = get_bulk_discount_data( $product, 'discount' );
+                    foreach( $qtys as $value ){
+                        $price = $product->get_price() - $value;
+                        echo '<td>$'. $price .'</td>';
+                    }
+                ?>
+            </tbody>
+        </table>
+        <?php
     }
+}
+
+function get_bulk_discount_data( $product, $key ){
+    $data = array();
+    for( $i = 0; $i < 5; $i++ ){
+        $value = get_post_meta( $product->get_id(), '_bulkdiscount_'. $key . '_' . $i, true );
+        if( ! empty( $value) ) array_push( $data, $value );
+    }
+    return $data;
 }
