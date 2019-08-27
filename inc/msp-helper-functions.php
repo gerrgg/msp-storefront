@@ -219,14 +219,14 @@ function msp_get_current_category(){
 	return $wp_query->get_queried_object();
 }
 
-function msp_get_category_children(){
+function msp_get_category_children( $category = '' ){
 	/**
 	* Used to get the children of a product category
 	* @return WP_Term $children - The children taxonomys of a product category
 	*/
-	if( ! is_product_category() ) return;
+	if( ! is_product_category() && empty( $category ) ) return;
+	$term = ( empty( $category ) ) ? get_queried_object() : get_term( $category );
 
-	$term = get_queried_object();
 	$children = get_terms( $term->taxonomy, array(
 		'parent'    => $term->term_id,
 		'hide_empty' => false
@@ -261,3 +261,4 @@ function msp_get_customers_who_purchased_product( $product_id ){
             
     return $wpdb->get_results( $sql );
 }
+

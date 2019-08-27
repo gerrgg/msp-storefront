@@ -276,7 +276,7 @@ add_action( 'woocommerce_before_shop_loop', 'msp_mobile_product_filter_button', 
  */
 add_action( 'woocommerce_archive_description', 'woocommerce_breadcrumb', 5 );
 add_action( 'woocommerce_archive_description', 'msp_add_sub_cat_links', 1 );
-
+add_action( 'woocommerce_archive_description', 'msp_add_category_images', 2 );
 /**
  * woocommerce_before_shop_loop_item_title
  * @see we do this to wrap a product image in an a tag - CSS
@@ -315,6 +315,13 @@ add_action( 'msp_product_question_html', 'msp_get_product_question', 15, 1 );
 add_action( 'msp_product_question_html', 'msp_get_product_question_answers', 20, 1 );
 add_action( 'msp_product_question_html', 'product_question_wrapper_end', 100 );
 
+/**
+ * msp_front_page
+ */
+add_action( 'msp_front_page', 'msp_', 10 );
+add_action( 'msp_front_page', 'msp_get_departments_silder', 10 );
+add_action( 'msp_front_page', 'msp_get_featured_products_silder', 25 );
+add_action( 'msp_front_page', 'msp_get_customer_service_info', 50 );
 
 // debug
 add_action( 'wp_footer', 'msp_add_google_analytics', 100 );

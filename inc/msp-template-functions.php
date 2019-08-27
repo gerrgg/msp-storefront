@@ -1026,3 +1026,106 @@ function get_bulk_discount_data( $product, $key ){
     }
     return $data;
 }
+
+function msp_get_customer_service_info(){
+    $img = wp_get_attachment_image_src( 6562 );
+    ?>
+    <div id="fp-customer-service-top" class="d-block d-md-flex justify-content-center align-items-center text-center">
+        <img src="<?php echo $img[0] ?>" />
+        <div class="pl-md-4">
+            <h2 class="m-0">Veteran Owned & Operated</h2>
+            <p class="lead m-0">Four guys in a office somewhere.</p>
+            <p style="font-size: 20px;">
+                <a href="tel:8887233864" class="link-normal"> (888) 723-3864 </a>
+                |
+                <a href="mailto: help@applesafety.com" class="link-normal"> help@applesafety.com </a>
+            </p>
+        </div>
+    </div>
+    <div id="fp-customer-service" class="d-block d-lg-flex test-align-center align-items-end py-4 bg-dark text-light my-2">
+        <div>
+            <h3 class="m-0 text-light bold">Contact us.</h3>
+            <p>You'll likely talk to the same guy who ships your package.</p>
+        </div>
+        <div>
+            <p>
+                <b>Phone:</b> <a href="tel:8887233864" class="link-normal text-light">(888) 723-3864</a><br>
+                <b>Fax:</b> (231) 439-5557
+            </p>
+        </div>
+        <div>
+            <h3 class="m-0 text-light bold">Hours</h3>
+            <p>Monday - Friday: 8am - 4:30pm (EST)</p>
+        </div>
+        <div>
+            <a href="/contact" class="btn btn-success btn-lg">Contact us</a>
+        </div>
+    </div>
+    <?php
+}
+
+function msp_add_category_images(){
+    $categories = msp_get_category_children();
+    msp_get_category_slider( $categories );
+}
+
+function msp_get_departments_silder(){
+    $categories = get_categories( array( 'taxonomy' => 'product_cat',
+                                         'orderby' => 'name',
+                                         'parent' => 0 ) );
+    if( empty( $categories ) ) return;
+    msp_get_category_slider( $categories, 'Shop by department' );
+}
+
+function msp_get_featured_products_silder(){
+    $featured_products = wc_get_products( array(
+        'limit'    => 10,
+        'orderby'  => 'rand',
+        'featured' => true
+    ) );
+    if( empty( $featured_products ) ) return;
+    msp_get_products_slider( $featured_products, 'Essential PPE' );
+}
+
+
+function msp_get_category_slider( $categories, $header = ''){
+    if( ! empty( $header ) ) : ?>
+        <h2 class="pb-2"><?php echo $header; ?></h3>
+    <?php endif; ?>
+
+    <div class="owl-carousel dept category-slider border-bottom">
+        <?php foreach( $categories as $term ) :
+            $image_src = wp_get_attachment_image_src( get_term_meta( $term->term_id, 'thumbnail_id', true ), 'medium' );
+            if( ! empty( $image_src ) ): ?>
+                <a href="<?php echo get_term_link( $term->term_id ) ?>" class="text-center">
+                    <img src="<?php echo $image_src[0] ?>" class="img-fluid mx-auto" style="height: 100px; width: auto;" />
+                    <p class="text-center"><?php echo $term->name ?></p>
+                </a>
+            <?php endif;
+        endforeach; ?>
+    </div>
+    <?php
+}
+
+function msp_get_products_slider( $products, $header = ''){
+    if( ! empty( $header ) ) : ?>
+        <h2 class="pb-2"><?php echo $header; ?></h3>
+    <?php endif; ?>
+
+    <div class="owl-carousel product-slider border-bottom">
+        <?php foreach( $products as $product_id ) :
+            $product = wc_get_product( $product_id );
+            if( empty( $product ) ) return;
+
+            $image_src = wp_get_attachment_image_src( $product->get_image_id(), 'medium' );
+            if( ! empty( $image_src ) ): ?>
+                <a href="<?php echo $product->get_permalink() ?>" class="text-center">
+                    <img src="<?php echo $image_src[0] ?>" class="img-fluid mx-auto" style="height: 100px; width: auto;" />
+                    <p class="text-center price"><?php echo $product->get_price_html() ?></p>
+                </a>
+            <?php endif;
+        endforeach; ?>
+    </div>
+    <?php
+}
+
