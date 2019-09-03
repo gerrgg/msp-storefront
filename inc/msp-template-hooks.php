@@ -137,7 +137,10 @@ add_action( 'wp_ajax_msp_get_user_browsing_history', 'msp_get_user_browsing_hist
 add_action( 'wp_ajax_nopriv_msp_get_user_browsing_history', 'msp_get_user_browsing_history' );
 
 add_action( 'wp_ajax_msp_get_product_size_guide_src', 'msp_get_product_size_guide_src' );
+add_action( 'wp_ajax_nopriv_msp_get_product_size_guide_src', 'msp_get_product_size_guide_src' );
+
 add_action( 'wp_ajax_msp_get_leave_feedback_form', 'msp_get_leave_feedback_form' );
+add_action( 'wp_ajax_nopriv_msp_get_leave_feedback_form', 'msp_get_leave_feedback_form' );
 
 add_action( 'wp_ajax_msp_process_feedback_form', 'msp_process_feedback_form' );
 add_action( 'wp_ajax_nopriv_msp_process_feedback_form', 'msp_process_feedback_form' );
@@ -330,3 +333,4 @@ add_action( 'wp_footer', 'msp_add_google_analytics', 100 );
 add_action( 'template_redirect', 'msp_debug' );
 function msp_debug(){
 }
+

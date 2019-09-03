@@ -348,7 +348,7 @@ function msp_mobile_menu_wrapper_open(){
 function msp_mobile_menu_header(){
     $user = get_userdata( get_current_user_id() );
     $username = ( ! empty( $user->user_login ) ) ? $user->user_login : 'Sign up or login';
-    echo "<h3 class='title py-2 pl-4'>Hello, $username</h3>";
+    echo "<h3 class='title py-2 pl-4 mb-1'>Hello, $username</h3>";
     echo "<a class='close'><i class='fas fa-times'></i></a>";
 }
 
