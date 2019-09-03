@@ -76,6 +76,7 @@ add_action( 'storefront_before_site', 'msp_mobile_menu_wrapper_close', 100 );
  * msp_quick_links_wrapper_close();
  */
 add_action( 'msp_quick_links', 'msp_quick_links_wrapper_open', 1 );
+add_action( 'msp_quick_links', 'msp_shop_btn', 2 );
 add_action( 'msp_quick_links', 'msp_buy_again_btn', 5 );
 add_action( 'msp_quick_links', 'msp_get_user_products_history_btn', 10 );
 add_action( 'msp_quick_links', 'msp_quote_btn', 15 );
@@ -222,7 +223,6 @@ add_action( 'admin_post_nopriv_msp_process_contact_form', 'msp_process_contact_f
  */
 add_action( 'woocommerce_after_single_product_summary', 'woocommerce_upsell_display', 5 );
 // add_action( 'woocommerce_after_single_product_summary', 'woocommerce_output_related_products', 15);
-// add_action( 'woocommerce_after_single_product_summary', 'msp_customer_faq', 20 );
 add_action( 'woocommerce_after_single_product_summary', 'comments_template', 25 );
 
 
@@ -318,15 +318,15 @@ add_action( 'msp_product_question_html', 'product_question_wrapper_end', 100 );
 /**
  * msp_front_page
  */
-add_action( 'msp_front_page', 'msp_', 10 );
 add_action( 'msp_front_page', 'msp_get_departments_silder', 10 );
+add_action( 'msp_front_page', 'msp_get_random_slider', 15 );
+add_action( 'msp_front_page', 'msp_get_random_slider', 30 );
+add_action( 'msp_front_page', 'msp_get_random_slider', 45 );
 add_action( 'msp_front_page', 'msp_get_featured_products_silder', 25 );
 add_action( 'msp_front_page', 'msp_get_customer_service_info', 50 );
 
 // debug
 add_action( 'wp_footer', 'msp_add_google_analytics', 100 );
-add_action( 'wp_footer', 'msp_debug' );
+add_action( 'template_redirect', 'msp_debug' );
 function msp_debug(){
-
-    // echo '<pre>'; print_r( _get_cron_array() ); echo '</pre>';
 }

@@ -33,6 +33,8 @@ class MSP{
 
         add_action('wp_logout', array( $this, 'myEndSession') );
         add_action('wp_login', array( $this, 'myEndSession') );
+        
+        add_action( 'wp_footer', array( $this, 'add_recaptcha_script_to_footer' ) );
 
         add_filter( 'woocommerce_min_password_strength', array( $this, 'msp_password_strength' ) );
         add_filter( 'woocommerce_form_field_args', array( $this, 'msp_form_field_args' ), 10, 3 );
@@ -41,6 +43,18 @@ class MSP{
         add_filter( 'storefront_footer_widget_columns', function(){ return 1; } );
         add_filter( 'woocommerce_checkout_fields', array( $this, 'msp_checkout_fields' ) );
         add_filter( 'woocommerce_available_payment_gateways', array($this, 'msp_enable_net30'), 99999 );
+    }
+
+    public function add_recaptcha_script_to_footer()
+    {
+        ?>
+            <script src="https://www.google.com/recaptcha/api.js?render=6LfkZLYUAAAAAKBHW3f3-Uu1U9YX0jWtOgE4XwnK"></script>
+            <script>
+            grecaptcha.ready(function() {
+                grecaptcha.execute('6LfkZLYUAAAAAKBHW3f3-Uu1U9YX0jWtOgE4XwnK');
+            });
+            </script>
+            <?php
     }
 
     public function msp_enable_net30( $available_gateways ){
@@ -87,7 +101,6 @@ class MSP{
         
         $this->wp_localize_scripts( array('main') );
         
-
         // Font Awesome - https://fontawesome.com/icons?d=gallery
         wp_enqueue_style( 'font-awesome', 'https://use.fontawesome.com/releases/v5.8.1/css/all.css' );
         

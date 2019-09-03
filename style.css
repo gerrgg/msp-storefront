@@ -587,6 +587,24 @@ a.anchor {
     margin: 0;
 }
 
+p.woocommerce-noreviews.qna{
+    background-color: #893a3e;
+}
+a[role="button"].link-normal{
+    color: unset;
+}
+
+.truncate {
+    width: 250px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+#product-qa-results a[role="button"].link-normal{
+
+}
+
 /* Large devices (desktops, 768px and up) */
 @media (min-width: 577px) and (max-width: 992px) {
     #masthead .container{

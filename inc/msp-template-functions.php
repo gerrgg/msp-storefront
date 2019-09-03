@@ -96,6 +96,16 @@ function msp_buy_again_btn(){
     
 }
 
+function msp_shop_btn(){
+    ?>
+        <li class="nav-item">
+            <a class="nav-link" href="/shop">
+                Shop
+            </a>
+        </li>
+    <?php
+}
+
 /**
  * displays a navigation link for quote requests
  */
@@ -1077,6 +1087,18 @@ function msp_get_departments_silder(){
     msp_get_category_slider( $categories, 'Shop by department' );
 }
 
+function msp_get_random_slider(){
+    $categories = get_categories( array( 'taxonomy' => 'product_cat',
+                                         'orderby' => 'name',
+                                         'parent' => 0 ) );
+    $category = $categories[ rand( 0, sizeof( $categories ) - 1 ) ];
+    $products = wc_get_products( array(
+        'limit'    => 10,
+        'category' => array( $category->slug ),
+    ) );
+    msp_get_products_slider( $products, $category->name );
+}
+
 function msp_get_featured_products_silder(){
     $featured_products = wc_get_products( array(
         'limit'    => 10,
@@ -1092,6 +1114,8 @@ function msp_get_category_slider( $categories, $header = ''){
     if( ! empty( $header ) ) : ?>
         <h2 class="pb-2"><?php echo $header; ?></h3>
     <?php endif; ?>
+
+    <?php if( empty( $categories ) ) return; ?>
 
     <div class="owl-carousel dept category-slider border-bottom">
         <?php foreach( $categories as $term ) :
@@ -1111,6 +1135,8 @@ function msp_get_products_slider( $products, $header = ''){
     if( ! empty( $header ) ) : ?>
         <h2 class="pb-2"><?php echo $header; ?></h3>
     <?php endif; ?>
+
+    <?php if( empty( $products ) ) return; ?>
 
     <div class="owl-carousel product-slider border-bottom">
         <?php foreach( $products as $product_id ) :

@@ -82,20 +82,18 @@ jQuery(document).ready(function( $ ){
         init_owl_carousel: function(){
             $('.owl-carousel').owlCarousel({
                 responsiveClass: true,
-                stagePadding: 10,
+                margin: 10,
                 nav: false,
                 responsive:{
                     0:{
-                        nav: false,
                         items:2,
+                        stagePadding: 15,
                     },
                     450:{
                         items:3,
-                        nav: true,
                     },
                     1000:{
                         items:5,
-                        nav: true,
                     }
                 }
             })
