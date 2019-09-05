@@ -33,7 +33,7 @@ class User_History{
             $db_key = 'msp_' . $key;
 
             if( is_user_logged_in() ){
-                $this->data[$key] = $this->unpackage( get_user_meta( get_current_user_id(), $db_key, true ) );
+                $this->data[$key] = MSP::unpackage( get_user_meta( get_current_user_id(), $db_key, true ) );
 
                 // $this->data[$key] must be an array for the array_merge function.
                 if( ! $this->data[$key] ) $this->data[$key] = array();
@@ -82,7 +82,7 @@ class User_History{
 
             if( is_user_logged_in() ){
                 if( ! empty( $data ) ){
-                    update_user_meta( get_current_user_id(), 'msp_' . $key, $this->package( $data ) );
+                    update_user_meta( get_current_user_id(), 'msp_' . $key, MSP::package( $data ) );
                 }
             } else {
                 
