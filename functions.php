@@ -9,9 +9,7 @@ define('PATH', get_stylesheet_directory() );
 //require
 require_once( PATH . '/vendor/wp-bootstrap-navwalker-master/class-wp-bootstrap-navwalker.php' );
 require_once( PATH . '/admin-functions.php' );
-require_once( PATH . '/inc/msp-class-user-history.php' );
-require_once( PATH . '/inc/msp-comment-functions.php' );
-require_once( PATH . '/inc/msp-class-ups.php' );
+// require_once( PATH . '/inc/msp-class-ups.php' );
 require_once( PATH . '/inc/msp-template-hooks.php' );
 require_once( PATH . '/inc/msp-template-functions.php' );
 require_once( PATH . '/inc/msp-template-filters.php' );
@@ -26,16 +24,11 @@ class MSP{
         add_action( 'init', array( $this, 'myStartSession' ), 1 );
         add_action( 'init', array( $this, 'create_theme_pages' ), 2 );
         add_action( 'widgets_init', array( $this, 'register_sidebar_shop' ), 100 );
-        $this->create_custom_tables();
-
         add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
         add_action( 'after_setup_theme', array( $this, 'register_menus' ) );
-
         add_action('wp_logout', array( $this, 'myEndSession') );
         add_action('wp_login', array( $this, 'myEndSession') );
-        
         add_action( 'wp_footer', array( $this, 'add_recaptcha_script_to_footer' ) );
-
         add_filter( 'woocommerce_min_password_strength', array( $this, 'msp_password_strength' ) );
         add_filter( 'woocommerce_form_field_args', array( $this, 'msp_form_field_args' ), 10, 3 );
         add_filter( 'woocommerce_product_tabs', array( $this, 'msp_product_tabs' ) );
@@ -117,32 +110,11 @@ class MSP{
         wp_enqueue_style( 'owl-carousel-theme', URI . '/vendor/OwlCarousel2-2.3.4/dist/assets/owl.theme.default.min.css' );
         wp_enqueue_script( 'owl-carousel', URI . '/vendor/OwlCarousel2-2.3.4/dist/owl.carousel.min.js', array( 'jquery' ), '', true );
         
+        //Select2 - https://select2.org/
         wp_enqueue_style('select2', 'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css' );
 	    wp_enqueue_script('select2', 'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js', array('jquery') );
         
 
-    }
-
-    public function create_custom_tables(){
-        // Add one library admin function for next function
-        require_once ABSPATH . 'wp-admin/includes/upgrade.php';
-        global $wpdb;
-        $charset_collate = $wpdb->get_charset_collate();
-
-        $tables = array(
-            'msp_karma' => "CREATE TABLE msp_karma (
-                                karma_id mediumint(9) NOT NULL AUTO_INCREMENT,
-                                karma_user_id mediumint(9) NOT NULL,
-                                karma_comment_id mediumint(9) NOT NULL,
-                                karma_value mediumint(9) NOT NULL,
-                                PRIMARY KEY  (karma_id)
-                            ) $charset_collate;",
-        );
-
-        foreach( $tables as $table_name => $ddl ){
-            maybe_create_table( $table_name, $ddl );
-        }
-        
     }
 
     public function msp_product_tabs( $tabs ){
@@ -187,7 +159,7 @@ class MSP{
     }
 
     public function create_theme_pages(){
-        $slugs = array( 'buy-again', 'quote', 'review', 'contact', 'email-preferences' );
+        $slugs = array( 'buy-again', 'quote', 'contact' );
 
         foreach( $slugs as $slug ){
             if( ! $this->the_slug_exists( $slug ) ){
@@ -263,6 +235,25 @@ class MSP{
     public static function get_wrapper_class(){
         return ( is_archive() ) ? 'container-fluid' : 'col-full';
     }
+
+    /**
+     * packs up an array for saving to the DB
+     * @param array $thing
+     * @return string
+     */
+    public static function package( $thing ){
+        return base64_encode( serialize( $thing ) );
+    }
+
+    /**
+     * unpacks a encoded serialzed string of data from the DB
+     * @param string $thing
+     * @return array
+     */
+    public static function unpackage( $thing ){
+        return unserialize( base64_decode( $thing ) );
+    }
+
 }
 
 //init

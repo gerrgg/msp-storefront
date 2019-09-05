@@ -304,19 +304,6 @@ add_action( 'woocommerce_before_single_product_summary', 'woocommerce_breadcrumb
 
 add_action( 'woocommerce_before_main_content', 'msp_get_shop_subnav', 5 );
 
-/**
- * msp_customer_faq_before_questions
- */
-add_action( 'msp_customer_faq_after_questions', 'msp_submit_question_form', 5 );
-
-/**
- * msp_product_question_html
- */
-add_action( 'msp_product_question_html', 'product_question_wrapper_open', 5 );
-add_action( 'msp_product_question_html', 'msp_chevron_karma_form', 10, 1 );
-add_action( 'msp_product_question_html', 'msp_get_product_question', 15, 1 );
-add_action( 'msp_product_question_html', 'msp_get_product_question_answers', 20, 1 );
-add_action( 'msp_product_question_html', 'product_question_wrapper_end', 100 );
 
 /**
  * msp_front_page

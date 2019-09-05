@@ -90,7 +90,7 @@ class MSP_Admin{
             }
         }
 
-        update_post_meta( $id, '_msp_product_videos', User_History::package( $arr ) );
+        update_post_meta( $id, '_msp_product_videos', MSP::package( $arr ) );
     }
 
     public function process_product_resources_meta( $id ){
@@ -103,7 +103,7 @@ class MSP_Admin{
             }
         }
 
-        update_post_meta( $id, '_msp_resources', User_History::package( $arr ) );
+        update_post_meta( $id, '_msp_resources', MSP::package( $arr ) );
     }
 
     public function submit_resources_tab(){

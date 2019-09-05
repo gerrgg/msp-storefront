@@ -122,7 +122,7 @@ function msp_get_product_resources( $id ){
 	 * used to get and unpack array of product resource links stored in DB.
 	 * @return array
 	 */
-	return User_history::unpackage( get_post_meta( $id, '_msp_resources', true ) );
+	return MSP::unpackage( get_post_meta( $id, '_msp_resources', true ) );
 }
 
 function msp_get_product_videos( $id ){
@@ -130,7 +130,7 @@ function msp_get_product_videos( $id ){
 	 * used to get and unpack array of product video links stored in DB.
 	 * @return array
 	 */
-	$arr = User_history::unpackage( get_post_meta( $id, '_msp_product_videos', true ) ); 
+	$arr = MSP::unpackage( get_post_meta( $id, '_msp_product_videos', true ) ); 
 	return ( ! empty( $arr ) ) ? $arr : array();
 }
 
