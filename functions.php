@@ -1,6 +1,19 @@
 <?php 
-
+/**
+ * 
+ */
 defined( 'ABSPATH' ) || exit;
+
+// should allow themes
+require 'plugin-update-checker/plugin-update-checker.php';
+$myUpdateChecker = Puc_v4_Factory::buildUpdateChecker(
+	'https://github.com/gregbast1994/MSP-Storefront',
+	__FILE__,
+	'msp'
+);
+
+//Optional: Set the branch that contains the stable release.
+$myUpdateChecker->setBranch('master');
 
 //globals
 define('URI', get_stylesheet_directory_uri() );
