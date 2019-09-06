@@ -590,6 +590,7 @@ a.anchor {
 p.woocommerce-noreviews.qna{
     background-color: #893a3e;
 }
+
 a[role="button"].link-normal{
     color: unset;
 }
@@ -601,9 +602,11 @@ a[role="button"].link-normal{
     text-overflow: ellipsis;
   }
 
-#product-qa-results a[role="button"].link-normal{
-
-}
+.storefront-full-width-content.single-product #reviews .commentlist li .avatar{
+    width: 32px !important;
+    height: 32px !important;
+    margin: 0;
+  }
 
 /* Large devices (desktops, 768px and up) */
 @media (min-width: 577px) and (max-width: 992px) {

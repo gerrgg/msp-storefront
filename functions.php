@@ -74,6 +74,7 @@ class MSP{
             'before_title'  => '<h3 class="widget-title">',
             'after_title'   => '</h3>',
         ) );
+
     }
 
     /**

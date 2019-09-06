@@ -9,11 +9,12 @@ add_action( 'init', 'msp_remove_actions' );
 function msp_remove_actions(){
     remove_action( 'storefront_before_content', 'woocommerce_breadcrumb', 10);
     remove_action( 'storefront_footer', 'storefront_credit', 20 );
-
+    
     //http://gerrg.com/how-to-remove_action-woocommerce-upsell-related-items-hook-with-storefront-theme/
     remove_action( 'woocommerce_after_single_product_summary', 'woocommerce_output_related_products', 20);
     remove_action( 'woocommerce_after_single_product_summary', 'woocommerce_upsell_display', 15 );
     remove_action( 'woocommerce_after_single_product_summary', 'storefront_upsell_display', 15 );
+    remove_action( 'storefront_sidebar', 'storefront_get_sidebar', 10 );
 }
 
 if ( wp_is_mobile() ){
