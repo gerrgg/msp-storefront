@@ -13,7 +13,7 @@ require PATH. '/plugin-update-checker/plugin-update-checker.php';
 $myUpdateChecker = Puc_v4_Factory::buildUpdateChecker(
 	'https://github.com/gregbast1994/MSP-Storefront',
 	__FILE__,
-	'msp'
+	'MSP-Storefront'
 );
 
 //Optional: Set the branch that contains the stable release.
