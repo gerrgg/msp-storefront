@@ -113,7 +113,7 @@ class MSP{
         
         // slideout.js - https://github.com/Mango/slideout
         wp_enqueue_script( 'slideout', URI . '/vendor/slideout/dist/slideout.min.js', array(), 
-            filemtime( __DIR__ . '\vendor\slideout\dist\slideout.min.js' ), true );
+            '', true );
 
         //Twitter Bootstrap - https://getbootstrap.com/docs/4.3/getting-started/introduction/
         wp_enqueue_style( 'bootstrap', URI . '/vendor/bootstrap-4.3.1-dist/css/bootstrap.min.css' );
