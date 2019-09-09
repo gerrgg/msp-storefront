@@ -8,18 +8,6 @@ defined( 'ABSPATH' ) || exit;
 define('URI', get_stylesheet_directory_uri() );
 define('PATH', get_stylesheet_directory() );
 
-// should allow themes
-require PATH. '/plugin-update-checker/plugin-update-checker.php';
-$myUpdateChecker = Puc_v4_Factory::buildUpdateChecker(
-	'https://github.com/gregbast1994/MSP-Storefront',
-	__FILE__,
-	'MSP-Storefront'
-);
-
-//Optional: Set the branch that contains the stable release.
-$myUpdateChecker->setBranch('master');
-
-
 //require
 require_once( PATH . '/vendor/wp-bootstrap-navwalker-master/class-wp-bootstrap-navwalker.php' );
 require_once( PATH . '/admin-functions.php' );
@@ -127,8 +115,6 @@ class MSP{
         //Select2 - https://select2.org/
         wp_enqueue_style('select2', 'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css' );
 	    wp_enqueue_script('select2', 'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js', array('jquery') );
-        
-
     }
 
     public function msp_product_tabs( $tabs ){
