@@ -1004,7 +1004,10 @@ function msp_mobile_product_filter_button(){
 
 function msp_bulk_discount_table(){
     global $product;
-    if( get_post_meta( $product->get_id(), '_bulkdiscount_enabled', true ) == 'yes' ){
+    $enabled = get_post_meta( $product->get_id(), '_bulkdiscount_enabled', true );
+    $has_a_rule = ( ! empty( get_post_meta( $product->get_id(), '_bulkdiscount_quantity_1', true ) ) );
+
+    if( $enabled == 'yes' && $has_a_rule ){
         ?>
         <h3 class="m-2">Buy More, Save Money.</h4>
         <table class="table-bordered">
