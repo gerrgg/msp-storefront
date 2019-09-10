@@ -5,7 +5,6 @@ jQuery(document).ready(function( $ ){
         init: function(){
             this.init_owl_carousel();
             this.init_slideout();
-            this.bind_karma_buttons();
 
             $(document.body).on( 'click', 'i.msp-star-rating', msp.bind_create_review_star_buttons )
             $('#msp_review').on( 'click', '.remove-product-image-from-review', msp.delete_user_product_image )

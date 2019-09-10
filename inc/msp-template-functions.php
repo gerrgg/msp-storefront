@@ -29,9 +29,9 @@ function msp_header_site_identity(){
     $logo_width = ( ! empty( get_option( 'msp_logo_width' ) ) ) ? get_option( 'msp_logo_width' ) : '100';
 
     if( has_custom_logo() && ! empty( $logo_src ) ){
-        echo '<a class="navbar-brand" style="max-width: '. $logo_width .'px" href="/"><img src="'. $logo_src[0] .'"/></a>';
+        echo '<a class="navbar-brand" style="max-width: '. $logo_width .'px" href="'. get_bloginfo('url') .'"><img src="'. $logo_src[0] .'"/></a>';
     } else {
-        echo '<a class="navbar-brand" href="/">'. bloginfo( 'sitename' ) .'</a>';
+        echo '<a class="navbar-brand" href="'. get_bloginfo('url') .'">'. bloginfo( 'sitename' ) .'</a>';
     }
 }
 
@@ -84,10 +84,10 @@ function msp_quick_links_wrapper_open(){
 function msp_buy_again_btn(){
     $order_items = msp_get_customer_unique_order_items( get_current_user_id() );
 
-    if( ! empty( $order_items ) ) :
+    if( ! empty( $order_items ) && is_user_logged_in() ) :
         ?>
         <li class="nav-item buy-again">
-            <a class="nav-link" href="/buy-again">
+            <a class="nav-link" href="<?php echo get_bloginfo( 'url' ) ?>/buy-again">
                 Buy Again
             </a>
         </li>
@@ -99,7 +99,7 @@ function msp_buy_again_btn(){
 function msp_shop_btn(){
     ?>
         <li class="nav-item">
-            <a class="nav-link" href="/shop">
+            <a class="nav-link" href="<?php echo get_bloginfo( 'url' ) ?>/shop">
                 Shop
             </a>
         </li>
@@ -112,7 +112,7 @@ function msp_shop_btn(){
 function msp_quote_btn(){
     ?>
     <li class="nav-item">
-        <a class="nav-link" href="/quote">
+        <a class="nav-link" href="<?php echo get_bloginfo( 'url' ) ?>/quote">
             Request Quote
         </a>
     </li>
@@ -128,6 +128,7 @@ function msp_quote_shortcode(){
     get_msp_quote_find_product_id_form();
     wc_get_template( '/template/msp-quote.php' );
 }
+
 /**
  * Uses Select2 to allow a user easily find and add products to a list for quote.
  * https://rudrastyh.com/wordpress/select2-for-metaboxes-with-ajax.html#respond
@@ -372,9 +373,9 @@ function msp_mobile_menu_account_links(){
 
     <p class="mobile-label">ACCOUNT & HELP</p>
     <ul class="m-0 list-unstyled">
-        <li class="menu-item"><a href="/contact"><i class="fas fa-question pr-3"></i>Help</a></li>
-        <li class="menu-item"><a href="/order-tracking"><i class="fas fa-truck pr-3"></i>Track my order</a></li>
-        <li class="menu-item"><a href="/quote"><i class="fas fa-pencil-alt pr-3"></i>Get a quote</a></li>
+        <li class="menu-item"><a href="<?php echo get_bloginfo( 'url' ) ?>/contact"><i class="fas fa-question pr-3"></i>Help</a></li>
+        <li class="menu-item"><a href="<?php echo get_bloginfo( 'url' ) ?>/order-tracking"><i class="fas fa-truck pr-3"></i>Track my order</a></li>
+        <li class="menu-item"><a href="<?php echo get_bloginfo( 'url' ) ?>/quote"><i class="fas fa-pencil-alt pr-3"></i>Get a quote</a></li>
         <li class="menu-item"><a href="<?php echo wc_get_page_permalink( 'myaccount' ) ?>"> <i class="fas fa-user pr-3"></i>My Account</a></li>
         <?php if( is_user_logged_in() ) : ?>
             <li class="menu-item"><a href="<?php echo wp_logout_url( '/' ) ?>"><i class="fas fa-sign-out-alt pr-3"></i>Sign out</a></li>
@@ -894,7 +895,7 @@ function msp_customer_faq(){
 function msp_contact_btn(){
     ?>
     <li class="nav-item">
-        <a class="nav-link" href="/contact">
+        <a class="nav-link" href="<?php echo get_bloginfo( 'url' ) ?>/contact">
             Contact Us
         </a>
     </li>
@@ -1068,7 +1069,7 @@ function msp_get_customer_service_info(){
             <p>Monday - Friday: 8am - 4:30pm (EST)</p>
         </div>
         <div>
-            <a href="/contact" class="btn btn-success btn-lg">Contact us</a>
+            <a href="<?php echo get_bloginfo( 'url' ) ?>/contact" class="btn btn-success btn-lg">Contact us</a>
         </div>
     </div>
     <?php
