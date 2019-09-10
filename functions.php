@@ -22,31 +22,40 @@ require_once( PATH . '/inc/msp-helper-functions.php' );
 
 class MSP{
     function __construct(){
-        add_action( 'init', array( $this, 'myStartSession' ), 1 );
+        // Creates custom theme pages upon activation
         add_action( 'init', array( $this, 'create_theme_pages' ), 2 );
+        // Add custom widget on shop page
         add_action( 'widgets_init', array( $this, 'register_sidebar_shop' ), 100 );
+        // Add custom scripts
         add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+        // Add custom menu for loggin out
         add_action( 'after_setup_theme', array( $this, 'register_menus' ) );
-        add_action('wp_logout', array( $this, 'myEndSession') );
-        add_action('wp_login', array( $this, 'myEndSession') );
-        add_action( 'wp_footer', array( $this, 'add_recaptcha_script_to_footer' ) );
+        // Add recaptcha to footer
+        // add_action( 'wp_footer', array( $this, 'add_recaptcha_script_to_footer' ) );
+        // modifies default password strength
         add_filter( 'woocommerce_min_password_strength', array( $this, 'msp_password_strength' ) );
+        // Changes the class of inputs in checkout
         add_filter( 'woocommerce_form_field_args', array( $this, 'msp_form_field_args' ), 10, 3 );
+        // Add custom tabs to single product
         add_filter( 'woocommerce_product_tabs', array( $this, 'msp_product_tabs' ) );
+        // Add a coondition for which shipping options are presented based on shipping class
         add_filter( 'woocommerce_package_rates', array( $this, 'maybe_hide_ltl_shipping_option' ), 50, 2 );
+        // Change how many columns are in the footer
         add_filter( 'storefront_footer_widget_columns', function(){ return 1; } );
+        // Changes the order of fields in checkout
         add_filter( 'woocommerce_checkout_fields', array( $this, 'msp_checkout_fields' ) );
-        add_filter( 'woocommerce_available_payment_gateways', array($this, 'msp_enable_net30'), 99999 );
+        // Adds a condition for which payment options
+        add_filter( 'woocommerce_available_payment_gateways', array($this, 'msp_enable_net30'), 999 );
     }
 
-    public function add_recaptcha_script_to_footer()
-    {
+    public function add_recaptcha_script_to_footer(){
+        // Add google repatcha to website
         ?>
             <script src="https://www.google.com/recaptcha/api.js?render=6LfkZLYUAAAAAKBHW3f3-Uu1U9YX0jWtOgE4XwnK"></script>
             <script>
-            grecaptcha.ready(function() {
-                grecaptcha.execute('6LfkZLYUAAAAAKBHW3f3-Uu1U9YX0jWtOgE4XwnK');
-            });
+                grecaptcha.ready(function() {
+                    grecaptcha.execute('6LfkZLYUAAAAAKBHW3f3-Uu1U9YX0jWtOgE4XwnK');
+                });
             </script>
             <?php
     }
@@ -89,7 +98,6 @@ class MSP{
         wp_enqueue_script( 'main', URI . '/js/functions.js', array('jquery'), '', true );
         wp_enqueue_script( 'header', URI . '/js/header-functions.js', array('jquery'), '', true );
         wp_enqueue_script( 'modal', URI . '/js/modal.js', array('jquery'), '', true );
-
         if( is_checkout() )
             wp_enqueue_script( 'checkout', URI . '/js/checkout-functions.js', array('jquery'), '', true );
 
@@ -97,7 +105,7 @@ class MSP{
         $this->wp_localize_scripts( array('main') );
         
         // Font Awesome - https://fontawesome.com/icons?d=gallery
-        wp_enqueue_style( 'font-awesome', 'https://use.fontawesome.com/releases/v5.8.1/css/all.css' );
+        // wp_enqueue_style( 'font-awesome', 'https://use.fontawesome.com/releases/v5.8.1/css/all.css' );
         
         // slideout.js - https://github.com/Mango/slideout
         wp_enqueue_script( 'slideout', URI . '/vendor/slideout/dist/slideout.min.js', array(), 
@@ -109,7 +117,6 @@ class MSP{
 
         //Owl Carousel - https://owlcarousel2.github.io/OwlCarousel2/
         wp_enqueue_style( 'owl-carousel', URI . '/vendor/OwlCarousel2-2.3.4/dist/assets/owl.carousel.min.css' );
-        wp_enqueue_style( 'owl-carousel-theme', URI . '/vendor/OwlCarousel2-2.3.4/dist/assets/owl.theme.default.min.css' );
         wp_enqueue_script( 'owl-carousel', URI . '/vendor/OwlCarousel2-2.3.4/dist/owl.carousel.min.js', array( 'jquery' ), '', true );
         
         //Select2 - https://select2.org/
@@ -283,4 +290,20 @@ function pre_output1($action){
 function pluralize( $count, $str ){
     return ( $count <= 1 ) ? $str : $str . 's'; 
 }
+
+function add_defer_attribute($tag, $handle) {
+    // add script handles to the array below
+    $scripts_to_defer = array('main', 'header', 'modal', 'slideout', 'bootstrap', 'owl-carousel', 'font-awesome', 'select2');
+    
+    foreach($scripts_to_defer as $defer_script) {
+       if ($defer_script === $handle) {
+          return str_replace(' src', ' defer="defer" src', $tag);
+       }
+    }
+    return $tag;
+ }
+
+//  add_filter('script_loader_tag', 'add_defer_attribute', 10, 2);
+
+ 
 

@@ -1,8 +1,12 @@
 jQuery(document).ready(function( $ ){
     var msp = {
+        $modal: $('#msp_modal'),
+
         init: function(){
-            msp.init_owl_carousel();
-            msp.bind_karma_buttons();
+            this.init_owl_carousel();
+            this.init_slideout();
+            this.bind_karma_buttons();
+
             $(document.body).on( 'click', 'i.msp-star-rating', msp.bind_create_review_star_buttons )
             $('#msp_review').on( 'click', '.remove-product-image-from-review', msp.delete_user_product_image )
             $('#msp_submit_question').on( 'blur', 'input[name="question"]', msp.customer_faq_validate_question )
@@ -11,74 +15,46 @@ jQuery(document).ready(function( $ ){
             $('#filter-button').click(function(){
                 $('#shop-filters').slideToggle();
             });
+
+            this.$modal.on( 'show.bs.modal', this.route )
+            this.$modal.on( 'submit', 'form', this.submit )
         },
 
-        alert: function( message, type = 'primary' ){
-            return $('<div/>', { class: 'alert alert-' + type, role: 'alert' }).text( message );
-        },
-
-        customer_faq_validate_question: function( e ){
-            let question = $('#msp_submit_question input[name="question"]').val();
-            if( question.length > 10 ){
-                $('#msp_submit_question_btn').prop( 'disabled', false );
-            } else {
-                $('#msp_submit_question_btn').prop( 'disabled', true );
-            }
-
-            return ( question.length > 10 );
-        },
-
-        customer_submit_awnser: function( e ){
-            let $parent = $(e.target).parent();
-            let answer = $(e.delegateTarget).find( 'input[name="answer"]' ).val();
-            
-            if( answer.length > 0 ){
-                let data = { 
-                    action: 'msp_process_customer_submit_awnser',
-                    form_data: $parent.serialize()
-                }
-                $.post( wp_ajax.url, data, function( response ){
-                    console.log( response );
-                    if( response > 0 ){
-                        $parent.html( msp.alert( 'Thanks for your help!', 'success' ) );
-                    } else {
-                        $parent.append( msp.alert( 'Something went wrong, please try again', 'error' ) );
-                    }
-                } );
-            }
-        },
-
-        customer_submit_question: function( e ){
-            if( msp.customer_faq_validate_question() ){
-                let data = {
-                    action: 'msp_process_customer_submit_question',
-                    formdata: $('#msp_submit_question *').serialize()
-                }
-
-                $.post( wp_ajax.url, data, function( response ){
-                    if( response > 0 ){
-                        $('#msp_submit_question').html( msp.alert( 'We just sent your question to our best people, we\'ll email you when we get an awnser', 'success' ) );
-                    }
-                } );
-            }
-        },
-
-        delete_user_product_image: function( e ){
-            $parent = $(e.target).parent();
-
-            let data = {
-                action: 'msp_delete_user_product_image',
-                id: $(e.target).data('id')
-            }
-
-            $.post( wp_ajax.url, data, function( response ){
-                console.log( response );
-                if( response >= 1 ){
-                    $parent.fadeOut();
-                }
+        init_slideout: function(){
+            var slideout = new Slideout({
+                'panel': document.getElementById('page'),
+                'menu': document.getElementById('mobile-menu'),
+                'padding': 300,
+                'tolerance': 70,
+                'touch': false,
             });
+            
+            document.querySelector('.mobile-menu-button').addEventListener('click', function() {
+                $('#mobile-menu').show();
+                slideout.toggle();
+            });
+
+            document.querySelector('a.close').addEventListener('click', close );
+
+            function close(eve) {
+                eve.preventDefault();
+                slideout.close();
+              }
+              
+            slideout
+                .on('beforeopen', function() {
+                  this.panel.classList.add('panel-open');
+                })
+                .on('open', function() {
+                  this.panel.addEventListener('click', close);
+                })
+                .on('beforeclose', function() {
+                  this.panel.classList.remove('panel-open');
+                  this.panel.removeEventListener('click', close);
+                });
         },
 
+    
         init_owl_carousel: function(){
             $('.owl-carousel').owlCarousel({
                 responsiveClass: true,
@@ -99,45 +75,7 @@ jQuery(document).ready(function( $ ){
             })
         },
 
-        bind_create_review_star_buttons: function( e ){
-            let rating = $(e.target).data('rating');
-            $('.msp-star-rating').removeClass( 'fas' );
-
-            console.log( rating );
-
-            for( let i = 1; i <= 5; i++ ){
-                let star_class = ( i <= rating ) ? 'fas' : 'far';
-                $('i.msp-star-rating.rating-' + i).addClass(star_class);
-            }
-            
-            $('#rating').val( rating );
-        },
-
-        bind_karma_buttons: function(){
-            $('i.karma').click( function(){
-                if( $(this).hasClass('voted') ) return 'Sorry, no.';
-
-                $('i.karma').removeClass( 'voted' );
-                let $karma =  $(this).parent().find( '.karma-score' );
-                let $button_clicked = $(this);
-                
-                
-                let data = {
-                    action: 'msp_update_comment_karma',
-                    comment_id: $(this).parent().parent().attr('id').replace('comment-', ''),
-                    vote: ( $(this).hasClass( 'karma-up-vote' ) ) ? 1 : -1,
-                }
-                
-                $.post( wp_ajax.url, data, function( response ){
-                    console.log( response );
-                    if( ! response.length ){
-                        $karma.text( response )
-                        $button_clicked.addClass( 'voted' );
-                    }
-                });
-
-            });
-        },
+        
 
         get_json_from_url: function(url) {
             // https://stackoverflow.com/questions/8486099/how-do-i-parse-a-url-query-parameters-in-javascript
@@ -168,6 +106,74 @@ jQuery(document).ready(function( $ ){
               }
             });
             return result;
+          },
+
+          route: function( e ){
+            let $button = $(e.relatedTarget);
+      
+            var path = {
+              title: $button.attr('data-title'),
+              model: $button.attr('data-model'),
+              action: $button.attr('data-action'),
+              id: $button.attr('data-id'),
+            }
+      
+            msp.$modal.find('.modal-title').text( path.title );
+            msp[ path.model ]( path.action, path.id );
+
+          },
+
+          submit: function( e ){ // this obviously wont work for other modal submissions.
+            e.preventDefault();
+            console.log( e );
+            let body = msp.$modal.find('.modal-body');
+            let action = $(e.target).find('input[name="action"]').val()
+            let model = $(e.target).find('input[name="model"]').val()
+            let data = {
+              action: action,
+              form_data: $(e.target).serialize(),
+            }
+
+            $.post( wp_ajax.url, data, function( response ) { 
+              msp[ model ]( 'post', '', response ) 
+            } );
+            
+          },
+
+          close: function(){
+            msp.$modal.modal( 'toggle' );
+          },
+
+          ['size_guide']: function( action, id ){
+            $.post(wp_ajax.url, { action: 'msp_get_product_size_guide_src', id: id }, function( response ){
+               msp.$modal.find('.modal-body').html( $('<img/>', { src: response, class: 'mx-auto' } ) )
+            });
+          },
+
+          ['leave_feedback']: function( action, id, response ){
+              let body = msp.$modal.find('.modal-body');
+
+              switch( action ){
+                case 'get':
+                    $.post( wp_ajax.url, { action: 'msp_get_leave_feedback_form', id: id }, function( response ){
+                      body.html( response );
+                    } );
+                break;
+                case 'post':
+                    console.log( response );
+                    if( ! response ){
+                      body.find('.feedback').text( 'Feedback requires atleast a star rating; thanks!' );
+                    } else {
+                      body.html(` <div class="text-center">
+                                    <i class="fas fa-check-circle fa-2x text-success"></i>
+                                    <h1>Thank you for your feedback!</h1>
+                                  </div>`);
+                      setTimeout(function(){
+                        msp.close();
+                      }, 3000);
+                    }
+                break;
+              }
           }
     }
 
@@ -202,5 +208,7 @@ jQuery(document).ready(function( $ ){
       },
       minimumInputLength: 3 // the minimum of symbols to input before perform a search
   });
+
+  
 
 });
