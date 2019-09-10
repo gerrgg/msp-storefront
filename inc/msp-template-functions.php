@@ -10,7 +10,8 @@ defined( 'ABSPATH' ) || exit;
  * Opens the header wrapper
  */
 function msp_header_wrapper_open(){
-    echo '<nav class="navbar navbar-light bg-dark"><div class="container align-items-end">';
+    $background_color = ! empty( get_option('msp_header_background') ) ? get_option('msp_header_background') : '#333';
+    echo '<nav class="navbar navbar-light" style="background-color: '. $background_color .'"><div class="container align-items-end">';
 }
 
 /**
@@ -25,7 +26,7 @@ function msp_header_mobile_menu_button(){
  */
 function msp_header_site_identity(){
     $logo_id = get_theme_mod( 'custom_logo' );
-    $logo_src = wp_get_attachment_image_src( $logo_id, 'full' );
+    $logo_src = wp_get_attachment_image_src( $logo_id, 'medium' );
     $logo_width = ( ! empty( get_option( 'msp_logo_width' ) ) ) ? get_option( 'msp_logo_width' ) : '100';
 
     if( has_custom_logo() && ! empty( $logo_src ) ){

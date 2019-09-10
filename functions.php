@@ -96,16 +96,13 @@ class MSP{
 
         // Custom javascript functions
         wp_enqueue_script( 'main', URI . '/js/functions.js', array('jquery'), '', true );
-        wp_enqueue_script( 'header', URI . '/js/header-functions.js', array('jquery'), '', true );
-        wp_enqueue_script( 'modal', URI . '/js/modal.js', array('jquery'), '', true );
-        if( is_checkout() )
-            wp_enqueue_script( 'checkout', URI . '/js/checkout-functions.js', array('jquery'), '', true );
+        $this->inline_css();
 
-        
-        $this->wp_localize_scripts( array('main') );
-        
-        // Font Awesome - https://fontawesome.com/icons?d=gallery
-        // wp_enqueue_style( 'font-awesome', 'https://use.fontawesome.com/releases/v5.8.1/css/all.css' );
+        // make admin urls available to JS
+        wp_localize_script( 'main', 'wp_ajax', array(
+            'url' => admin_url( 'admin-ajax.php' ),
+            'post' => admin_url( 'admin-post.php' )
+        ) );
         
         // slideout.js - https://github.com/Mango/slideout
         wp_enqueue_script( 'slideout', URI . '/vendor/slideout/dist/slideout.min.js', array(), 
@@ -122,6 +119,48 @@ class MSP{
         //Select2 - https://select2.org/
         wp_enqueue_style('select2', 'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css' );
 	    wp_enqueue_script('select2', 'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js', array('jquery') );
+    }
+
+    public function inline_css(){
+        $css = '';
+        if( ! empty( get_option( 'msp_primary_color' ) ) ){
+            $color = get_option( 'msp_primary_color' );
+            $css .= "
+                #header-menu ul.navbar-nav > li
+                {
+                    border-bottom: 3px solid $color!important;
+                }
+
+                .navbar-light .navbar-nav .nav-link:hover,
+                .navbar-light .navbar-nav .nav-link:active,
+                .navbar-nav .active>.nav-link,
+                .mobile-menu-button,
+                .cart-wrapper .item-counter
+                {
+                    color: $color!important;
+                }
+            ";
+        }
+
+        // LINK COLOR //
+        if( ! empty( get_option( 'msp_link_color' ) ) ){
+            $color = get_option( 'msp_link_color' );
+            $css .= "
+                a, a:hover, a:visited, a.active, a.focus{
+                    color: $color !important;
+                }
+                .buy-again-product a.add_to_cart_button,
+                a.add_to_cart_button,
+                .product_type_grouped, 
+                .btn-danger {
+                    background-color: $color!important;
+                }
+            ";
+        }
+
+        wp_register_style( 'msp', false );
+        wp_enqueue_style( 'msp' );
+        wp_add_inline_style( 'msp', $css );
     }
 
     public function msp_product_tabs( $tabs ){

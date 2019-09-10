@@ -260,7 +260,6 @@ a.add_to_cart_button,
     text-decoration: none;
     width: 100%;
     color: #fff;
-    /* background-color: #D84727; */
     background-color: #B0413E;
     text-align: center;
 }
@@ -541,12 +540,6 @@ a.woocommerce-LoopProduct-link.woocommerce-loop-product__link > img{
 
 .single-product div.product .woocommerce-product-rating{
     margin: 0px;
-}
-
-.msp-qa-link{
-    color: #B0413E !important;
-    font-weight: 600;
-    text-decoration: underline;
 }
 
 a.anchor {

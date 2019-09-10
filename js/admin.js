@@ -3,6 +3,7 @@ jQuery( function( $ ){
 
         init: function(){
            this.update_stock_widget();
+           $('.color-field').wpColorPicker();
            $('#resource_tab').on( 'click', 'button.add_input_line', msp_admin.add_line_item );
            $('#msp-product-video').on( 'click', 'button.add', msp_admin.add_video_line );
         },
@@ -68,6 +69,8 @@ jQuery( function( $ ){
             
             $(e.target).attr( 'data-count', count++ );
         }
+
+        
 
     }
     msp_admin.init();

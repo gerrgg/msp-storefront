@@ -135,6 +135,7 @@ class MSP_Admin{
     }
 
     public function enqueue_scripts( $hook ){
+        wp_enqueue_style( 'wp-color-picker' ); 
         wp_enqueue_script('admin', get_stylesheet_directory_uri() . '/js/admin.js');
     }
 
@@ -223,37 +224,7 @@ class MSP_Admin{
         }
     }
 
-    /**
-     *
-     * dynamically creates options fields based on the arguments passed to add_settings_section.
-     * */
-    public function register_theme_settings(){
-        add_settings_section(
-            'ups_api_creds', //id
-            'UPS API CREDS:', // header
-            '', // section label
-            'msp_options' // the page to put it on
-        );
-
-        add_settings_section(
-            'theme_options', //id
-            'Theme Layout:', // header
-            '', // section label
-            'msp_options' // the page to put it on
-        );
-
-        add_settings_section(
-            'integration', //id
-            'Integration:', // header
-            '', // section label
-            'msp_options' // the page to put it on
-        );
-
-
-        $this->add_settings_field_and_register( 'msp_options', 'ups_api_creds', 'ups_api', array( 'key', 'username', 'password', 'account', 'mode', 'end_of_day' ) );
-        $this->add_settings_field_and_register( 'msp_options', 'theme_options', 'msp', array( 'logo_width' ) );
-        $this->add_settings_field_and_register( 'msp_options', 'integration', 'integration', array( 'google_analytics_account_id' ) );
-    }
+    
 
     public function add_settings_field_and_register( $page, $section, $prefix, $keys ){
         /**
@@ -290,11 +261,61 @@ class MSP_Admin{
         </div>
         <?php
     }
+
+    /**
+     *
+     * dynamically creates options fields based on the arguments passed to add_settings_section.
+     * */
+    public function register_theme_settings(){
+        add_settings_section(
+            'theme_options',
+            'Theme Layout:',
+            '', 
+            'msp_options'
+        );
+
+        add_settings_section(
+            'ups_api_creds',
+            'UPS API CREDS:', 
+            '', 
+            'msp_options'
+        );
+
+
+        add_settings_section(
+            'integration', 
+            'Integration:',
+            '', 
+            'msp_options'
+        );
+
+
+        $this->add_settings_field_and_register( 'msp_options', 'theme_options', 'msp', array( 'primary_color', 'link_color', 'header_background', 'footer_background', 'logo_width' ) );
+        $this->add_settings_field_and_register( 'msp_options', 'ups_api_creds', 'ups_api', array( 'key', 'username', 'password', 'account', 'mode', 'end_of_day' ) );
+        $this->add_settings_field_and_register( 'msp_options', 'integration', 'integration', array( 'google_analytics_account_id' ) );
+    }
 }
 
 new MSP_Admin();
 
 // templates called by $this->add_settings_field_and_register();
+
+function msp_logo_width_callback(){
+    echo '<input name="msp_logo_width" id="msp_logo_width" type="number" value="'. get_option( 'msp_logo_width' ) .'" class="code" />';
+}
+
+function msp_primary_color_callback(){
+    echo '<input name="msp_primary_color" id="msp_primary_color" type="text" value="'. get_option( 'msp_primary_color' ) .'" class="color-field code" />';
+}
+function msp_link_color_callback(){
+    echo '<input name="msp_link_color" id="msp_link_color" type="text" value="'. get_option( 'msp_link_color' ) .'" class="color-field code" />';
+}
+function msp_header_background_callback(){
+    echo '<input name="msp_header_background" id="msp_header_background" type="text" value="'. get_option( 'msp_header_background' ) .'" class="color-field code" />';
+}
+function msp_footer_background_callback(){
+    echo '<input name="msp_footer_background" id="msp_footer_background" type="text" value="'. get_option( 'msp_footer_background' ) .'" class="color-field code" />';
+}
 
 function ups_api_key_callback(){
     echo '<input name="ups_api_key" id="ups_api_key" type="text" value="'. get_option( 'ups_api_key' ) .'" class="code" />';
@@ -317,9 +338,6 @@ function ups_api_end_of_day_callback(){
     echo '<input type="time" id="ups_api_end_of_day" name="ups_api_end_of_day" value="'. get_option( 'ups_api_end_of_day' ) .'">';
 }
 
-function msp_logo_width_callback(){
-    echo '<input name="msp_logo_width" id="msp_logo_width" type="number" value="'. get_option( 'msp_logo_width' ) .'" class="code" />';
-}
 
 function integration_google_analytics_account_id_callback(){
     echo '<input name="integration_google_analytics_account_id" id="integration_google_analytics_account_id" type="text" value="'. get_option( 'integration_google_analytics_account_id' ) .'" class="code" />';
