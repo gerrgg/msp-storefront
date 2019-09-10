@@ -16,6 +16,15 @@ require_once( PATH . '/inc/msp-template-functions.php' );
 require_once( PATH . '/inc/msp-template-filters.php' );
 require_once( PATH . '/inc/msp-helper-functions.php' );
 
+require 'plugin-update-checker/plugin-update-checker.php';
+$myUpdateChecker = Puc_v4_Factory::buildUpdateChecker(
+	'https://github.com/gregbast1994/MSP-Storefront',
+	__FILE__,
+	'storefront-child'
+);
+
+$myUpdateChecker->getVcsApi()->enableReleaseAssets();
+
 /**
  * Front-end Theme Settings
  */
