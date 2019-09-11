@@ -24,6 +24,7 @@ $myUpdateChecker = Puc_v4_Factory::buildUpdateChecker(
 );
 
 $myUpdateChecker->setBranch('updates');
+$myUpdateChecker->getVcsApi()->enableReleaseAssets();
 
 /**
  * Front-end Theme Settings
