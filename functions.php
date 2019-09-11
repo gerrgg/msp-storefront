@@ -18,12 +18,12 @@ require_once( PATH . '/inc/msp-helper-functions.php' );
 
 require 'plugin-update-checker/plugin-update-checker.php';
 $myUpdateChecker = Puc_v4_Factory::buildUpdateChecker(
-	'https://github.com/gregbast1994/MSP-Storefront',
+	'https://github.com/gregbast1994/msp-storefront',
 	__FILE__,
-	'storefront-child'
+	'msp-storefront'
 );
 
-$myUpdateChecker->getVcsApi()->enableReleaseAssets();
+$myUpdateChecker->setBranch('updates');
 
 /**
  * Front-end Theme Settings
