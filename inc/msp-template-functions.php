@@ -1162,22 +1162,22 @@ function msp_get_products_slider( $products, $header = ''){
 
 function add_promo_row_1(){
     echo '<div class="row my-2">';
-    add_promo_row( 'http://greg.local/product-category/fall-protection/', 'http://greg.local/wp-content/uploads/2019/09/fall-protection.jpg' );
-    add_promo_row( 'http://greg.local/product/ps-doors-ladder-safety-gate/', 'http://greg.local/wp-content/uploads/2019/09/lsg.jpg' );
+    add_promo_row( get_bloginfo('url') . '/product-category/fall-protection/', get_bloginfo('url')  . '/wp-content/uploads/2019/09/fall-protection.jpg' );
+    add_promo_row( get_bloginfo('url')  . '/product/ps-doors-ladder-safety-gate/', get_bloginfo('url')  . '/wp-content/uploads/2019/09/lsg.jpg' );
     echo '</div>';
 }
 
 function add_promo_row_2(){
     echo '<div class="row my-2">';
-    add_promo_row( 'http://greg.local/product-category/machine-shields/', 'http://greg.local/wp-content/uploads/2019/09/machine-shields.jpg' );
-    add_promo_row( 'http://greg.local/product/kcj-1-safety-cutter-klever-kutter/', 'http://greg.local/wp-content/uploads/2019/09/kcj-1-w-cardboard.jpg' );
+    add_promo_row( get_bloginfo('url')  . '/product-category/machine-shields/', get_bloginfo('url')  . '/wp-content/uploads/2019/09/machine-shields.jpg' );
+    add_promo_row( get_bloginfo('url')  . '/product/kcj-1-safety-cutter-klever-kutter/', get_bloginfo('url')  . '/wp-content/uploads/2019/09/kcj-1-w-cardboard.jpg' );
     echo '</div>';
 }
 
 function add_promo_row_3(){
     echo '<div class="row my-2">';
-    add_promo_row( 'http://greg.local/product-category/fall-protection/fall-protection-for-tools/holsters-sleeves/', 'http://greg.local/wp-content/uploads/2019/09/tool-holsters.jpg' );
-    add_promo_row( 'http://greg.local/product-category/hand-protection/cut-resistant-gloves/', 'http://greg.local/wp-content/uploads/2019/09/cut-protection.jpg' );
+    add_promo_row( get_bloginfo('url')  . '/product-category/fall-protection/fall-protection-for-tools/holsters-sleeves/', get_bloginfo('url')  . '/wp-content/uploads/2019/09/tool-holsters.jpg' );
+    add_promo_row( get_bloginfo('url')  . '/product-category/hand-protection/cut-resistant-gloves/', get_bloginfo('url')  . '/wp-content/uploads/2019/09/cut-protection.jpg' );
     echo '</div>';
 }
 

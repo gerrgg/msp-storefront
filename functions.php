@@ -23,7 +23,7 @@ $myUpdateChecker = Puc_v4_Factory::buildUpdateChecker(
 	'msp-storefront'
 );
 
-$myUpdateChecker->setBranch('updates');
+$myUpdateChecker->setBranch('master');
 $myUpdateChecker->getVcsApi()->enableReleaseAssets();
 
 /**
@@ -132,6 +132,9 @@ class MSP{
     }
 
     public function inline_css(){
+        /**
+         * Checks theme options, and outputs css rules accordingly.
+         */
         $css = '';
         if( ! empty( get_option( 'msp_primary_color' ) ) ){
             $color = get_option( 'msp_primary_color' );
@@ -157,7 +160,7 @@ class MSP{
             $color = get_option( 'msp_link_color' );
             $css .= "
                 a, a:hover, a:visited, a.active, a.focus{
-                    color: $color !important;
+                    color: $color;
                 }
                 .buy-again-product a.add_to_cart_button,
                 a.add_to_cart_button,
