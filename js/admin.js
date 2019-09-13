@@ -6,6 +6,43 @@ jQuery( function( $ ){
            $('.color-field').wpColorPicker();
            $('#resource_tab').on( 'click', 'button.add_input_line', msp_admin.add_line_item );
            $('#msp-product-video').on( 'click', 'button.add', msp_admin.add_video_line );
+           $('#msp-front-page-builder').on( 'click', 'button.add', msp_admin.submit_promo_option )
+        },
+
+        submit_promo_option(e){
+            // get inputs
+            var inputs = $(e.delegateTarget).find('input');
+
+            // setup for ajax
+            var data = {
+                action: 'msp_submit_theme_option',
+                options: []
+            }
+
+            $.each(inputs, function(x, element){
+                data.options[x] = { key: element.name, value: element.value }
+            });
+
+            // we are counting rows, its two inputs per row so we divide by 2. This is important for saving to the right key.
+            var count = ( data.options.length / 2 ) + 1
+
+            // Save options and create another line to 'form'.
+            $.post( ajaxurl, data, msp_admin.add_front_page_line(e, count) )
+        },
+
+        add_front_page_line(e, count){
+            let button = $(e.target);
+            let $table = $(e.delegateTarget);
+            
+            $table.append(
+                $('<tr/>').append(
+                    '<td>' + '<input type="text" name="msp_promo_link_'+ count +'">' + '</td>',
+                    '<td>' + '<input type="text" name="msp_promo_src_'+ count +'">' + '</td>',
+                )
+            );
+
+            console.log( count );
+        
         },
 
         update_stock_widget: function(){

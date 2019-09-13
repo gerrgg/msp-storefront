@@ -13,8 +13,20 @@ class MSP_Admin{
         add_action( 'woocommerce_process_product_meta', array( $this, 'process_product_videos_meta' ), 10, 2 );
         add_action( 'woocommerce_process_product_meta', array( $this, 'process_product_size_guide_meta' ), 10, 2 );
         add_action( 'wp_ajax_msp_admin_sync_vendor', 'msp_admin_sync_vendor' );
+        add_action( 'wp_ajax_msp_submit_theme_option', array( $this, 'ajax_update_option' ) );
         add_action( 'edit_user_profile', array( $this, 'add_net30_metabox'), 1 );
         add_action( 'edit_user_profile_update', array( $this, 'update_user_to_net30_terms'), 5 );
+    }
+
+    public function ajax_update_option(){
+        /**
+         * AJAX function which adds data to options API
+         */
+        foreach( $_POST['options'] as $option ) {
+            if( ! empty($option['key']) && ! empty($option['value']) ) update_option( $option['key'], $option['value'] );
+        }
+
+        wp_die();
     }
 
     public function add_net30_metabox(  $user){
@@ -254,7 +266,7 @@ class MSP_Admin{
 
             <form method="post" action="options.php">
                 <?php settings_fields( 'msp_options' ); ?>
-        
+                <?php submit_button(); ?>
                 <?php do_settings_sections( 'msp_options' ); ?>
                 <?php submit_button(); ?>
             </form>        
@@ -267,6 +279,13 @@ class MSP_Admin{
      * dynamically creates options fields based on the arguments passed to add_settings_section.
      * */
     public function register_theme_settings(){
+        add_settings_section(
+            'front_page',
+            'Front Page:',
+            '', 
+            'msp_options'
+        );
+
         add_settings_section(
             'theme_options',
             'Theme Layout:',
@@ -289,7 +308,7 @@ class MSP_Admin{
             'msp_options'
         );
 
-
+        $this->add_settings_field_and_register( 'msp_options', 'front_page', 'msp', array( 'promos' ) );
         $this->add_settings_field_and_register( 'msp_options', 'theme_options', 'msp', array( 'primary_color', 'link_color', 'header_background', 'footer_background', 'logo_width' ) );
         $this->add_settings_field_and_register( 'msp_options', 'ups_api_creds', 'ups_api', array( 'key', 'username', 'password', 'account', 'mode', 'end_of_day' ) );
         $this->add_settings_field_and_register( 'msp_options', 'integration', 'integration', array( 'google_analytics_account_id' ) );
@@ -299,6 +318,39 @@ class MSP_Admin{
 new MSP_Admin();
 
 // templates called by $this->add_settings_field_and_register();
+
+function msp_promos_callback(){
+    global $wpdb;
+    $options = $wpdb->get_results( "SELECT * FROM $wpdb->options WHERE option_name LIKE 'msp_promo_src_%' AND option_value != '' " );
+    var_dump( $options );
+    $max = ( sizeof( $options ) > 0 ) ? sizeof($options) : 0;
+    ?>
+    
+    <table id="msp-front-page-builder" class="widefat fixed" cellspacing="0">
+        <caption>***AJAX*** Do not include the site url, just everything after the / (eg. "/wp-content/2019/09/photo.php" )</caption>
+        <thead>
+            <th>Page Link</th>
+            <th>Image Link</th>
+            <th></th>
+        </thead>
+        <tbody>
+            <?php for( $i = 0; $i <= $max; $i++ ) : ?>
+                <?php
+                    $src = get_option( 'msp_promo_src_' . $i );
+                    if( $src != '' ) :
+                ?>
+                    <tr>   
+                        <td><input type="text" name="msp_promo_link_<?php echo $i ?>" value="<?php echo get_option( 'msp_promo_link_' . $i ) ?>" /></td>
+                        <td><input type="text" name="msp_promo_src_<?php echo $i ?>" value="<?php echo get_option( 'msp_promo_src_' . $i ) ?>" /></td>
+                        <?php if( $i == 0 ) : ?> <td><button class="add" type="button" role="button" >+ ADD +</button></td> <?php endif;  // lazy ?>
+                    </tr>
+                <?php endif; ?>
+            <?php endfor; ?>
+        </tbody>
+    </table>
+    <?php
+}
+
 
 function msp_logo_width_callback(){
     echo '<input name="msp_logo_width" id="msp_logo_width" type="number" value="'. get_option( 'msp_logo_width' ) .'" class="code" />';
@@ -338,10 +390,10 @@ function ups_api_end_of_day_callback(){
     echo '<input type="time" id="ups_api_end_of_day" name="ups_api_end_of_day" value="'. get_option( 'ups_api_end_of_day' ) .'">';
 }
 
-
 function integration_google_analytics_account_id_callback(){
     echo '<input name="integration_google_analytics_account_id" id="integration_google_analytics_account_id" type="text" value="'. get_option( 'integration_google_analytics_account_id' ) .'" class="code" />';
 }
+
 
 
 function msp_add_update_stock_widget(){

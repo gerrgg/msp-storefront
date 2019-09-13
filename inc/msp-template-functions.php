@@ -2,9 +2,6 @@
 
 defined( 'ABSPATH' ) || exit;
 
-/**
- * @see Hook: msp_header
- */
 
 /**
  * Opens the header wrapper
@@ -139,7 +136,7 @@ function get_msp_quote_find_product_id_form(){
     $html = '<h4>Enter the part number(s) or name(s) of the item(s) you want quoted. Submit, tell us how many, where its going and expect an email same or next business day.</h4>';
 
     $html .= '<label for="msp_select2_products">Products:</label><br />';
-    $html .= '<form method="GET" class="form-inline"><select id="msp_select2_products" name="ids[]" multiple="multiple" class="form-control w-100">';
+    $html .= '<form method="GET" class="form-inline"><select id="msp_select2_products" name="ids[]" multiple="multiple" class="form-control" style="width: 400px">';
     if( $product_ids ){
         foreach( $product_ids as $id ) {
             $title = get_the_title( $id );
