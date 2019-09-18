@@ -309,18 +309,20 @@ add_action( 'woocommerce_before_main_content', 'msp_get_shop_subnav', 5 );
 /**
  * msp_front_page
  */
-add_action( 'msp_front_page', 'msp_get_departments_silder', 10 );
-add_action( 'msp_front_page', 'add_promo_row_1', 12 );
+// add_action( 'msp_front_page', 'msp_get_departments_silder', 10 );
+add_action( 'msp_front_page', 'add_promo_row', 12, 1 );
 add_action( 'msp_front_page', 'msp_get_random_slider', 15 );
-add_action( 'msp_front_page', 'add_promo_row_2', 16 );
+add_action( 'msp_front_page', 'add_promo_row', 18, 1 );
 add_action( 'msp_front_page', 'msp_get_random_slider', 30 );
-add_action( 'msp_front_page', 'add_promo_row_3', 31 );
 add_action( 'msp_front_page', 'msp_get_featured_products_silder', 25 );
 add_action( 'msp_front_page', 'msp_get_customer_service_info', 50 );
 
 // debug
 add_action( 'wp_footer', 'msp_add_google_analytics', 100 );
-add_action( 'template_redirect', 'msp_debug' );
-function msp_debug(){
+function init_promos(){
+    $promos = msp_get_promos();
+    if( ! empty( $promos ) ){
+        for( $i = 0; $i < sizeof( $promos ); $i++ ){
+        }
+    }
 }
-

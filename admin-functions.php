@@ -18,6 +18,29 @@ class MSP_Admin{
         add_action( 'edit_user_profile_update', array( $this, 'update_user_to_net30_terms'), 5 );
     }
 
+    public function add_next_order_btn(){
+        /**
+         * Adds a next & previous order button for quick pagination of orders.
+         */
+        $orders = wc_get_orders( array('return' => 'ids', 'limit' => 100) );
+        for( $i = 0; $i < sizeof($orders); $i++ ){
+            if( $orders[$i] == $_GET['post'] ){
+                if( ! empty( $orders[$i - 1] ) ) $prev = $orders[$i - 1];
+                if( ! empty( $orders[$i + 1] ) ) $next = $orders[$i + 1];
+            }
+        }
+        ?>
+        <div class="wrap">
+            <?php if( ! empty( $next ) ) : ?>
+            <a href="/wp-admin/post.php?post=<?php echo $next ?>&action=edit" class="btn" style="float:left">Previous Order</a>
+            <?php endif; ?>
+            <?php if( ! empty( $prev ) ) : ?>
+            <a href="/wp-admin/post.php?post=<?php echo $prev ?>&action=edit" class="btn" style="float:right">Next Order</a>
+            <?php endif; ?>
+        </div>
+        <?php
+    }
+
     public function ajax_update_option(){
         /**
          * AJAX function which adds data to options API
@@ -72,10 +95,10 @@ class MSP_Admin{
         );
     }
 
-    /**
-     * hooked into the admin_init so we can create menus and customize site settings
-     */
     public function theme_options(){
+        /**
+        * hooked into the admin_init so we can create menus and customize site settings
+        */
         add_theme_page( 'MSP Theme Options', 'MSP Theme Options', 'manage_options', 'msp_options', array( $this, 'msp_options_callback' ) );
 
         add_action( 'admin_init', array( $this, 'register_theme_settings' ) );
@@ -83,16 +106,23 @@ class MSP_Admin{
         add_action( 'wp_dashboard_setup', array( $this, 'add_dashboard_widgets' ) );
 
         add_action( 'woocommerce_admin_order_data_after_order_details', array( $this, 'submit_tracking_form' ) );
+        add_action( 'woocommerce_admin_order_data_after_order_details', array( $this, 'add_next_order_btn' ) );
         add_action( 'woocommerce_process_shop_order_meta', array( $this, 'save_order_meta' ) );
     }
 
     public function process_product_size_guide_meta( $id ){
+        /**
+         * Updates the size guide
+         */
         if( isset( $_POST['_msp_size_guide'] ) ){
             update_post_meta( $id, '_msp_size_guide', $_POST['_msp_size_guide'] );
         }
     }
 
     public function process_product_videos_meta( $id ){
+        /**
+         * Updates product videos
+         */
         
         $limit = sizeof($_POST['product_video']);
         $arr = array();
@@ -106,7 +136,9 @@ class MSP_Admin{
     }
 
     public function process_product_resources_meta( $id ){
-        
+        /**
+         * Updates resources TODO: Could easily combine these functions.. ^^
+         */
         $limit = sizeof($_POST['resource_url']);
         $arr = array();
         for( $i = 0; $i <= $limit; $i++ ){
@@ -119,6 +151,9 @@ class MSP_Admin{
     }
 
     public function submit_resources_tab(){
+        /**
+         * HTML form on back end for linking resources to products
+         */
         global $post;
         $resources = msp_get_product_resources( $post->ID );
         ?>
@@ -147,7 +182,6 @@ class MSP_Admin{
     }
 
     public function enqueue_scripts( $hook ){
-        wp_enqueue_style( 'wp-color-picker' ); 
         wp_enqueue_script('admin', get_stylesheet_directory_uri() . '/js/admin.js');
     }
 
@@ -322,7 +356,6 @@ new MSP_Admin();
 function msp_promos_callback(){
     global $wpdb;
     $options = $wpdb->get_results( "SELECT * FROM $wpdb->options WHERE option_name LIKE 'msp_promo_src_%' AND option_value != '' " );
-    var_dump( $options );
     $max = ( sizeof( $options ) > 0 ) ? sizeof($options) : 0;
     ?>
     
@@ -334,24 +367,21 @@ function msp_promos_callback(){
             <th></th>
         </thead>
         <tbody>
-            <?php for( $i = 0; $i <= $max; $i++ ) : ?>
-                <?php
-                    $src = get_option( 'msp_promo_src_' . $i );
-                    if( $src != '' ) :
+            <?php for( $i = 0; $i <= $max; $i++ ) :
+                $src = get_option( 'msp_promo_src_' . $i );
                 ?>
                     <tr>   
                         <td><input type="text" name="msp_promo_link_<?php echo $i ?>" value="<?php echo get_option( 'msp_promo_link_' . $i ) ?>" /></td>
                         <td><input type="text" name="msp_promo_src_<?php echo $i ?>" value="<?php echo get_option( 'msp_promo_src_' . $i ) ?>" /></td>
                         <?php if( $i == 0 ) : ?> <td><button class="add" type="button" role="button" >+ ADD +</button></td> <?php endif;  // lazy ?>
                     </tr>
-                <?php endif; ?>
             <?php endfor; ?>
         </tbody>
     </table>
     <?php
 }
 
-
+/** ALL THE HTML CALLBACKS FOR THE THEME OPTIONS PAGE /wp-admin/themes.php?page=msp_options */
 function msp_logo_width_callback(){
     echo '<input name="msp_logo_width" id="msp_logo_width" type="number" value="'. get_option( 'msp_logo_width' ) .'" class="code" />';
 }
@@ -365,6 +395,7 @@ function msp_link_color_callback(){
 function msp_header_background_callback(){
     echo '<input name="msp_header_background" id="msp_header_background" type="text" value="'. get_option( 'msp_header_background' ) .'" class="color-field code" />';
 }
+
 function msp_footer_background_callback(){
     echo '<input name="msp_footer_background" id="msp_footer_background" type="text" value="'. get_option( 'msp_footer_background' ) .'" class="color-field code" />';
 }
@@ -397,6 +428,9 @@ function integration_google_analytics_account_id_callback(){
 
 
 function msp_add_update_stock_widget(){
+    /**
+     * Form for getting stock data from specified vendors
+     */
     ?>
     <form id="msp_add_update_stock_form" method="post" action="<?php echo admin_url( 'admin-ajax.php' ) ?>">
         <p>
@@ -425,6 +459,9 @@ function msp_add_update_stock_widget(){
 }
 
 function msp_product_video_callback( $post ){
+    /**
+     * Html form for submitting product videos // Maybe make a template
+     */
     wp_nonce_field( basename( __FILE__ ), 'msp_product_video_callback' );
     $saved_urls = msp_get_product_videos( $post->ID );
     ?>
@@ -443,6 +480,9 @@ function msp_product_video_callback( $post ){
 }
 
 function msp_size_guide_callback( $post ){
+    /**
+     * Html form for submitting product size guide // Maybe make a template
+     */
     $size_guide_src = get_post_meta( $post->ID, '_msp_size_guide', true );
     ?>
     <div id="msp_product_video_input_table">

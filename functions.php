@@ -41,7 +41,7 @@ class MSP{
         // Add custom menu for loggin out
         add_action( 'after_setup_theme', array( $this, 'register_menus' ) );
         // Add recaptcha to footer
-        // add_action( 'wp_footer', array( $this, 'add_recaptcha_script_to_footer' ) );
+        add_action( 'wp_footer', array( $this, 'add_recaptcha_script_to_footer' ) );
         // modifies default password strength
         add_filter( 'woocommerce_min_password_strength', array( $this, 'msp_password_strength' ) );
         // Changes the class of inputs in checkout

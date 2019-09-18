@@ -1157,33 +1157,32 @@ function msp_get_products_slider( $products, $header = ''){
     <?php
 }
 
-function add_promo_row_1(){
-    echo '<div class="row my-2">';
-    add_promo_row( get_bloginfo('url') . '/product-category/fall-protection/', get_bloginfo('url')  . '/wp-content/uploads/2019/09/fall-protection.jpg' );
-    add_promo_row( get_bloginfo('url')  . '/product/ps-doors-ladder-safety-gate/', get_bloginfo('url')  . '/wp-content/uploads/2019/09/lsg.jpg' );
-    echo '</div>';
+function msp_get_promos(){
+    $promos = array();
+    for( $i = 0; $i <= 10; $i++ ){
+        $link = get_option( 'msp_promo_link_' . $i );
+        $src = get_option( 'msp_promo_src_' . $i );
+
+        if( ! empty( $link ) && ! empty( $src ) ) array_push( $promos, array( $link => $src ) );
+    }
+    return $promos;
 }
 
-function add_promo_row_2(){
-    echo '<div class="row my-2">';
-    add_promo_row( get_bloginfo('url')  . '/product-category/machine-shields/', get_bloginfo('url')  . '/wp-content/uploads/2019/09/machine-shields.jpg' );
-    add_promo_row( get_bloginfo('url')  . '/product/kcj-1-safety-cutter-klever-kutter/', get_bloginfo('url')  . '/wp-content/uploads/2019/09/kcj-1-w-cardboard.jpg' );
-    echo '</div>';
-}
+function add_promo_row( $arr ){
+    /**
+     * Is passed a messy array, spits out images and links!
+     */
+    $url = get_bloginfo('url') . '/';
 
-function add_promo_row_3(){
-    echo '<div class="row my-2">';
-    add_promo_row( get_bloginfo('url')  . '/product-category/fall-protection/fall-protection-for-tools/holsters-sleeves/', get_bloginfo('url')  . '/wp-content/uploads/2019/09/tool-holsters.jpg' );
-    add_promo_row( get_bloginfo('url')  . '/product-category/hand-protection/cut-resistant-gloves/', get_bloginfo('url')  . '/wp-content/uploads/2019/09/cut-protection.jpg' );
+    echo '<div class="row">';
+    foreach( $arr as $pair ){
+        foreach( $pair as $link => $src ) : ?>
+        <div class="col-12 col-lg-6">
+            <a href="<?php echo $url . $link ?>">
+                <img class="img-thumbnail" src="<?php echo $url . $src ?>" />
+            </a>
+        </div>
+    <?php endforeach;
+    }
     echo '</div>';
-}
-
-function add_promo_row( $link, $src ){
-    ?>
-    <div class="col-12 col-lg-6">
-        <a href="<?php echo $link ?>">
-            <img class="img-thumbnail" src="<?php echo $src ?>" />
-        </a>
-    </div>
-    <?php
 }

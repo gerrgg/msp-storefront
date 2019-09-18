@@ -3,7 +3,7 @@ jQuery( function( $ ){
 
         init: function(){
            this.update_stock_widget();
-           $('.color-field').wpColorPicker();
+        //    $('.color-field').wpColorPicker();
            $('#resource_tab').on( 'click', 'button.add_input_line', msp_admin.add_line_item );
            $('#msp-product-video').on( 'click', 'button.add', msp_admin.add_video_line );
            $('#msp-front-page-builder').on( 'click', 'button.add', msp_admin.submit_promo_option )
@@ -40,8 +40,6 @@ jQuery( function( $ ){
                     '<td>' + '<input type="text" name="msp_promo_src_'+ count +'">' + '</td>',
                 )
             );
-
-            console.log( count );
         
         },
 
