@@ -9,7 +9,9 @@
  Tags:         light, dark, two-columns, right-sidebar, responsive-layout, accessibility-ready
  Text Domain:  msp
 */
-
+.owl-stage{
+    margin-left: -40px
+}
 
 body{
     color: #333;
@@ -623,6 +625,12 @@ a[role="button"].link-normal{
 
 /* Small devices (landscape phones, 576px and up) */
 @media (max-width: 576px) {
+    .owl-item > .product h2.woocommerce-loop-product__title{
+        font-size: 13px;
+    }
+    .product-slider p.price span.woocommerce-Price-amount{
+        font-size: 15px;
+    }
     #fp-customer-service-top > img{
         margin: 0 auto;
     }

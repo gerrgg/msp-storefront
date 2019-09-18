@@ -57,21 +57,22 @@ jQuery(document).ready(function( $ ){
         init_owl_carousel: function(){
             $('.owl-carousel').owlCarousel({
                 responsiveClass: true,
+                nav: true,
                 margin: 10,
-                nav: false,
+                stagePadding: 40,
                 responsive:{
                     0:{
                         items:2,
-                        stagePadding: 15,
                     },
                     450:{
-                        items:3,
+                        items:4,
                     },
                     1000:{
                         items:5,
                     }
                 }
             })
+            $('.owl-stage').css( 'padding-left: 0px;' );
         },
 
         

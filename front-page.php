@@ -1,6 +1,8 @@
 <?php
 $promos = msp_get_promos();
 
+/** NOT A GOOD SOLUTION - TEMP FIX */
+
 get_header();
 msp_get_departments_silder();
 if( isset( $promos[0], $promos[1] ) ) add_promo_row( array( $promos[0], $promos[1] ) );
