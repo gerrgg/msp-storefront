@@ -58,6 +58,7 @@ class MSP{
         add_filter( 'woocommerce_available_payment_gateways', array($this, 'msp_enable_net30'), 999 );
     }
 
+
     public function add_recaptcha_script_to_footer(){
         // Add google repatcha to website
         ?>
