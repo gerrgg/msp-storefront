@@ -1177,31 +1177,27 @@ function msp_get_products_slider( $products, $header = ''){
 }
 
 function msp_get_promos(){
-    $promos = array();
-    for( $i = 0; $i <= 10; $i++ ){
-        $link = get_option( 'msp_promo_link_' . $i );
-        $src = get_option( 'msp_promo_src_' . $i );
-
-        if( ! empty( $link ) && ! empty( $src ) ) array_push( $promos, array( $link => $src ) );
-    }
+    $promos = maybe_unserialize( get_option( 'msp_promos' ) );
     return $promos;
 }
 
 function add_promo_row( $arr ){
     /**
-     * Is passed a messy array, spits out images and links!
+     * Takes in an array, and spits out rows with columns, images and links!
+     * @param - An array of key (image_id ) => value (page link) pairs;
      */
     $url = get_bloginfo('url') . '/';
 
     echo '<div class="row">';
-    foreach( $arr as $pair ){
-        foreach( $pair as $link => $src ) : ?>
+    foreach( $arr as $id => $link ) : 
+        $src = msp_get_product_image_src($id, 'large'); ?>
+
         <div class="col-12 col-lg-6">
             <a href="<?php echo $url . $link ?>">
-                <img class="img-thumbnail" src="<?php echo $url . $src ?>" />
+                <img class="img-thumbnail" src="<?php echo $src ?>" />
             </a>
         </div>
-    <?php endforeach;
-    }
+    <?php
+    endforeach;
     echo '</div>';
 }

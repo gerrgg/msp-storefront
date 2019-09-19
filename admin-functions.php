@@ -13,7 +13,10 @@ class MSP_Admin{
         add_action( 'woocommerce_process_product_meta', array( $this, 'process_product_videos_meta' ), 10, 2 );
         add_action( 'woocommerce_process_product_meta', array( $this, 'process_product_size_guide_meta' ), 10, 2 );
         add_action( 'wp_ajax_msp_admin_sync_vendor', 'msp_admin_sync_vendor' );
-        add_action( 'wp_ajax_msp_submit_theme_option', array( $this, 'ajax_update_option' ) );
+
+        add_action( 'wp_ajax_msp_create_promo_line', array( $this, 'ajax_create_option' ) );
+        add_action( 'wp_ajax_msp_delete_promo_line', array( $this, 'ajax_delete_option' ) );
+
         add_action( 'edit_user_profile', array( $this, 'add_net30_metabox'), 1 );
         add_action( 'edit_user_profile_update', array( $this, 'update_user_to_net30_terms'), 5 );
     }
@@ -41,18 +44,38 @@ class MSP_Admin{
         <?php
     }
 
-    public function ajax_update_option(){
+    public function ajax_delete_option(){
         /**
-         * AJAX function which adds data to options API
+         * Is passed the key of the row to be removed from the array. Then serialize and put back in DB.
+         * @see ../js/admin.js
          */
-        foreach( $_POST['options'] as $option ) {
-            if( ! empty($option['key']) && ! empty($option['value']) ) update_option( $option['key'], $option['value'] );
-        }
+
+        // get position to remove
+        $pos = $_POST['target'];
+
+        // get array from db
+        $promos = msp_get_promos();
+
+        // remove the selected row from promos array
+        unset( $promos[$pos] );
+
+        // put back in db
+        update_option( 'msp_promos', maybe_serialize( $promos ) );
 
         wp_die();
     }
 
-    public function add_net30_metabox(  $user){
+    public function ajax_create_option(){
+        /**
+         * AJAX function which adds data to options API
+         */
+        if( isset( $_POST['options'] ) )
+            update_option( 'msp_promos', maybe_serialize( $_POST['options'] ) );
+
+        wp_die();
+    }
+
+    public function add_net30_metabox($user){
         $is_net30 = get_user_meta( $user->ID, 'iww_net30', true );
         ?>
         <h1><?php esc_html_e( 'Activate Net 30', 'iww' ) ?></h1>
@@ -465,30 +488,37 @@ function msp_product_video_callback( $post ){
 }
 
 function msp_promos_callback(){
-    global $wpdb;
-    $options = $wpdb->get_results( "SELECT * FROM $wpdb->options WHERE option_name LIKE 'msp_promo_src_%' AND option_value != '' " );
-    $max = ( sizeof( $options ) > 0 ) ? sizeof($options) : 0;
+    $promos = msp_get_promos();
+    $count = 0;
+    var_dump( $promos );
     ?>
-    
-    <table id="msp-front-page-builder" class="widefat fixed" cellspacing="0">
-        <caption>***AJAX*** Do not include the site url, just everything after the / (eg. "/wp-content/2019/09/photo.php" )</caption>
-        <thead>
-            <th>Page Link</th>
-            <th>Image Link</th>
-            <th></th>
-        </thead>
-        <tbody>
-            <?php for( $i = 0; $i <= $max; $i++ ) :
-                $src = get_option( 'msp_promo_src_' . $i );
-                ?>
-                    <tr>   
-                        <td><input type="text" name="msp_promo_link_<?php echo $i ?>" value="<?php echo get_option( 'msp_promo_link_' . $i ) ?>" /></td>
-                        <td><input type="text" name="msp_promo_src_<?php echo $i ?>" value="<?php echo get_option( 'msp_promo_src_' . $i ) ?>" /></td>
-                        <?php if( $i == 0 ) : ?> <td><button class="add" type="button" role="button" >+ ADD +</button></td> <?php endif;  // lazy ?>
-                    </tr>
-            <?php endfor; ?>
-        </tbody>
-    </table>
+    <div id="msp-front-page-builder">
+        <form>
+            <table class="wide fixed" cellspacing="0" style="background-color: #fff; padding: 1rem;">
+                <thead>
+                    <th>Image ID</th>
+                    <th>Permalink</th>
+                    <th></th>
+                </thead>
+                <tbody>
+                    
+                    <?php 
+                    if( ! empty( $promos ) ) :
+                        foreach( $promos as $id => $link ) : ?>
+                            <tr>
+                                <td><input type="text" name="msp_promo[<?php echo $count ?>][image_id]" value="<?php echo $id ?>" /></td>
+                                <td><input type="text" name="msp_promo[<?php echo $count ?>][permalink]" value="<?php echo $link ?>" /></td>
+                                <td><button class="remove" type="button" role="button">&times;</button></td>
+                            </tr>
+                        <?php
+                            $count++;
+                        endforeach;
+                    endif; ?>
+                </tbody>
+            </table>
+            <button class="add" type="button" role="button" >+ ADD +</button>
+        </form>
+    </div>
     <?php
 }
 
