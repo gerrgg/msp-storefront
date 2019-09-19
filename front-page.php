@@ -1,7 +1,7 @@
 <?php
 $promos = msp_get_promos();
 
-/** NOT A GOOD SOLUTION - TEMP FIX */
+// TODO: check if array
 
 get_header();
 msp_get_departments_silder();

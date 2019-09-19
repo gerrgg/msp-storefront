@@ -488,6 +488,11 @@ function msp_product_video_callback( $post ){
 }
 
 function msp_promos_callback(){
+    /**
+     * Dynamic table for linking together images and pages.
+     * TODO: Should use Wordpress Media Selector for images and Select2 for permalink
+     * @version 1.0
+     */
     $promos = msp_get_promos();
     $count = 0;
     var_dump( $promos );
