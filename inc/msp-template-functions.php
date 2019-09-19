@@ -908,14 +908,22 @@ function msp_get_contact_page(){
 }
 
 function msp_process_contact_form(){
+    /**
+     * The callback which processes a contact form submission.
+     * @see ../template/msp-contact.php
+     */
     if( ! empty( $_POST ) ){
-        $to = get_bloginfo( 'admin_email' );
+        $to = get_option( 'msp_contact_email' );
+
+        // trim subject
         $subject = ( ! empty( $_POST['subject'] ) ) ? $_POST['subject'] : wp_trim_words( $_POST['message'], 25 );
+        
         $headers = array(
             'Content-Type: text/html; charset=UTF-8', 
             'Reply-To:' . $_POST['email']
         );
 
+        //html
         ob_start();
         ?>
         <h4><?php echo $subject; ?></h4>
@@ -927,6 +935,7 @@ function msp_process_contact_form(){
         <?php
         $html = ob_get_clean();
 
+        // TODO: Provide the poster with better feedback (AJAX).
         wp_mail( $to, $subject, $html, $headers );
         wp_mail( $_POST['email'], 'We got your request.' . $subject, $html, $headers );
         wp_redirect( '/' );

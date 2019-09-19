@@ -167,58 +167,8 @@ add_action( 'admin_post_msp_process_create_review', 'msp_process_create_review' 
 add_action( 'admin_post_nopriv_msp_process_create_review', 'msp_process_create_review' );
 
 //contact_form - /contact
-add_action( 'admin_post_msp_process_contact_form', 'msp_process_contact_form' );
-add_action( 'admin_post_nopriv_msp_process_contact_form', 'msp_process_contact_form' );
-
-/**
- * woocommerce_review_before
- * 
- * @see msp_chevron_karma_form - 5;
- */
-
-// add_action( 'woocommerce_review_before', 'msp_chevron_karma_form', 5, 1 );
-// remove_action( 'woocommerce_review_before', 'woocommerce_review_display_gravatar', 10 );
-
-/**
- * woocommerce_review_before_comment_meta
- * @see woocommerce_review_display_gravatar - 5
- */
-// remove_action( 'woocommerce_review_before_comment_meta', 'woocommerce_review_display_rating', 10 );
-// add_action( 'woocommerce_review_before_comment_meta', 'woocommerce_review_display_gravatar', 5 );
-
-/**
- * msp_review_top_right
- * @see msp_review_get_user_upload_image - 5
- */
-// add_action( 'msp_review_top_right', 'msp_review_get_user_upload_image', 5, 1 );
-
-/**
- * woocommerce_review_comment_text
- * @see msp_get_comment_headline - 5
- */
-// add_action( 'woocommerce_review_comment_text', 'msp_get_comment_headline', 5, 1 );
-
- /**
- * woocommerce_review_meta
- * @see woocommerce_review_display_rating - 8
- */
-
-// add_action( 'woocommerce_review_meta', 'woocommerce_review_display_rating', 8 );
-
-
-/**
- * woocommerce_review_after_comment_text
- * 
- * @see msp_comment_actions_wrapper_open();
- * @see msp_reply_to_comment_btn();
- * @see msp_flag_comment_btn();
- * @see msp_comment_actions_wrapper_close();
- */
-
-// add_action( 'woocommerce_review_after_comment_text', 'msp_comment_actions_wrapper_open', 1 );
-// add_action( 'woocommerce_review_after_comment_text', 'msp_reply_to_comment_btn', 5, 1 );
-// add_action( 'woocommerce_review_after_comment_text', 'msp_flag_comment_btn', 10, 1 );
-// add_action( 'woocommerce_review_after_comment_text', 'msp_comment_actions_wrapper_close', 100, 1 );
+add_action( 'wp_ajax_msp_process_contact_form', 'msp_process_contact_form' );
+add_action( 'wp_ajax_nopriv_msp_process_contact_form', 'msp_process_contact_form' );
 
 
 /**

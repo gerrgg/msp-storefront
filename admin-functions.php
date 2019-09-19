@@ -328,6 +328,13 @@ class MSP_Admin{
         );
 
         add_settings_section(
+            'emails',
+            'Emails:',
+            '', 
+            'msp_options'
+        );
+
+        add_settings_section(
             'ups_api_creds',
             'UPS API CREDS:', 
             '', 
@@ -342,8 +349,10 @@ class MSP_Admin{
             'msp_options'
         );
 
+
         $this->add_settings_field_and_register( 'msp_options', 'front_page', 'msp', array( 'promos' ) );
         $this->add_settings_field_and_register( 'msp_options', 'theme_options', 'msp', array( 'primary_color', 'link_color', 'header_background', 'footer_background', 'logo_width' ) );
+        $this->add_settings_field_and_register( 'msp_options', 'emails', 'msp', array( 'contact_email' ) );
         $this->add_settings_field_and_register( 'msp_options', 'ups_api_creds', 'ups_api', array( 'key', 'username', 'password', 'account', 'mode', 'end_of_day' ) );
         $this->add_settings_field_and_register( 'msp_options', 'integration', 'integration', array( 'google_analytics_account_id' ) );
     }
@@ -352,34 +361,6 @@ class MSP_Admin{
 new MSP_Admin();
 
 // templates called by $this->add_settings_field_and_register();
-
-function msp_promos_callback(){
-    global $wpdb;
-    $options = $wpdb->get_results( "SELECT * FROM $wpdb->options WHERE option_name LIKE 'msp_promo_src_%' AND option_value != '' " );
-    $max = ( sizeof( $options ) > 0 ) ? sizeof($options) : 0;
-    ?>
-    
-    <table id="msp-front-page-builder" class="widefat fixed" cellspacing="0">
-        <caption>***AJAX*** Do not include the site url, just everything after the / (eg. "/wp-content/2019/09/photo.php" )</caption>
-        <thead>
-            <th>Page Link</th>
-            <th>Image Link</th>
-            <th></th>
-        </thead>
-        <tbody>
-            <?php for( $i = 0; $i <= $max; $i++ ) :
-                $src = get_option( 'msp_promo_src_' . $i );
-                ?>
-                    <tr>   
-                        <td><input type="text" name="msp_promo_link_<?php echo $i ?>" value="<?php echo get_option( 'msp_promo_link_' . $i ) ?>" /></td>
-                        <td><input type="text" name="msp_promo_src_<?php echo $i ?>" value="<?php echo get_option( 'msp_promo_src_' . $i ) ?>" /></td>
-                        <?php if( $i == 0 ) : ?> <td><button class="add" type="button" role="button" >+ ADD +</button></td> <?php endif;  // lazy ?>
-                    </tr>
-            <?php endfor; ?>
-        </tbody>
-    </table>
-    <?php
-}
 
 /** ALL THE HTML CALLBACKS FOR THE THEME OPTIONS PAGE /wp-admin/themes.php?page=msp_options */
 function msp_logo_width_callback(){
@@ -398,6 +379,10 @@ function msp_header_background_callback(){
 
 function msp_footer_background_callback(){
     echo '<input name="msp_footer_background" id="msp_footer_background" type="text" value="'. get_option( 'msp_footer_background' ) .'" class="color-field code" />';
+}
+
+function msp_contact_email_callback(){
+    echo '<input name="msp_contact_email" id="msp_contact_email" type="email" value="'. get_option( 'msp_contact_email' ) .'" class="code" />';
 }
 
 function ups_api_key_callback(){
@@ -476,6 +461,34 @@ function msp_product_video_callback( $post ){
         <?php endif; ?>
     </div>
     <button type="button" class="add" data-count=<?php echo sizeof( $saved_urls ) ?>>Add</button>
+    <?php
+}
+
+function msp_promos_callback(){
+    global $wpdb;
+    $options = $wpdb->get_results( "SELECT * FROM $wpdb->options WHERE option_name LIKE 'msp_promo_src_%' AND option_value != '' " );
+    $max = ( sizeof( $options ) > 0 ) ? sizeof($options) : 0;
+    ?>
+    
+    <table id="msp-front-page-builder" class="widefat fixed" cellspacing="0">
+        <caption>***AJAX*** Do not include the site url, just everything after the / (eg. "/wp-content/2019/09/photo.php" )</caption>
+        <thead>
+            <th>Page Link</th>
+            <th>Image Link</th>
+            <th></th>
+        </thead>
+        <tbody>
+            <?php for( $i = 0; $i <= $max; $i++ ) :
+                $src = get_option( 'msp_promo_src_' . $i );
+                ?>
+                    <tr>   
+                        <td><input type="text" name="msp_promo_link_<?php echo $i ?>" value="<?php echo get_option( 'msp_promo_link_' . $i ) ?>" /></td>
+                        <td><input type="text" name="msp_promo_src_<?php echo $i ?>" value="<?php echo get_option( 'msp_promo_src_' . $i ) ?>" /></td>
+                        <?php if( $i == 0 ) : ?> <td><button class="add" type="button" role="button" >+ ADD +</button></td> <?php endif;  // lazy ?>
+                    </tr>
+            <?php endfor; ?>
+        </tbody>
+    </table>
     <?php
 }
 

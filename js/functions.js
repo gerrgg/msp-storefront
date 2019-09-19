@@ -6,14 +6,15 @@ jQuery(document).ready(function( $ ){
             this.init_owl_carousel();
             this.init_slideout();
 
-            $(document.body).on( 'click', 'i.msp-star-rating', msp.bind_create_review_star_buttons )
-            $('#msp_review').on( 'click', '.remove-product-image-from-review', msp.delete_user_product_image )
+            // $(document.body).on( 'click', 'i.msp-star-rating', msp.bind_create_review_star_buttons )
+            // $('#msp_review').on( 'click', '.remove-product-image-from-review', msp.delete_user_product_image )
             $('#msp_submit_question').on( 'blur', 'input[name="question"]', msp.customer_faq_validate_question )
             $('#msp_submit_question').on( 'click', 'button', msp.customer_submit_question )
             $('#msp_customer_faq').on( 'click', '.msp-submit-answer', msp.customer_submit_awnser )
             $('#filter-button').click(function(){
                 $('#shop-filters').slideToggle();
             });
+            $('#msp-contact').on( 'click', 'button.submit', msp.submit_contact_form )
 
             this.$modal.on( 'show.bs.modal', this.route )
             this.$modal.on( 'submit', 'form', this.submit )
@@ -174,40 +175,45 @@ jQuery(document).ready(function( $ ){
                     }
                 break;
               }
+          },
+
+          submit_contact_form: function( e ){
+            console.log( e );
           }
     }
 
     msp.init();
-
-    $('#msp_select2_products').select2({
-        ajax: {
-              url: wp_ajax.url, // AJAX URL is predefined in WordPress admin
-              dataType: 'json',
-              delay: 250, // delay in ms while typing when to perform a AJAX search
-              data: function (params) {
-                    return {
-                      q: params.term, // search query
-                      action: 'msp_get_products' // AJAX action for admin-ajax.php
-                    };
-              },
-              processResults: function( data ) {
-              var options = [];
-              if ( data ) {
-
-                  // data is the array of arrays, and each of them contains ID and the Label of the option
-                  $.each( data, function( index, text ) { // do not forget that "index" is just auto incremented value
-                      options.push( { id: text[0], text: text[1]  } );
-                  });
-
-              }
-              return {
-                  results: options
-              };
-          },
-          cache: true
-      },
-      minimumInputLength: 3 // the minimum of symbols to input before perform a search
-  });
+  if( $('#msp_select2_products').length != 0 ){
+      $('#msp_select2_products').select2({
+          ajax: {
+                url: wp_ajax.url, // AJAX URL is predefined in WordPress admin
+                dataType: 'json',
+                delay: 250, // delay in ms while typing when to perform a AJAX search
+                data: function (params) {
+                      return {
+                        q: params.term, // search query
+                        action: 'msp_get_products' // AJAX action for admin-ajax.php
+                      };
+                },
+                processResults: function( data ) {
+                var options = [];
+                if ( data ) {
+  
+                    // data is the array of arrays, and each of them contains ID and the Label of the option
+                    $.each( data, function( index, text ) { // do not forget that "index" is just auto incremented value
+                        options.push( { id: text[0], text: text[1]  } );
+                    });
+  
+                }
+                return {
+                    results: options
+                };
+            },
+            cache: true
+        },
+        minimumInputLength: 3 // the minimum of symbols to input before perform a search
+    });
+  }
 
   
 

@@ -5,9 +5,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 ?>
 
-<div>
+<div id="msp-contact">
     <p class="lead">If you’d rather talk to one of us, call <a href="tel:888-723-3864">888-723-3864</a>.</p>
-    <form method="POST" action="<?php echo admin_url( 'admin-post.php' ) ?>" class="" style="max-width: 500px;">
+    <form style="max-width: 500px;">
         <div class="form-group">
             <label for="name">Name</label>
             <input type="text" id="name" name="name" class="form-control" />
@@ -29,16 +29,15 @@ if ( ! defined( 'ABSPATH' ) ) {
         </div>
 
         <input type="hidden" name="action" value="msp_process_contact_form" />
-        <button class="btn btn-success">Submit Message</button>
+        <button class="btn btn-success submit">Submit Message</button>
     </form>
     <hr/>
-    <address>
-    <h5>Michigan Safety Products of Flint, Inc.</h5>
+    <address class="text-muted">
+    <h5><b>Michigan Safety Products of Flint, Inc.</b></h5>
     8640 Commerce Court
     Harbor Springs, MI 49740<br>
     Phone: <a href="tel:888-723-3864">888-723-3864</a> <br>
     Fax: 231-439-5557 <br>
     Office Hours: Mon-Fri 7:30AM - 4:30PM EST <br>
-    Email: <a href="mailto: info@applesafety.com">info@applesafety.com</a> 
     </address>
 </div>
