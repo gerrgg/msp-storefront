@@ -178,11 +178,22 @@ jQuery(document).ready(function( $ ){
           },
 
           submit_contact_form: function( e ){
-            console.log( e );
+            var data = $(e.delegateTarget.children[1])
+            var errors = data.find('#errors');
+            console.log(data, errors);
+            $.post(wp_ajax.url, data.serialize(), function( response ){
+              if( response ){
+                $(e.delegateTarget).html('<p class="lead">Thank you, expect a response same or next business day.</p>')
+              } else {
+                data.find('#errors').text( 'Error, please try again and fill everything out!' );
+              }
+            });
+
           }
     }
 
     msp.init();
+    
   if( $('#msp_select2_products').length != 0 ){
       $('#msp_select2_products').select2({
           ajax: {

@@ -29,7 +29,8 @@ if ( ! defined( 'ABSPATH' ) ) {
         </div>
 
         <input type="hidden" name="action" value="msp_process_contact_form" />
-        <button class="btn btn-success submit">Submit Message</button>
+        <div id="errors" class="text-error"></div>
+        <button type="button" role="button" class="btn submit btn-success">Submit Message</button>
     </form>
     <hr/>
     <address class="text-muted">
