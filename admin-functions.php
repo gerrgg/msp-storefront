@@ -13,14 +13,14 @@ class MSP_Admin{
         add_action( 'woocommerce_process_product_meta', array( $this, 'process_product_videos_meta' ), 10, 2 );
         add_action( 'woocommerce_process_product_meta', array( $this, 'process_product_size_guide_meta' ), 10, 2 );
         add_action( 'wp_ajax_msp_admin_sync_vendor', 'msp_admin_sync_vendor' );
-
+        
         add_action( 'wp_ajax_msp_create_promo_line', array( $this, 'ajax_create_option' ) );
         add_action( 'wp_ajax_msp_delete_promo_line', array( $this, 'ajax_delete_option' ) );
-
+        
         add_action( 'edit_user_profile', array( $this, 'add_net30_metabox'), 1 );
         add_action( 'edit_user_profile_update', array( $this, 'update_user_to_net30_terms'), 5 );
     }
-
+    
     public function add_next_order_btn(){
         /**
          * Adds a next & previous order button for quick pagination of orders.
@@ -130,7 +130,6 @@ class MSP_Admin{
 
         add_action( 'woocommerce_admin_order_data_after_order_details', array( $this, 'submit_tracking_form' ) );
         add_action( 'woocommerce_admin_order_data_after_order_details', array( $this, 'add_next_order_btn' ) );
-        add_action( 'woocommerce_process_shop_order_meta', array( $this, 'save_order_meta' ) );
     }
 
     public function process_product_size_guide_meta( $id ){
@@ -250,19 +249,7 @@ class MSP_Admin{
         echo '<button class="button button-primary" style="width: 100%; margin-top: 1rem;">Send Tracking</button>';
     }
 
-    public function save_order_meta( $order_id ){
-        /**
-         * When order meta is saved via the backend, this function saves the data as well as check for dyanmic cron jobs.
-         * @param int $order_id
-         */
-        $custom_meta_keys = array( 'shipper', 'tracking' );
-        foreach( $custom_meta_keys as $key ){
-            $this->manage_cron_jobs( $key, $order_id );
-            if( isset( $_POST[ $key ] ) && ! empty( $_POST[ $key ] ) ){
-                update_post_meta( $order_id, $key, wc_clean( $_POST[ $key ] ) );
-            }
-        }
-    }
+
 
     public static function manage_cron_jobs( $key, $order_id, $create = true  ){
         /**
@@ -538,4 +525,39 @@ function msp_size_guide_callback( $post ){
         <input type="url" name="_msp_size_guide" class="code" value="<?php echo $size_guide_src ?>" />
     </div>
     <?php
+}
+
+/*
+Quick fix for sending customers tracking - eventualyl want to hook into API's and automate task.
+*/
+add_action( 'woocommerce_process_shop_order_meta', 'sc_save_tracking_details', 50 );
+function sc_save_tracking_details( $ord_id ){
+  if ( isset( $_POST[ 'shipper' ] ) && !empty( $_POST[ 'shipper' ] ) ){
+    $shipper = wc_clean( $_POST[ 'shipper' ] );
+    update_post_meta( $ord_id, 'shipper', $shipper );
+  }
+
+  if ( isset( $_POST[ 'tracking' ] ) && !empty( $_POST[ 'tracking' ] ) ){
+    $tracking = wc_clean( $_POST[ 'tracking' ] );
+    update_post_meta( $ord_id, 'tracking', $tracking );
+  }
+
+  if( isset( $shipper, $tracking ) ){
+    $order = wc_get_order( $ord_id );
+    $link = sc_make_tracking_link( $shipper, $tracking );
+    update_post_meta( $ord_id, 'tracking_link', $link );
+    $user = $order->get_user();
+    $note = 'Hello.<br> Your order has shipped and can be tracked using the link below.';
+    $note .= '<p style="text-align: center;"><table cellspacing="0" cellpadding="0" style="text-align: center; margin: 10px 0px;"><tr align="center"><td align="center" width="300" height="40" bgcolor="#E84C3D" style="-webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px; color: #ffffff; display: block;"><a href="'.$link.'" style="font-size:16px; text-align: center; font-weight: bold; font-family: Helvetica, Arial, sans-serif; text-decoration: none; line-height:40px; width:100%; display:inline-block"><span style="color: #FFFFFF">Track Package</span></a></td></tr></table></p>';
+    $order->add_order_note( $note, 1 );
+  }
+}
+
+function sc_make_tracking_link( $shipper, $tracking ){
+  $base_urls = array(
+    'ups' => 'https://www.ups.com/track?loc=en_US&tracknum=',
+    'fedex' => 'https://www.fedex.com/apps/fedextrack/?tracknumbers=',
+    'usps' => 'https://tools.usps.com/go/TrackConfirmAction?tLabels='
+  );
+  return $base_urls[$shipper] . $tracking;
 }

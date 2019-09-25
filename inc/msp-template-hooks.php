@@ -269,10 +269,3 @@ add_action( 'msp_front_page', 'msp_get_customer_service_info', 50 );
 
 // debug
 add_action( 'wp_footer', 'msp_add_google_analytics', 100 );
-function init_promos(){
-    $promos = msp_get_promos();
-    if( ! empty( $promos ) ){
-        for( $i = 0; $i < sizeof( $promos ); $i++ ){
-        }
-    }
-}
