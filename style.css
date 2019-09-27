@@ -12,6 +12,9 @@
 .owl-stage{
     margin-left: -40px !important;
 }
+#masthead{
+    border-bottom: 1px rgba(0,0,0,0.1) solid;
+}
 
 body{
     color: #333;
@@ -49,7 +52,7 @@ a.woocommerce-button.button{
 
 .navbar-light .navbar-nav .nav-link,
 .fa-shopping-cart, .navbar-nav .show > .nav-link{
-    color: #fff !important;
+    color: #fff;
 }
 
 .navbar-nav .dropdown-menu{

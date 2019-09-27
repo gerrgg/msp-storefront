@@ -60,15 +60,20 @@ class MSP{
 
 
     public function add_recaptcha_script_to_footer(){
-        // Add google repatcha to website
-        ?>
-            <script src="https://www.google.com/recaptcha/api.js?render=6LfkZLYUAAAAAKBHW3f3-Uu1U9YX0jWtOgE4XwnK"></script>
-            <script>
-                grecaptcha.ready(function() {
-                    grecaptcha.execute('6LfkZLYUAAAAAKBHW3f3-Uu1U9YX0jWtOgE4XwnK');
-                });
-            </script>
+        /**
+         * Add google recaptcha to website if a code is defined.
+         */
+        $recaptcha = get_option('integration_google_recaptcha');
+        if( ! empty( $recaptcha ) ) :
+            ?>
+                <script src="https://www.google.com/recaptcha/api.js?render=<?php echo $recaptcha; ?>"></script>
+                <script>
+                    grecaptcha.ready(function() {
+                        grecaptcha.execute('<?php echo $recaptcha ?>');
+                    });
+                </script>
             <?php
+        endif;
     }
 
     public function msp_enable_net30( $available_gateways ){
@@ -149,26 +154,40 @@ class MSP{
                 .navbar-light .navbar-nav .nav-link:active,
                 .navbar-nav .active>.nav-link,
                 .mobile-menu-button,
-                .cart-wrapper .item-counter
+                .cart-wrapper .item-counter, #mobile-menu .title
                 {
                     color: $color!important;
                 }
+
+                
             ";
         }
 
         // LINK COLOR //
         if( ! empty( get_option( 'msp_link_color' ) ) ){
-            $color = get_option( 'msp_link_color' );
+            $link_color = get_option( 'msp_link_color' );
             $css .= "
                 a, a:hover, a:visited, a.active, a.focus{
-                    color: $color;
+                    color: $link_color;
                 }
                 .buy-again-product a.add_to_cart_button,
                 a.add_to_cart_button,
                 .product_type_grouped, 
                 .btn-danger {
-                    background-color: $color!important;
+                    background-color: $link_color!important;
                 }
+            ";
+        }
+
+        // LINK COLOR //
+        if( ! empty( get_option( 'msp_header_links' ) ) ){
+            $header_color = get_option( 'msp_header_links' );
+            $css .= "
+                #masthead .navbar-light .navbar-nav .nav-link, .fa-shopping-cart, .navbar-nav .show > .nav-link,
+                #masthead .navbar-light .navbar-nav .nav-link, .fa-shopping-cart, .navbar-nav .show > .nav-link{
+                    color: $header_color!important;
+                }
+                
             ";
         }
 
@@ -320,43 +339,10 @@ class MSP{
 new MSP();
 add_shortcode( 'contact', 'msp_get_contact_page' );
 
-define('temp_file', ABSPATH.'/_temp_out.txt' );
-add_action("activated_plugin", "activation_handler1");
-function activation_handler1(){
-    $cont = ob_get_contents();
-    if(!empty($cont)) file_put_contents(temp_file, $cont );
-}
-
-add_action( "pre_current_active_plugins", "pre_output1" );
-function pre_output1($action){
-    if(is_admin() && file_exists(temp_file))
-    {
-        $cont= file_get_contents(temp_file);
-        if(!empty($cont))
-        {
-            echo '<div class="error"> Error Message:' . $cont . '</div>';
-            @unlink(temp_file);
-        }
-    }
-}
-
 function pluralize( $count, $str ){
     return ( $count <= 1 ) ? $str : $str . 's'; 
 }
 
-function add_defer_attribute($tag, $handle) {
-    // add script handles to the array below
-    $scripts_to_defer = array('main', 'header', 'modal', 'slideout', 'bootstrap', 'owl-carousel', 'font-awesome', 'select2');
-    
-    foreach($scripts_to_defer as $defer_script) {
-       if ($defer_script === $handle) {
-          return str_replace(' src', ' defer="defer" src', $tag);
-       }
-    }
-    return $tag;
- }
 
-//  add_filter('script_loader_tag', 'add_defer_attribute', 10, 2);
 
- 
 

@@ -344,13 +344,6 @@ class MSP_Admin{
             'msp_options'
         );
 
-        add_settings_section(
-            'ups_api_creds',
-            'UPS API CREDS:', 
-            '', 
-            'msp_options'
-        );
-
 
         add_settings_section(
             'integration', 
@@ -361,10 +354,10 @@ class MSP_Admin{
 
 
         $this->add_settings_field_and_register( 'msp_options', 'front_page', 'msp', array( 'promos' ) );
-        $this->add_settings_field_and_register( 'msp_options', 'theme_options', 'msp', array( 'primary_color', 'link_color', 'header_background', 'footer_background', 'logo_width' ) );
+        $this->add_settings_field_and_register( 'msp_options', 'theme_options', 'msp', array( 'primary_color', 'link_color', 'header_background', 'header_links', 'footer_background', 'logo_width' ) );
         $this->add_settings_field_and_register( 'msp_options', 'emails', 'msp', array( 'contact_email' ) );
-        $this->add_settings_field_and_register( 'msp_options', 'ups_api_creds', 'ups_api', array( 'key', 'username', 'password', 'account', 'mode', 'end_of_day' ) );
-        $this->add_settings_field_and_register( 'msp_options', 'integration', 'integration', array( 'google_analytics_account_id' ) );
+        // $this->add_settings_field_and_register( 'msp_options', 'ups_api_creds', 'ups_api', array( 'key', 'username', 'password', 'account', 'mode', 'end_of_day' ) );
+        $this->add_settings_field_and_register( 'msp_options', 'integration', 'integration', array( 'google_analytics_account_id', 'google_recaptcha' ) );
     }
 }
 
@@ -385,6 +378,10 @@ function msp_link_color_callback(){
 }
 function msp_header_background_callback(){
     echo '<input name="msp_header_background" id="msp_header_background" type="text" value="'. get_option( 'msp_header_background' ) .'" class="color-field code" />';
+}
+
+function msp_header_links_callback(){
+    echo '<input name="msp_header_links" id="msp_header_links" type="text" value="'. get_option( 'msp_header_links' ) .'" class="color-field code" />';
 }
 
 function msp_footer_background_callback(){
@@ -418,6 +415,10 @@ function ups_api_end_of_day_callback(){
 
 function integration_google_analytics_account_id_callback(){
     echo '<input name="integration_google_analytics_account_id" id="integration_google_analytics_account_id" type="text" value="'. get_option( 'integration_google_analytics_account_id' ) .'" class="code" />';
+}
+
+function integration_google_recaptcha_callback(){
+    echo '<input name="integration_google_recaptcha" id="integration_google_recaptcha" type="text" value="'. get_option( 'integration_google_recaptcha' ) .'" class="code" />';
 }
 
 

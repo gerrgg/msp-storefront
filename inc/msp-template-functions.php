@@ -378,6 +378,7 @@ function msp_mobile_menu_account_links(){
         <?php if( is_user_logged_in() ) : ?>
             <li class="menu-item"><a href="<?php echo wp_logout_url( '/' ) ?>"><i class="fas fa-sign-out-alt pr-3"></i>Sign out</a></li>
         <?php endif; ?>
+    </ul>
     <?php
 
     
@@ -1060,6 +1061,7 @@ function get_bulk_discount_data( $product, $key ){
 
 function msp_get_customer_service_info(){
     $img = wp_get_attachment_image_src( 6562 );
+    $contact = get_option( 'msp_contact_email' );
     ?>
     <div id="fp-customer-service-top" class="d-block d-md-flex justify-content-center align-items-center text-center">
         <img src="<?php echo $img[0] ?>" />
@@ -1069,7 +1071,7 @@ function msp_get_customer_service_info(){
             <p style="font-size: 20px;">
                 <a href="tel:8887233864" class="link-normal"> (888) 723-3864 </a>
                 |
-                <a href="mailto: help@applesafety.com" class="link-normal"> help@applesafety.com </a>
+                <a href="mailto: <?php echo $contact ?>" class="link-normal"><?php echo $contact ?></a>
             </p>
         </div>
     </div>
