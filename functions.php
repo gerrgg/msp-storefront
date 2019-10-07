@@ -296,21 +296,32 @@ class MSP{
     }
 
     public function maybe_hide_ltl_shipping_option( $rates ){
-        $targeted_class = 54; // ltl shipping class id
-        
-        // if its not there, remove the LTL shipping option
+        $custom_rules = array(
+            'ltl' => 54,
+            'ups_only' => 418
+        );
+
         foreach( WC()->cart->cart_contents as $key => $values ) {
-            if( $values[ 'data' ]->get_shipping_class_id() == $targeted_class ) {
-                
+
+            // if any products match LTL shipping class, return ONLY ltl freight option
+            if( $values[ 'data' ]->get_shipping_class_id() == $custom_rules['ltl'] ) {
                 $ltl = $rates['flat_rate:6'];
                 $rates = array( 'flat_rate:6' => $ltl );
                 return $rates;
-            } 
+            }
+
+            // If any products match the UPS ONLY shipping method, remove free shipping and flat rate ground  
+            if( $values[ 'data' ]->get_shipping_class_id() == $custom_rules['ups_only'] ) {
+                unset( $rates['flat_rate:11']);
+                unset( $rates['free_shipping:9']);
+            }
         }
     
         unset( $rates['flat_rate:6']);
         return $rates;
     }
+
+
     public static function get_wrapper_class(){
         return ( is_archive() ) ? 'container-fluid' : 'col-full';
     }

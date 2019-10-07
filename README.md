@@ -1,6 +1,11 @@
 # MSP Storefront
 A custom child theme built for Michigan Safety Products of Flint Inc. Built on [Woocommerce Storefront](https://github.com/woocommerce/storefront).
 
+## Dependancies
+- Woocommerce
+- Woocommerce PDF Invoices
+- Ajax Search for WooCommerce 
+
 ## Features
 - HEADER - Lightweight custom header
 - HEADER - Slide-out navigation
