@@ -483,7 +483,6 @@ function msp_promos_callback(){
      */
     $promos = msp_get_promos();
     $count = 0;
-    var_dump( $promos );
     ?>
     <div id="msp-front-page-builder">
         <form>
