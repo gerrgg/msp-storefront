@@ -301,6 +301,8 @@ class MSP{
             'ups_only' => 418
         );
 
+        $cart_weight = WC()->cart->get_cart_contents_weight();
+
         foreach( WC()->cart->cart_contents as $key => $values ) {
 
             // if any products match LTL shipping class, return ONLY ltl freight option
@@ -311,9 +313,11 @@ class MSP{
             }
 
             // If any products match the UPS ONLY shipping method, remove free shipping and flat rate ground  
-            if( $values[ 'data' ]->get_shipping_class_id() == $custom_rules['ups_only'] ) {
+            if( $values[ 'data' ]->get_shipping_class_id() == $custom_rules['ups_only'] || $cart_weight > 20 ) {
                 unset( $rates['flat_rate:11']);
                 unset( $rates['free_shipping:9']);
+            } else {
+                unset( $rates['ups:3:03'] );
             }
         }
     
