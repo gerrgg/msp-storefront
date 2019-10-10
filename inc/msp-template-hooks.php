@@ -118,7 +118,8 @@ add_action( 'woocommerce_before_cart_table', 'woocommerce_button_proceed_to_chec
  * @see commerce_connector_tracking();
  */
 add_action( 'woocommerce_thankyou', 'msp_update_order_estimated_delivery', 5, 1 );
-add_action( 'woocommerce_thankyou', 'commerce_connector_tracking', 10, 1 );
+// add_action( 'woocommerce_thankyou', 'commerce_connector_tracking', 10, 1 );
+add_action( 'woocommerce_thankyou', 'msp_add_gmc_conversion_code', 15, 1 );
 
 /**
  * AJAX
