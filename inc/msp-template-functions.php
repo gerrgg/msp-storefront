@@ -555,7 +555,10 @@ function msp_update_order_estimated_delivery( $order_id ){
  */
 function msp_get_default_est_delivery( $method ){
 	switch( $method ){
-        case 'No-rush Ground':
+        case 'Flat Ground Shipping':
+        $date_str = iww_make_date( [2, 9] );
+        break;
+        case 'Ground (UPS)':
         $date_str = iww_make_date( [2, 7] );
         break;
 		case '3 Day Select (UPS)':

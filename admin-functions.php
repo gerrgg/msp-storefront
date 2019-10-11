@@ -323,12 +323,12 @@ class MSP_Admin{
      * dynamically creates options fields based on the arguments passed to add_settings_section.
      * */
     public function register_theme_settings(){
-        add_settings_section(
-            'front_page',
-            'Front Page:',
-            '', 
-            'msp_options'
-        );
+        // add_settings_section(
+        //     'front_page',
+        //     'Front Page:',
+        //     '', 
+        //     'msp_options'
+        // );
 
         add_settings_section(
             'theme_options',
@@ -353,7 +353,7 @@ class MSP_Admin{
         );
 
 
-        $this->add_settings_field_and_register( 'msp_options', 'front_page', 'msp', array( 'promos' ) );
+        // $this->add_settings_field_and_register( 'msp_options', 'front_page', 'msp', array( 'promos' ) );
         $this->add_settings_field_and_register( 'msp_options', 'theme_options', 'msp', array( 'primary_color', 'link_color', 'header_background', 'header_links', 'footer_background', 'logo_width' ) );
         $this->add_settings_field_and_register( 'msp_options', 'emails', 'msp', array( 'contact_email' ) );
         // $this->add_settings_field_and_register( 'msp_options', 'ups_api_creds', 'ups_api', array( 'key', 'username', 'password', 'account', 'mode', 'end_of_day' ) );
