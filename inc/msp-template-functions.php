@@ -849,7 +849,9 @@ function commerce_connector_tracking( $order_id ){
         $product_id = ( $order_item->get_variation_id() != 0 ) ? $order_item->get_variation_id() : $order_item->get_product_id();
         $product = wc_get_product( $product_id );
             $gpf = get_post_meta( $product->get_id(), '_woocommerce_gpf_data', true );
-            $product_str .= sprintf( '&ean[%d]=%s&sale[%d]=%d', $count, $gpf['gtin'], $count, $order_item['quantity'] );
+            if( ! empty( $gpf['gtin'] ) ){
+                $product_str .= sprintf( '&ean[%d]=%s&sale[%d]=%d', $count, $gpf['gtin'], $count, $order_item['quantity'] );
+            }
         $count++;
     }
     ?>
@@ -1208,4 +1210,19 @@ function add_promo_row( $arr ){
     <?php
     endforeach;
     echo '</div>';
+}
+
+function msp_add_gmc_conversion_code( $order_id ){
+    $order = wc_get_order( $order_id );
+    
+    ?>
+    <script>
+        gtag('event', 'conversion', {
+            'send_to': 'AW-1068755370/QpKfCOrKtAIQqtPP_QM',
+            'currency': 'USD',
+            'transaction_id': '<?php echo $order->get_id() ?>'
+            'value': '<?php echo $order->get_total() ?>',
+        });
+    </script>
+    <?php
 }
