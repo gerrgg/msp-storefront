@@ -118,8 +118,9 @@ add_action( 'woocommerce_before_cart_table', 'woocommerce_button_proceed_to_chec
  * @see commerce_connector_tracking();
  */
 add_action( 'woocommerce_thankyou', 'msp_update_order_estimated_delivery', 5, 1 );
-// add_action( 'woocommerce_thankyou', 'commerce_connector_tracking', 10, 1 );
+add_action( 'woocommerce_thankyou', 'commerce_connector_tracking', 10, 1 );
 add_action( 'woocommerce_thankyou', 'msp_add_gmc_conversion_code', 15, 1 );
+add_action( 'woocommerce_thankyou', 'cheque_payment_method_order_status_to_processing', 20, 1 );
 
 /**
  * AJAX
@@ -270,3 +271,12 @@ add_action( 'msp_front_page', 'msp_get_customer_service_info', 50 );
 
 // debug
 add_action( 'wp_footer', 'msp_add_google_analytics', 100 );
+
+//theme options
+if( get_option( 'wc_easy_qty_breaks' ) )
+    add_action( 'woocommerce_update_product', 'save_product_with_qty_breaks', 10, 1 );
+
+
+if( get_option( 'wc_add_net_30_to_single_product' ) )
+    add_action( 'woocommerce_single_product_summary', 'add_net_30', 35 );
+

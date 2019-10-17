@@ -6,18 +6,25 @@ class MSP_Admin{
      */
     
     function __construct(){
+        // Backend settings and UI changed
         add_action('admin_menu', array( $this, 'theme_options') );
+
+        // Custom meta boxes for use in backend (product edit mostly)
         add_action( 'add_meta_boxes', array( $this, 'msp_meta_boxes' ) );
         add_action( 'woocommerce_product_options_advanced', array( $this, 'submit_resources_tab' ) );
         add_action( 'woocommerce_process_product_meta', array( $this, 'process_product_resources_meta' ), 10, 2 );
         add_action( 'woocommerce_process_product_meta', array( $this, 'process_product_videos_meta' ), 10, 2 );
         add_action( 'woocommerce_process_product_meta', array( $this, 'process_product_size_guide_meta' ), 10, 2 );
+        
+        // A quick manual way of updating product stock
         add_action( 'wp_ajax_msp_admin_sync_vendor', 'msp_admin_sync_vendor' );
         
-        add_action( 'wp_ajax_msp_create_promo_line', array( $this, 'ajax_create_option' ) );
-        add_action( 'wp_ajax_msp_delete_promo_line', array( $this, 'ajax_delete_option' ) );
-        
+        // Net 30 checkbox - For both self and other users.
+        add_action( 'show_user_profile', array( $this, 'add_net30_metabox'), 1 );
         add_action( 'edit_user_profile', array( $this, 'add_net30_metabox'), 1 );
+
+        // Saving Net 30 checkbox data - For both self and other users.
+        add_action( 'personal_options_update', array( $this, 'update_user_to_net30_terms'), 5 );
         add_action( 'edit_user_profile_update', array( $this, 'update_user_to_net30_terms'), 5 );
     }
     
@@ -352,12 +359,18 @@ class MSP_Admin{
             'msp_options'
         );
 
+        add_settings_section(
+            'woocommerce',
+            'Woocommerce:',
+            '', 
+            'msp_options'
+        );
 
-        // $this->add_settings_field_and_register( 'msp_options', 'front_page', 'msp', array( 'promos' ) );
+
         $this->add_settings_field_and_register( 'msp_options', 'theme_options', 'msp', array( 'primary_color', 'link_color', 'header_background', 'header_links', 'footer_background', 'logo_width' ) );
         $this->add_settings_field_and_register( 'msp_options', 'emails', 'msp', array( 'contact_email' ) );
-        // $this->add_settings_field_and_register( 'msp_options', 'ups_api_creds', 'ups_api', array( 'key', 'username', 'password', 'account', 'mode', 'end_of_day' ) );
-        $this->add_settings_field_and_register( 'msp_options', 'integration', 'integration', array( 'google_analytics_account_id', 'google_recaptcha' ) );
+        $this->add_settings_field_and_register( 'msp_options', 'integration', 'integration', array( 'google_analytics_account_id', 'google_recaptcha', 'google_adwords', 'google_aw_campaign' ) );
+        $this->add_settings_field_and_register( 'msp_options', 'woocommerce', 'wc', array( 'easy_qty_breaks', 'add_net_30_to_single_product' ) );
     }
 }
 
@@ -366,6 +379,15 @@ new MSP_Admin();
 // templates called by $this->add_settings_field_and_register();
 
 /** ALL THE HTML CALLBACKS FOR THE THEME OPTIONS PAGE /wp-admin/themes.php?page=msp_options */
+function wc_add_net_30_to_single_product_callback(){
+    $option = get_option( 'wc_add_net_30_to_single_product' );
+    echo '<input name="wc_add_net_30_to_single_product" id="wc_add_net_30_to_single_product" type="checkbox" value="1" '. checked(1, $option, false) .' />';
+}
+
+function wc_easy_qty_breaks_callback(){
+    echo '<input name="wc_easy_qty_breaks" id="wc_easy_qty_breaks" type="checkbox" value="'. get_option( 'wc_easy_qty_breaks' ) .'" class="code" />';
+}
+
 function msp_logo_width_callback(){
     echo '<input name="msp_logo_width" id="msp_logo_width" type="number" value="'. get_option( 'msp_logo_width' ) .'" class="code" />';
 }
@@ -419,6 +441,14 @@ function integration_google_analytics_account_id_callback(){
 
 function integration_google_recaptcha_callback(){
     echo '<input name="integration_google_recaptcha" id="integration_google_recaptcha" type="text" value="'. get_option( 'integration_google_recaptcha' ) .'" class="code" />';
+}
+
+function integration_google_adwords_callback(){
+    echo '<input name="integration_google_adwords" id="integration_google_adwords" type="text" value="'. get_option( 'integration_google_adwords' ) .'" class="code" />';
+}
+
+function integration_google_aw_campaign_callback(){
+    echo '<input name="integration_google_aw_campaign" id="integration_google_aw_campaign" type="text" value="'. get_option( 'integration_google_aw_campaign' ) .'" class="code" />';
 }
 
 

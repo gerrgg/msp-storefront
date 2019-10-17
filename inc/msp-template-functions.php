@@ -963,52 +963,61 @@ function msp_process_contact_form(){
 }
 
 function msp_add_google_analytics(){
-    $user_account = get_option( 'integration_google_analytics_account_id' );
-    if( empty( $user_account ) ) return;
+    /**
+    * Add google analytics if option filled out in theme options
+    */
+    $google_account = array(
+        'UA' => get_option( 'integration_google_analytics_account_id' ),
+        'GA' =>  get_option( 'integration_google_adwords' ),
+    );
+
+    if( empty( $google_account['UA'] ) ) return;
 
     ?>
     <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=<?php echo $user_account ?>"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=<?php echo $google_account['UA'] ?>"></script>
 
     <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-    gtag('config', '<?php echo $user_account ?>');
+    gtag('config', '<?php echo $google_account['UA'] ?>');
+
+    <?php if( ! empty( $google_account['GA'] ) ) : ?>
+        gtag('config', 'AW-1068755370');
+    <?php endif; ?>
+
     </script>
 
     <?php
 }
 
-function msp_user_email_preferences(){
-    $display_name = get_user_meta( $_GET['user_id'], 'nickname', true );
-    if( wp_verify_nonce( $_REQUEST['_wpnonce'], 'update-user-' . $display_name ) ){
-        update_user_meta( $_GET['user_id'], '_can_email', 0 );
-        wc_add_notice( 'Email preferences updated.', 'success' );
-    } 
-
-}
-
 function msp_maybe_append_description(){
+    /**
+     * This function is used to easily append product content with generic category text (link links to similar categories)
+     */
     global $product;
     $the_content = get_the_content();
     foreach( $product->get_category_ids() as $id ){
         $category = get_term( $id );
-        if( ! empty( $category->description ) ){
-            $the_content .= '<p>' . $category->description . '</p>';
-            // echo $category->description;
-        }
+        if( ! empty( $category->description ) ) $the_content .= '<p>' . $category->description . '</p>';
     }
     echo $the_content;
 }
 
-add_action( 'init', 'jk_remove_storefront_handheld_footer_bar' );
 
+add_action( 'init', 'jk_remove_storefront_handheld_footer_bar' );
 function jk_remove_storefront_handheld_footer_bar() {
+    /**
+     * Simply removes the storefront footer from mobile
+     */
   remove_action( 'storefront_footer', 'storefront_handheld_footer_bar', 999 );
 }
 
 function msp_add_sub_cat_links(){
+    /**
+     * Gets children of current categoriy, lists them.
+     */
     $nav_items = msp_get_category_children();
     if( empty( $nav_items ) ) return;
     $echo = 'Shop for ';
@@ -1020,6 +1029,9 @@ function msp_add_sub_cat_links(){
 }
 
 function msp_mobile_product_filter_button(){
+    /**
+     * A simple button displayed on shop pages (mobile) which will hide/show store filters.
+     */
     ?>
     <div id="filter-button" class="d-block d-lg-none">
         <a role="button" class=><i class="fas fa-filter fa-3x d-block"></i>Filter Products</a>
@@ -1028,9 +1040,14 @@ function msp_mobile_product_filter_button(){
 }
 
 function msp_bulk_discount_table(){
+    /**
+     * HTML table of bulk pricing per object
+     */
     global $product;
-    $enabled = get_post_meta( $product->get_id(), '_bulkdiscount_enabled', true );
-    $has_a_rule = ( ! empty( get_post_meta( $product->get_id(), '_bulkdiscount_quantity_1', true ) ) );
+    $product_id = $product->get_id();
+    $enabled = get_post_meta( $product_id, '_bulkdiscount_enabled', true );
+    $has_a_rule = ( ! empty( get_post_meta( $product_id, '_bulkdiscount_quantity_1', true ) ) );
+
 
     if( $enabled == 'yes' && $has_a_rule ){
         ?>
@@ -1038,7 +1055,7 @@ function msp_bulk_discount_table(){
         <table class="table-bordered">
             <thead class="bg-dark text-light">
                 <?php 
-                    $qtys = get_bulk_discount_data( $product, 'quantity' );
+                    $qtys = get_bulk_discount_data( $product_id, 'quantity' );
                     foreach( $qtys as $value ){
                         echo '<td>'. $value .'+</td>';
                     }
@@ -1046,7 +1063,7 @@ function msp_bulk_discount_table(){
             </thead>
             <tbody>
                 <?php 
-                    $qtys = get_bulk_discount_data( $product, 'discount' );
+                    $qtys = get_bulk_discount_data( $product_id, 'discount' );
                     foreach( $qtys as $value ){
                         $price = $product->get_price() - $value;
                         echo '<td>$'. $price .'</td>';
@@ -1058,16 +1075,25 @@ function msp_bulk_discount_table(){
     }
 }
 
-function get_bulk_discount_data( $product, $key ){
+function get_bulk_discount_data( $product_id, $key ){
+    /**
+     * Helper function returns discount data in easy-to-use format
+     * @param int $product_id - The ID of a product
+     * @param string $key - Specifies which kind of discount we are looking for
+     * @return array $data - discount information and at which tier
+     */
     $data = array();
     for( $i = 0; $i < 5; $i++ ){
-        $value = get_post_meta( $product->get_id(), '_bulkdiscount_'. $key . '_' . $i, true );
+        $value = get_post_meta( $product_id, '_bulkdiscount_'. $key . '_' . $i, true );
         if( ! empty( $value) ) array_push( $data, $value );
     }
     return $data;
 }
 
 function msp_get_customer_service_info(){
+    /**
+     * HTML block for front page
+     */
     $img = wp_get_attachment_image_src( 6562 );
     $contact = get_option( 'msp_contact_email' );
     ?>
@@ -1105,43 +1131,12 @@ function msp_get_customer_service_info(){
     <?php
 }
 
-function msp_add_category_images(){
-    $categories = msp_get_category_children();
-    msp_get_category_slider( $categories );
-}
-
-function msp_get_departments_silder(){
-    $categories = get_categories( array( 'taxonomy' => 'product_cat',
-                                         'orderby' => 'name',
-                                         'parent' => 0 ) );
-    if( empty( $categories ) ) return;
-    msp_get_category_slider( $categories, 'Shop by department' );
-}
-
-function msp_get_random_slider(){
-    $categories = get_categories( array( 'taxonomy' => 'product_cat',
-                                         'orderby' => 'name',
-                                         'parent' => 0 ) );
-    $category = $categories[ rand( 0, sizeof( $categories ) - 1 ) ];
-    $products = wc_get_products( array(
-        'limit'    => 10,
-        'category' => array( $category->slug ),
-    ) );
-    msp_get_products_slider( $products, $category->name );
-}
-
-function msp_get_featured_products_silder(){
-    $featured_products = wc_get_products( array(
-        'limit'    => 10,
-        'orderby'  => 'rand',
-        'featured' => true
-    ) );
-    if( empty( $featured_products ) ) return;
-    msp_get_products_slider( $featured_products, 'Essential PPE' );
-}
-
-
 function msp_get_category_slider( $categories, $header = ''){
+    /**
+     * Creates a slider of category children - USES OWL CAROUSEL
+     * @param array $categories - Full of WP_Term objects
+     * @param string $header - String to display over the slider
+     */
     if( ! empty( $header ) ) : ?>
         <h2 class="pb-2"><?php echo $header; ?></h3>
     <?php endif; ?>
@@ -1163,6 +1158,10 @@ function msp_get_category_slider( $categories, $header = ''){
 }
 
 function msp_get_products_slider( $products, $header = ''){
+    /**
+     * Same as msp_get_category_slider but for products.
+     * TODO: Could/should probally combine both functions into one
+     */
     if( ! empty( $header ) ) : ?>
         <h2 class="pb-2"><?php echo $header; ?></h3>
     <?php endif; ?>
@@ -1186,43 +1185,93 @@ function msp_get_products_slider( $products, $header = ''){
     <?php
 }
 
-function msp_get_promos(){
-    $promos = maybe_unserialize( get_option( 'msp_promos' ) );
-    return $promos;
-}
-
-function add_promo_row( $arr ){
-    /**
-     * Takes in an array, and spits out rows with columns, images and links!
-     * @param - An array of key (image_id ) => value (page link) pairs;
-     */
-    $url = get_bloginfo('url') . '/';
-
-    echo '<div class="row">';
-    foreach( $arr as $id => $link ) : 
-        $src = msp_get_product_image_src($id, 'large'); ?>
-
-        <div class="col-12 col-lg-6">
-            <a href="<?php echo $url . $link ?>">
-                <img class="img-thumbnail" src="<?php echo $src ?>" />
-            </a>
-        </div>
-    <?php
-    endforeach;
-    echo '</div>';
-}
-
 function msp_add_gmc_conversion_code( $order_id ){
+    /**
+     * Adds Google Adwords conversation tracking information if information supplied in theme page
+     * @param int $order_id
+     */
+    $google_aw = get_option( 'integration_google_adwords' );
+    $google_campaign = get_option( 'integration_google_aw_campaign' );
+
+    if( empty( $google_aw ) || empty( $google_campaign ) ) return;
+
     $order = wc_get_order( $order_id );
-    
     ?>
     <script>
         gtag('event', 'conversion', {
-            'send_to': 'AW-1068755370/QpKfCOrKtAIQqtPP_QM',
+            'send_to': '<?php echo $google_aw ?>/<?php echo $google_campaign ?>',
             'currency': 'USD',
             'transaction_id': '<?php echo $order->get_id() ?>'
             'value': '<?php echo $order->get_total() ?>',
         });
     </script>
     <?php
+}
+
+add_action( 'woocommerce_before_calculate_totals', 'msp_helly_hansen_discount_coupon' );
+function msp_helly_hansen_discount_coupon( $cart_object ){
+    /**
+     * Check for a coupon, look for eligible items, add discount.
+     * @param array
+     */
+
+     // TODO: Should connect these next three lines with a filter tied to a backend form.
+    $coupon_code = '15offhelly';
+    $needle = 'Helly Hansen Workwear';
+    $percent_off = .85;
+
+    if( ! WC()->cart->has_discount( $coupon_code ) ) return;
+
+    $cart = $cart_object->get_cart_contents();
+
+    foreach( $cart as $cart_item ){
+        $product = wc_get_product( $cart_item['product_id'] );
+        $brand = $product->get_attribute('pa_all-brand');
+
+        if( $brand == $needle ){
+            $old_price = $cart_item['data']->get_price();
+            $discounted_price = round( $old_price * $percent_off );
+            $cart_item['data']->set_price($discounted_price);
+        }
+    }
+}
+
+function msp_cart_item_price( $price, $item, $key ){
+    /**
+     * Checks for price difference, show otherwise.
+     */
+    $before = $item['data']->get_regular_price();
+    $after = $item['data']->get_price();
+
+    return ( $before > $after ) ? wc_format_sale_price($before, $after) : wc_price( $before ); 
+}
+
+
+function save_product_with_qty_breaks( $post_id ){
+ /**
+  * Once a product is updated, update the bulk pricing discounts
+  */
+  $product = wc_get_product( $post_id );
+  create_qty_breaks( $post_id, $product->get_price() );
+}
+
+function add_net_30(){
+    /**
+     * If enabled, show link to NET 30 page.
+     */
+    $site = get_bloginfo('url');
+	?>
+	<a class="text-success" style="font-weight: 600;" href="<?php echo $site ?>/payment-net-30-terms/"><i class="fa fa-file"></i> Net 30 Terms for Qualified Businesses</a>
+	<?php
+}
+
+function cheque_payment_method_order_status_to_processing( $order_id ) {
+    // Updating order status to processing for orders delivered with Cheque payment methods.
+    if ( ! $order_id )
+        return;
+
+    $order = wc_get_order( $order_id );
+
+    if (  get_post_meta($order_id, '_payment_method', true) == 'cheque' )
+        $order->update_status( 'processing' );
 }

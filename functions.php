@@ -49,13 +49,17 @@ class MSP{
         // Add custom tabs to single product
         add_filter( 'woocommerce_product_tabs', array( $this, 'msp_product_tabs' ) );
         // Add a coondition for which shipping options are presented based on shipping class
-        add_filter( 'woocommerce_package_rates', array( $this, 'maybe_hide_ltl_shipping_option' ), 50, 2 );
+        add_filter( 'woocommerce_package_rates', array( $this, 'custom_shipping_rules' ), 50, 2 );
         // Change how many columns are in the footer
         add_filter( 'storefront_footer_widget_columns', function(){ return 1; } );
         // Changes the order of fields in checkout
         add_filter( 'woocommerce_checkout_fields', array( $this, 'msp_checkout_fields' ) );
         // Adds a condition for which payment options
         add_filter( 'woocommerce_available_payment_gateways', array($this, 'msp_enable_net30'), 999 );
+
+        // Edits how discounts prices are shown in cart.
+        add_filter( 'woocommerce_cart_item_price', 'msp_cart_item_price', 100, 3 );
+
     }
 
 
@@ -88,7 +92,12 @@ class MSP{
     }
 
     public function msp_checkout_fields( $fields ){
+        /**
+        * Customizations to the Woocommerce/checkout
+        * @param array - The default woocommerce fields
+        */
         $fields['billing']['billing_email']['priority'] = 1;
+        $fields['order']['order_comments']['placeholder'] = 'Anything we should know? Need your order by a specific day?';
         return $fields;
     }
 
@@ -197,9 +206,14 @@ class MSP{
     }
 
     public function msp_product_tabs( $tabs ){
+        /**
+        * Custom product tabs added to the woocommerce_product_tabs filter
+        * @param array - The default order of woocommerce tabs
+        */
         global $post;
         global $product;
         
+        // Start at 30 to skip past decription, specificiations
         $priority = 30;
         $custom_tabs = array(
             'product_videos' => msp_get_product_videos( $post->ID ),
@@ -232,12 +246,18 @@ class MSP{
     }
 
     public function msp_form_field_args( $args, $key, $value ){
+        /**
+        * Change the class of inputs @ checkout
+        */
         $args['class'] = array('col-12');
         $args['input_class'] = array('form-control');
         return $args;
     }
 
     public function create_theme_pages(){
+        /**
+        * Create pages the theme requires to operate.
+        */
         $slugs = array( 'buy-again', 'quote', 'contact' );
 
         foreach( $slugs as $slug ){
@@ -255,29 +275,18 @@ class MSP{
     }
 
     public function the_slug_exists( $post_name ) {
+        /**
+        * Check if a page exists based on the slug
+        */
         global $wpdb;
         return ( $wpdb->get_row("SELECT post_name FROM $wpdb->posts WHERE post_name = '" . $post_name . "'", 'ARRAY_A') );
     }
 
-    public function myStartSession(){
-        if(!session_id()) {
-            session_start();
-        }
-    }
-
-    public function myEndSession() {
-        session_destroy ();
-    }
-
-    
-
     public function wp_localize_scripts( $arr ){
-        foreach( $arr as $handle ){
-            wp_localize_script( $handle, 'wp_ajax', array(
-                'url' => admin_url( 'admin-ajax.php' ),
-                'post' => admin_url( 'admin-post.php' )
-            ) );
-        }
+        wp_localize_script( $handle, 'wp_ajax', array(
+            'url' => admin_url( 'admin-ajax.php' ),
+            'post' => admin_url( 'admin-post.php' )
+        ) );
     }
 
     public function register_menus(){
@@ -288,6 +297,15 @@ class MSP{
     }
 
     public function msp_password_strength(){
+        /** 
+        *Reduce the strength requirement on the woocommerce password.
+        * 
+        * Strength Settings
+        * 3 = Strong (default)
+        * 2 = Medium
+        * 1 = Weak
+        * 0 = Very Weak / Anything
+        */
         return 1;
     }
 
@@ -295,7 +313,12 @@ class MSP{
         return msp_get_product_image_src( $img_id );
     }
 
-    public function maybe_hide_ltl_shipping_option( $rates ){
+    public function custom_shipping_rules( $rates ){
+        /**
+        * Checks cart contents, compares product shipping class with $custom_rules
+        * and unsets differant methods accordingly.
+        * @param array - Shipping methods
+        */
         $custom_rules = array(
             'ltl' => 54,
             'ups_only' => 418

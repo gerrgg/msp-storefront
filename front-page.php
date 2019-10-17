@@ -18,7 +18,7 @@ msp_get_departments_silder();
     </div>
 </div>
 <?php
-msp_get_random_slider();
+// msp_get_random_slider();
 ?>
 <div class="row">
     <div class="col-12 col-lg-6">
@@ -33,7 +33,7 @@ msp_get_random_slider();
     </div>
 </div>
 <?php
-msp_get_random_slider();
+// msp_get_random_slider();
 msp_get_featured_products_silder();
 msp_get_customer_service_info();
 get_footer(); 

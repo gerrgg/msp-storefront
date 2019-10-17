@@ -2,6 +2,15 @@
 
 defined( 'ABSPATH' ) || exit;
 
+function get_actual_id( $product ) {
+	/**
+	* Checks if the object passed is a product or variation, returns appropriate ID
+	* @param WC_Product|WC_Product_Variation $product
+	* @return int - Product ID
+	*/
+	return ( $product instanceof WC_Product_Variation ) ? $this->get_variation_id($product) : $this->get_product_id($product);
+}
+
 function msp_get_products(){
 	// we will pass post IDs and titles to this array
 	$return = array();
@@ -262,3 +271,94 @@ function msp_get_customers_who_purchased_product( $product_id ){
     return $wpdb->get_results( $sql );
 }
 
+
+function create_qty_breaks( $id, $price ){
+	/**
+	* Static rules for quickly spreading bulk discount around
+	* @param int $id - Product/variation ID
+	* @param string $price - regular price of the product
+	*/
+	if( 0 < $price && $price <= 7.5 ){
+	  update_post_meta( $id, '_bulkdiscount_quantity_1', 24 );
+	  update_post_meta( $id, '_bulkdiscount_discount_1', 5 );
+	  update_post_meta( $id, '_bulkdiscount_quantity_2', 48 );
+	  update_post_meta( $id, '_bulkdiscount_discount_2', 7 );
+	  update_post_meta( $id, '_bulkdiscount_quantity_3', 72 );
+	  update_post_meta( $id, '_bulkdiscount_discount_3', 10 );
+	} elseif( 7.5 < $price && $price <= 15 ){
+	  update_post_meta( $id, '_bulkdiscount_quantity_1', 12 );
+	  update_post_meta( $id, '_bulkdiscount_discount_1', 5 );
+	  update_post_meta( $id, '_bulkdiscount_quantity_2', 24 );
+	  update_post_meta( $id, '_bulkdiscount_discount_2', 7 );
+	  update_post_meta( $id, '_bulkdiscount_quantity_3', 36 );
+	  update_post_meta( $id, '_bulkdiscount_discount_3', 10 );
+	} elseif( 15 < $price && $price <= 60 ){
+	  update_post_meta( $id, '_bulkdiscount_quantity_1', 4 );
+	  update_post_meta( $id, '_bulkdiscount_discount_1', 5 );
+	  update_post_meta( $id, '_bulkdiscount_quantity_2', 7 );
+	  update_post_meta( $id, '_bulkdiscount_discount_2', 7 );
+	  update_post_meta( $id, '_bulkdiscount_quantity_3', 12 );
+	  update_post_meta( $id, '_bulkdiscount_discount_3', 10 );
+	} elseif( $price >= 60 ){
+	  update_post_meta( $id, '_bulkdiscount_quantity_1', 3 );
+	  update_post_meta( $id, '_bulkdiscount_discount_1', 5 );
+	  update_post_meta( $id, '_bulkdiscount_quantity_2', 6 );
+	  update_post_meta( $id, '_bulkdiscount_discount_2', 7 );
+	  update_post_meta( $id, '_bulkdiscount_quantity_3', 9 );
+	  update_post_meta( $id, '_bulkdiscount_discount_3', 10 );
+	} else {
+	  update_post_meta( $id, '_bulkdiscount_quantity_1', 12 );
+	  update_post_meta( $id, '_bulkdiscount_discount_1', 5 );
+	  update_post_meta( $id, '_bulkdiscount_quantity_2', 24 );
+	  update_post_meta( $id, '_bulkdiscount_discount_2', 7 );
+	  update_post_meta( $id, '_bulkdiscount_quantity_3', 36 );
+	  update_post_meta( $id, '_bulkdiscount_discount_3', 10 );
+	}
+  }
+
+  function msp_add_category_images(){
+	  /**
+	   * Gets children of current category, then displays a slider for easy nav
+	   */
+    $categories = msp_get_category_children();
+    msp_get_category_slider( $categories );
+}
+
+function msp_get_departments_silder(){
+	/**
+	 * Gets top-level categories, then displays a slider for easy navigation
+	 */
+    $categories = get_categories( array( 'taxonomy' => 'product_cat',
+                                         'orderby' => 'name',
+                                         'parent' => 0 ) );
+    if( empty( $categories ) ) return;
+    msp_get_category_slider( $categories, 'Shop by department' );
+}
+
+function msp_get_random_slider(){
+	/**
+	 * Gets children of current category, then displays a slider of products for that category
+	 */
+    $categories = get_categories( array( 'taxonomy' => 'product_cat',
+                                         'orderby' => 'name',
+                                         'parent' => 0 ) );
+    $category = $categories[ rand( 0, sizeof( $categories ) - 1 ) ];
+    $products = wc_get_products( array(
+        'limit'    => 10,
+        'category' => array( $category->slug ),
+    ) );
+    msp_get_products_slider( $products, $category->name );
+}
+
+function msp_get_featured_products_silder(){
+	/**
+	 * Gets featured products, and puts them into slider.
+	 */
+    $featured_products = wc_get_products( array(
+        'limit'    => 10,
+        'orderby'  => 'rand',
+        'featured' => true
+    ) );
+    if( empty( $featured_products ) ) return;
+    msp_get_products_slider( $featured_products, 'Essential PPE' );
+}
