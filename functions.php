@@ -96,8 +96,20 @@ class MSP{
         * Customizations to the Woocommerce/checkout
         * @param array - The default woocommerce fields
         */
+
+        // Move email to top for capturing abandoned carts
         $fields['billing']['billing_email']['priority'] = 1;
+
         $fields['order']['order_comments']['placeholder'] = 'Anything we should know? Need your order by a specific day?';
+
+        // Add purchase field
+        $fields['billing']['billing_po'] = array(
+            'label'     => __('Purchase Order', 'woocommerce'),
+            'required'  => false,
+            'class'     => array('col-12'),
+            'priority'	=> 100,
+        );
+
         return $fields;
     }
 
@@ -379,6 +391,16 @@ add_shortcode( 'contact', 'msp_get_contact_page' );
 
 function pluralize( $count, $str ){
     return ( $count <= 1 ) ? $str : $str . 's'; 
+}
+
+
+function sc_add_po_to_emails( $keys ) {
+     $keys['Purchase Order'] = '_billing_po'; // This will look for a custom field called '_billing_po' and add it to emails
+     return $keys;
+}
+
+function sc_add_po_meta_data($order){
+    echo '<p><strong>'.__('Purchase Order').':</strong> ' . get_post_meta( $order->get_id(), '_billing_po', true ) . '</p>';
 }
 
 

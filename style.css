@@ -9,6 +9,9 @@
  Tags:         light, dark, two-columns, right-sidebar, responsive-layout, accessibility-ready
  Text Domain:  msp
 */
+.checkout .form-row{
+    display: block;
+  }
 .owl-stage{
     margin-left: -40px !important;
 }

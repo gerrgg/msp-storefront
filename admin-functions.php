@@ -15,9 +15,10 @@ class MSP_Admin{
         add_action( 'woocommerce_process_product_meta', array( $this, 'process_product_resources_meta' ), 10, 2 );
         add_action( 'woocommerce_process_product_meta', array( $this, 'process_product_videos_meta' ), 10, 2 );
         add_action( 'woocommerce_process_product_meta', array( $this, 'process_product_size_guide_meta' ), 10, 2 );
-        
-        // A quick manual way of updating product stock
-        add_action( 'wp_ajax_msp_admin_sync_vendor', 'msp_admin_sync_vendor' );
+
+        // Add purchase order meta data to order emails and edit order page.
+        add_filter('woocommerce_email_order_meta_keys', 'sc_add_po_to_emails');
+        add_action( 'woocommerce_admin_order_data_after_billing_address', 'sc_add_po_meta_data', 10, 1 );
         
         // Net 30 checkbox - For both self and other users.
         add_action( 'show_user_profile', array( $this, 'add_net30_metabox'), 1 );
@@ -133,7 +134,6 @@ class MSP_Admin{
 
         add_action( 'admin_init', array( $this, 'register_theme_settings' ) );
         add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
-        add_action( 'wp_dashboard_setup', array( $this, 'add_dashboard_widgets' ) );
 
         add_action( 'woocommerce_admin_order_data_after_order_details', array( $this, 'submit_tracking_form' ) );
         add_action( 'woocommerce_admin_order_data_after_order_details', array( $this, 'add_next_order_btn' ) );
@@ -212,21 +212,6 @@ class MSP_Admin{
 
     public function enqueue_scripts( $hook ){
         wp_enqueue_script('admin', get_stylesheet_directory_uri() . '/js/admin.js');
-    }
-
-    public function add_dashboard_widgets(){
-        wp_add_dashboard_widget(
-            'msp_add_update_stock',
-            'Update Vendors Stock',
-            'msp_add_update_stock_widget'
-        );
-    
-        global $wp_meta_boxes;
-        $normal_dash = $wp_meta_boxes['dashboard']['normal']['core'];
-        $custom_dash = array( 'msp_add_update_stock' => $normal_dash['msp_add_update_stock'] );
-        unset( $normal_dash['msp_add_update_stock'] );
-        $sorted_dash = array_merge( $custom_dash, $normal_dash );
-        $wp_meta_boxes['dashboard']['normal']['core'] = $sorted_dash;
     }
 
     public function submit_tracking_form(){
@@ -449,39 +434,6 @@ function integration_google_adwords_callback(){
 
 function integration_google_aw_campaign_callback(){
     echo '<input name="integration_google_aw_campaign" id="integration_google_aw_campaign" type="text" value="'. get_option( 'integration_google_aw_campaign' ) .'" class="code" />';
-}
-
-
-
-function msp_add_update_stock_widget(){
-    /**
-     * Form for getting stock data from specified vendors
-     */
-    ?>
-    <form id="msp_add_update_stock_form" method="post" action="<?php echo admin_url( 'admin-ajax.php' ) ?>">
-        <p>
-            <label>Vendor: </label>
-            <select name="vendor" >
-                <option value="portwest" selected>Portwest</option>
-                <option value="helly_hansen">Helly Hansen</option>
-            </select>
-        </p>
-        <p>
-            <label>Url: </label>
-            <input type="url" name="url" required/>
-        </p>
-
-        <h3>Extras:</h3>
-        <p>
-            <label>Price</label>
-            <input type="checkbox" name="price" />
-        </p>
-
-        <span class="feedback" style="font-weight: 600; font-color: red; font-size: 18px; "></span>
-        <input type="hidden" name="action" value="msp_admin_sync_vendor" />
-        <button id="submit_update_vendor" type="button" class="button button-primary" style="margin-top: 1rem;">Submit Vendor!</button>
-    </form>
-    <?php
 }
 
 function msp_product_video_callback( $post ){
