@@ -387,7 +387,6 @@ class MSP{
 
 //init
 new MSP();
-add_shortcode( 'contact', 'msp_get_contact_page' );
 
 function pluralize( $count, $str ){
     return ( $count <= 1 ) ? $str : $str . 's'; 
