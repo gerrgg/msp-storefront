@@ -269,8 +269,19 @@ add_action( 'msp_front_page', 'msp_get_random_slider', 30 );
 add_action( 'msp_front_page', 'msp_get_featured_products_silder', 25 );
 add_action( 'msp_front_page', 'msp_get_customer_service_info', 50 );
 
+add_filter( 'woocommerce_structured_data_review', 'msp_sd_reviews', 10, 2 );
+function msp_sd_reviews( $markup, $comment ){
+    // Nothing
+}
+
+
 // debug
-add_action( 'wp_footer', 'msp_add_google_analytics', 100 );
+add_filter( 'wp_footer', 'test_structed_data', 100 );
+
+function test_structed_data(){
+    $data = WC()->structured_data->get_data();
+    var_dump( $data );
+}
 
 //theme options
 if( get_option( 'wc_easy_qty_breaks' ) )
@@ -279,4 +290,5 @@ if( get_option( 'wc_easy_qty_breaks' ) )
 
 if( get_option( 'wc_add_net_30_to_single_product' ) )
     add_action( 'woocommerce_single_product_summary', 'add_net_30', 35 );
+
 

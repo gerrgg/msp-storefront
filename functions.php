@@ -360,6 +360,8 @@ class MSP{
         return $rates;
     }
 
+    
+
 
     public static function get_wrapper_class(){
         return ( is_archive() ) ? 'container-fluid' : 'col-full';
@@ -403,5 +405,23 @@ function sc_add_po_meta_data($order){
 }
 
 
+
+/**
+ * EXTRA
+ */
+
+ add_action( 'woocommerce_single_product_summary', 'msp_warn_about_leadtime', 29 );
+ function msp_warn_about_leadtime(){
+     global $product;
+     
+     // static id to 3m non-stock shipping class
+     $non_stock_item = 1362;
+     $today = date("Y-m-d");// current date;
+     $date = strtotime(date("Y-m-d", strtotime($today)) . " +15 day");
+
+     if( $product->get_shipping_class_id() == $non_stock_item ){
+        echo '<p style="color: red">Product made to order, ships on or before <b>'. date('M d, Y', $date) .'</b>.</p>';
+     }
+ }
 
 

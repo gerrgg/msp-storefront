@@ -9,6 +9,9 @@
  Tags:         light, dark, two-columns, right-sidebar, responsive-layout, accessibility-ready
  Text Domain:  msp
 */
+.single_variation_wrap > .woocommerce-variation-price{
+    font-size: 28px;
+}
 .checkout .form-row{
     display: block;
   }
