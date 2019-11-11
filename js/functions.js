@@ -1,6 +1,7 @@
 jQuery(document).ready(function( $ ){
   var msp = {
       $modal: $('#msp_modal'),
+      $header: $("#mobile-menu"),
 
       init: function(){
           this.init_owl_carousel();
@@ -14,10 +15,21 @@ jQuery(document).ready(function( $ ){
           $('#filter-button').click(function(){
               $('#shop-filters').slideToggle();
           });
+
           $('#msp-contact').on( 'click', 'button.submit', msp.submit_contact_form )
+
+
 
           this.$modal.on( 'show.bs.modal', this.route )
           this.$modal.on( 'submit', 'form', this.submit )
+
+          this.$header.on( 'click', 'li.menu-item-has-children', this.open_nav_child_list )
+      },
+
+      open_nav_child_list: function( e ){
+        $child = $(e.target.children[1]);
+        console.log( e, $child );
+        
       },
 
       init_slideout: function(){

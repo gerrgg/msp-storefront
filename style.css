@@ -111,8 +111,13 @@ a.woocommerce-button.button{
 
 /* Slideout.JS */
 
+
 #mobile-menu{
     display: none;
+}
+
+#mobile-menu a.nav-link{
+    padding: 0;
 }
 
 .mobile-menu-button{

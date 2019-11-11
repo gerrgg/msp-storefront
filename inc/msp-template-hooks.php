@@ -5,6 +5,7 @@ defined( 'ABSPATH' ) || exit;
  * init - maybe move to functions.php
  */
 
+
 add_action( 'init', 'msp_remove_actions' );
 function msp_remove_actions(){
     remove_action( 'storefront_before_content', 'woocommerce_breadcrumb', 10);
@@ -271,16 +272,14 @@ add_action( 'msp_front_page', 'msp_get_customer_service_info', 50 );
 
 add_filter( 'woocommerce_structured_data_review', 'msp_sd_reviews', 10, 2 );
 function msp_sd_reviews( $markup, $comment ){
-    // Nothing
+    // This is an attempt the fix the Reviews Structed Data Error - https://github.com/woocommerce/woocommerce/issues/24950
 }
 
 
 // debug
-add_filter( 'wp_footer', 'test_structed_data', 100 );
+// add_filter( 'wp_footer', 'test_structed_data', 100 );
 
 function test_structed_data(){
-    $data = WC()->structured_data->get_data();
-    var_dump( $data );
 }
 
 //theme options

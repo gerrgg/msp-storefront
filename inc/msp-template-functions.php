@@ -357,9 +357,13 @@ function msp_mobile_menu_header(){
 function msp_mobile_menu(){
     echo '<p class="mobile-label">SHOP BY CATEGORY</p>';
     wp_nav_menu( array(
-        'theme_location' => 'handheld',
-        'menu_id'        => 'mobile-menu-categories',
-        'menu_class'     => 'm-0 list-unstyled mb-2',
+        'theme_location'    => 'handheld',
+        'menu_id'           => 'mobile-menu-categories',
+        'menu_class'        => 'm-0 list-unstyled mb-2',
+        'depth'             => 2,
+        'fallback_cb'       => 'WP_Bootstrap_Navwalker::fallback',
+        'walker'            => new WP_Bootstrap_Navwalker(),
+        
     ));
 }
 
@@ -1048,7 +1052,6 @@ function msp_bulk_discount_table(){
     $enabled = get_post_meta( $product_id, '_bulkdiscount_enabled', true );
     $has_a_rule = ( ! empty( get_post_meta( $product_id, '_bulkdiscount_quantity_1', true ) ) );
 
-
     if( $enabled == 'yes' && $has_a_rule ){
         ?>
         <h3 class="m-2">Buy More, Save Money.</h4>
@@ -1065,8 +1068,9 @@ function msp_bulk_discount_table(){
                 <?php 
                     $qtys = get_bulk_discount_data( $product_id, 'discount' );
                     foreach( $qtys as $value ){
-                        $price = $product->get_price() - $value;
-                        echo '<td>$'. $price .'</td>';
+                        $percent_off = 1 - ($value / 100);
+                        $price = number_format($product->get_price() * $percent_off, 2);
+                        printf("<td>$%s</td>", $price);
                     }
                 ?>
             </tbody>

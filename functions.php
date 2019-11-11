@@ -58,7 +58,7 @@ class MSP{
         add_filter( 'woocommerce_available_payment_gateways', array($this, 'msp_enable_net30'), 999 );
 
         // Edits how discounts prices are shown in cart.
-        add_filter( 'woocommerce_cart_item_price', 'msp_cart_item_price', 100, 3 );
+        // add_filter( 'woocommerce_cart_item_price', 'msp_cart_item_price', 100, 3 );
 
     }
 
@@ -302,6 +302,9 @@ class MSP{
     }
 
     public function register_menus(){
+        // https://github.com/wp-bootstrap/wp-bootstrap-navwalker#installation
+        require_once PATH . '/class-wp-bootstrap-navwalker.php';
+
         // register menu for logged out users
         register_nav_menus( array(
             'logged-out' => __('Secondary menu for logged out users', 'msp')
