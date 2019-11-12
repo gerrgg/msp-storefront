@@ -19,6 +19,8 @@ if( $product->is_type( 'variable' ) ){
             'stock' => $child->get_stock_quantity(),
         );
     }
+} else {
+    return; // dont make tab
 }
 
 $image_src = msp_get_product_image_src( $product->get_image_id(), 'thumbnail' );
@@ -27,8 +29,6 @@ $image_src = msp_get_product_image_src( $product->get_image_id(), 'thumbnail' );
 <div class="tab-pane" id="bulk-tab-content" role="tabpanel" aria-labelledby="bulk-tab">
     <div id="var_bulk_form">
         <?php
-        // TODO: Make price show discount go up or down
-        //<span class=" pl-2 price iww-bulk-price" style="font-size: 18px">$' . $var['price'] . ' </span>
         foreach( $child_vars as $var ){
             if( $var['instock'] == 'instock' ){
                 ?>

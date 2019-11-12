@@ -29,6 +29,7 @@ jQuery(document).ready(function( $ ){
       },
 
       add_to_bulk_list: function( e ){
+        //https://dsgnwrks.pro/snippets/woocommerce-allow-adding-multiple-products-to-the-cart-via-the-add-to-cart-query-string/
         let order_list = [];
         let $input = $(e.target)
 

@@ -3,6 +3,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
+global $product;
 ?>
 
 <!-- Nav tabs -->
@@ -13,12 +14,16 @@ if ( ! defined( 'ABSPATH' ) ) {
         Order
     </a>
   </li>
+
+  <?php if( $product->is_type( 'variable' ) ) : ?>
   <li class="nav-item">
     <a class="nav-link" id="bulk-tab" data-toggle="tab" href="#bulk-tab-content" role="tab" aria-controls="bulk-tab-content" aria-selected="false">
         <i class="fas fa-gifts"></i>    
         Buy in Bulk
     </a>
   </li>
+  <?php endif; ?>
+  
   <li class="nav-item">
     <a class="nav-link" id="quote-tab" data-toggle="tab" href="#quote-tab-content" role="tab" aria-controls="quote-tab-content" aria-selected="false">
         <i class="fas fa-paper-plane"></i>    
