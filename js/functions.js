@@ -2,6 +2,7 @@ jQuery(document).ready(function( $ ){
   var msp = {
       $modal: $('#msp_modal'),
       $header: $("#mobile-menu"),
+      bulk_order_list: {},
 
       init: function(){
           this.init_owl_carousel();
@@ -18,12 +19,43 @@ jQuery(document).ready(function( $ ){
 
           $('#msp-contact').on( 'click', 'button.submit', msp.submit_contact_form )
 
+          $('#bulk-tab-content').on( 'change', '.var-bulk-update', msp.add_to_bulk_list )
 
 
           this.$modal.on( 'show.bs.modal', this.route )
           this.$modal.on( 'submit', 'form', this.submit )
 
           this.$header.on( 'click', 'li.menu-item-has-children', this.open_nav_child_list )
+      },
+
+      add_to_bulk_list: function( e ){
+        let order_list = [];
+        let $input = $(e.target)
+
+        if( +$input.val() > +$input.attr('max') ) $input.val(  +$(this).attr('max') );
+
+        msp.bulk_order_list[$input.attr('id')] = $input.val();
+
+        for (var key in msp.bulk_order_list ){
+          // validation
+          if( msp.bulk_order_list.hasOwnProperty(key) ){
+            // do not add if qty is 0; for accidental clicks.
+            if( msp.bulk_order_list[key] != 0 ){
+              // formatting; if qty is 1, only push the key, not the value for -> woocommerce_maybe_add_multiple_products_to_cart()
+              ( msp.bulk_order_list[key] > 1 ) ? order_list.push( key+':'+msp.bulk_order_list[key] ) : order_list.push( key );
+            }
+          }
+        }
+
+        order_list = order_list.join(',');
+
+        let url = window.location.protocol + '//' + window.location.hostname + '/cart/?add-to-cart=' + order_list + ',';
+        let add_to_cart_str = ( ! order_list.length ) ? '#' : url;
+
+        $( '#iww_bulk_form_submit' ).attr( 'href', add_to_cart_str );
+
+        console.log( add_to_cart_str, order_list );
+
       },
 
       open_nav_child_list: function( e ){

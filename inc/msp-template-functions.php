@@ -1055,8 +1055,9 @@ function msp_bulk_discount_table(){
     if( $enabled == 'yes' && $has_a_rule ){
         ?>
         <h3 class="m-2">Buy More, Save Money.</h4>
-        <table class="table-bordered">
+        <table id="msp-bulk-pricing" class="table-bordered">
             <thead class="bg-dark text-light">
+                <td>QTY</td>
                 <?php 
                     $qtys = get_bulk_discount_data( $product_id, 'quantity' );
                     foreach( $qtys as $value ){
@@ -1065,6 +1066,7 @@ function msp_bulk_discount_table(){
                 ?>
             </thead>
             <tbody>
+                <td>Price</td>
                 <?php 
                     $qtys = get_bulk_discount_data( $product_id, 'discount' );
                     foreach( $qtys as $value ){

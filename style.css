@@ -9,6 +9,24 @@
  Tags:         light, dark, two-columns, right-sidebar, responsive-layout, accessibility-ready
  Text Domain:  msp
 */
+#msp-bulk-pricing th, #msp-bulk-pricing td{
+    text-align: center;
+    font-size: 24px;
+    padding: .25rem;
+}
+
+h1, h2, h3, h4, h5, h6, .wc-block-grid__product-title{
+    margin: 0px;
+}
+
+.nav-pills.bg-dark .nav-link.active, .nav-pills .show > .nav-link{
+    background-color: #e84c3d!important;
+}
+
+.nav-pills.bg-dark .nav-link:not( .disabled ){
+    color: #fff;
+}
+
 .single_variation_wrap > .woocommerce-variation-price{
     font-size: 28px;
 }

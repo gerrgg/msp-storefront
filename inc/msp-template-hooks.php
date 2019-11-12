@@ -290,4 +290,63 @@ if( get_option( 'wc_easy_qty_breaks' ) )
 if( get_option( 'wc_add_net_30_to_single_product' ) )
     add_action( 'woocommerce_single_product_summary', 'add_net_30', 35 );
 
+add_action( 'woocommerce_single_product_summary', 'msp_add_tabs', 11 );
+function msp_add_tabs(){
+    wc_get_template( 'template/single-product-tabs.php' );
+}
+
+
+add_action( 'woocommerce_single_product_summary', 'msp_open_single_product_tabs', 12 );
+function msp_open_single_product_tabs(){
+    /**
+     * @see woocommerce_single_product_summary
+     * Here we are adding tabs to the 'woocommerce_single_product_summary' hook
+     * In this function, we OPEN (but not close) .tab-content so we can add more tabs to this hook
+     */
+    ?>
+    <div class="tab-content">
+        <div class="tab-pane active" id="order-tab-content" role="tabpanel" aria-labelledby="order-tab">
+    <?php
+}    
+
+add_action( 'woocommerce_single_product_summary', 'msp_close_order_tab_content_tag', 50 );
+function msp_close_order_tab_content_tag(){
+    /**
+     * @see woocommerce_single_product_summary
+     * Here we are closing the 'order' tab which is the normal woocommerce stuff you'd expect in this hook (EX. title & rating)
+     */
+    ?>
+        </div> <!-- #order-tab-content -->
+    <?php
+}   
+
+add_action( 'woocommerce_single_product_summary', 'msp_close_single_product_tabs', 9999 );
+function msp_close_single_product_tabs(){
+    /**
+     * Closes the .tab-content div at the end of the hook.
+     */
+    ?>
+        </div> <!-- .tab-content -->
+    <?php
+}
+
+add_action( 'woocommerce_single_product_summary', 'msp_add_bulk_tab', 100 );
+function msp_add_bulk_tab(){
+    /**
+     * Adds the 'bulk' tab content
+     */
+    wc_get_template( 'template/single-product-bulk-tab.php' );
+    ?>
+    <?php
+}
+
+add_action( 'woocommerce_single_product_summary', 'msp_add_quote_tab', 101 );
+function msp_add_quote_tab(){
+    /**
+     * Adds the 'quote' tab content
+     */
+    wc_get_template( 'template/single-product-quote-tab.php' );
+    ?>
+    <?php
+}
 
