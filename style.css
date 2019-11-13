@@ -223,7 +223,7 @@ body.modal-open .slideout-panel {
 
 #mobile-menu li{
     font-size: 16px;
-    padding: .5rem 0;
+    padding: 0px;
     padding-left: 1.5rem;
     font-weight: 400;
 }

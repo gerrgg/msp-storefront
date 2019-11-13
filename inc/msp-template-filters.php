@@ -2,14 +2,6 @@
 
 defined( 'ABSPATH' ) || exit;
 
-function msp_add_bootstrap_cols_to_product(){
-    /**
-     * adds bootstrap grid classes to all category and shop pages.
-     */
-    return ( is_product_category() || is_shop() ) ? array('col-6', 'col-sm-3', 'col-xl-2') : array();
-}
-add_filter('post_class', 'msp_add_bootstrap_cols_to_product', 30, 3);
-
 function msp_woocommerce_product_loop_start(){
     /**
      * opens up any category and shop pages as a boostrap row.
