@@ -140,7 +140,7 @@ a.woocommerce-button.button{
 
 .mobile-menu-button{
     color: #B2DD58;
-    border: 1px solid rgba(255,255,255,0.2);
+    border: 1px solid rgba(0,0,0,0.2);
     margin-right: .5rem;
 }
 
@@ -657,6 +657,10 @@ a[role="button"].link-normal{
 
 /* Small devices (landscape phones, 576px and up) */
 @media (max-width: 576px) {
+
+    .storefront-breadcrumb{
+        display: none; 
+    }
     .owl-item > .product h2.woocommerce-loop-product__title{
         font-size: 13px;
     }
@@ -717,7 +721,7 @@ a[role="button"].link-normal{
         float: right;
     }
     body.single-product h1.product_title{
-        font-size: 2em;
+        font-size: 1.5em;
     }
     .single-product div.product .images, 
     .single-product div.product .summary, 
@@ -769,6 +773,10 @@ a[role="button"].link-normal{
     #fp-customer-service > div > p{
         margin-bottom: 1rem;
     }
+    #msp-bulk-pricing th, #msp-bulk-pricing td{
+        font-size: 18px;
+    }
+
 
 }
 
