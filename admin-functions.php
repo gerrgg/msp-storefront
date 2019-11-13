@@ -352,7 +352,7 @@ class MSP_Admin{
         );
 
 
-        $this->add_settings_field_and_register( 'msp_options', 'theme_options', 'msp', array( 'primary_color', 'link_color', 'header_background', 'header_links', 'footer_background', 'logo_width' ) );
+        $this->add_settings_field_and_register( 'msp_options', 'theme_options', 'msp', array( 'primary_color', 'link_color', 'header_background', 'header_links', 'footer_background', 'logo_width', 'shop_nav_color', 'shop_nav_color_link' ) );
         $this->add_settings_field_and_register( 'msp_options', 'emails', 'msp', array( 'contact_email' ) );
         $this->add_settings_field_and_register( 'msp_options', 'integration', 'integration', array( 'google_analytics_account_id', 'google_recaptcha', 'google_adwords', 'google_aw_campaign' ) );
         $this->add_settings_field_and_register( 'msp_options', 'woocommerce', 'wc', array( 'easy_qty_breaks', 'add_net_30_to_single_product' ) );
@@ -370,7 +370,8 @@ function wc_add_net_30_to_single_product_callback(){
 }
 
 function wc_easy_qty_breaks_callback(){
-    echo '<input name="wc_easy_qty_breaks" id="wc_easy_qty_breaks" type="checkbox" value="'. get_option( 'wc_easy_qty_breaks' ) .'" class="code" />';
+    $option = get_option( 'wc_easy_qty_breaks' );
+    echo '<input name="wc_easy_qty_breaks" id="wc_easy_qty_breaks" type="checkbox" value="1" '. checked(1, $option, false) .' />';
 }
 
 function msp_logo_width_callback(){
@@ -383,6 +384,7 @@ function msp_primary_color_callback(){
 function msp_link_color_callback(){
     echo '<input name="msp_link_color" id="msp_link_color" type="text" value="'. get_option( 'msp_link_color' ) .'" class="color-field code" />';
 }
+
 function msp_header_background_callback(){
     echo '<input name="msp_header_background" id="msp_header_background" type="text" value="'. get_option( 'msp_header_background' ) .'" class="color-field code" />';
 }
@@ -390,6 +392,15 @@ function msp_header_background_callback(){
 function msp_header_links_callback(){
     echo '<input name="msp_header_links" id="msp_header_links" type="text" value="'. get_option( 'msp_header_links' ) .'" class="color-field code" />';
 }
+
+function msp_shop_nav_color_callback(){
+    echo '<input name="msp_shop_nav_color" id="msp_shop_nav_color" type="text" value="'. get_option( 'msp_shop_nav_color' ) .'" class="color-field code" />';
+}
+
+function msp_shop_nav_color_link_callback(){
+    echo '<input name="msp_shop_nav_color_link" id="msp_shop_nav_color_link" type="text" value="'. get_option( 'msp_shop_nav_color_link' ) .'" class="color-field code" />';
+}
+
 
 function msp_footer_background_callback(){
     echo '<input name="msp_footer_background" id="msp_footer_background" type="text" value="'. get_option( 'msp_footer_background' ) .'" class="color-field code" />';

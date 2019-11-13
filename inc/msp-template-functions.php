@@ -882,16 +882,20 @@ function msp_get_shop_subnav(){
     /**
      * Outputs the html for a subnav if applicable
      */
+
+    $bg_color = ( ! empty( get_option( 'msp_shop_nav_color' ) ) ) ? get_option( 'msp_shop_nav_color' ) : '#f7f7f7';
+    $link_color = ( ! empty( get_option( 'msp_shop_nav_color_link' ) ) ) ? get_option( 'msp_shop_nav_color_link' ) : '#333';
+
     $nav_items = msp_get_category_children();
     if( empty( $nav_items ) || wp_is_mobile() ) return;
 
     array_unshift( $nav_items, msp_get_current_category() );
     ?>
-        <nav class="navbar navbar-dark bg-light msp-shop-subnav border-bottom">
+        <nav class="navbar msp-shop-subnav border-bottom" style="background: <?php echo $bg_color ?>">
             <div class="navbar-nav flex-row">
                 <?php foreach( $nav_items as $item ) : ?>
                     <li class="nav-item border-right px-2">
-                        <a class="nav-link" href="<?php echo get_term_link( $item->term_id ) ?>" ><?php echo $item->name ?></a>
+                        <a class="nav-link" href="<?php echo get_term_link( $item->term_id ) ?>" style="color: <?php echo $link_color; ?>"><?php echo $item->name ?></a>
                     </li>
                 <?php endforeach; ?>
             </div>
@@ -985,10 +989,12 @@ function msp_add_google_analytics(){
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-    gtag('config', '<?php echo $google_account['UA'] ?>');
+    <?php if( ! empty( $google_account['UA'] ) ) : ?>
+        gtag('config', '<?php echo $google_account['UA'] ?>');
+    <?php endif; ?>
 
     <?php if( ! empty( $google_account['GA'] ) ) : ?>
-        gtag('config', 'AW-1068755370');
+        gtag('config', $google_account['GA'] );
     <?php endif; ?>
 
     </script>

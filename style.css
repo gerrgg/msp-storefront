@@ -520,7 +520,7 @@ a.woocommerce-LoopProduct-link.woocommerce-loop-product__link > img{
 }
 
 .msp-shop-subnav a.nav-link{
-    color: #333 !important;
+    color: #333;
 }
 
 .msp-shop-subnav > .navbar-nav > li:first-child > a.nav-link{
