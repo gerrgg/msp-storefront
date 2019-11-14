@@ -1289,7 +1289,7 @@ function cheque_payment_method_order_status_to_processing( $order_id ) {
 }
 
 function msp_add_copyright(){
-    $bg_color = get_option( 'msp_primary_color' );
+    $bg_color = get_option( 'msp_copyright_color' );
     $bg_color = ( empty( $bg_color ) ) ? '#333' : $bg_color;
     $copyright_year = date("Y");
     $bbb_link = 'https://www.bbb.org/us/mi/harbor-springs/profile/safety-clothing/michigan-safety-products-0372-38125928/accreditation-information';

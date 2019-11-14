@@ -352,7 +352,7 @@ class MSP_Admin{
         );
 
 
-        $this->add_settings_field_and_register( 'msp_options', 'theme_options', 'msp', array( 'primary_color', 'link_color', 'header_background', 'header_links', 'footer_background', 'logo_width', 'shop_nav_color', 'shop_nav_color_link' ) );
+        $this->add_settings_field_and_register( 'msp_options', 'theme_options', 'msp', array( 'primary_color', 'link_color', 'header_background', 'header_links', 'footer_background', 'logo_width', 'shop_nav_color', 'shop_nav_color_link', 'copyright_color' ) );
         $this->add_settings_field_and_register( 'msp_options', 'emails', 'msp', array( 'contact_email', 'gtin_field' ) );
         $this->add_settings_field_and_register( 'msp_options', 'integration', 'integration', array( 'google_analytics_account_id', 'google_recaptcha', 'google_adwords', 'google_aw_campaign' ) );
         $this->add_settings_field_and_register( 'msp_options', 'woocommerce', 'wc', array( 'easy_qty_breaks', 'add_net_30_to_single_product', 'three_day_shipping_id', 'two_day_shipping_id', 'free_shipping_id', 'ground_shipping_id' ) );
@@ -397,6 +397,11 @@ function msp_logo_width_callback(){
 function msp_primary_color_callback(){
     echo '<input name="msp_primary_color" id="msp_primary_color" type="text" value="'. get_option( 'msp_primary_color' ) .'" class="color-field code" />';
 }
+
+function msp_copyright_color_callback(){
+    echo '<input name="msp_copyright_color" id="msp_copyright_color" type="text" value="'. get_option( 'msp_copyright_color' ) .'" class="color-field code" />';
+}
+
 function msp_link_color_callback(){
     echo '<input name="msp_link_color" id="msp_link_color" type="text" value="'. get_option( 'msp_link_color' ) .'" class="color-field code" />';
 }

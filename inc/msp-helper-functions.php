@@ -481,7 +481,7 @@ function msp_promo_row( $row ){
 	foreach( $row as $link => $image ) : ?>
 		<div class="col-12 col-lg-<?php echo $column_count ?>">
 			<a href="<?php echo get_term_link( $link, 'product_cat' ) ?>">
-				<img src="<?php echo msp_get_product_image_src( $image ) ?>" class="img-thumb mb-2" />
+				<img src="<?php echo msp_get_product_image_src( $image, 'large' ) ?>" class="img-thumb mb-2" />
 			</a>
 		</div>
 	<?php endforeach;
