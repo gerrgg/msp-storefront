@@ -355,7 +355,7 @@ class MSP_Admin{
         $this->add_settings_field_and_register( 'msp_options', 'theme_options', 'msp', array( 'primary_color', 'link_color', 'header_background', 'header_links', 'footer_background', 'logo_width', 'shop_nav_color', 'shop_nav_color_link' ) );
         $this->add_settings_field_and_register( 'msp_options', 'emails', 'msp', array( 'contact_email', 'gtin_field' ) );
         $this->add_settings_field_and_register( 'msp_options', 'integration', 'integration', array( 'google_analytics_account_id', 'google_recaptcha', 'google_adwords', 'google_aw_campaign' ) );
-        $this->add_settings_field_and_register( 'msp_options', 'woocommerce', 'wc', array( 'easy_qty_breaks', 'add_net_30_to_single_product' ) );
+        $this->add_settings_field_and_register( 'msp_options', 'woocommerce', 'wc', array( 'easy_qty_breaks', 'add_net_30_to_single_product', 'three_day_shipping_id', 'two_day_shipping_id', 'free_shipping_id', 'ground_shipping_id' ) );
     }
 }
 
@@ -373,6 +373,22 @@ function wc_easy_qty_breaks_callback(){
     $option = get_option( 'wc_easy_qty_breaks' );
     echo '<input name="wc_easy_qty_breaks" id="wc_easy_qty_breaks" type="checkbox" value="1" '. checked(1, $option, false) .' />';
 }
+
+function wc_free_shipping_id_callback(){
+    echo '<input name="wc_free_shipping_id" id="wc_free_shipping_id" type="text" value="'. get_option( 'wc_free_shipping_id' ) .'" class="code" />';
+}
+
+function wc_ground_shipping_id_callback(){
+    echo '<input name="wc_ground_shipping_id" id="wc_ground_shipping_id" type="text" value="'. get_option( 'wc_ground_shipping_id' ) .'" class="code" />';
+}
+function wc_two_day_shipping_id_callback(){
+    echo '<input name="wc_two_day_shipping_id" id="wc_two_day_shipping_id" type="text" value="'. get_option( 'wc_two_day_shipping_id' ) .'" class="code" />';
+}
+
+function wc_three_day_shipping_id_callback(){
+    echo '<input name="wc_three_day_shipping_id" id="wc_three_day_shipping_id" type="text" value="'. get_option( 'wc_three_day_shipping_id' ) .'" class="code" />';
+}
+
 
 function msp_logo_width_callback(){
     echo '<input name="msp_logo_width" id="msp_logo_width" type="number" value="'. get_option( 'msp_logo_width' ) .'" class="code" />';

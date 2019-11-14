@@ -341,7 +341,19 @@ class MSP{
             'ups_only' => 418
         );
 
+        $shipping_classes = array(
+            'free' => empty( get_option( 'wc_free_shipping_id' ) ) ? '9' : get_option( 'wc_free_shipping_id' ),
+            'ground' => empty( get_option( 'wc_ground_shipping_id' ) ) ? '9' : get_option( 'wc_ground_shipping_id' ),
+            'two_day' => empty( get_option( 'wc_two_day_shipping_id' ) ) ? '' : get_option( 'wc_two_day_shipping_id' ),
+            'three_day' => empty( get_option( 'wc_three_day_shipping_id' ) ) ? '11' : get_option( 'wc_three_day_shipping_id' ),
+        );
+
         $cart_weight = WC()->cart->get_cart_contents_weight();
+
+        if( $cart_weight > 20 ){
+            unset( $rates['flat_rate:' . $shipping_classes['two_day']] );
+            unset( $rates['flat_rate:' . $shipping_classes['three_day']] );
+        }
 
         foreach( WC()->cart->cart_contents as $key => $values ) {
 
@@ -353,7 +365,7 @@ class MSP{
             }
 
             // If any products match the UPS ONLY shipping method, remove free shipping and flat rate ground  
-            if( $values[ 'data' ]->get_shipping_class_id() == $custom_rules['ups_only'] || $cart_weight > 20 ) {
+            if( $values[ 'data' ]->get_shipping_class_id() == $custom_rules['ups_only'] ) {
                 unset( $rates['flat_rate:11']);
                 unset( $rates['free_shipping:9']);
             } else {
