@@ -353,7 +353,7 @@ class MSP_Admin{
 
 
         $this->add_settings_field_and_register( 'msp_options', 'theme_options', 'msp', array( 'primary_color', 'link_color', 'header_background', 'header_links', 'footer_background', 'logo_width', 'shop_nav_color', 'shop_nav_color_link' ) );
-        $this->add_settings_field_and_register( 'msp_options', 'emails', 'msp', array( 'contact_email' ) );
+        $this->add_settings_field_and_register( 'msp_options', 'emails', 'msp', array( 'contact_email', 'gtin_field' ) );
         $this->add_settings_field_and_register( 'msp_options', 'integration', 'integration', array( 'google_analytics_account_id', 'google_recaptcha', 'google_adwords', 'google_aw_campaign' ) );
         $this->add_settings_field_and_register( 'msp_options', 'woocommerce', 'wc', array( 'easy_qty_breaks', 'add_net_30_to_single_product' ) );
     }
@@ -408,6 +408,10 @@ function msp_footer_background_callback(){
 
 function msp_contact_email_callback(){
     echo '<input name="msp_contact_email" id="msp_contact_email" type="email" value="'. get_option( 'msp_contact_email' ) .'" class="code" />';
+}
+
+function msp_gtin_field_callback(){
+    echo '<input name="msp_gtin_field" id="msp_gtin_field" type="text" value="'. get_option( 'msp_gtin_field' ) .'" class="code" />';
 }
 
 function ups_api_key_callback(){

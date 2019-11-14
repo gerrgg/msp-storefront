@@ -27,6 +27,7 @@ if ( wp_is_mobile() ){
  * storefront_after_footer
  * @see msp_shameless_self_plug - 5
  */
+add_action( 'storefront_after_footer', 'msp_add_copyright', 1 );
 add_action( 'storefront_after_footer', 'msp_shameless_self_plug', 5 );
 add_action( 'storefront_after_footer', 'msp_dynamic_modal', 10 );
 
@@ -275,8 +276,7 @@ function msp_sd_reviews( $markup, $comment ){
     // This is an attempt the fix the Reviews Structed Data Error - https://github.com/woocommerce/woocommerce/issues/24950
 }
 
-
-add_action( 'wp_footer', 'msp_add_google_analytics', 100 );
+add_action( 'wp_footer', 'msp_add_google_analytics', 5 );
 
 //theme options
 if( get_option( 'wc_easy_qty_breaks' ) )

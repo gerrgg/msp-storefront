@@ -27,7 +27,7 @@ function msp_header_site_identity(){
     $logo_width = ( ! empty( get_option( 'msp_logo_width' ) ) ) ? get_option( 'msp_logo_width' ) : '100';
 
     if( has_custom_logo() && ! empty( $logo_src ) ){
-        echo '<a class="navbar-brand" style="max-width: '. $logo_width .'px" href="'. get_bloginfo('url') .'"><img src="'. $logo_src[0] .'"/></a>';
+        echo '<a class="navbar-brand" href="'. get_bloginfo('url') .'"><img src="'. $logo_src[0] .'" style="max-width: '. $logo_width .'px"/></a>';
     } else {
         echo '<a class="navbar-brand" href="'. get_bloginfo('url') .'">'. bloginfo( 'sitename' ) .'</a>';
     }
@@ -1286,4 +1286,29 @@ function cheque_payment_method_order_status_to_processing( $order_id ) {
 
     if (  get_post_meta($order_id, '_payment_method', true) == 'cheque' )
         $order->update_status( 'processing' );
+}
+
+function msp_add_copyright(){
+    $bg_color = get_option( 'msp_primary_color' );
+    $bg_color = ( empty( $bg_color ) ) ? '#333' : $bg_color;
+    $copyright_year = date("Y");
+    $bbb_link = 'https://www.bbb.org/us/mi/harbor-springs/profile/safety-clothing/michigan-safety-products-0372-38125928/accreditation-information';
+
+    echo '<div id="msp-copyright" style="background-color: '. $bg_color .'">';
+    echo msp_header_site_identity();
+    printf("<a href='%s' class='text-light d-block'>%s  <i class='fas fa-copyright'></i>  Michigan Safety Products of Flint Inc. </a>", $bbb_link, $copyright_year);
+    echo '</div>';
+}
+
+
+function msp_get_shop_reviews(){
+    $page_id = wc_get_page_id( 'shop' );
+    $comments = get_comments( array( 'post_id' => $page_id, 'number' => 10 ) );
+
+    ?>
+    <h2 class="my-2">Recent Customers ❤️</h2>
+    <div id="happy-comments" class="owl-carousel border-bottom">
+	    <?php wp_list_comments( apply_filters( 'woocommerce_product_review_list_args', array( 'callback' => 'woocommerce_comments' ) ), $comments ); ?>
+    </div>
+    <?php
 }

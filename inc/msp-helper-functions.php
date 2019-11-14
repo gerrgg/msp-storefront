@@ -216,7 +216,10 @@ function msp_get_product_metadata( $product_ids ){
 	 * @param array $product_ids - An array of ids.
 	 * @return array $data_sets - An array of key => value pairs.
 	 */
-    $data_sets = array( 'mpn' => '_sku', 'gtin' => '_woocommerce_gpf_data' );
+	
+	$gtin_field = ( ! empty( get_option( 'msp_gtin_field' ) ) ) ? get_option( 'msp_gtin_field') : '_woocommerce_gpf_data';
+
+    $data_sets = array( 'mpn' => '_sku', 'gtin' => $gtin_field );
     foreach( $data_sets as $label => $meta_key ){
         $str = '';
         foreach( $product_ids as $id ){
@@ -398,6 +401,7 @@ function msp_get_featured_products_silder(){
 }
 
 function woocommerce_maybe_add_multiple_products_to_cart( $url = false ) {
+	// https://dsgnwrks.pro/snippets/woocommerce-allow-adding-multiple-products-to-the-cart-via-the-add-to-cart-query-string/#comment-12236
 	// Make sure WC is installed, and add-to-cart qauery arg exists, and contains at least one comma.
 	if ( ! class_exists( 'WC_Form_Handler' ) || empty( $_REQUEST['add-to-cart'] ) || false === strpos( $_REQUEST['add-to-cart'], ',' ) ) {
 		return;
@@ -409,7 +413,6 @@ function woocommerce_maybe_add_multiple_products_to_cart( $url = false ) {
 	$number      = 0;
 	foreach ( $product_ids as $id_and_quantity ) {
 		// Check for quantities defined in curie notation (<product_id>:<product_quantity>)
-		// https://dsgnwrks.pro/snippets/woocommerce-allow-adding-multiple-products-to-the-cart-via-the-add-to-cart-query-string/#comment-12236
 		$id_and_quantity = explode( ':', $id_and_quantity );
 		$product_id = $id_and_quantity[0];
 		$_REQUEST['quantity'] = ! empty( $id_and_quantity[1] ) ? absint( $id_and_quantity[1] ) : 1;
@@ -444,6 +447,7 @@ function woocommerce_maybe_add_multiple_products_to_cart( $url = false ) {
 add_action( 'wp_loaded', 'woocommerce_maybe_add_multiple_products_to_cart', 15 );
 /**
  * Invoke class private method
+ * https://dsgnwrks.pro/snippets/woocommerce-allow-adding-multiple-products-to-the-cart-via-the-add-to-cart-query-string/#comment-12236
  *
  * @since   0.1.0
  *
@@ -463,4 +467,24 @@ function woo_hack_invoke_private_method( $class_name, $methodName ) {
 	$method->setAccessible( true );
 	$args = array_merge( array( $class_name ), $args );
 	return call_user_func_array( array( $method, 'invoke' ), $args );
+}
+
+
+function msp_promo_row( $row ){
+	/**
+	 * Easily display html which connect links to promotional images.
+	 * @param array - Key value pair format - link_id => media_id  
+	 */
+	$column_count = 12 / sizeof( $row );
+	echo '<div class="row">';
+
+	foreach( $row as $link => $image ) : ?>
+		<div class="col-12 col-lg-<?php echo $column_count ?>">
+			<a href="<?php echo get_term_link( $link, 'product_cat' ) ?>">
+				<img src="<?php echo msp_get_product_image_src( $image ) ?>" class="img-thumb" />
+			</a>
+		</div>
+	<?php endforeach;
+
+	echo '</div>';
 }

@@ -334,6 +334,8 @@ class MSP{
         * and unsets differant methods accordingly.
         * @param array - Shipping methods
         */
+
+        // TODO: Map to Theme Options
         $custom_rules = array(
             'ltl' => 54,
             'ups_only' => 418
@@ -427,4 +429,5 @@ function sc_add_po_meta_data($order){
      }
  }
 
+ 
 

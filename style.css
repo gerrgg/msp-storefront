@@ -9,6 +9,28 @@
  Tags:         light, dark, two-columns, right-sidebar, responsive-layout, accessibility-ready
  Text Domain:  msp
 */
+
+#happy-comments li.review::marker{
+    display: none;
+    content: "";
+}
+
+#happy-comments img.avatar{
+    display: none;
+}
+
+#happy-comments .description p::after, #happy-comments .description p::before{
+    content: '"';
+}
+
+#msp-copyright{
+    text-align: center;
+}
+
+footer#colophon .widget{
+    margin: 0px;
+}
+
 #msp-bulk-pricing th, #msp-bulk-pricing td{
     text-align: center;
     font-size: 24px;
@@ -135,7 +157,6 @@ a.woocommerce-button.button{
 }
 
 #mobile-menu a.nav-link{
-    padding: 0;
 }
 
 .mobile-menu-button{
@@ -223,7 +244,6 @@ body.modal-open .slideout-panel {
 
 #mobile-menu li{
     font-size: 16px;
-    padding: 0px;
     padding-left: 1.5rem;
     font-weight: 400;
 }
@@ -550,15 +570,6 @@ a.woocommerce-LoopProduct-link.woocommerce-loop-product__link > img{
     border-top: 1px solid rgba(0,0,0,0.1);
     border-bottom: unset;
     background-color: #f7f7f7;
-}
-#custom_html-2{
-    margin: 0px;
-}
-
-#custom_html-2 > .textwidget.custom-html-widget{
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
 }
 
 .footer-logo{
