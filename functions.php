@@ -45,7 +45,7 @@ class MSP{
         // modifies default password strength
         add_filter( 'woocommerce_min_password_strength', array( $this, 'msp_password_strength' ) );
         // Changes the class of inputs in checkout
-        add_filter( 'woocommerce_form_field_args', array( $this, 'msp_form_field_args' ), 10, 3 );
+        // add_filter( 'woocommerce_form_field_args', array( $this, 'msp_form_field_args' ), 10, 3 );
         // Add custom tabs to single product
         add_filter( 'woocommerce_product_tabs', array( $this, 'msp_product_tabs' ) );
         // Add a coondition for which shipping options are presented based on shipping class
@@ -53,7 +53,7 @@ class MSP{
         // Change how many columns are in the footer
         add_filter( 'storefront_footer_widget_columns', function(){ return 1; } );
         // Changes the order of fields in checkout
-        add_filter( 'woocommerce_checkout_fields', array( $this, 'msp_checkout_fields' ) );
+        add_filter( 'woocommerce_checkout_fields', array( $this, 'msp_checkout_fields' ), 100 );
         // Adds a condition for which payment options
         add_filter( 'woocommerce_available_payment_gateways', array($this, 'msp_enable_net30'), 999 );
 
@@ -97,18 +97,29 @@ class MSP{
         * @param array - The default woocommerce fields
         */
 
+        // var_dump( $fields );
+
         // Move email to top for capturing abandoned carts
         $fields['billing']['billing_email']['priority'] = 1;
 
         $fields['order']['order_comments']['placeholder'] = 'Anything we should know? Need your order by a specific day?';
-
+        $fields['order']['order_comments']['class'][] = "w-100";
+        
         // Add purchase field
         $fields['billing']['billing_po'] = array(
             'label'     => __('Purchase Order', 'woocommerce'),
             'required'  => false,
-            'class'     => array('col-12'),
+            'class'     => array('col-12 p-0'),
             'priority'	=> 100,
         );
+
+
+        $keys = array( 'billing', 'shipping' );
+        foreach( $keys as $key ){
+            $fields[$key][$key . '_first_name']['class'][] = 'col-6 p-0';
+            $fields[$key][$key . '_last_name']['class'][] = 'col-6 p-0';
+        }
+        
 
         return $fields;
     }
@@ -171,6 +182,8 @@ class MSP{
                     border-bottom: 3px solid $color!important;
                 }
 
+                .woocommerce-info{ background-color: $color!important }
+
                 .navbar-light .navbar-nav .nav-link:hover,
                 .navbar-light .navbar-nav .nav-link:active,
                 .navbar-nav .active>.nav-link,
@@ -210,6 +223,17 @@ class MSP{
                 }
                 
             ";
+        }
+
+        if( ! empty( get_option( 'msp_footer_background' ) ) ){
+            $bg_color = get_option( 'msp_footer_background' );
+            $css .= "footer.site-footer{ background-color: $bg_color }";
+        }
+
+        if( ! empty( get_option( 'msp_footer_link_color' ) ) ){
+            $link_color = get_option( 'msp_footer_link_color' );
+            $css .= "footer.site-footer a, footer.site-footer,
+            footer.site-footer h1, footer.site-footer h2, footer.site-footer h3, footer.site-footer h4, footer.site-footer h5, .site-footer h6 { color: $link_color!important }";
         }
 
         wp_register_style( 'msp', false );

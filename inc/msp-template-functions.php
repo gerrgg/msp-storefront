@@ -33,7 +33,6 @@ function msp_header_site_identity(){
     }
 }
 
-
 /**
  * Opens the header middle wrapping div
  */
@@ -979,24 +978,22 @@ function msp_add_google_analytics(){
         'GA' =>  get_option( 'integration_google_adwords' ),
     );
 
-    if( empty( $google_account['UA'] ) ) return;
+    if( empty( $google_account['UA'] ) ) return; ?>
 
-    ?>
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=<?php echo $google_account['UA'] ?>"></script>
 
     <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    <?php if( ! empty( $google_account['UA'] ) ) : ?>
-        gtag('config', '<?php echo $google_account['UA'] ?>');
-    <?php endif; ?>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        <?php if( ! empty( $google_account['UA'] ) ) : ?>
+            gtag('config', '<?php echo $google_account['UA'] ?>');
+        <?php endif; ?>
 
-    <?php if( ! empty( $google_account['GA'] ) ) : ?>
-        gtag('config', $google_account['GA'] );
-    <?php endif; ?>
-
+        <?php if( ! empty( $google_account['GA'] ) ) : ?>
+            gtag('config', '<?php echo $google_account['GA'] ?>' );
+        <?php endif; ?>
     </script>
 
     <?php
@@ -1289,14 +1286,17 @@ function cheque_payment_method_order_status_to_processing( $order_id ) {
 }
 
 function msp_add_copyright(){
+    /**
+     * Connected to theme options. Gives the Admin a chance to change colors.
+     */
     $bg_color = get_option( 'msp_copyright_color' );
-    $bg_color = ( empty( $bg_color ) ) ? '#333' : $bg_color;
+    $link_color = get_option( 'msp_copyright_link_color' );
     $copyright_year = date("Y");
     $bbb_link = 'https://www.bbb.org/us/mi/harbor-springs/profile/safety-clothing/michigan-safety-products-0372-38125928/accreditation-information';
 
     echo '<div id="msp-copyright" style="background-color: '. $bg_color .'">';
     echo msp_header_site_identity();
-    printf("<a href='%s' class='text-light d-block'>%s  <i class='fas fa-copyright'></i>  Michigan Safety Products of Flint Inc. </a>", $bbb_link, $copyright_year);
+    printf("<a href='%s' class='d-block' style='color: $link_color'>%s  <i class='fas fa-copyright'></i>  Michigan Safety Products of Flint Inc. </a>", $bbb_link, $copyright_year);
     echo '</div>';
 }
 

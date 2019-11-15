@@ -2,6 +2,7 @@ jQuery(document).ready(function( $ ){
   var msp = {
       $modal: $('#msp_modal'),
       $header: $("#mobile-menu"),
+      $checkout_fields: $('#customer_details > div:first-child'),
       bulk_order_list: {},
 
       init: function(){
@@ -10,21 +11,24 @@ jQuery(document).ready(function( $ ){
 
           // $(document.body).on( 'click', 'i.msp-star-rating', msp.bind_create_review_star_buttons )
           // $('#msp_review').on( 'click', '.remove-product-image-from-review', msp.delete_user_product_image )
+
           $('#msp_submit_question').on( 'blur', 'input[name="question"]', msp.customer_faq_validate_question )
           $('#msp_submit_question').on( 'click', 'button', msp.customer_submit_question )
           $('#msp_customer_faq').on( 'click', '.msp-submit-answer', msp.customer_submit_awnser )
+
           $('#filter-button').click(function(){
               $('#shop-filters').slideToggle();
           });
+
+          // makes the update shipping options more consistant.
+          this.$checkout_fields.on( 'focusout', 'input', function(){ $(document.body).trigger('update_checkout') } );
 
           $('#msp-contact').on( 'click', 'button.submit', msp.submit_contact_form )
 
           $('#bulk-tab-content').on( 'change', '.var-bulk-update', msp.add_to_bulk_list )
 
-
           this.$modal.on( 'show.bs.modal', this.route )
           this.$modal.on( 'submit', 'form', this.submit )
-
           this.$header.on( 'click', 'li.menu-item-has-children', this.open_nav_child_list )
       },
 
