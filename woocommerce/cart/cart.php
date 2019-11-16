@@ -121,6 +121,12 @@ do_action( 'woocommerce_before_cart' ); ?>
 
                     <?php do_action( 'woocommerce_cart_contents' ); ?>
 
+                    <button type="submit" class="button" name="update_cart" value="<?php esc_attr_e( 'Update cart', 'woocommerce' ); ?>"><?php esc_html_e( 'Update cart', 'woocommerce' ); ?></button>
+
+                    <?php do_action( 'woocommerce_cart_actions' ); ?>
+
+                    <?php wp_nonce_field( 'woocommerce-cart', 'woocommerce-cart-nonce' ); ?>
+                    
                     <?php do_action( 'woocommerce_after_cart_contents' ); ?>
                 <?php do_action( 'woocommerce_after_cart_table' ); ?>
             </div>
