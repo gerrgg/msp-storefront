@@ -1103,11 +1103,11 @@ function msp_get_customer_service_info(){
     /**
      * HTML block for front page
      */
-    $img = wp_get_attachment_image_src( 6562 );
+    $img = URI . '/assets/cs.png';
     $contact = get_option( 'msp_contact_email' );
     ?>
     <div id="fp-customer-service-top" class="d-block d-md-flex justify-content-center align-items-center text-center">
-        <img src="<?php echo $img[0] ?>" />
+        <img src="<?php echo $img ?>" />
         <div class="pl-md-4">
             <h2 class="m-0">Veteran Owned & Operated</h2>
             <p class="lead m-0">Four guys in a office somewhere.</p>

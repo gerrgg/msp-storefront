@@ -6,12 +6,17 @@ defined( 'ABSPATH' ) || exit;
 
 //globals
 define('URI', get_stylesheet_directory_uri() );
+// URI => http://one.wordpress.test/wp-content/themes/msp-storefront
+
+
 define('PATH', get_stylesheet_directory() );
+// PATH => /srv/www/wordpress-one/public_html/wp-content/themes/msp-storefront 
 
 //require
 require_once( PATH . '/vendor/wp-bootstrap-navwalker-master/class-wp-bootstrap-navwalker.php' );
 require_once( PATH . '/admin-functions.php' );
 require_once( PATH . '/inc/msp-template-hooks.php' );
+require_once( PATH . '/inc/msp-front-page-hooks.php' );
 require_once( PATH . '/inc/msp-template-functions.php' );
 require_once( PATH . '/inc/msp-template-filters.php' );
 require_once( PATH . '/inc/msp-helper-functions.php' );
