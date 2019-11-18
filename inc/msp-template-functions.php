@@ -151,7 +151,12 @@ function get_msp_quote_find_product_id_form(){
  * Processes the data passed from the get_msp_quote_form, formats it and delivers to admin_email.
  */
 function msp_submit_bulk_form(){
-    $sitename = bloginfo( 'sitename' );
+    $to = get_option( 'msp_contact_email' );
+
+    $headers = array('Content-Type: text/html; charset=UTF-8');
+
+    $sitename = get_bloginfo( 'name' );
+
     $products_arr = array();
     foreach( $_POST['product'] as $id => $qty ){
         if( ! empty( $qty ) ){
@@ -170,7 +175,7 @@ function msp_submit_bulk_form(){
         <h2>Ship To</h2>
         <p>Reply To: <?php echo $_POST['email'] ?></p>
         <address>
-            <?php echo $_POST['street'] . ', ' . $_POST['zip'] ?>
+            Address: <?php echo $_POST['street'] . ', ' . $_POST['zip'] ?>
         <address>
         <hr>
         <table>
@@ -192,8 +197,8 @@ function msp_submit_bulk_form(){
         <?php
         $html = ob_get_clean();
         $customer_msg = "<p>We got your message, expect a response in 1-3 business days. Your quote is below: </p>";
-        wp_mail( get_option('admin_email'), $sitename . ' - Quote Request', $html );
-        wp_mail( $_POST['email'], 'We got your quote request!', $customer_msg . $html );
+        wp_mail( get_option('admin_email'), $sitename . ' - Quote Request', $html, $headers );
+        wp_mail( $_POST['email'], 'We got your quote request!', $customer_msg . $html, $headers );
         wp_redirect( '/' );
     }
 }

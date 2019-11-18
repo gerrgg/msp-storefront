@@ -1,8 +1,9 @@
-<?php
-get_header();
+<?php get_header(); ?>
 
-do_action( 'msp_front_page' );
+<div id="msp-front-page">
 
-get_footer(); 
-?>
+<?php do_action( 'msp_front_page' ); ?>
+
+<?php get_footer(); 
+
 

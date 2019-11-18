@@ -96,7 +96,7 @@ dl.variation, dl.variation dd, dl.variation p, .product-name{
 }
 
 #order_comments{
-    font-size: 26px;
+    font-size: 22px;
 }
 
 .woocommerce-cart-form{
@@ -181,6 +181,10 @@ input[type="text"], input[type="number"], input[type="email"], input[type="tel"]
 
 #happy-comments .description p::after, #happy-comments .description p::before{
     content: '"';
+}
+
+#happy-comments .comment-text .description{
+    max-height: 60px;
 }
 
 #msp-copyright{
@@ -841,6 +845,10 @@ p.create-account{
 
 /* Small devices (landscape phones, 576px and up) */
 @media (max-width: 576px) {
+
+    #customer_details > div:first-child{
+        order: 2;
+    }
     .storefront-breadcrumb{
         display: none; 
     }
