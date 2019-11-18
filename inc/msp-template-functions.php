@@ -152,6 +152,7 @@ function get_msp_quote_find_product_id_form(){
  */
 function msp_submit_bulk_form(){
     $to = get_option( 'msp_contact_email' );
+    if( empty( $to ) ) $to = get_option( 'admin_email' );
 
     $headers = array('Content-Type: text/html; charset=UTF-8');
 
@@ -197,7 +198,7 @@ function msp_submit_bulk_form(){
         <?php
         $html = ob_get_clean();
         $customer_msg = "<p>We got your message, expect a response in 1-3 business days. Your quote is below: </p>";
-        wp_mail( get_option('admin_email'), $sitename . ' - Quote Request', $html, $headers );
+        wp_mail( $to, $sitename . ' - Quote Request', $html, $headers );
         wp_mail( $_POST['email'], 'We got your quote request!', $customer_msg . $html, $headers );
         wp_redirect( '/' );
     }

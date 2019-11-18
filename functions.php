@@ -1,7 +1,4 @@
 <?php 
-/**
- * 
- */
 defined( 'ABSPATH' ) || exit;
 
 //globals
