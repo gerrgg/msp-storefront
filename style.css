@@ -3,13 +3,23 @@
  Description:  "Michigan Safety Products" flavored Storefront Theme.
  Author:       Greg Bastianelli
  Template:     storefront
- Version:      1.84
+ Version:      1.85
  License:      GNU General Public License v2 or later
  License URI:  http://www.gnu.org/licenses/gpl-2.0.html
  Tags:         light, dark, two-columns, right-sidebar, responsive-layout, accessibility-ready
  Text Domain:  msp
 */
 
+.woocommerce-cart-form__cart-item img{
+    max-width: 150px;
+}
+
+.product .single_add_to_cart_button,
+div.wc-proceed-to-checkout > a.checkout-button,
+#place_order{
+    background-color: #1d3593;
+    color: #fff;
+}
 .cart-sub-total{
     font-size: 28px;
 }
@@ -132,7 +142,7 @@ body.storefront-full-width-content.woocommerce-cart .entry-header{
 }
 
 .woocommerce-message, .woocommerce-info, .woocommerce-error, .woocommerce-noreviews, p.no-comments{
-    padding: 1rem;
+    padding: .25rem;
     margin-bottom: .5rem;
 }
 
@@ -580,8 +590,6 @@ img.avatar.avatar-60{
     font-weight: 600;
 }
 
-
-
 .msp-dropzone{
     min-height: 150px;
     border: 2px solid rgba(0,0,0,0.3);
@@ -839,6 +847,11 @@ p.create-account{
     .owl-item > .product h2.woocommerce-loop-product__title{
         font-size: 13px;
     }
+
+    .woocommerce-loop-product__title{
+        font-size: 16px;
+    }
+
     .product-slider p.price span.woocommerce-Price-amount{
         font-size: 15px;
     }
@@ -952,7 +965,15 @@ p.create-account{
         font-size: 18px;
     }
 
+    #single-product-nav-tabs a.nav-link{
+        padding: .25rem .5rem;
+    }
 
+    .woocommerce-cart-form__cart-item img{
+        max-width: 100px;
+    }
+
+    
 }
 
 

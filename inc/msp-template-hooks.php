@@ -192,6 +192,12 @@ add_action( 'woocommerce_single_product_summary', 'msp_show_product_size_guide_b
 remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_price', 10 );
 add_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_price', 25 );
 add_action( 'woocommerce_single_product_summary', 'msp_bulk_discount_table', 26 );
+add_action( 'woocommerce_single_product_summary', 'msp_add_tabs', 11 );
+add_action( 'woocommerce_single_product_summary', 'msp_open_single_product_tabs', 12 );
+add_action( 'woocommerce_single_product_summary', 'msp_close_order_tab_content_tag', 50 );
+add_action( 'woocommerce_single_product_summary', 'msp_close_single_product_tabs', 9999 );
+add_action( 'woocommerce_single_product_summary', 'msp_add_bulk_tab', 100 );
+add_action( 'woocommerce_single_product_summary', 'msp_add_quote_tab', 101 );
 
 /**
  * msp_before_create_review_form
@@ -260,23 +266,9 @@ add_action( 'woocommerce_before_single_product_summary', 'woocommerce_breadcrumb
 add_action( 'woocommerce_before_main_content', 'msp_get_shop_subnav', 5 );
 
 
-/**
- * msp_front_page
- */
-// add_action( 'msp_front_page', 'msp_get_departments_silder', 10 );
-add_action( 'msp_front_page', 'add_promo_row', 12, 1 );
-add_action( 'msp_front_page', 'msp_get_random_slider', 15 );
-add_action( 'msp_front_page', 'add_promo_row', 18, 1 );
-add_action( 'msp_front_page', 'msp_get_random_slider', 30 );
-add_action( 'msp_front_page', 'msp_get_featured_products_silder', 25 );
-add_action( 'msp_front_page', 'msp_get_customer_service_info', 50 );
-
-add_filter( 'woocommerce_structured_data_review', 'msp_sd_reviews', 10, 2 );
-function msp_sd_reviews( $markup, $comment ){
-    // This is an attempt the fix the Reviews Structed Data Error - https://github.com/woocommerce/woocommerce/issues/24950
-}
-
 add_action( 'wp_footer', 'msp_add_google_analytics', 5 );
+add_action( 'wp_footer', 'bbloomer_cart_refresh_update_qty' ); 
+
 
 //theme options
 if( get_option( 'wc_easy_qty_breaks' ) )
@@ -286,102 +278,57 @@ if( get_option( 'wc_easy_qty_breaks' ) )
 if( get_option( 'wc_add_net_30_to_single_product' ) )
     add_action( 'woocommerce_single_product_summary', 'add_net_30', 35 );
 
-add_action( 'woocommerce_single_product_summary', 'msp_add_tabs', 11 );
-function msp_add_tabs(){
-    wc_get_template( 'template/single-product-tabs.php' );
-}
 
 
-add_action( 'woocommerce_single_product_summary', 'msp_open_single_product_tabs', 12 );
-function msp_open_single_product_tabs(){
-    /**
-     * @see woocommerce_single_product_summary
-     * Here we are adding tabs to the 'woocommerce_single_product_summary' hook
-     * In this function, we OPEN (but not close) .tab-content so we can add more tabs to this hook
-     */
-    ?>
-    <div class="tab-content">
-        <div class="tab-pane active" id="order-tab-content" role="tabpanel" aria-labelledby="order-tab">
-    <?php
-}    
 
-add_action( 'woocommerce_single_product_summary', 'msp_close_order_tab_content_tag', 50 );
-function msp_close_order_tab_content_tag(){
-    /**
-     * @see woocommerce_single_product_summary
-     * Here we are closing the 'order' tab which is the normal woocommerce stuff you'd expect in this hook (EX. title & rating)
-     */
-    ?>
-        </div> <!-- #order-tab-content -->
-    <?php
-}   
-
-add_action( 'woocommerce_single_product_summary', 'msp_close_single_product_tabs', 9999 );
-function msp_close_single_product_tabs(){
-    /**
-     * Closes the .tab-content div at the end of the hook.
-     */
-    ?>
-        </div> <!-- .tab-content -->
-    <?php
-}
-
-add_action( 'woocommerce_single_product_summary', 'msp_add_bulk_tab', 100 );
-function msp_add_bulk_tab(){
-    /**
-     * Adds the 'bulk' tab content
-     */
-    wc_get_template( 'template/single-product-bulk-tab.php' );
-    ?>
-    <?php
-}
-
-add_action( 'woocommerce_single_product_summary', 'msp_add_quote_tab', 101 );
-function msp_add_quote_tab(){
-    /**
-     * Adds the 'quote' tab content
-     */
-    wc_get_template( 'template/single-product-quote-tab.php' );
-    ?>
-    <?php
-}
-
-add_filter( 'the_content', 'msp_maybe_add_tab_info' );
-function msp_maybe_add_tab_info( $content ){
-    /**
-     * This filter grabs any additional information from yikes_product_tabs plugin.
-     * I stopped using plugin.
-     */
-
-    if( is_product() ){
-        global $product;
-    
-        $plugin_tabs = get_post_meta( $product->get_id(), 'yikes_woo_products_tabs' );
-    
-        if( ! empty( $plugin_tabs ) ){
-            foreach( $plugin_tabs[0] as $tab ){
-                $content .= '<h4 class="mb-2">'. $tab['title'] .'</h4>' . $tab['content'];
-            }
-        }
-    }
-    
-    return $content;
-}
-
-
-add_action( 'wp_footer', 'bbloomer_cart_refresh_update_qty' ); 
- 
-function bbloomer_cart_refresh_update_qty() { 
-   if (is_cart()) { 
-      ?> 
-      <script type="text/javascript"> 
-         jQuery('div.woocommerce').on('click', 'input.qty', function(){ 
-            jQuery("[name='update_cart']").trigger("click"); 
-         }); 
-      </script> 
-      <?php 
-   } 
-}
 
 remove_action( 'woocommerce_cart_collaterals', 'woocommerce_cross_sell_display' );
 add_action( 'woocommerce_cart_collaterals', 'woocommerce_cross_sell_display', 100 );
+
+// MSP FRONT PAGE - FRONT-PAGE HOOKS - FRONT-PAGE.PHP
+// Leave functions here for easy access. :D
+
+add_action( 'msp_front_page', 'msp_get_products_slider_1', 5 );
+function msp_get_products_slider_1(){
+    msp_get_products_slider( array( '19512', '13281', '9021', '13373', '19512', '15528', '13265' ), "🧥 Winter Jacket Sale 🧥" );
+}
+
+add_action( 'msp_front_page', 'msp_promo_row_1', 10 );
+function msp_promo_row_1(){
+    msp_promo_row( array( '1282' => 34373, '784' => 34372, '817' => 34351 ) );
+}
+
+add_action( 'msp_front_page', 'msp_get_products_slider_2', 15 );
+function msp_get_products_slider_2(){
+    msp_get_products_slider( array( '15055', '15024', '14994', '14972', '19437', '18377', '15093', '15159' ), "These baselayers feel INCREDIBLE 👍👍" );
+}
+
+add_action( 'msp_front_page', 'msp_promo_row_2', 20 );
+function msp_promo_row_2(){
+    msp_promo_row( array( '794' => 34345, '796' => 34346, '801' => 34347, '1497' => 34342 ) );
+}
+
+add_action( 'msp_front_page', 'msp_get_products_slider_3', 25 );
+function msp_get_products_slider_3(){
+    msp_get_products_slider( array( '13565', '17714', '9301', '4231', '4338', '18377', '17999', '17817' ), "❄️👖 Snow pants make winter <i>better</i>" );
+}
+
+add_action( 'msp_front_page', 'msp_promo_row_3', 30 );
+function msp_promo_row_3(){
+    msp_promo_row( array( '1620' => 34349, '1617' => 34352) );
+}
+
+add_action( 'msp_front_page', 'msp_get_products_slider_4', 35 );
+function msp_get_products_slider_4(){
+    msp_get_products_slider( array( '12806', '13588', '12789', '17263', '18046'), "👷 Body Warming Vests" );
+}
+
+add_action( 'msp_front_page', 'msp_get_products_slider_5', 40 );
+function msp_get_products_slider_5(){
+    msp_get_products_slider( array( '21204', '14331', '34535', '15233', '14394', '14457', '14447', '14471'), "Warm Hands? No Problem. 🔥🔥" );
+}
+
+add_action( 'msp_front_page', 'msp_get_shop_reviews', 45 );
+add_action( 'msp_front_page', 'msp_get_customer_service_info', 50 );
+
+

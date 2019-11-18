@@ -34,3 +34,32 @@ function msp_products_per_page(){
     return 30;
 }
 add_filter('loop_shop_per_page', 'msp_products_per_page', 999);
+
+
+add_filter( 'wc_add_to_cart_message', 'remove_add_to_cart_message' );
+
+function remove_add_to_cart_message() {
+    return;
+}
+
+add_filter( 'the_content', 'msp_maybe_add_tab_info' );
+function msp_maybe_add_tab_info( $content ){
+    /**
+     * This filter grabs any additional information from yikes_product_tabs plugin.
+     * I stopped using plugin.
+     */
+
+    if( is_product() ){
+        global $product;
+    
+        $plugin_tabs = get_post_meta( $product->get_id(), 'yikes_woo_products_tabs' );
+
+        if( ! empty( $plugin_tabs ) ){
+            foreach( $plugin_tabs[0] as $tab ){
+                $content .= '<h4 class="mb-2">'. $tab['title'] .'</h4>' . $tab['content'];
+            }
+        }
+    }
+    
+    return $content;
+}
