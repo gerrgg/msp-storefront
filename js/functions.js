@@ -272,6 +272,19 @@ if( $('#msp_select2_products').length != 0 ){
   });
 }
 
+var max_chars = 5;
+
+$('#billing_postcode').keydown( function(e){
+    if ($(this).val().length >= max_chars) {
+        $(this).val($(this).val().substr(0, max_chars));
+    }
+});
+
+$('#billing_postcode').keyup( function(e){
+    if ($(this).val().length >= max_chars) {
+        $(this).val($(this).val().substr(0, max_chars));
+    }
+});
 
 
 });

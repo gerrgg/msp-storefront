@@ -205,6 +205,11 @@ h1, h2, h3, h4, h5, h6, .wc-block-grid__product-title{
     margin: 0px;
 }
 
+.msp-tab-content h2{
+    margin-bottom: .5rem;
+    font-weight: 800;
+}
+
 .nav-pills.bg-dark .nav-link.active, .nav-pills .show > .nav-link{
     background-color: #e84c3d!important;
 }
@@ -504,7 +509,7 @@ a.add_to_cart_button,
 }
 
 #order_review{
-    width: unset;
+    width: auto;
 }
 
 #reviews .star-rating{
@@ -846,9 +851,7 @@ p.create-account{
 /* Small devices (landscape phones, 576px and up) */
 @media (max-width: 576px) {
 
-    #customer_details > div:first-child{
-        order: 2;
-    }
+
     .storefront-breadcrumb{
         display: none; 
     }
