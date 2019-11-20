@@ -238,7 +238,8 @@ class MSP_Admin{
             'wrapper_class' => 'form-field-wide',
         ) );
 
-        echo '<button class="button button-primary" style="width: 100%; margin-top: 1rem;">Send Tracking</button>';
+        echo '<button class="button button-primary" style="width: 100%; margin-top: 1rem;">Post Tracking</button>';
+        echo '<small><b>UPDATE: Nov 20, 2019</b> - This button NO LONGER sends the tracking link. Change the status to \'Complete\' to send tracking to customer. ❤️ Greg</small>';
     }
 
 
@@ -571,7 +572,7 @@ function sc_save_tracking_details( $ord_id ){
     update_post_meta( $ord_id, 'shipper', $shipper );
   }
 
-  if ( isset( $_POST[ 'tracking' ] ) && !empty( $_POST[ 'tracking' ] ) ){
+  if ( isset( $_POST[ 'tracking' ] ) && ! empty( $_POST[ 'tracking' ] ) ){
     $tracking = wc_clean( $_POST[ 'tracking' ] );
     update_post_meta( $ord_id, 'tracking', $tracking );
   }
@@ -580,12 +581,32 @@ function sc_save_tracking_details( $ord_id ){
     $order = wc_get_order( $ord_id );
     $link = sc_make_tracking_link( $shipper, $tracking );
     update_post_meta( $ord_id, 'tracking_link', $link );
-    $user = $order->get_user();
-    $note = 'Hello.<br> Your order has shipped and can be tracked using the link below.';
-    $note .= '<p style="text-align: center;"><table cellspacing="0" cellpadding="0" style="text-align: center; margin: 10px 0px;"><tr align="center"><td align="center" width="300" height="40" bgcolor="#E84C3D" style="-webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px; color: #ffffff; display: block;"><a href="'.$link.'" style="font-size:16px; text-align: center; font-weight: bold; font-family: Helvetica, Arial, sans-serif; text-decoration: none; line-height:40px; width:100%; display:inline-block"><span style="color: #FFFFFF">Track Package</span></a></td></tr></table></p>';
-    $order->add_order_note( $note, 1 );
   }
 }
+
+
+/**
+ * Add new WooCommerce Twilio message variables.
+ * Adds shipping method provider, Sequential Order Numbers support, and customer first name.
+ *
+ * Can work with any custom order meta as well.
+ *
+ * @param string $message the SMS message
+ * @param \WC_Order $order the order object
+ * @return string updated message
+ */
+function sv_wc_twilio_sms_variable_replacement( $message, $order ) {
+
+    // Shipment tracking: use first package
+    $tracking_link = get_post_meta( $order->get_id(), 'tracking_link', true );
+    if( ! empty( $tracking_link ) ){
+        $message = str_replace( '%tracking_link%', $tracking_link, $message );
+    }
+
+	return $message;
+}
+add_filter( 'wc_twilio_sms_customer_sms_before_variable_replace', 'sv_wc_twilio_sms_variable_replacement', 10, 2 );
+
 
 function sc_make_tracking_link( $shipper, $tracking ){
   $base_urls = array(
