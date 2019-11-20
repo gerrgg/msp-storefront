@@ -13,7 +13,6 @@ define('PATH', get_stylesheet_directory() );
 require_once( PATH . '/vendor/wp-bootstrap-navwalker-master/class-wp-bootstrap-navwalker.php' );
 require_once( PATH . '/admin-functions.php' );
 require_once( PATH . '/inc/msp-template-hooks.php' );
-require_once( PATH . '/inc/msp-front-page-hooks.php' );
 require_once( PATH . '/inc/msp-template-functions.php' );
 require_once( PATH . '/inc/msp-template-filters.php' );
 require_once( PATH . '/inc/msp-helper-functions.php' );
@@ -46,8 +45,6 @@ class MSP{
         add_action( 'wp_footer', array( $this, 'add_recaptcha_script_to_footer' ) );
         // modifies default password strength
         add_filter( 'woocommerce_min_password_strength', array( $this, 'msp_password_strength' ) );
-        // Changes the class of inputs in checkout
-        // add_filter( 'woocommerce_form_field_args', array( $this, 'msp_form_field_args' ), 10, 3 );
         // Add custom tabs to single product
         add_filter( 'woocommerce_product_tabs', array( $this, 'msp_product_tabs' ) );
         // Add a coondition for which shipping options are presented based on shipping class
@@ -58,9 +55,6 @@ class MSP{
         add_filter( 'woocommerce_checkout_fields', array( $this, 'msp_checkout_fields' ), 100 );
         // Adds a condition for which payment options
         add_filter( 'woocommerce_available_payment_gateways', array($this, 'msp_enable_net30'), 999 );
-
-        // Edits how discounts prices are shown in cart.
-        // add_filter( 'woocommerce_cart_item_price', 'msp_cart_item_price', 100, 3 );
 
     }
 
@@ -194,7 +188,7 @@ class MSP{
                 {
                     color: $color!important;
                 }
-
+                .nav-pills.bg-dark .nav-link.active, .nav-pills .show > .nav-link{ background-color: $color!important; }
                 
             ";
         }

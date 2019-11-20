@@ -211,7 +211,7 @@ h1, h2, h3, h4, h5, h6, .wc-block-grid__product-title{
 }
 
 .nav-pills.bg-dark .nav-link.active, .nav-pills .show > .nav-link{
-    background-color: #e84c3d!important;
+    background-color: #e84c3d;
 }
 
 .nav-pills.bg-dark .nav-link:not( .disabled ){
