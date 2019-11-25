@@ -1410,4 +1410,20 @@ function bbloomer_cart_refresh_update_qty() {
 
  
  
- 
+ add_action( 'storefront_before_header', 'msp_top_bar' );
+ function msp_top_bar(){
+     $link = get_option( 'wc_top_bar_link' );
+     $image_id = get_option( 'wc_top_bar_image_id' );
+
+     $src = msp_get_product_image_src( $image_id, 'full' );
+
+     if( empty( $src ) ) return;
+
+     ?>
+     <div id="msp-top-bar" class="" style="background-color: #333;">
+        <a href="/<?php echo $link ?>" class="">
+            <img class="mx-auto" src="<?php echo $src ?>" />
+        </a>
+     </div>
+     <?php
+ }

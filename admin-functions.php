@@ -363,7 +363,7 @@ class MSP_Admin{
         array( 'google_analytics_account_id', 'google_recaptcha', 'google_adwords', 'google_aw_campaign' ) );
         
         $this->add_settings_field_and_register( 'msp_options', 'woocommerce', 'wc', 
-        array( 'easy_qty_breaks', 'add_net_30_to_single_product', 'three_day_shipping_id', 'two_day_shipping_id', 'free_shipping_id', 'ground_shipping_id' ) );
+        array( 'easy_qty_breaks', 'add_net_30_to_single_product', 'three_day_shipping_id', 'two_day_shipping_id', 'free_shipping_id', 'ground_shipping_id', 'top_bar_link', 'top_bar_image_id' ) );
     }
 }
 
@@ -372,6 +372,17 @@ new MSP_Admin();
 // templates called by $this->add_settings_field_and_register();
 
 /** ALL THE HTML CALLBACKS FOR THE THEME OPTIONS PAGE /wp-admin/themes.php?page=msp_options */
+function wc_top_bar_link_callback(){
+    $option = get_option( 'wc_top_bar_link' );
+    echo '<input name="wc_top_bar_link" id="wc_top_bar_link" type="text" value="'. get_option( 'wc_top_bar_link' ) .'" class="code" />';
+}
+
+function wc_top_bar_image_id_callback(){
+    $option = get_option( 'wc_top_bar_image_id' );
+    echo '<input name="wc_top_bar_image_id" id="wc_top_bar_image_id" type="text" value="'. get_option( 'wc_top_bar_image_id' ) .'" class="code" />';
+}
+
+
 function wc_add_net_30_to_single_product_callback(){
     $option = get_option( 'wc_add_net_30_to_single_product' );
     echo '<input name="wc_add_net_30_to_single_product" id="wc_add_net_30_to_single_product" type="checkbox" value="1" '. checked(1, $option, false) .' />';
