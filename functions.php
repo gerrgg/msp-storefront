@@ -388,8 +388,6 @@ class MSP{
             if( $values[ 'data' ]->get_shipping_class_id() == $custom_rules['ups_only'] ) {
                 unset( $rates['flat_rate:11']);
                 unset( $rates['free_shipping:9']);
-            } else {
-                unset( $rates['ups:3:03'] );
             }
         }
     

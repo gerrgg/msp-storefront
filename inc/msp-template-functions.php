@@ -1185,16 +1185,19 @@ function msp_get_category_slider( $categories, $header = ''){
     <?php
 }
 
-function msp_get_products_slider( $products, $header = ''){
+function msp_get_products_slider( $atts ){
     /**
      * Same as msp_get_category_slider but for products.
      * TODO: Could/should probally combine both functions into one
      */
-    if( ! empty( $header ) ) : ?>
-        <h2 class="pb-2"><?php echo $header; ?></h3>
+
+    if( ! empty( $atts['header'] ) ) : ?>
+        <h2 class="pb-2"><?php echo $atts['header']; ?></h3>
     <?php endif; ?>
 
-    <?php if( empty( $products ) ) return; ?>
+    <?php if( empty( $atts['products'] ) ) return; ?>
+
+    <?php $products = explode( ',', $atts['products'] ) ?>
 
     <div class="owl-carousel product-slider border-bottom">
         <?php foreach( $products as $product_id ) :
@@ -1400,48 +1403,11 @@ function bbloomer_cart_refresh_update_qty() {
  // MSP FRONT PAGE - FRONT-PAGE HOOKS - FRONT-PAGE.PHP
  // Leave functions here for easy access. :D
  
- add_action( 'msp_front_page', 'msp_get_products_slider_1', 5 );
- function msp_get_products_slider_1(){
-     msp_get_products_slider( array( '19512', '13281', '9021', '13373', '19512', '15528', '13265' ), "🧥 Winter Jacket Sale 🧥" );
- }
- 
- add_action( 'msp_front_page', 'msp_promo_row_1', 10 );
- function msp_promo_row_1(){
-     msp_promo_row( array( '1282' => 34373, '784' => 34372, '817' => 34351 ) );
- }
- 
- add_action( 'msp_front_page', 'msp_get_products_slider_2', 15 );
- function msp_get_products_slider_2(){
-     msp_get_products_slider( array( '15055', '15024', '14994', '14972', '19437', '18377', '15093', '15159' ), "These baselayers feel INCREDIBLE 👍👍" );
- }
- 
- add_action( 'msp_front_page', 'msp_promo_row_2', 20 );
- function msp_promo_row_2(){
-     msp_promo_row( array( '794' => 34345, '796' => 34346, '801' => 34347, '1497' => 34342 ) );
- }
- 
- add_action( 'msp_front_page', 'msp_get_products_slider_3', 25 );
- function msp_get_products_slider_3(){
-     msp_get_products_slider( array( '13565', '17714', '9301', '4231', '4338', '18377', '17999', '17817' ), "❄️👖 Snow pants make winter <i>better</i>" );
- }
- 
- add_action( 'msp_front_page', 'msp_promo_row_3', 30 );
- function msp_promo_row_3(){
-     msp_promo_row( array( '1620' => 34349, '1617' => 34352) );
- }
- 
- add_action( 'msp_front_page', 'msp_get_products_slider_4', 35 );
- function msp_get_products_slider_4(){
-     msp_get_products_slider( array( '12806', '13588', '12789', '17263', '18046'), "👷 Body Warming Vests" );
- }
- 
- add_action( 'msp_front_page', 'msp_get_products_slider_5', 40 );
- function msp_get_products_slider_5(){
-     msp_get_products_slider( array( '21204', '14331', '34535', '15233', '14394', '14457', '14447', '14471'), "Warm Hands? No Problem. 🔥🔥" );
- }
- 
- add_action( 'msp_front_page', 'msp_get_shop_reviews', 45 );
- add_action( 'msp_front_page', 'msp_get_customer_service_info', 50 );
+ add_shortcode( 'msp_fp_products', 'msp_get_products_slider' );
+ add_shortcode( 'msp_fp_promo', 'msp_promo_row' );
+ add_shortcode( 'msp_fp_reviews', 'msp_get_shop_reviews' );
+ add_shortcode( 'msp_fp_customer_service', 'msp_get_customer_service_info' );
+
  
  
  

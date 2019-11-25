@@ -477,21 +477,41 @@ function woo_hack_invoke_private_method( $class_name, $methodName ) {
 }
 
 
-function msp_promo_row( $row ){
+function msp_promo_row( $atts ){
 	/**
 	 * Easily display html which connect links to promotional images.
 	 * @param array - Key value pair format - link_id => media_id  
 	 */
-	$column_count = 12 / sizeof( $row );
+	if( empty( $atts ) ) return;
+
+
+	$links = explode( ', ', $atts['links'] );
+	$images = explode( ', ', $atts['images'] );
+	$columns = 12 / sizeof( $links );
+
 	echo '<div class="row">';
 
-	foreach( $row as $link => $image ) : ?>
-		<div class="col-12 col-lg-<?php echo $column_count ?>">
-			<a href="<?php echo get_term_link( $link, 'product_cat' ) ?>">
-				<img src="<?php echo msp_get_product_image_src( $image, 'large' ) ?>" class="img-thumb mb-2" />
+	for( $i = 0; $i < sizeof( $links ); $i++ ) : 
+		$link = get_term_link( (int)$links[$i], 'product_cat' );
+		$image = msp_get_product_image_src( $images[$i], 'large' );
+
+		// Accomodate product links
+		if( is_wp_error( $link ) ){
+			$product = wc_get_product( (int)$links[$i] );
+			if( ! is_wp_error( $product ) ) $link = $product->get_permalink();
+		}
+
+		// just give up if error
+		if( is_wp_error( $link ) ) return;
+	?>
+
+		<div class="col-12 col-lg-<?php echo $columns ?>">
+			<a href="<?php echo $link ?>">
+				<img src="<?php echo $image ?>" class="img-thumb mb-2" />
 			</a>
 		</div>
-	<?php endforeach;
+
+	<?php endfor;
 
 	echo '</div>';
 }
