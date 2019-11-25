@@ -239,7 +239,6 @@ class MSP_Admin{
         ) );
 
         echo '<button class="button button-primary" style="width: 100%; margin-top: 1rem;">Post Tracking</button>';
-        echo '<small><b>UPDATE: Nov 20, 2019</b> - This button NO LONGER sends the tracking link. Change the status to \'Complete\' to send tracking to customer. ❤️ Greg</small>';
     }
 
 
@@ -581,7 +580,12 @@ function sc_save_tracking_details( $ord_id ){
     $order = wc_get_order( $ord_id );
     $link = sc_make_tracking_link( $shipper, $tracking );
     update_post_meta( $ord_id, 'tracking_link', $link );
+    $user = $order->get_user();
+    $note = 'Hello.<br> Your order has shipped and can be tracked using the link below.';
+    $note .= '<p style="text-align: center;"><table cellspacing="0" cellpadding="0" style="text-align: center; margin: 10px 0px;"><tr align="center"><td align="center" width="300" height="40" bgcolor="#E84C3D" style="-webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px; color: #ffffff; display: block;"><a href="'.$link.'" style="font-size:16px; text-align: center; font-weight: bold; font-family: Helvetica, Arial, sans-serif; text-decoration: none; line-height:40px; width:100%; display:inline-block"><span style="color: #FFFFFF">Track Package</span></a></td></tr></table></p>';
+    $order->add_order_note( $note, 1 );
   }
+
 }
 
 
