@@ -376,14 +376,14 @@ function msp_mobile_menu(){
  * Custom Mobile Menu - Static
  */
 function msp_mobile_menu_account_links(){
+    $login_text = ( is_user_logged_in() ) ? 'My account' : 'Login / Register';
     ?>
-
     <p class="mobile-label">ACCOUNT & HELP</p>
     <ul class="m-0 list-unstyled">
+        <li class="menu-item"><a href="<?php echo wc_get_page_permalink( 'myaccount' ) ?>"> <i class="fas fa-user pr-3"></i><?php echo $login_text ?></a></li>
         <li class="menu-item"><a href="<?php echo get_bloginfo( 'url' ) ?>/contact"><i class="fas fa-question pr-3"></i>Help</a></li>
         <li class="menu-item"><a href="<?php echo get_bloginfo( 'url' ) ?>/order-tracking"><i class="fas fa-truck pr-3"></i>Track my order</a></li>
         <li class="menu-item"><a href="<?php echo get_bloginfo( 'url' ) ?>/quote"><i class="fas fa-pencil-alt pr-3"></i>Get a quote</a></li>
-        <li class="menu-item"><a href="<?php echo wc_get_page_permalink( 'myaccount' ) ?>"> <i class="fas fa-user pr-3"></i>My Account</a></li>
         <?php if( is_user_logged_in() ) : ?>
             <li class="menu-item"><a href="<?php echo wp_logout_url( '/' ) ?>"><i class="fas fa-sign-out-alt pr-3"></i>Sign out</a></li>
         <?php endif; ?>
@@ -892,16 +892,25 @@ function msp_get_shop_subnav(){
     $link_color = ( ! empty( get_option( 'msp_shop_nav_color_link' ) ) ) ? get_option( 'msp_shop_nav_color_link' ) : '#333';
 
     $nav_items = msp_get_category_children();
+
+    if( empty( $nav_items ) ){
+        $nav_items = msp_get_top_level_categories();
+    } else {
+        array_unshift( $nav_items, msp_get_current_category() );
+    }
+
+
     if( empty( $nav_items ) || wp_is_mobile() ) return;
 
-    array_unshift( $nav_items, msp_get_current_category() );
     ?>
         <nav class="navbar msp-shop-subnav border-bottom" style="background: <?php echo $bg_color ?>">
             <div class="navbar-nav flex-row">
                 <?php foreach( $nav_items as $item ) : ?>
-                    <li class="nav-item border-right px-2">
-                        <a class="nav-link" href="<?php echo get_term_link( $item->term_id ) ?>" style="color: <?php echo $link_color; ?>"><?php echo $item->name ?></a>
-                    </li>
+                    <?php if( $item->slug != 'uncategorized' ) : ?>
+                        <li class="nav-item border-right px-2">
+                            <a class="nav-link" href="<?php echo get_term_link( $item->term_id ) ?>" style="color: <?php echo $link_color; ?>"><?php echo $item->name ?></a>
+                        </li>
+                    <?php endif; ?>
                 <?php endforeach; ?>
             </div>
         </nav>
@@ -981,7 +990,7 @@ function msp_add_google_analytics(){
     */
     $google_account = array(
         'UA' => get_option( 'integration_google_analytics_account_id' ),
-        'GA' =>  get_option( 'integration_google_adwords' ),
+        'AW' =>  get_option( 'integration_google_adwords' ),
     );
 
     if( empty( $google_account['UA'] ) ) return; ?>
@@ -991,14 +1000,16 @@ function msp_add_google_analytics(){
 
     <script>
         window.dataLayer = window.dataLayer || [];
+        
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
+
         <?php if( ! empty( $google_account['UA'] ) ) : ?>
             gtag('config', '<?php echo $google_account['UA'] ?>');
         <?php endif; ?>
 
-        <?php if( ! empty( $google_account['GA'] ) ) : ?>
-            gtag('config', '<?php echo $google_account['GA'] ?>' );
+        <?php if( ! empty( $google_account['AW'] ) ) : ?>
+            gtag('config', '<?php echo $google_account['AW'] ?>' );
         <?php endif; ?>
     </script>
 
@@ -1218,14 +1229,14 @@ function msp_add_gmc_conversion_code( $order_id ){
         gtag('event', 'conversion', {
             'send_to': '<?php echo $google_aw ?>/<?php echo $google_campaign ?>',
             'currency': 'USD',
-            'transaction_id': '<?php echo $order->get_id() ?>'
-            'value': '<?php echo $order->get_total() ?>',
+            'transaction_id': '<?php echo $order->get_id() ?>',
+            'value': '<?php echo $order->get_total() ?>'
         });
     </script>
     <?php
 }
 
-add_action( 'woocommerce_before_calculate_totals', 'msp_helly_hansen_discount_coupon' );
+// add_action( 'woocommerce_before_calculate_totals', 'msp_helly_hansen_discount_coupon' );
 function msp_helly_hansen_discount_coupon( $cart_object ){
     /**
      * Check for a coupon, look for eligible items, add discount.

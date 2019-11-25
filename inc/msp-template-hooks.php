@@ -263,10 +263,9 @@ remove_action( 'woocommerce_after_shop_loop_item', 'woocommerce_template_loop_ad
  */
 add_action( 'woocommerce_before_single_product_summary', 'woocommerce_breadcrumb', 5 );
 
-add_action( 'woocommerce_before_main_content', 'msp_get_shop_subnav', 5 );
+add_action( 'storefront_before_content', 'msp_get_shop_subnav', 105 );
 
 
-add_action( 'wp_footer', 'msp_add_google_analytics', 5 );
 add_action( 'wp_footer', 'bbloomer_cart_refresh_update_qty' ); 
 
 

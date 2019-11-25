@@ -690,16 +690,21 @@ a.woocommerce-LoopProduct-link.woocommerce-loop-product__link > img{
 }
 
 .msp-shop-subnav{
-    margin-left: -30px;
-    margin-right: -30px;
+    padding: .25rem;
+    justify-content: center;
+    margin-bottom: .75rem;
+}
+
+.msp-shop-subnav > .navbar-nav{
+    border-left: 1px solid #fff;
 }
 
 .msp-shop-subnav a.nav-link{
     color: #333;
+    padding: 0;
 }
 
-.msp-shop-subnav > .navbar-nav > li:first-child > a.nav-link{
-    color: #000;
+.msp-shop-subnav a.nav-link{
     font-weight: 700;
 }
 

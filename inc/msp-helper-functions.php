@@ -361,6 +361,13 @@ function create_qty_breaks( $id, $price ){
     msp_get_category_slider( $categories );
 }
 
+function msp_get_top_level_categories(){
+	$categories = get_categories( array( 'taxonomy' => 'product_cat',
+                                         'orderby' => 'name',
+										 'parent' => 0 ) );
+	return $categories; 
+}
+
 function msp_get_departments_silder(){
 	/**
 	 * Gets top-level categories, then displays a slider for easy navigation
