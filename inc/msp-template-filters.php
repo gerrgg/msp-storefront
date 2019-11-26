@@ -36,7 +36,7 @@ function msp_products_per_page(){
 add_filter('loop_shop_per_page', 'msp_products_per_page', 999);
 
 
-add_filter( 'wc_add_to_cart_message', 'remove_add_to_cart_message' );
+add_filter( 'wc_add_to_cart_message_html', 'remove_add_to_cart_message' );
 function remove_add_to_cart_message() {
     return;
 }

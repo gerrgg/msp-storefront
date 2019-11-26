@@ -9,6 +9,40 @@
  Tags:         light, dark, two-columns, right-sidebar, responsive-layout, accessibility-ready
  Text Domain:  msp
 */
+li.product::marker{
+    display: none !important;
+    color: #fff;
+}
+.msp-tab-content{
+    border-top: 2px solid #333;
+    padding: 1rem 0;
+}
+.woocommerce-variation-add-to-cart{
+    display: flex;
+}
+.product-type-simple form.cart{
+    display: flex;
+}
+
+.quantity .qty{
+    height: 100%;
+}
+
+.onsale{
+    background-color: green;
+    color: #fff;
+    font-weight: 800;
+    display: inline-block;
+    margin: 0;
+}
+body.archive .onsale{
+    position: absolute;
+    top: 10px;
+}
+
+span.price{
+    display: block;
+}
 
 .woocommerce-cart-form__cart-item img{
     max-width: 150px;
@@ -17,8 +51,12 @@
 .product .single_add_to_cart_button,
 div.wc-proceed-to-checkout > a.checkout-button,
 #place_order{
-    background-color: #1d3593;
+    background-color: #00c400;
     color: #fff;
+    width: 100%;
+    border-radius: 4px;
+    text-align: center;
+    font-size: 20px;
 }
 .cart-sub-total{
     font-size: 28px;
@@ -809,14 +847,15 @@ a[role="button"].link-normal{
     text-overflow: ellipsis;
   }
 
-p.create-account{
+p.create-account, #wc_twilio_sms_optin_field, #ship-to-different-address{
     background-color: #0f834d;
     color:#fff;
     text-align: center;
-    font-size: 28px;
+    font-size: 18px;
     position: relative;
+    margin: 5px 0;
 }
-#createaccount{
+#createaccount, #wc_twilio_sms_optin{
     position: absolute;
     top: 50%;
     right: 25px;

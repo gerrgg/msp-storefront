@@ -189,6 +189,8 @@ class MSP{
                     color: $color!important;
                 }
                 .nav-pills.bg-dark .nav-link.active, .nav-pills .show > .nav-link{ background-color: $color!important; }
+
+                .onsale{ background-color: $color!important; }
                 
             ";
         }
@@ -270,9 +272,6 @@ class MSP{
         if( $product->has_attributes() || $product->has_dimensions() || $product->has_weight() ) {
             $tabs['additional_information']['title'] = 'Specifications';
         }
-
-        // seperate reviews tab
-        unset( $tabs['reviews'] );
 
         return $tabs;
     }

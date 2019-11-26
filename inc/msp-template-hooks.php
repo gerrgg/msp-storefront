@@ -105,11 +105,11 @@ add_action( 'msp_my_order_details', 'msp_update_order_tracking', 2, 1 );
  * @see msp_order_return_button();
  * @see msp_order_report_issue_button();
  */
-add_action( 'msp_order_details_actions', 'msp_order_tracking_button', 5, 1 );
+// add_action( 'msp_order_details_actions', 'msp_order_tracking_button', 5, 1 );
 // add_action( 'msp_order_details_actions', 'msp_order_product_review_button', 10, 1 );
-add_action( 'msp_order_details_actions', 'msp_order_feedback_button', 15, 1 );
-add_action( 'msp_order_details_actions', 'msp_order_return_button', 20 );
-add_action( 'msp_order_details_actions', 'msp_order_report_issue_button', 25 );
+// add_action( 'msp_order_details_actions', 'msp_order_feedback_button', 15, 1 );
+// add_action( 'msp_order_details_actions', 'msp_order_return_button', 20 );
+// add_action( 'msp_order_details_actions', 'msp_order_report_issue_button', 25 );
 
 // add_action( 'woocommerce_before_cart_table', 'woocommerce_button_proceed_to_checkout' );
 
@@ -119,6 +119,7 @@ add_action( 'msp_order_details_actions', 'msp_order_report_issue_button', 25 );
  * @see msp_update_order_estimated_delivery();
  * @see commerce_connector_tracking();
  */
+
 add_action( 'woocommerce_thankyou', 'msp_update_order_estimated_delivery', 5, 1 );
 add_action( 'woocommerce_thankyou', 'commerce_connector_tracking', 10, 1 );
 add_action( 'woocommerce_thankyou', 'msp_add_gmc_conversion_code', 15, 1 );
@@ -180,8 +181,7 @@ add_action( 'wp_ajax_nopriv_msp_process_contact_form', 'msp_process_contact_form
  * @see comments_template();
  */
 add_action( 'woocommerce_after_single_product_summary', 'woocommerce_upsell_display', 5 );
-// add_action( 'woocommerce_after_single_product_summary', 'woocommerce_output_related_products', 15);
-add_action( 'woocommerce_after_single_product_summary', 'comments_template', 25 );
+// add_action( 'woocommerce_after_single_product_summary', 'woocommerce_output_related_products', 5);
 
 
 /**
@@ -191,7 +191,7 @@ add_action( 'woocommerce_after_single_product_summary', 'comments_template', 25 
 add_action( 'woocommerce_single_product_summary', 'msp_show_product_size_guide_btn', 25 );
 remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_price', 10 );
 add_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_price', 25 );
-add_action( 'woocommerce_single_product_summary', 'msp_bulk_discount_table', 26 );
+add_action( 'woocommerce_single_product_summary', 'msp_bulk_discount_table', 35 );
 add_action( 'woocommerce_single_product_summary', 'msp_add_tabs', 11 );
 add_action( 'woocommerce_single_product_summary', 'msp_open_single_product_tabs', 12 );
 add_action( 'woocommerce_single_product_summary', 'msp_close_order_tab_content_tag', 50 );
@@ -216,13 +216,14 @@ add_action( 'msp_before_create_review_form', 'msp_review_more_products' );
  * @see msp_create_review_wrapper_close - 100;
  * 
  */
-add_action( 'msp_create_review_form', 'msp_create_review_wrapper_open', 1 );
-add_action( 'msp_create_review_form', 'msp_create_review_top', 5, 1 );
-add_action( 'msp_create_review_form', 'msp_get_review_more_star_buttons', 10 );
-add_action( 'msp_create_review_form', 'msp_create_review_upload_form', 15, 1 );
-add_action( 'msp_create_review_form', 'msp_create_review_headline', 20, 1 );
-add_action( 'msp_create_review_form', 'msp_create_review_content', 25, 1 );
-add_action( 'msp_create_review_form', 'msp_create_review_wrapper_close', 100 );
+
+// add_action( 'msp_create_review_form', 'msp_create_review_wrapper_open', 1 );
+// add_action( 'msp_create_review_form', 'msp_create_review_top', 5, 1 );
+// add_action( 'msp_create_review_form', 'msp_get_review_more_star_buttons', 10 );
+// add_action( 'msp_create_review_form', 'msp_create_review_upload_form', 15, 1 );
+// add_action( 'msp_create_review_form', 'msp_create_review_headline', 20, 1 );
+// add_action( 'msp_create_review_form', 'msp_create_review_content', 25, 1 );
+// add_action( 'msp_create_review_form', 'msp_create_review_wrapper_close', 100 );
 
 /**
  * woocommerce_product_additional_information

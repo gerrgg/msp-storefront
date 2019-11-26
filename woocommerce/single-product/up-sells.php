@@ -17,6 +17,19 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+
+/**
+ * If the editor does not set upsells; grab products from the same category
+ */
+if( empty( $upsells ) ){
+	$category = wp_get_post_terms(get_the_ID(), 'product_cat', array('fields' => 'slugs'));
+	if( isset( $category[0] ) ){
+		$upsells = wc_get_products( array(
+			'category' => array( $category[0] ),
+		));
+	}
+}
+
 if ( $upsells ) : ?>
 
 	<section class="up-sells upsells products">
