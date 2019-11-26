@@ -145,6 +145,9 @@ add_action( 'wp_ajax_nopriv_msp_get_user_browsing_history', 'msp_get_user_browsi
 add_action( 'wp_ajax_msp_get_product_size_guide_src', 'msp_get_product_size_guide_src' );
 add_action( 'wp_ajax_nopriv_msp_get_product_size_guide_src', 'msp_get_product_size_guide_src' );
 
+add_action( 'wp_ajax_msp_get_image_src', 'msp_get_image_src' );
+add_action( 'wp_ajax_nopriv_msp_get_image_src', 'msp_get_image_src' );
+
 add_action( 'wp_ajax_msp_get_leave_feedback_form', 'msp_get_leave_feedback_form' );
 add_action( 'wp_ajax_nopriv_msp_get_leave_feedback_form', 'msp_get_leave_feedback_form' );
 
@@ -268,6 +271,21 @@ add_action( 'storefront_before_content', 'msp_get_shop_subnav', 105 );
 
 
 add_action( 'wp_footer', 'bbloomer_cart_refresh_update_qty' ); 
+add_action( 'wp_footer', 'msp_maybe_show_promo_pop_up' );
+function msp_maybe_show_promo_pop_up(){
+    $modal_title = get_option( 'promo_pop_up_title' );
+    $modal_id = get_option( 'promo_pop_up_image_id' );
+
+    if( empty( $modal_id ) ) return;
+    
+    // IF COOKIE NOT EXISTS
+    make_modal_btn( array(
+        'class' => 'promo_pop_up_btn d-none',
+        'title' => $modal_title,
+        'model' => 'promo',
+        'id' => $modal_id
+    ));
+}
 
 
 //theme options

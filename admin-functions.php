@@ -351,6 +351,15 @@ class MSP_Admin{
             'msp_options'
         );
 
+        add_settings_section(
+            'promotions',
+            'Promotions:',
+            '', 
+            'msp_options'
+        );
+
+        $this->add_settings_field_and_register( 'msp_options', 'promotions', 'promo', 
+        array( 'top_bar_link', 'top_bar_image_id', 'pop_up_title', 'pop_up_image_id' ) );
 
         $this->add_settings_field_and_register( 'msp_options', 'theme_options', 'msp',
          array( 'primary_color', 'link_color', 'header_background', 'header_links', 'footer_background', 'footer_link_color', 
@@ -363,7 +372,7 @@ class MSP_Admin{
         array( 'google_analytics_account_id', 'google_recaptcha', 'google_adwords', 'google_aw_campaign' ) );
         
         $this->add_settings_field_and_register( 'msp_options', 'woocommerce', 'wc', 
-        array( 'easy_qty_breaks', 'add_net_30_to_single_product', 'three_day_shipping_id', 'two_day_shipping_id', 'free_shipping_id', 'ground_shipping_id', 'top_bar_link', 'top_bar_image_id' ) );
+        array( 'easy_qty_breaks', 'add_net_30_to_single_product', 'three_day_shipping_id', 'two_day_shipping_id', 'free_shipping_id', 'ground_shipping_id' ) );
     }
 }
 
@@ -372,14 +381,24 @@ new MSP_Admin();
 // templates called by $this->add_settings_field_and_register();
 
 /** ALL THE HTML CALLBACKS FOR THE THEME OPTIONS PAGE /wp-admin/themes.php?page=msp_options */
-function wc_top_bar_link_callback(){
-    $option = get_option( 'wc_top_bar_link' );
-    echo '<input name="wc_top_bar_link" id="wc_top_bar_link" type="text" value="'. get_option( 'wc_top_bar_link' ) .'" class="code" />';
+function promo_pop_up_title_callback(){
+    $option = get_option( 'promo_pop_up_title' );
+    echo '<input name="promo_pop_up_title" id="promo_pop_up_title" type="text" value="'. get_option( 'promo_pop_up_title' ) .'" class="code" />';
 }
 
-function wc_top_bar_image_id_callback(){
-    $option = get_option( 'wc_top_bar_image_id' );
-    echo '<input name="wc_top_bar_image_id" id="wc_top_bar_image_id" type="text" value="'. get_option( 'wc_top_bar_image_id' ) .'" class="code" />';
+function promo_pop_up_image_id_callback(){
+    $option = get_option( 'promo_pop_up_image_id' );
+    echo '<input name="promo_pop_up_image_id" id="promo_pop_up_image_id" type="text" value="'. get_option( 'promo_pop_up_image_id' ) .'" class="code" />';
+}
+
+function promo_top_bar_link_callback(){
+    $option = get_option( 'promo_top_bar_link' );
+    echo '<input name="promo_top_bar_link" id="promo_top_bar_link" type="text" placeholder="shop/" value="'. get_option( 'promo_top_bar_link' ) .'" class="code" />';
+}
+
+function promo_top_bar_image_id_callback(){
+    $option = get_option( 'promo_top_bar_image_id' );
+    echo '<input name="promo_top_bar_image_id" id="promo_top_bar_image_id" type="text" value="'. get_option( 'promo_top_bar_image_id' ) .'" class="code" />';
 }
 
 

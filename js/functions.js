@@ -30,6 +30,17 @@ jQuery(document).ready(function( $ ){
           this.$modal.on( 'show.bs.modal', this.route )
           this.$modal.on( 'submit', 'form', this.submit )
           this.$header.on( 'click', 'li.menu-item-has-children', this.open_nav_child_list )
+
+          let cookie = getCookie('msp_promo_seen');
+
+          if( $('.promo_pop_up_btn').length && cookie != 1 ){
+            setTimeout(
+              function()
+              {
+                $('.promo_pop_up_btn').click()
+              }, 2000);
+          }
+
       },
 
       add_to_bulk_list: function( e ){
@@ -66,7 +77,7 @@ jQuery(document).ready(function( $ ){
       open_nav_child_list: function( e ){
         $child = $(e.target.children[1]);
         console.log( e, $child );
-        
+    
       },
 
       init_slideout: function(){
@@ -200,6 +211,14 @@ jQuery(document).ready(function( $ ){
           });
         },
 
+        'promo': function( action, id ){
+          $.post(wp_ajax.url, { action: 'msp_get_image_src', id: id }, function( response ){
+            msp.$modal.find('.modal-body').html( $('<img/>', { src: response, class: 'mx-auto' } ) );
+
+            document.cookie = "msp_promo_seen=1; path=/; max-age=2592000;"; 
+         });
+        },
+
         'leave_feedback': function( action, id, response ){
             let body = msp.$modal.find('.modal-body');
 
@@ -285,6 +304,29 @@ $('#billing_postcode').keyup( function(e){
         $(this).val($(this).val().substr(0, max_chars));
     }
 });
+
+function setCookie(cname, cvalue, exdays) {
+  var d = new Date();
+  d.setTime(d.getTime() + (exdays*24*60*60*1000));
+  var expires = "max-age="+ d.toUTCString();
+  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+
+function getCookie(cname) {
+  var name = cname + "=";
+  var decodedCookie = decodeURIComponent(document.cookie);
+  var ca = decodedCookie.split(';');
+  for(var i = 0; i <ca.length; i++) {
+    var c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
+}
 
 
 });

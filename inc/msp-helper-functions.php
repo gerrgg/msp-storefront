@@ -191,7 +191,7 @@ function make_modal_btn( $args = array() ){
 		'text'   => 'text',
 		'title'  => 'title',
 		'model'  => '',
-		'action' => '',
+		'action' => 'show',
 		'id'		 => '',
 	);
 	$args = wp_parse_args( $args, $defaults );

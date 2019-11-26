@@ -759,7 +759,7 @@ function msp_dynamic_modal(){
      */
     ?>
     <div class="modal fade" id="msp_modal" tabindex="-1" role="dialog" aria-labelledby="msp_modal" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="msp_modal">Modal title</h5>
@@ -788,6 +788,15 @@ function msp_get_product_size_guide_src(){
      * @return string - path to uploaded size guide ( custom meta box ).
      */
     echo get_post_meta( $_POST['id'], '_msp_size_guide', true );
+    wp_die();
+}
+
+function msp_get_image_src(){
+    /**
+     * returns the src for attachment id - used for AJAX.
+     */
+    echo msp_get_product_image_src( $_POST['id'], 'full' );
+
     wp_die();
 }
 
@@ -1412,8 +1421,8 @@ function bbloomer_cart_refresh_update_qty() {
  
  add_action( 'storefront_before_header', 'msp_top_bar' );
  function msp_top_bar(){
-     $link = get_option( 'wc_top_bar_link' );
-     $image_id = get_option( 'wc_top_bar_image_id' );
+     $link = get_option( 'promo_top_bar_link' );
+     $image_id = get_option( 'promo_top_bar_image_id' );
 
      $src = msp_get_product_image_src( $image_id, 'full' );
 
