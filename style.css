@@ -30,7 +30,7 @@ li.product::marker{
 
 .onsale{
     background-color: green;
-    color: #fff;
+    color: #fff!important;
     font-weight: 800;
     display: inline-block;
     margin: 0;
