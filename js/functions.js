@@ -204,6 +204,7 @@ jQuery(document).ready(function( $ ){
         close: function(){
           msp.$modal.modal( 'toggle' );
         },
+        
 
         'size_guide': function( action, id ){
           $.post(wp_ajax.url, { action: 'msp_get_product_size_guide_src', id: id }, function( response ){
@@ -304,6 +305,7 @@ $('#billing_postcode').keyup( function(e){
         $(this).val($(this).val().substr(0, max_chars));
     }
 });
+
 
 function setCookie(cname, cvalue, exdays) {
   var d = new Date();

@@ -4,11 +4,44 @@
  Author:       Greg Bastianelli
  Template:     storefront
  Version:      1.94
- License:      GNU General Public License v2 or later
+ License:      GNU General Public License v2 or latersmall
  License URI:  http://www.gnu.org/licenses/gpl-2.0.html
  Tags:         light, dark, two-columns, right-sidebar, responsive-layout, accessibility-ready
  Text Domain:  msp
 */
+
+table.msp-price{
+    border-collapse: collapse;
+    width: unset;
+    padding: 0;
+    margin: 0;
+    color: rgb(85, 85, 85);
+    font-size: 16px;
+}
+
+table.msp-price tr, table.msp-price td{
+    padding: 0px;
+    background-color: #fff !important;
+    line-height: 20px;
+}
+
+table.msp-price tr > td:first-child{
+    text-align: right;
+    padding-right: 5px;
+}
+
+ins span.woocommerce-Price-amount{
+    font-size: 20px;
+    color: rgb(177, 39, 4);
+}
+
+del span.woocommerce-Price-amount{
+    color: grey;
+}
+.up-sells.upsells.products .row{
+    margin-left: 0px;
+}
+
 li.product::marker{
     display: none !important;
     color: #fff;
@@ -35,7 +68,7 @@ li.product::marker{
     display: inline-block;
     margin: 0;
 }
-body.archive .onsale{
+#msp-archive .onsale{
     position: absolute;
     top: 10px;
 }
@@ -76,10 +109,7 @@ button[name='update_cart'] {
     display: none !important;
 }
 
-.shop_table p.product-price span{
-    color:green;
-    font-size: 22px;
-}
+
 
 .cart-item-actions div, .cart-item-actions a {
     border-right: 1px solid rgba(0,0,0, 0.1);
@@ -256,9 +286,6 @@ h1, h2, h3, h4, h5, h6, .wc-block-grid__product-title{
     color: #fff;
 }
 
-.single_variation_wrap > .woocommerce-variation-price{
-    font-size: 28px;
-}
 
 .owl-stage{
     margin-left: -40px !important;
@@ -465,18 +492,6 @@ body.modal-open .slideout-panel {
     position: absolute;
     display: none;
     padding: 1rem 2rem;
-}
-
-#browsing-history-block .price,
-span.price,
-label > span.woocommerce-Price-amount{
-    color: green;
-    font-size: 21px !important;
-    font-weight: 600;
-}
-
-.price{
-    color: green;
 }
 
 label.price{
@@ -733,6 +748,7 @@ a.woocommerce-LoopProduct-link.woocommerce-loop-product__link > img{
     margin-bottom: .75rem;
     height: 35px;
     overflow: hidden;
+    display: flex;
 }
 
 .msp-shop-subnav > .navbar-nav{
@@ -905,6 +921,9 @@ p.create-account, #wc_twilio_sms_optin_field, #ship-to-different-address{
     .owl-item > .product h2.woocommerce-loop-product__title{
         font-size: 13px;
     }
+    .owl-item span.price{
+        font-size: 16px !important;
+    }
 
     .woocommerce-loop-product__title{
         font-size: 16px;
@@ -1035,3 +1054,6 @@ p.create-account, #wc_twilio_sms_optin_field, #ship-to-different-address{
 }
 
 
+a.a-un{
+    text-decoration: underline !important;
+}

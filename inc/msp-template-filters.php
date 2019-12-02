@@ -62,3 +62,43 @@ function msp_maybe_add_tab_info( $content ){
     
     return $content;
 }
+
+add_filter( 'woocommerce_dropdown_variation_attribute_options_args', 'msp_add_form_control_to_select_boxes', 100 );
+// Add class .form-control to default class for select tags
+function msp_add_form_control_to_select_boxes( $args ){
+    $args['class'] = 'form-control';
+    return $args;
+}
+
+add_filter( 'woocommerce_format_sale_price', 'msp_format_sale_price', 10, 3 );
+function msp_format_sale_price( $price, $reg, $sale ){
+
+    // only on single product pages
+    if( ! is_product() ) return $price;
+
+    $price_messages = '';
+
+    //strip down to just number for math
+    $_sale = substr(strip_tags($sale), 5);
+    $_reg = substr(strip_tags($reg), 5);
+
+    $savings = (float)$_reg - (float)$_sale;
+    $percentage = round( ( (float)$_reg - (float)$_sale ) / (float)$_reg * 100 ).'%';
+
+
+    if( $_sale > 100 || $sale > 100 ){
+        $price_messages .= '+ <strong><a class="text-dark un" target="new" href="/shipping-delivery/">Free Shipping </a></strong>';
+        $price_messages .= '& <strong><a class="text-dark un" target="new" href="/how-to-return/">FREE Returns. </a></strong>';
+    } else {
+        $price_messages .= '& <strong>Free Shipping</strong> on orders over $100.00.';
+    }
+    
+
+    return  sprintf('<table class="msp-price"><tr><td>Was:</td><td><del>%s</del></td></tr><tr><td>With Deal:</td><td><ins>%s</ins> %s</td></tr><tr><td>You Save:</td><td> %s (%s)</td></tr></table>', 
+            is_numeric($reg) ? wc_price( $reg ) : $reg, 
+            is_numeric($sale) ? wc_price( $sale ) : $sale, 
+            $price_messages, 
+            wc_price($savings),
+            $percentage
+            );
+}

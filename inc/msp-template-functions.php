@@ -565,13 +565,13 @@ function msp_update_order_estimated_delivery( $order_id ){
 function msp_get_default_est_delivery( $method ){
 	switch( $method ){
         case 'Flat Ground Shipping':
-        $date_str = iww_make_date( [1, 5] );
+        $date_str = iww_make_date( [2, 6] );
         break;
         case 'Ground (UPS)':
-        $date_str = iww_make_date( [1, 5] );
+        $date_str = iww_make_date( [2, 6] );
         break;
         case 'Ground Shipping':
-        $date_str = iww_make_date( [1, 5] );
+        $date_str = iww_make_date( [2, 6] );
         break;
 		case '3 Day Select (UPS)':
 		$date_str = iww_make_date( [3] );
@@ -1436,3 +1436,5 @@ function bbloomer_cart_refresh_update_qty() {
      </div>
      <?php
  }
+
+ 

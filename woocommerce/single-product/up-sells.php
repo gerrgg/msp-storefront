@@ -45,6 +45,7 @@ if ( $upsells ) : ?>
 				<?php
 					$post_object = get_post( $upsell->get_id() );
 					setup_postdata( $GLOBALS['post'] =& $post_object );
+					// Create new template for slider?
 					wc_get_template_part( 'content', 'product' ); ?>
 
             <?php endforeach; ?>

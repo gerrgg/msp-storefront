@@ -21,6 +21,9 @@ function msp_remove_actions(){
 if ( wp_is_mobile() ){
     remove_action('woocommerce_single_product_summary', 'woocommerce_template_single_title', 5);
     add_action('woocommerce_before_single_product_summary', 'woocommerce_template_single_title', 8);
+
+    remove_action('woocommerce_single_product_summary', 'woocommerce_template_single_rating', 10);
+    add_action('woocommerce_before_single_product_summary', 'woocommerce_template_single_rating', 8);
 }
 
 /**
@@ -191,16 +194,22 @@ add_action( 'woocommerce_after_single_product_summary', 'woocommerce_upsell_disp
  * woocommerce_single_product_summary
  * @see msp_show_product_size_guide - 25
  */
-add_action( 'woocommerce_single_product_summary', 'msp_show_product_size_guide_btn', 25 );
 remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_price', 10 );
-add_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_price', 25 );
-add_action( 'woocommerce_single_product_summary', 'msp_bulk_discount_table', 35 );
+remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_excerpt', 20 );
+
 add_action( 'woocommerce_single_product_summary', 'msp_add_tabs', 11 );
 add_action( 'woocommerce_single_product_summary', 'msp_open_single_product_tabs', 12 );
+add_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_price', 25 );
+add_action( 'woocommerce_single_product_summary', 'msp_show_product_size_guide_btn', 25 );
+add_action( 'woocommerce_single_product_summary', 'msp_bulk_discount_table', 35 );
+add_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_excerpt', 36);
 add_action( 'woocommerce_single_product_summary', 'msp_close_order_tab_content_tag', 50 );
-add_action( 'woocommerce_single_product_summary', 'msp_close_single_product_tabs', 9999 );
 add_action( 'woocommerce_single_product_summary', 'msp_add_bulk_tab', 100 );
 add_action( 'woocommerce_single_product_summary', 'msp_add_quote_tab', 101 );
+add_action( 'woocommerce_single_product_summary', 'msp_close_single_product_tabs', 9999 );
+
+if( get_option( 'wc_add_net_30_to_single_product' ) )
+    add_action( 'woocommerce_single_product_summary', 'add_net_30', 37 );
 
 /**
  * msp_before_create_review_form
@@ -291,10 +300,6 @@ function msp_maybe_show_promo_pop_up(){
 //theme options
 if( get_option( 'wc_easy_qty_breaks' ) )
     add_action( 'woocommerce_update_product', 'save_product_with_qty_breaks', 10, 1 );
-
-
-if( get_option( 'wc_add_net_30_to_single_product' ) )
-    add_action( 'woocommerce_single_product_summary', 'add_net_30', 35 );
 
 
 remove_action( 'woocommerce_cart_collaterals', 'woocommerce_cross_sell_display' );
