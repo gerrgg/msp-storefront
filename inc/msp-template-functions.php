@@ -914,7 +914,7 @@ function msp_get_shop_subnav(){
                 wp_nav_menu( array(
                     'depth'	          => 2, // 1 = no dropdowns, 2 = with dropdowns.
                     'container'       => 'div',
-                    'menu_class'      => 'navbar-nav m-0',
+                    'menu_class'      => 'navbar-nav m-0 flex-row',
                     'theme_location'  => 'under_header',
                     'fallback_cb'     => 'WP_Bootstrap_Navwalker::fallback',
                     'walker'          => new WP_Bootstrap_Navwalker(),
@@ -1442,3 +1442,20 @@ function msp_loop_format_sale_price( $regular_price, $sale_price ) {
     return apply_filters( 'woocommerce_format_sale_price', $price, $regular_price, $sale_price );
 }
 
+function msp_featured_item(){
+    global $product;
+    if( ! $product->is_featured() ) return;
+
+    $primary_color = get_option( 'msp_primary_color' );
+    $site_name = get_bloginfo( 'name' );
+    ?>
+
+    <div class="feature-base">
+        <div class="feature-text">
+            <span style="color: #fff;"><?php echo $site_name . '\'s ' ?></span>
+            <span style="color: <?php echo $primary_color ?>">Choice</span>
+        </div>
+    </div>
+
+    <?php
+}

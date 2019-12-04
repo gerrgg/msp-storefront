@@ -259,6 +259,7 @@ add_action( 'woocommerce_archive_description', 'msp_add_category_images', 2 );
  * @see we do this to wrap a product image in an a tag - CSS
  */
 add_action( 'woocommerce_before_shop_loop_item_title', 'woocommerce_template_loop_product_link_close', 15 );
+add_action( 'woocommerce_before_shop_loop_item_title', 'msp_featured_item', 10 );
 
 /**
  * woocommerce_before_shop_loop_item_title
@@ -275,6 +276,7 @@ remove_action( 'woocommerce_after_shop_loop_item', 'woocommerce_template_loop_ad
  * woocommerce_before_single_product_summary
  */
 add_action( 'woocommerce_before_single_product_summary', 'woocommerce_breadcrumb', 5 );
+add_action( 'woocommerce_before_single_product_summary', 'msp_featured_item', 5 );
 
 add_action( 'storefront_before_content', 'msp_get_shop_subnav', 105 );
 
