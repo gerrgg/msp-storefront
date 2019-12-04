@@ -305,4 +305,3 @@ if( get_option( 'wc_easy_qty_breaks' ) )
 remove_action( 'woocommerce_cart_collaterals', 'woocommerce_cross_sell_display' );
 add_action( 'woocommerce_cart_collaterals', 'woocommerce_cross_sell_display', 100 );
 
-

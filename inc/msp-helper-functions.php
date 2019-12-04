@@ -515,3 +515,20 @@ function msp_promo_row( $atts ){
 
 	echo '</div>';
 }
+
+function msp_get_price_messages( $sale ){
+    /**
+     * Handy function for appending prices with messages based on sell price
+     * @param string $price
+     */
+    $price_messages = '';
+
+    if( $sale > 100 ){
+        $price_messages .= ' + <strong><a class="text-dark un price-msg" target="new" href="/shipping-delivery/">Free Shipping </a></strong>';
+        $price_messages .= ' & <strong><a class="text-dark un price-msg" target="new" href="/how-to-return/">FREE Returns. </a></strong>';
+    } else {
+        $price_messages .= ' & <strong><a class="text-dark un price-msg" target="new" href="/shipping-delivery/">Free Shipping </a></strong> on orders over $100.00.';
+    }
+
+    return $price_messages;
+}

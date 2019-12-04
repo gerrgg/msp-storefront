@@ -363,7 +363,7 @@ class MSP_Admin{
 
         $this->add_settings_field_and_register( 'msp_options', 'theme_options', 'msp',
          array( 'primary_color', 'link_color', 'header_background', 'header_links', 'footer_background', 'footer_link_color', 
-         'logo_width', 'shop_nav_color', 'shop_nav_color_link', 'copyright_color', 'copyright_link_color' ) );
+         'logo_width', 'shop_nav_color', 'shop_nav_color_link', 'shop_nav_images', 'copyright_color', 'copyright_link_color' ) );
 
         $this->add_settings_field_and_register( 'msp_options', 'emails', 'msp', 
         array( 'contact_email', 'gtin_field' ) );
@@ -462,6 +462,11 @@ function msp_shop_nav_color_callback(){
 
 function msp_shop_nav_color_link_callback(){
     echo '<input name="msp_shop_nav_color_link" id="msp_shop_nav_color_link" type="text" value="'. get_option( 'msp_shop_nav_color_link' ) .'" class="color-field code" />';
+}
+
+function msp_shop_nav_images_callback(){
+    $option = get_option( 'msp_shop_nav_images' );
+    echo '<input name="msp_shop_nav_images" id="msp_shop_nav_images" type="checkbox" value="1" '. checked(1, $option, false) .' />';
 }
 
 
@@ -591,12 +596,12 @@ function msp_size_guide_callback( $post ){
     <?php
 }
 
-/*
-Quick fix for sending customers tracking - eventualyl want to hook into API's and automate task.
-*/
 add_action( 'woocommerce_process_shop_order_meta', 'sc_save_tracking_details', 50 );
 function sc_save_tracking_details( $ord_id ){
-  if ( isset( $_POST[ 'shipper' ] ) && !empty( $_POST[ 'shipper' ] ) ){
+    /*
+    Quick fix for sending customers tracking - eventually want to hook into API's and automate task.
+    */
+    if ( isset( $_POST[ 'shipper' ] ) && !empty( $_POST[ 'shipper' ] ) ){
     $shipper = wc_clean( $_POST[ 'shipper' ] );
     update_post_meta( $ord_id, 'shipper', $shipper );
   }
@@ -610,9 +615,12 @@ function sc_save_tracking_details( $ord_id ){
     $order = wc_get_order( $ord_id );
     $link = sc_make_tracking_link( $shipper, $tracking );
     update_post_meta( $ord_id, 'tracking_link', $link );
-    $user = $order->get_user();
-    $note = 'Hello.<br> Your order has shipped and can be tracked using the link below.';
-    $note .= '<p style="text-align: center;"><table cellspacing="0" cellpadding="0" style="text-align: center; margin: 10px 0px;"><tr align="center"><td align="center" width="300" height="40" bgcolor="#E84C3D" style="-webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px; color: #ffffff; display: block;"><a href="'.$link.'" style="font-size:16px; text-align: center; font-weight: bold; font-family: Helvetica, Arial, sans-serif; text-decoration: none; line-height:40px; width:100%; display:inline-block"><span style="color: #FFFFFF">Track Package</span></a></td></tr></table></p>';
+    $sitename = get_bloginfo('name');
+    $button_color = get_option( 'msp_primary_color' ) ?: '#ff9900';
+
+    $note = 'Good news!<br> Your order has shipped and can be tracked using the link below.<br><br>';
+    $note .= '<p style="text-align: center;"><table cellspacing="0" cellpadding="0" style="text-align: center; margin-bottom: 1rem;"><tr align="center"><td align="center" width="300" height="40" bgcolor="'. $button_color .'" style="-webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px; color: #ffffff; display: block;"><a href="'.$link.'" style="font-size:16px; text-align: center; font-weight: bold; font-family: Helvetica, Arial, sans-serif; text-decoration: none; line-height:40px; width:100%; display:inline-block"><span style="color: #FFFFFF">Track Package</span></a></td></tr></table></p><br><br>';
+    $note .= 'Regards, <br> ' . $sitename;
     $order->add_order_note( $note, 1 );
   }
 

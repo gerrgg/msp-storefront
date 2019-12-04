@@ -10,6 +10,12 @@
  Text Domain:  msp
 */
 
+/* Hide Uncategorized Link in Shop Widget */
+.cat-item-15{
+    display: none;
+}
+
+
 table.msp-price{
     border-collapse: collapse;
     width: unset;
@@ -30,9 +36,30 @@ table.msp-price tr > td:first-child{
     padding-right: 5px;
 }
 
-ins span.woocommerce-Price-amount{
+ins span.woocommerce-Price-amount, 
+span.woocommerce-Price-amount.amount,
+.woocommerce-variation-price > .woocommerce-Price-amount.amount{
     font-size: 20px;
     color: rgb(177, 39, 4);
+}
+
+.price-msg{
+    font-size: 20px;
+}
+
+/* .woocommerce-variation-price::before,
+p.price::before{
+    content: "Price: ";
+    display: inline;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 20px;
+    color: #333 !important;
+    padding-right: .25rem;
+} */
+
+.woocommerce-variation-price > span.price{
+    display: inline;
 }
 
 del span.woocommerce-Price-amount{
@@ -108,8 +135,6 @@ div.wc-proceed-to-checkout > a.checkout-button,
 button[name='update_cart'] {
     display: none !important;
 }
-
-
 
 .cart-item-actions div, .cart-item-actions a {
     border-right: 1px solid rgba(0,0,0, 0.1);
@@ -290,9 +315,7 @@ h1, h2, h3, h4, h5, h6, .wc-block-grid__product-title{
 .owl-stage{
     margin-left: -40px !important;
 }
-#masthead{
-    border-bottom: 1px rgba(0,0,0,0.1) solid;
-}
+
 
 body{
     color: #333;
@@ -742,13 +765,14 @@ a.woocommerce-LoopProduct-link.woocommerce-loop-product__link > img{
     padding: 0px;
 }s
 
-.msp-shop-subnav{
+nav.msp-shop-subnav{
     padding: .25rem;
     justify-content: center;
     margin-bottom: .75rem;
-    height: 35px;
-    overflow: hidden;
+    height: 45px!important;
+    overflow: hidden!important;
     display: flex;
+    box-shadow: 0px 2px #f7f7f7;
 }
 
 .msp-shop-subnav > .navbar-nav{
@@ -759,11 +783,12 @@ a.woocommerce-LoopProduct-link.woocommerce-loop-product__link > img{
 .msp-shop-subnav a.nav-link{
     color: #333;
     padding: 0;
+    line-height: 40px;
+    height: 32px;
+    font-weight: 600;
+    overflow: hidden;
 }
 
-.msp-shop-subnav a.nav-link{
-    font-weight: 700;
-}
 
 #primary{
     margin-top: 2rem;

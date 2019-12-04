@@ -899,24 +899,24 @@ function msp_get_shop_subnav(){
 
     $bg_color = ( ! empty( get_option( 'msp_shop_nav_color' ) ) ) ? get_option( 'msp_shop_nav_color' ) : '#f7f7f7';
     $link_color = ( ! empty( get_option( 'msp_shop_nav_color_link' ) ) ) ? get_option( 'msp_shop_nav_color_link' ) : '#333';
+    $show_images = get_option( 'msp_shop_nav_images' );
 
-    $nav_items = msp_get_category_children();
-
-    if( empty( $nav_items ) ){
-        $nav_items = msp_get_top_level_categories();
-    } else {
-        array_unshift( $nav_items, msp_get_current_category() );
-    }
-
-
+    $nav_items = msp_get_top_level_categories();
+    
     if( empty( $nav_items ) || wp_is_mobile() ) return;
 
     ?>
-        <nav class="navbar msp-shop-subnav border-bottom" style="background: <?php echo $bg_color ?>">
+        <nav class="navbar msp-shop-subnav border-top border-bottom" style="background: <?php echo $bg_color ?>">
             <div class="navbar-nav flex-row">
                 <?php foreach( $nav_items as $item ) : ?>
-                    <?php if( $item->slug != 'uncategorized' ) : ?>
-                        <li class="nav-item border-right px-2">
+                    <?php if( $item->slug != 'uncategorized' ) : 
+                        $cat_image_id = get_term_meta( $item->term_id, 'thumbnail_id', true );
+                        $image_src = wp_get_attachment_url( $cat_image_id ); 
+                    ?>
+                        <li class="nav-item border-right d-flex px-2">
+                            <?php if( '' != $image_src && $show_images === '1' ) : ?>
+                                <img src="<?php echo $image_src ?>" class="img-fluid mr-1" style="height: 30px; width: 30px;"  />
+                            <?php endif; ?>
                             <a class="nav-link" href="<?php echo get_term_link( $item->term_id ) ?>" style="color: <?php echo $link_color; ?>"><?php echo $item->name ?></a>
                         </li>
                     <?php endif; ?>
@@ -1437,4 +1437,9 @@ function bbloomer_cart_refresh_update_qty() {
      <?php
  }
 
- 
+function msp_loop_format_sale_price( $regular_price, $sale_price ) {
+    $price = '<del>' . ( is_numeric( $regular_price ) ? wc_price( $regular_price ) : $regular_price ) . '</del> <ins>' . ( is_numeric( $sale_price ) ? wc_price( $sale_price ) : $sale_price ) . '</ins>';
+    // echo $price;
+    return apply_filters( 'woocommerce_format_sale_price', $price, $regular_price, $sale_price );
+}
+
