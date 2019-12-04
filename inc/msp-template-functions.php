@@ -905,22 +905,21 @@ function msp_get_shop_subnav(){
     
     if( empty( $nav_items ) || wp_is_mobile() ) return;
 
+    
+
     ?>
         <nav class="navbar msp-shop-subnav border-top border-bottom" style="background: <?php echo $bg_color ?>">
             <div class="navbar-nav flex-row">
-                <?php foreach( $nav_items as $item ) : ?>
-                    <?php if( $item->slug != 'uncategorized' ) : 
-                        $cat_image_id = get_term_meta( $item->term_id, 'thumbnail_id', true );
-                        $image_src = wp_get_attachment_url( $cat_image_id ); 
-                    ?>
-                        <li class="nav-item border-right d-flex px-2">
-                            <?php if( '' != $image_src && $show_images === '1' ) : ?>
-                                <img src="<?php echo $image_src ?>" class="img-fluid mr-1" style="height: 30px; width: 30px;"  />
-                            <?php endif; ?>
-                            <a class="nav-link" href="<?php echo get_term_link( $item->term_id ) ?>" style="color: <?php echo $link_color; ?>"><?php echo $item->name ?></a>
-                        </li>
-                    <?php endif; ?>
-                <?php endforeach; ?>
+               <?php
+                wp_nav_menu( array(
+                    'depth'	          => 2, // 1 = no dropdowns, 2 = with dropdowns.
+                    'container'       => 'div',
+                    'menu_class'      => 'navbar-nav m-0',
+                    'theme_location'  => 'under_header',
+                    'fallback_cb'     => 'WP_Bootstrap_Navwalker::fallback',
+                    'walker'          => new WP_Bootstrap_Navwalker(),
+                ) );
+               ?>
             </div>
         </nav>
     <?php

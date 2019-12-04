@@ -326,8 +326,10 @@ class MSP{
 
         // register menu for logged out users
         register_nav_menus( array(
-            'logged-out' => __('Secondary menu for logged out users', 'msp')
+            'logged-out' => __('Secondary menu for logged out users', 'msp'),
+            'under_header' =>  __('Menu directly under the header', 'msp'),
         ) );
+        
     }
 
     public function msp_password_strength(){

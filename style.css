@@ -15,6 +15,14 @@
     display: none;
 }
 
+#menu-main-nav{
+    flex-direction: row;
+}
+
+#menu-main-nav li{
+    margin: 0 5px;
+}
+
 
 table.msp-price{
     border-collapse: collapse;
