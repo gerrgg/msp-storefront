@@ -223,6 +223,23 @@ class MSP{
             ";
         }
 
+        if( ! empty( get_option( 'msp_shop_nav_color_link' ) ) ){
+            $header_color = get_option( 'msp_shop_nav_color_link' );
+            $css .= "
+                nav.msp-shop-subnav .navbar-nav .show > .nav-link,
+                .navbar-light .navbar-nav .nav-link:hover,
+                .navbar-light .navbar-nav .nav-link:active,
+                .navbar-nav .active > .nav-link,
+                .msp-shop-subnav a.nav-link
+                {
+                    color: $header_color!important;
+                },
+
+            ";
+        }
+
+
+
         if( ! empty( get_option( 'msp_footer_background' ) ) ){
             $bg_color = get_option( 'msp_footer_background' );
             $css .= "footer.site-footer{ background-color: $bg_color }";

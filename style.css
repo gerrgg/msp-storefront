@@ -3,7 +3,7 @@
  Description:  "Michigan Safety Products" flavored Storefront Theme.
  Author:       Greg Bastianelli
  Template:     storefront
- Version:      1.97
+ Version:      1.98
  License:      GNU General Public License v2 or latersmall
  License URI:  http://www.gnu.org/licenses/gpl-2.0.html
  Tags:         light, dark, two-columns, right-sidebar, responsive-layout, accessibility-ready
@@ -393,7 +393,7 @@ a.woocommerce-button.button{
 .navbar-light .navbar-nav .nav-link:active,
 .navbar-nav .active>.nav-link
 {
-    color: #B2DD58!important;
+    color: #B2DD58;
 }
 
 
