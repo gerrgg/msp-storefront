@@ -3,13 +3,16 @@
  Description:  "Michigan Safety Products" flavored Storefront Theme.
  Author:       Greg Bastianelli
  Template:     storefront
- Version:      2.0
+ Version:      2.01
  License:      GNU General Public License v2 or latersmall
  License URI:  http://www.gnu.org/licenses/gpl-2.0.html
  Tags:         light, dark, two-columns, right-sidebar, responsive-layout, accessibility-ready
  Text Domain:  msp
 */
 
+.msp-shop-subnav li{
+    margin: 0 5px;
+}
 .storefront-full-width-content.single-product div.product .woocommerce-product-gallery img{
     max-height: 600px;
     width: auto;
@@ -1034,7 +1037,7 @@ p.create-account, #wc_twilio_sms_optin_field, #ship-to-different-address{
     .owl-item > .product h2.woocommerce-loop-product__title{
         font-size: 13px;
     }
-    .owl-item span.price{
+    .owl-item span.price .woocommerce-Price-amount.amount{
         font-size: 16px !important;
     }
 
@@ -1111,6 +1114,7 @@ p.create-account, #wc_twilio_sms_optin_field, #ship-to-different-address{
     .single-product div.product p.price{
         margin: .25rem 0;
         font-size: 1.5em;
+        line-height: 18px;
     }
     .woocommerce-orders-table tr{
         display: block;
