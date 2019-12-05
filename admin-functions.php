@@ -15,11 +15,15 @@ class MSP_Admin{
         add_action( 'woocommerce_process_product_meta', array( $this, 'process_product_resources_meta' ), 10, 2 );
         add_action( 'woocommerce_process_product_meta', array( $this, 'process_product_videos_meta' ), 10, 2 );
         add_action( 'woocommerce_process_product_meta', array( $this, 'process_product_size_guide_meta' ), 10, 2 );
+        add_action( 'woocommerce_process_product_meta', array( $this,'iww_add_gsf_title'), 10, 2 );
+
+        add_action( 'woocommerce_product_options_general_product_data',  array( $this,'iww_gsf_title') );
 
         // Add purchase order meta data to order emails and edit order page.
         add_filter('woocommerce_email_order_meta_keys', 'sc_add_po_to_emails');
         add_action( 'woocommerce_admin_order_data_after_billing_address', 'sc_add_po_meta_data', 10, 1 );
         
+
         // Net 30 checkbox - For both self and other users.
         add_action( 'show_user_profile', array( $this, 'add_net30_metabox'), 1 );
         add_action( 'edit_user_profile', array( $this, 'add_net30_metabox'), 1 );
@@ -29,6 +33,29 @@ class MSP_Admin{
         add_action( 'edit_user_profile_update', array( $this, 'update_user_to_net30_terms'), 5 );
     }
     
+
+    public function iww_gsf_title(){
+      global $woocommerce, $post;
+      echo '<div class="options_group">';
+      woocommerce_wp_text_input(
+        array(
+            'id'            => 'gsf_title',
+            'wrapper_class' => 'form-field-wide',
+            'label'         => __('GSF Title', 'woocommerce' ),
+          'description'   => 'Try to stay under 70',
+          'custom_attributes' => array('autocomplete' => 'off'),
+        )
+      );
+      echo '<p class="form-field form-field-wide">Title Length: <span id="title-length"></span></p>';
+      echo '</div>';
+    }
+    
+    // Save Fields
+    public function iww_add_gsf_title( $post_id ){
+      if( isset( $_POST['gsf_title'] ) )
+            update_post_meta( $post_id, 'gsf_title', $_POST['gsf_title'] );
+    }
+
     public function add_next_order_btn(){
         /**
          * Adds a next & previous order button for quick pagination of orders.

@@ -11,6 +11,8 @@ jQuery( function( $ ){
            $('#msp-front-page-builder').on( 'click', 'button.remove', msp_admin.delete_promo_option )
         },
 
+
+        
         delete_promo_option(e){
             var tr = $(e.target.parentElement.parentElement);
             var pos = tr.parent().children().index(tr);
@@ -107,4 +109,12 @@ jQuery( function( $ ){
 
     }
     msp_admin.init();
+
+    if( ! $('#title-length').length ) return;
+    $('#title-length').html( $('#gsf_title').val().length );
+
+    $('#gsf_title').keyup(function(){
+        $('#title-length').html( $(this).val().length );
+    });
+    
 } );
