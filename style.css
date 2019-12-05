@@ -10,24 +10,77 @@
  Text Domain:  msp
 */
 
-.feature-base{
-    height: 40px;
-    overflow: hidden;
-    padding: 5px;
-    transform: skew(20deg);
-    background-color: #333;
-    position: absolute;
-    z-index: 10;
-}
-.feature-text{
-    transform: skew(-20deg);
-    text-align: center;
-    text-overflow: clip;
+.storefront-full-width-content.single-product div.product .woocommerce-product-gallery img{
+    max-height: 600px;
+    width: auto;
+    margin: 0 auto;
 }
 
-.feature-base + .storefront-full-width-content.single-product div.product .woocommerce-product-gallery{
-    margin-top: 2rem;
+#single-product-nav-tabs{
+    border-top: 1px solid #f7f7f7;
 }
+.fa.fa-google{
+    display: none;
+}
+
+
+#msp-archive a.brand{
+    color: #333;
+}
+
+.summary h1.product_title.entry-title{
+    font-size: 1.75rem;
+}
+
+#single-product-nav-tabs a.nav-link{
+    color: #333
+}
+
+#single-product-nav-tabs a.nav-link.active{
+    background-color: #333;
+    color: #fff;
+}
+
+.woocommerce-variation.single_variation{
+    display: none!important;
+}
+
+p.price p{
+    margin-bottom:2px;
+    font-size: 16px!important;
+}
+
+body.woocommerce-cart .onsale{
+    display: none;
+}
+
+
+
+table.variations td.value{
+    margin: 0px;
+}
+
+td.savings span.woocommerce-Price-amount.amount{
+    font-size: 15px;
+}
+
+.feature-base{
+    margin: 2px 0;
+    position: relative;
+    overflow: hidden;
+    padding: 5px;
+    transform: skew(15deg);
+    background-color: #515762;
+    z-index: 10;
+    width: 120px;
+}
+.feature-text{
+    transform: skew(-15deg);
+    text-align: center;
+    text-overflow: clip;
+    font-size: 13px;
+}
+
 
 .feature-text a{
     color: #fff;
@@ -47,7 +100,7 @@
 }
 
 
-table.msp-price{
+table.msp-price, .price-label, .msp-price-messages{
     border-collapse: collapse;
     width: unset;
     padding: 0;
@@ -74,26 +127,12 @@ span.woocommerce-Price-amount.amount,
     color: rgb(177, 39, 4);
 }
 
-.price-msg{
-    font-size: 20px;
-}
-
-/* .woocommerce-variation-price::before,
-p.price::before{
-    content: "Price: ";
-    display: inline;
-    font-size: 16px;
-    font-weight: 400;
-    line-height: 20px;
-    color: #333 !important;
-    padding-right: .25rem;
-} */
 
 .woocommerce-variation-price > span.price{
     display: inline;
 }
 
-del span.woocommerce-Price-amount{
+del span.woocommerce-Price-amount.amount{
     color: grey;
 }
 .up-sells.upsells.products .row{
@@ -104,6 +143,11 @@ li.product::marker{
     display: none !important;
     color: #fff;
 }
+
+li.product{
+    list-style: none;
+}
+
 .msp-tab-content{
     border-top: 2px solid #333;
     padding: 1rem 0;
@@ -126,7 +170,7 @@ li.product::marker{
     display: inline-block;
     margin: 0;
 }
-#msp-archive .onsale{
+#msp-archive .item-highlights{
     position: absolute;
     top: 10px;
 }
@@ -148,7 +192,9 @@ div.wc-proceed-to-checkout > a.checkout-button,
     border-radius: 4px;
     text-align: center;
     font-size: 20px;
+    padding: 5px;
 }
+
 .cart-sub-total{
     font-size: 28px;
 }
@@ -321,7 +367,7 @@ footer#colophon .widget{
 
 #msp-bulk-pricing th, #msp-bulk-pricing td{
     text-align: center;
-    font-size: 24px;
+    font-size: 16px;
     padding: .25rem;
 }
 
@@ -749,7 +795,11 @@ table.woocommerce-product-attributes{
 }
 
 .woocommerce-loop-product__title{
-    font-size: 18px;
+    font-size: 14px;
+    line-height: 18px;
+    height: 35px;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 
 .woocommerce-LoopProduct-link.woocommerce-loop-product__link{
@@ -761,11 +811,17 @@ table.woocommerce-product-attributes{
 .product > .woocommerce-LoopProduct-link.woocommerce-loop-product__link{
     height: 200px!important;
     justify-content: center;
-    
+}
+
+.single-product-featured-item{
+    display: flex;
+    align-items: baseline;
 }
 
 #msp-archive > .product{
     margin-bottom: 1rem;
+    list-style: none;
+    position: relative;
 }
 
 .woocommerce-LoopProduct-link.woocommerce-loop-product__link span.price,
@@ -968,7 +1024,9 @@ p.create-account, #wc_twilio_sms_optin_field, #ship-to-different-address{
 
 /* Small devices (landscape phones, 576px and up) */
 @media (max-width: 576px) {
-
+    #primary{
+        margin-top: .5rem;
+    }
 
     .storefront-breadcrumb{
         display: none; 
@@ -1041,7 +1099,8 @@ p.create-account, #wc_twilio_sms_optin_field, #ship-to-different-address{
         float: right;
     }
     body.single-product h1.product_title{
-        font-size: 1.5em;
+        font-size: 1.3rem;
+        line-break: 1.4!important;
     }
     .single-product div.product .images, 
     .single-product div.product .summary, 
@@ -1094,7 +1153,7 @@ p.create-account, #wc_twilio_sms_optin_field, #ship-to-different-address{
         margin-bottom: 1rem;
     }
     #msp-bulk-pricing th, #msp-bulk-pricing td{
-        font-size: 18px;
+        font-size: 16px;
     }
 
     #single-product-nav-tabs a.nav-link{

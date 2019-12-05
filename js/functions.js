@@ -15,7 +15,8 @@ jQuery(document).ready(function( $ ){
           $('#msp_submit_question').on( 'blur', 'input[name="question"]', msp.customer_faq_validate_question )
           $('#msp_submit_question').on( 'click', 'button', msp.customer_submit_question )
           $('#msp_customer_faq').on( 'click', '.msp-submit-answer', msp.customer_submit_awnser )
-          // $('.woocommerce-variation-add-to-cart').on( 'change', 'input[name="variation_id"]', msp.replace_single_product_price_range )
+
+          $('.woocommerce-variation-add-to-cart').on( 'change', 'input[name="variation_id"]', msp.replace_single_product_price_range )
 
           $('#filter-button').click(function(){
               $('#shop-filters').slideToggle();
@@ -45,8 +46,33 @@ jQuery(document).ready(function( $ ){
       },
 
       replace_single_product_price_range: function( e ){
-        let main_price = $('p.msp-price');
-        main_price.html('');
+        let main_price = $('#order-tab-content p.price');
+        let availability = $('.woocommerce-variation-availability').html();
+        let desc = $('.woocommerce-variation-description').html();
+        
+        // Setup for ajax request
+        let data = {
+          action: 'msp_get_variation_price_html',
+          id: $('input.variation_id').val()
+        }
+
+        // Make sure every option is selected before replacing price range
+        var ready = [];
+        let options = $( 'table.variations select' );
+
+
+        options.each( function() {
+          ready.push( this.value.length );
+        });
+
+        if ( ready.every( readyCheck) ){
+          main_price.html('<div class="spinner-border text-danger" role="status"><span class="sr-only">Loading...</span></div>')
+
+          $.post(wp_ajax.url, data, function( response ){
+            main_price.html(response + availability + desc);
+          });
+        }
+
       },
 
       add_to_bulk_list: function( e ){
@@ -335,6 +361,11 @@ function getCookie(cname) {
   }
   return "";
 }
+
+function readyCheck( length ){
+  return length > 0
+}
+
 
 
 });

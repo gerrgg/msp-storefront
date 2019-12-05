@@ -70,45 +70,19 @@ function msp_add_form_control_to_select_boxes( $args ){
     return $args;
 }
 
-// add_filter( 'woocommerce_variable_price_html', 'msp_format_sale_price', 10, 3 );
-function msp_format_sale_price( $price, $reg, $sale ){
 
-    // only on single product pages
-    if( ! is_product() ) return $price;
-
-    
-    if( ! is_numeric( $reg ) || ! is_numeric( $sale ) ){
-        //strip down to just number for math
-        $sale = substr(strip_tags($sale), 5);
-        $reg = substr(strip_tags($reg), 5);
-    }
-    
-    $price_messages = msp_get_price_messages( $sale );
-    $savings = (float)$reg - (float)$sale;
-    $percentage = round( ( (float)$reg - (float)$sale ) / (float)$reg * 100 ).'%';
-    
-
-    return  sprintf('<table class="msp-price"><tr><td>Was:</td><td><del>%s</del></td></tr><tr><td>With Deal:</td><td><ins>%s</ins> %s</td></tr><tr><td>You Save:</td><td> %s (%s)</td></tr></table>', 
-            is_numeric($reg) ? wc_price( $reg ) : $reg, 
-            is_numeric($sale) ? wc_price( $sale ) : $sale, 
-            $price_messages, 
-            wc_price($savings),
-            $percentage
-            );
+add_filter( 'woocommerce_product_price_class', 'msp_product_price_class', 10 );
+function msp_product_price_class( $class ){
+    return $class . ' my-1';
 }
 
-// add_filter( 'woocommerce_product_price_class', 'msp_add_product_price_class' );
-function msp_add_product_price_class( $class ){
-    /**
-     * Add custom css for easy replacement of active price div
-     */
-    $class .= ' msp-price';
-    return $class;
-}
+function msp_the_title( $title, $id = null ) {
 
-// add_filter( 'woocommerce_get_price_html', 'msp_add_price_messages_to_price_html', 10, 2 );
-function msp_add_price_messages_to_price_html( $price, $product ){
-    $_price = floatval(substr(strip_tags($price), 5));
-    $messages = msp_get_price_messages( $_price );
-    return $price . $messages;
+    $seo_name = get_post_meta( $id, 'gsf_title', true );
+    $title = ( ! empty( $seo_name ) ) ? $title . ' ' . $seo_name : $title;
+
+    return $title;
 }
+add_filter( 'the_title', 'msp_the_title', 10, 2 );
+
+

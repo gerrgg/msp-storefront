@@ -233,7 +233,7 @@ class MSP{
                 .msp-shop-subnav a.nav-link
                 {
                     color: $header_color!important;
-                },
+                }
 
             ";
         }
@@ -242,7 +242,7 @@ class MSP{
 
         if( ! empty( get_option( 'msp_footer_background' ) ) ){
             $bg_color = get_option( 'msp_footer_background' );
-            $css .= "footer.site-footer{ background-color: $bg_color }";
+            $css .= "footer.site-footer{ background-color: $bg_color!important; }";
         }
 
         if( ! empty( get_option( 'msp_footer_link_color' ) ) ){

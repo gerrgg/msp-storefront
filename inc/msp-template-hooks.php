@@ -18,14 +18,6 @@ function msp_remove_actions(){
     remove_action( 'storefront_sidebar', 'storefront_get_sidebar', 10 );
 }
 
-if ( wp_is_mobile() ){
-    remove_action('woocommerce_single_product_summary', 'woocommerce_template_single_title', 5);
-    add_action('woocommerce_before_single_product_summary', 'woocommerce_template_single_title', 8);
-
-    remove_action('woocommerce_single_product_summary', 'woocommerce_template_single_rating', 10);
-    add_action('woocommerce_before_single_product_summary', 'woocommerce_template_single_rating', 8);
-}
-
 /**
  * storefront_after_footer
  * @see msp_shameless_self_plug - 5
@@ -165,6 +157,9 @@ add_action( 'wp_ajax_nopriv_msp_process_customer_submit_awnser', 'msp_process_cu
 
 add_action( 'wp_ajax_msp_get_products', 'msp_get_products' );
 add_action( 'wp_ajax_nopriv_msp_get_products', 'msp_get_products' );
+
+add_action( 'wp_ajax_msp_get_variation_price_html', 'msp_get_variation_price_html' );
+add_action( 'wp_ajax_nopriv_msp_get_variation_price_html', 'msp_get_variation_price_html' );
 /**
  * Admin Post
  */
@@ -197,8 +192,9 @@ add_action( 'woocommerce_after_single_product_summary', 'woocommerce_upsell_disp
 remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_price', 10 );
 remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_excerpt', 20 );
 
-add_action( 'woocommerce_single_product_summary', 'msp_add_tabs', 11 );
-add_action( 'woocommerce_single_product_summary', 'msp_open_single_product_tabs', 12 );
+add_action( 'woocommerce_single_product_summary', 'msp_get_brand_name', 1 );
+add_action( 'woocommerce_single_product_summary', 'msp_add_tabs', 12 );
+add_action( 'woocommerce_single_product_summary', 'msp_open_single_product_tabs', 13 );
 add_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_price', 25 );
 add_action( 'woocommerce_single_product_summary', 'msp_show_product_size_guide_btn', 25 );
 add_action( 'woocommerce_single_product_summary', 'msp_bulk_discount_table', 35 );
@@ -259,13 +255,14 @@ add_action( 'woocommerce_archive_description', 'msp_add_category_images', 2 );
  * @see we do this to wrap a product image in an a tag - CSS
  */
 add_action( 'woocommerce_before_shop_loop_item_title', 'woocommerce_template_loop_product_link_close', 15 );
-add_action( 'woocommerce_before_shop_loop_item_title', 'msp_featured_item', 10 );
+// add_action( 'woocommerce_before_shop_loop_item_title', 'msp_featured_item', 10 );
 
 /**
  * woocommerce_before_shop_loop_item_title
  * @see we do this to wrap the rest of the product in another tag - CSS
  */
 add_action( 'woocommerce_shop_loop_item_title', 'msp_template_loop_product_link_open', 5 );
+add_action( 'woocommerce_before_shop_loop_item_title', 'msp_get_brand_name', 15 );
 
 /**
  * woocommerce_after_shop_loop_item
@@ -276,7 +273,9 @@ remove_action( 'woocommerce_after_shop_loop_item', 'woocommerce_template_loop_ad
  * woocommerce_before_single_product_summary
  */
 add_action( 'woocommerce_before_single_product_summary', 'woocommerce_breadcrumb', 5 );
-add_action( 'woocommerce_before_single_product_summary', 'msp_featured_item', 5 );
+remove_action( 'woocommerce_before_single_product_summary', 'woocommerce_show_product_sale_flash', 10 );
+// add_action( 'woocommerce_single_product_summary', 'woocommerce_show_product_sale_flash', 11 );
+add_action( 'woocommerce_single_product_summary', 'msp_featured_item', 11 );
 
 add_action( 'storefront_before_content', 'msp_get_shop_subnav', 105 );
 
@@ -306,4 +305,16 @@ if( get_option( 'wc_easy_qty_breaks' ) )
 
 remove_action( 'woocommerce_cart_collaterals', 'woocommerce_cross_sell_display' );
 add_action( 'woocommerce_cart_collaterals', 'woocommerce_cross_sell_display', 100 );
+
+
+if ( wp_is_mobile() ){
+    remove_action('woocommerce_single_product_summary', 'woocommerce_template_single_title', 5);
+    add_action('woocommerce_before_single_product_summary', 'woocommerce_template_single_title', 8);
+
+    remove_action('woocommerce_single_product_summary', 'woocommerce_template_single_rating', 10);
+    add_action('woocommerce_before_single_product_summary', 'woocommerce_template_single_rating', 8);
+
+    remove_action( 'woocommerce_single_product_summary', 'msp_get_brand_name', 1 );
+    add_action( 'woocommerce_before_single_product_summary', 'msp_get_brand_name', 1 );
+}
 

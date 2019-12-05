@@ -1078,13 +1078,14 @@ function msp_bulk_discount_table(){
      * HTML table of bulk pricing per object
      */
     global $product;
+
     $product_id = $product->get_id();
     $enabled = get_post_meta( $product_id, '_bulkdiscount_enabled', true );
     $has_a_rule = ( ! empty( get_post_meta( $product_id, '_bulkdiscount_quantity_1', true ) ) );
 
     if( $enabled == 'yes' && $has_a_rule ){
         ?>
-        <h3 class="m-2">Buy More, Save Money.</h4>
+        <h5 class="m-2">Bulk Discount Pricing: </h4>
         <table id="msp-bulk-pricing" class="table-bordered">
             <thead class="bg-dark text-light">
                 <td>QTY</td>
@@ -1101,7 +1102,8 @@ function msp_bulk_discount_table(){
                     $qtys = get_bulk_discount_data( $product_id, 'discount' );
                     foreach( $qtys as $value ){
                         $percent_off = 1 - ($value / 100);
-                        $price = number_format($product->get_price() * $percent_off, 2);
+                        $regular_price = ( $product->is_type( 'variable' ) ) ? $product->get_variation_price('max') : $product->get_price();
+                        $price = number_format( ($regular_price * $percent_off), 2);
                         printf("<td>$%s</td>", $price);
                     }
                 ?>
@@ -1123,6 +1125,7 @@ function get_bulk_discount_data( $product_id, $key ){
         $value = get_post_meta( $product_id, '_bulkdiscount_'. $key . '_' . $i, true );
         if( ! empty( $value) ) array_push( $data, $value );
     }
+
     return $data;
 }
 
@@ -1443,6 +1446,9 @@ function msp_loop_format_sale_price( $regular_price, $sale_price ) {
 }
 
 function msp_featured_item(){
+    /**
+     * 
+     */
     global $product;
     if( ! $product->is_featured() ) return;
 
@@ -1450,12 +1456,97 @@ function msp_featured_item(){
     $site_name = get_bloginfo( 'name' );
     ?>
 
-    <div class="feature-base">
-        <div class="feature-text">
-            <span style="color: #fff;"><?php echo $site_name . '\'s ' ?></span>
-            <span style="color: <?php echo $primary_color ?>">Choice</span>
+    <div class="single-product-featured-item">
+        <div class="feature-base">
+            <div class="feature-text">
+                <span style="color: #fff;">Workwear</span>
+                <span style="color: #ff9900; font-weight: 600">Choice</span>
+            </div>
         </div>
+
+    
+    <?php 
+        // $terms = get_the_terms( get_the_ID(), 'product_cat' );
+        // $term = end( $terms );
+        // if( ! empty( $term ) && is_product() )  printf("<span class='pl-2'>for  \"<a class='featured-in-link' href='%s'>%s</a> \"</span>", get_term_link( $term->term_id ), $term->name); 
+    ?>
+
     </div>
 
+
     <?php
+}
+
+function msp_get_brand_name(){
+    /**
+     * Get and display product brand w/ link
+     */
+    global $product;
+    $brand = $product->get_attribute('pa_all-brand');
+
+    $term = get_term_by( 'name', $brand, 'pa_all-brand' );
+
+    if( false === $term ) return $brand;
+
+    $link = get_term_link( $term->term_id );
+    printf("<a class='brand pa_all-brand' href='%s'>%s</a>", $link, $brand);
+}
+
+function msp_format_sale_price( $price, $reg, $sale ){
+
+
+    // only on single product pages
+    // if( ! is_product() || ! is_ajax() ) return $price;
+
+    
+    if( ! is_numeric( $reg ) || ! is_numeric( $sale ) ){
+        //strip down to just number for math
+        $sale = substr(strip_tags($sale), 5);
+        $reg = substr(strip_tags($reg), 5);
+    }
+
+    
+    $price_messages = msp_get_price_messages( $sale );
+    $savings = (float)$reg - (float)$sale;
+    $percentage = round( ( (float)$reg - (float)$sale ) / (float)$reg * 100 ).'%';
+    
+
+    return  sprintf('<table class="msp-price"><tr><td>Was:</td><td><del>%s</del></td></tr><tr><td>Now:</td><td><ins>%s</ins> %s</td></tr><tr><td>Savings:</td><td class="savings"> %s (%s)</td></tr></table>', 
+            is_numeric($reg) ? wc_price( $reg ) : $reg, 
+            is_numeric($sale) ? wc_price( $sale ) : $sale, 
+            $price_messages, 
+            wc_price($savings),
+            $percentage
+            );
+}
+
+function msp_get_variation_price_html(){
+    // wp_send_json( $_POST );
+
+    $product = wc_get_product( $_POST['id'] );
+    // if( empty( $product ) ) return;
+
+    if( $product->is_on_sale() ){
+        $price = $product->get_price();
+        $reg = $product->get_regular_price();
+        $sale = $product->get_sale_price();
+        $html = msp_format_sale_price($price, $reg, $sale); 
+    } else {
+        $html = msp_get_price_html($product);
+    }
+
+    echo $html;
+    wp_die();
+}
+
+function msp_get_price_html( $product ){
+
+    if( $product->get_price() == '' || ! $product->is_in_stock() ){
+        echo 'Sorry, product is not available at this time';
+    } else {
+        $label = '<span class="price-label">Price: </span>';
+        $price_messages = msp_get_price_messages( $product->get_price() );
+        $html = $product->get_price_html() . $price_messages;
+    }
+	return $label . $html;
 }
