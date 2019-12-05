@@ -10,6 +10,17 @@
  Text Domain:  msp
 */
 
+body.error404 .woocommerce.columns-2 .col-6, 
+body.error404 .woocommerce.columns-2 .col-sm-3,
+body.error404 .woocommerce.columns-2 .col-xl-2{
+    max-width: 100%!important;
+    width: 100%!important;
+    flex: 0 0 100%;
+}
+
+.hentry .entry-content a:not(.button){
+    text-decoration: none;
+}
 .msp-shop-subnav li{
     margin: 0 5px;
 }
@@ -797,7 +808,7 @@ table.woocommerce-product-attributes{
     padding: 0px;
 }
 
-.woocommerce-loop-product__title{
+.woocommerce-loop-product__title, .cart-collaterals h2.woocommerce-loop-product__title{
     font-size: 14px;
     line-height: 18px;
     height: 35px;
