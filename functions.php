@@ -145,7 +145,8 @@ class MSP{
         // make admin urls available to JS
         wp_localize_script( 'main', 'wp_ajax', array(
             'url' => admin_url( 'admin-ajax.php' ),
-            'post' => admin_url( 'admin-post.php' )
+            'post' => admin_url( 'admin-post.php' ),
+            'cookie_version' => get_option( 'promo_pop_up_version' )
         ) );
         
         // slideout.js - https://github.com/Mango/slideout
@@ -328,13 +329,6 @@ class MSP{
         */
         global $wpdb;
         return ( $wpdb->get_row("SELECT post_name FROM $wpdb->posts WHERE post_name = '" . $post_name . "'", 'ARRAY_A') );
-    }
-
-    public function wp_localize_scripts( $arr ){
-        wp_localize_script( $handle, 'wp_ajax', array(
-            'url' => admin_url( 'admin-ajax.php' ),
-            'post' => admin_url( 'admin-post.php' )
-        ) );
     }
 
     public function register_menus(){

@@ -33,16 +33,20 @@ jQuery(document).ready(function( $ ){
           this.$modal.on( 'submit', 'form', this.submit )
           this.$header.on( 'click', 'li.menu-item-has-children', this.open_nav_child_list )
 
-          let cookie = getCookie('msp_promo_seen');
+          this.promo_pop_up();
 
-          if( $('.promo_pop_up_btn').length && cookie != 1 ){
-            setTimeout(
-              function()
-              {
-                $('.promo_pop_up_btn').click()
-              }, 2000);
-          }
+      },
 
+      promo_pop_up: function(){
+        let cookie = getCookie('msp_promo_seen');
+
+        if( $('.promo_pop_up_btn').length && cookie != wp_ajax.cookie_version ){
+          setTimeout(
+            function()
+            {
+              $('.promo_pop_up_btn').click()
+            }, 2000);
+        }
       },
 
       replace_single_product_price_range: function( e ){
@@ -248,7 +252,9 @@ jQuery(document).ready(function( $ ){
           $.post(wp_ajax.url, { action: 'msp_get_image_src', id: id }, function( response ){
             msp.$modal.find('.modal-body').html( $('<img/>', { src: response, class: 'mx-auto' } ) );
 
-            document.cookie = "msp_promo_seen=1; path=/; max-age=2592000;"; 
+            console.log( wp_ajax );
+
+            document.cookie = "msp_promo_seen="+ wp_ajax.cookie_version +"; path=/; max-age=2592000;"; 
          });
         },
 

@@ -386,7 +386,7 @@ class MSP_Admin{
         );
 
         $this->add_settings_field_and_register( 'msp_options', 'promotions', 'promo', 
-        array( 'top_bar_link', 'top_bar_image_id', 'pop_up_title', 'pop_up_image_id', 'bogo_needle', 'bogo_discount' ) );
+        array( 'top_bar_link', 'top_bar_image_id', 'pop_up_title', 'pop_up_link', 'pop_up_image_id', 'pop_up_version', 'bogo_needle', 'bogo_discount' ) );
 
         $this->add_settings_field_and_register( 'msp_options', 'theme_options', 'msp',
          array( 'primary_color', 'link_color', 'header_background', 'header_links', 'footer_background', 'footer_link_color', 
@@ -413,9 +413,16 @@ function promo_pop_up_title_callback(){
     echo '<input name="promo_pop_up_title" id="promo_pop_up_title" type="text" value="'. get_option( 'promo_pop_up_title' ) .'" class="code" />';
 }
 
+function promo_pop_up_link_callback(){
+    echo '<input name="promo_pop_up_link" id="promo_pop_up_link" type="text" value="'. get_option( 'promo_pop_up_link' ) .'" class="code" />';
+}
+
 function promo_pop_up_image_id_callback(){
-    $option = get_option( 'promo_pop_up_image_id' );
     echo '<input name="promo_pop_up_image_id" id="promo_pop_up_image_id" type="text" value="'. get_option( 'promo_pop_up_image_id' ) .'" class="code" />';
+}
+
+function promo_pop_up_version_callback(){
+    echo '<input name="promo_pop_up_version" id="promo_pop_up_version" type="text" value="'. get_option( 'promo_pop_up_version' ) .'" class="code" />';
 }
 
 function promo_top_bar_link_callback(){

@@ -539,10 +539,22 @@ function msp_check_bogo_deal(){
 	global $product;
 	$needle = get_option( 'promo_bogo_needle' );
 
-	if( $product->get_attribute('pa_all-brand') == $needle ){
-		$discount = get_option( 'promo_bogo_discount' ) . '%';	
-		$html = '<p><strong class="pr-1 text-success">BOGO %s Off:</strong>Buy any <a href="%s" class="text-bold">%s</a> and get another %s off!</p>';
+	if( ! msp_product_is_bogo( $product ) ) return;
 
-		printf( $html, $discount, msp_get_brand_name(false), $needle, $discount );
+	$discount = get_option( 'promo_bogo_discount' ) . '%';	
+	$html = '<p><strong class="pr-1 text-success">BOGO %s Off:</strong>Buy any <a href="%s" class="un">%s</a> and get another <strong>%s off!</strong></p>';
+
+	printf( $html, $discount, msp_get_brand_name(false), $needle, $discount );
+}
+
+function msp_product_is_bogo( $product ){
+	$needle = get_option( 'promo_bogo_needle' );
+	return ( $product->get_attribute('pa_all-brand') == $needle );
+}
+
+function msp_check_bogo_deal_badge( $product ){
+	
+	if( msp_product_is_bogo( $product ) ){
+		printf( '<span class="badge badge-success">BOGO %s</span>', get_option( 'promo_bogo_discount' ) . '%' );
 	}
 }

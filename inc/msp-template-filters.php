@@ -7,7 +7,7 @@ function msp_add_bootstrap_cols_to_product( $class ){
     /**
      * adds bootstrap grid classes to all category and shop pages.
      */
-    if( ! is_product() && ! is_cart()  ){
+    if( ! is_product() && ! is_cart() && ! is_front_page() ){
         $class[] = 'col-6 col-sm-3 col-xl-2';
     }
     return $class;

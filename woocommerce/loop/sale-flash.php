@@ -27,11 +27,11 @@ global $post, $product;
 
     <?php endif;
     
-    if ( $product->is_on_sale() ) : ?>
+    if ( msp_product_is_bogo( $product ) ) :
 
-        <?php echo apply_filters( 'woocommerce_sale_flash', '<span class="onsale">' . esc_html__( 'Sale!', 'woocommerce' ) . '</span>', $post, $product ); ?>
+        msp_check_bogo_deal_badge( $product );
 
-    <?php endif;
+    endif;
 
 echo '</div>';
 /* Omit closing PHP tag at the end of PHP files to avoid "headers already sent" issues. */

@@ -1209,22 +1209,25 @@ function msp_get_products_slider( $atts ){
     <?php if( empty( $atts['products'] ) ) return; ?>
 
     <?php $products = explode( ',', $atts['products'] ) ?>
+        <?php woocommerce_product_loop_start(); ?>
+            <div class="owl-carousel mb-3">
 
-    <div class="owl-carousel product-slider border-bottom">
-        <?php foreach( $products as $product_id ) :
-            $product = wc_get_product( $product_id );
-            if( empty( $product ) ) return;
+                <?php foreach ( $products as $product ) : ?>
 
-            $image_src = wp_get_attachment_image_src( $product->get_image_id(), 'medium' );
-            if( ! empty( $image_src ) ): ?>
-                <a href="<?php echo $product->get_permalink() ?>" class="text-center">
-                    <img src="<?php echo $image_src[0] ?>" class="img-fluid mx-auto" style="height: 100px; width: auto;" />
-                    <p class="text-center price"><?php echo $product->get_price_html() ?></p>
-                </a>
-            <?php endif;
-        endforeach; ?>
-    </div>
+                    <?php
+                        $post_object = get_post( $product );
+                        setup_postdata( $GLOBALS['post'] =& $post_object );
+                        // Create new template for slider?
+                        wc_get_template_part( 'content', 'product' ); ?>
+
+                <?php endforeach; ?>
+
+            </div>
+        <?php woocommerce_product_loop_end(); ?>
+        
     <?php
+    // Important
+    wp_reset_postdata();
 }
 
 function msp_add_gmc_conversion_code( $order_id ){
@@ -1277,7 +1280,7 @@ function add_custom_discount_2nd_at_50( $wc_cart ){
 
     if( $discount != 0 ){
         // The discount
-        $wc_cart->add_fee( 'Helly Hansen BOGO 50% Off ('. $count_items_prices .')', $discount, true  );
+        $wc_cart->add_fee( 'Helly Hansen BOGO 50% Off', $discount, true  );
         # Note: Last argument in add_fee() method is related to applying the tax or not to the discount (true or false)
     }
 }
@@ -1557,4 +1560,9 @@ function msp_get_price_html( $product ){
         $html = $product->get_price_html() . $price_messages;
     }
 	return $label . $html;
+}
+
+function msp_get_promo(){
+    wp_send_json( $_POST );
+    wp_die();
 }
