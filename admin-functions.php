@@ -386,7 +386,7 @@ class MSP_Admin{
         );
 
         $this->add_settings_field_and_register( 'msp_options', 'promotions', 'promo', 
-        array( 'top_bar_link', 'top_bar_image_id', 'pop_up_title', 'pop_up_image_id' ) );
+        array( 'top_bar_link', 'top_bar_image_id', 'pop_up_title', 'pop_up_image_id', 'bogo_needle', 'bogo_discount' ) );
 
         $this->add_settings_field_and_register( 'msp_options', 'theme_options', 'msp',
          array( 'primary_color', 'link_color', 'header_background', 'header_links', 'footer_background', 'footer_link_color', 
@@ -426,6 +426,14 @@ function promo_top_bar_link_callback(){
 function promo_top_bar_image_id_callback(){
     $option = get_option( 'promo_top_bar_image_id' );
     echo '<input name="promo_top_bar_image_id" id="promo_top_bar_image_id" type="text" value="'. get_option( 'promo_top_bar_image_id' ) .'" class="code" />';
+}
+
+function promo_bogo_needle_callback(){
+    echo '<input name="promo_bogo_needle" id="promo_bogo_needle" type="text" value="'. get_option( 'promo_bogo_needle' ) .'" class="code" />';
+}
+
+function promo_bogo_discount_callback(){
+    echo '<input name="promo_bogo_discount" id="promo_bogo_discount" type="number" value="'. get_option( 'promo_bogo_discount' ) .'" class="code" />';
 }
 
 

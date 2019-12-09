@@ -1250,31 +1250,35 @@ function msp_add_gmc_conversion_code( $order_id ){
     <?php
 }
 
-// add_action( 'woocommerce_before_calculate_totals', 'msp_helly_hansen_discount_coupon' );
-function msp_helly_hansen_discount_coupon( $cart_object ){
-    /**
-     * Check for a coupon, look for eligible items, add discount.
-     * @param array
-     */
+add_action('woocommerce_cart_calculate_fees', 'add_custom_discount_2nd_at_50', 10, 1 );
+function add_custom_discount_2nd_at_50( $wc_cart ){
+    if ( is_admin() && ! defined( 'DOING_AJAX' ) ) return;
+    $discount = 0;
+    $items_prices = array();
+    
+    // Set HERE your targeted variable product ID
+    $match = get_option( 'promo_bogo_needle' );
+    $percent_off = intval(get_option( 'promo_bogo_discount' )) / 100;
 
-     // TODO: Should connect these next three lines with a filter tied to a backend form.
-    $coupon_code = '15offhelly';
-    $needle = 'Helly Hansen Workwear';
-    $percent_off = .85;
-
-    if( ! WC()->cart->has_discount( $coupon_code ) ) return;
-
-    $cart = $cart_object->get_cart_contents();
-
-    foreach( $cart as $cart_item ){
+    foreach ( $wc_cart->get_cart() as $key => $cart_item ) {
         $product = wc_get_product( $cart_item['product_id'] );
         $brand = $product->get_attribute('pa_all-brand');
 
-        if( $brand == $needle ){
-            $old_price = $cart_item['data']->get_price();
-            $discounted_price = round( $old_price * $percent_off );
-            $cart_item['data']->set_price($discounted_price);
+        if( $brand == $match ){
+            $qty = intval( $cart_item['quantity'] );
+            for( $i = 0; $i < $qty; $i++ )
+                $items_prices[] = floatval( $cart_item['data']->get_price());
         }
+    }
+    $count_items_prices = count($items_prices);
+
+    if( $count_items_prices > 1 ) foreach( $items_prices as $key => $price )
+        if( $key % 2 == 1 ) $discount -= number_format($price * $percent_off, 2 );
+
+    if( $discount != 0 ){
+        // The discount
+        $wc_cart->add_fee( 'Helly Hansen BOGO 50% Off ('. $count_items_prices .')', $discount, true  );
+        # Note: Last argument in add_fee() method is related to applying the tax or not to the discount (true or false)
     }
 }
 
@@ -1477,7 +1481,7 @@ function msp_featured_item(){
     <?php
 }
 
-function msp_get_brand_name(){
+function msp_get_brand_name( $echo = true ){
     /**
      * Get and display product brand w/ link
      */
@@ -1489,7 +1493,11 @@ function msp_get_brand_name(){
     if( false === $term ) return $brand;
 
     $link = get_term_link( $term->term_id );
-    printf("<a class='brand pa_all-brand' href='%s'>%s</a>", $link, $brand);
+    if( $echo === true ){
+        printf("<a class='brand pa_all-brand' href='%s'>%s</a>", $link, $brand);
+    } else {
+        return $link;
+    }
 }
 
 function msp_format_sale_price( $price, $reg, $sale ){

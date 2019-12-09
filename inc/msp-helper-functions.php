@@ -531,7 +531,18 @@ function msp_get_price_messages( $sale ){
 	}
 	
 	$price_messages .= '</span>';
-
+	
     return $price_messages;
 }
 
+function msp_check_bogo_deal(){
+	global $product;
+	$needle = get_option( 'promo_bogo_needle' );
+
+	if( $product->get_attribute('pa_all-brand') == $needle ){
+		$discount = get_option( 'promo_bogo_discount' ) . '%';	
+		$html = '<p><strong class="pr-1 text-success">BOGO %s Off:</strong>Buy any <a href="%s" class="text-bold">%s</a> and get another %s off!</p>';
+
+		printf( $html, $discount, msp_get_brand_name(false), $needle, $discount );
+	}
+}
