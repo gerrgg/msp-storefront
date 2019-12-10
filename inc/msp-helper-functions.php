@@ -489,6 +489,8 @@ function msp_promo_row( $atts ){
 	$images = explode( ', ', $atts['images'] );
 	$columns = 12 / sizeof( $links );
 
+	ob_start();
+
 	echo '<div class="row">';
 
 	for( $i = 0; $i < sizeof( $links ); $i++ ) : 
@@ -514,6 +516,9 @@ function msp_promo_row( $atts ){
 	<?php endfor;
 
 	echo '</div>';
+
+	$html = ob_get_clean();
+	return $html;
 }
 
 function msp_get_price_messages( $sale ){

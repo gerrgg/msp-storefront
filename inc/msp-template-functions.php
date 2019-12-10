@@ -1149,6 +1149,8 @@ function msp_get_customer_service_info(){
      */
     $img = URI . '/assets/cs.png';
     $contact = get_option( 'msp_contact_email' );
+
+    ob_start();
     ?>
     <div id="fp-customer-service-top" class="d-block d-md-flex justify-content-center align-items-center text-center">
         <img src="<?php echo $img ?>" />
@@ -1182,6 +1184,8 @@ function msp_get_customer_service_info(){
         </div>
     </div>
     <?php
+    $html = ob_get_clean();
+    return $html;
 }
 
 function msp_get_category_slider( $categories, $header = ''){
@@ -1215,6 +1219,7 @@ function msp_get_products_slider( $atts ){
      * Same as msp_get_category_slider but for products.
      * TODO: Could/should probally combine both functions into one
      */
+    ob_start();
 
     if( ! empty( $atts['header'] ) ) : ?>
         <h2 class="pb-2"><?php echo $atts['header']; ?></h3>
@@ -1242,6 +1247,9 @@ function msp_get_products_slider( $atts ){
     <?php
     // Important
     wp_reset_postdata();
+
+    $html = ob_get_clean();
+    return $html;
 }
 
 function msp_add_gmc_conversion_code( $order_id ){
@@ -1359,12 +1367,17 @@ function msp_get_shop_reviews(){
     $page_id = wc_get_page_id( 'shop' );
     $comments = get_comments( array( 'post_id' => $page_id, 'number' => 10 ) );
 
+    ob_start();
+
     ?>
-    <h2 class="my-2">Recent Customers ❤️</h2>
-    <div id="happy-comments" class="owl-carousel border-bottom">
-	    <?php wp_list_comments( apply_filters( 'woocommerce_product_review_list_args', array( 'callback' => 'woocommerce_comments' ) ), $comments ); ?>
-    </div>
+        <h2 class="my-2">Recent Customers ❤️</h2>
+        <div id="happy-comments" class="owl-carousel border-bottom">
+            <?php wp_list_comments( apply_filters( 'woocommerce_product_review_list_args', array( 'callback' => 'woocommerce_comments' ) ), $comments ); ?>
+        </div>
     <?php
+
+    $html = ob_get_clean();
+    return $html;
 }
 
 function msp_add_tabs(){
