@@ -1576,7 +1576,15 @@ function msp_get_price_html( $product ){
 	return $label . $html;
 }
 
-function msp_get_promo(){
-    wp_send_json( $_POST );
-    wp_die();
+function msp_warn_about_leadtime(){
+    global $product;
+    
+    // static id to 3m non-stock shipping class
+    $non_stock_item = 1362;
+    $today = date("Y-m-d");// current date;
+    $date = strtotime(date("Y-m-d", strtotime($today)) . " +15 day");
+
+    if( $product->get_shipping_class_id() == $non_stock_item ){
+       echo '<p style="color: red">Product made to order, ships on or before <b>'. date('M d, Y', $date) .'</b>.</p>';
+    }
 }

@@ -558,3 +558,17 @@ function msp_check_bogo_deal_badge( $product ){
 		printf( '<span class="badge badge-success">BOGO %s</span>', get_option( 'promo_bogo_discount' ) . '%' );
 	}
 }
+
+function pluralize( $count, $str ){
+    return ( $count <= 1 ) ? $str : $str . 's'; 
+}
+
+
+function sc_add_po_to_emails( $keys ) {
+     $keys['Purchase Order'] = '_billing_po'; // This will look for a custom field called '_billing_po' and add it to emails
+     return $keys;
+}
+
+function sc_add_po_meta_data($order){
+    echo '<p><strong>'.__('Purchase Order').':</strong> ' . get_post_meta( $order->get_id(), '_billing_po', true ) . '</p>';
+}

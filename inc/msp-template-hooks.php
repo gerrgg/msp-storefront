@@ -18,6 +18,8 @@ function msp_remove_actions(){
     remove_action( 'storefront_sidebar', 'storefront_get_sidebar', 10 );
 }
 
+
+
 /**
  * storefront_after_footer
  * @see msp_shameless_self_plug - 5
@@ -199,6 +201,7 @@ add_action( 'woocommerce_single_product_summary', 'msp_get_brand_name', 1 );
 add_action( 'woocommerce_single_product_summary', 'msp_add_tabs', 12 );
 add_action( 'woocommerce_single_product_summary', 'msp_open_single_product_tabs', 13 );
 add_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_price', 25 );
+add_action( 'woocommerce_single_product_summary', 'msp_warn_about_leadtime', 29 );
 add_action( 'woocommerce_single_product_summary', 'msp_check_bogo_deal', 27 );
 add_action( 'woocommerce_single_product_summary', 'msp_show_product_size_guide_btn', 30 );
 add_action( 'woocommerce_single_product_summary', 'msp_bulk_discount_table', 35 );

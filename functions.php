@@ -437,39 +437,46 @@ class MSP{
 //init
 new MSP();
 
-function pluralize( $count, $str ){
-    return ( $count <= 1 ) ? $str : $str . 's'; 
+if( class_exists( 'Sync' ) ){
+    /**
+     * If we have the Sync Class, setup portwest sync cron job
+     */
+
+     // Declare a hook which will be prepopulated with vendor data
+    do_action( 'msp_sync_portwest_stock');
+
+    // Setup cronjob - Tell wordpress to execute all functions hooked to 'msp_sync_portwest_stock'
+    wp_schedule_event( time(), 'hourly', 'msp_sync_portwest_stock', array(
+        'vendor' => 'portwest',
+        'url'    => 'http://www.portwest.us/downloads/sohUS.csv',
+        'actions' => array(
+            'stock' => '1',
+        )
+    ));
+
+    // Add a function to that hook which does what we want to do
+    add_action( 'msp_sync_portwest_stock', 'msp_sync_portwest_stock_callback' );
+
+    // Roughly recreate Sync->process() function but with $data instead of $_POST
+    function msp_sync_portwest_stock_callback( $data ){
+        $sync = new Sync();
+
+        foreach( $data['actions'] as $k => $v ){
+            if( $v == '1' ){
+                $sync->flags[$k]['enabled'] = true;
+            }
+        }
+
+        $sync->dry_run = ( isset( $data['actions']['dry_run'] ) );
+        $sync->vendor = $data['vendor'];
+        $sync->url = $data['url'];
+
+        $sync->sync_with_data();
+        wp_mail( 'greg@gerrg.com', 'portwest sync', $data['vendor'] );
+    }
 }
 
 
-function sc_add_po_to_emails( $keys ) {
-     $keys['Purchase Order'] = '_billing_po'; // This will look for a custom field called '_billing_po' and add it to emails
-     return $keys;
-}
-
-function sc_add_po_meta_data($order){
-    echo '<p><strong>'.__('Purchase Order').':</strong> ' . get_post_meta( $order->get_id(), '_billing_po', true ) . '</p>';
-}
-
-
-
-/**
- * EXTRA
- */
-
- add_action( 'woocommerce_single_product_summary', 'msp_warn_about_leadtime', 29 );
- function msp_warn_about_leadtime(){
-     global $product;
-     
-     // static id to 3m non-stock shipping class
-     $non_stock_item = 1362;
-     $today = date("Y-m-d");// current date;
-     $date = strtotime(date("Y-m-d", strtotime($today)) . " +15 day");
-
-     if( $product->get_shipping_class_id() == $non_stock_item ){
-        echo '<p style="color: red">Product made to order, ships on or before <b>'. date('M d, Y', $date) .'</b>.</p>';
-     }
- }
 
  
 
