@@ -143,8 +143,8 @@ add_action( 'wp_ajax_nopriv_msp_get_product_size_guide_src', 'msp_get_product_si
 add_action( 'wp_ajax_msp_get_image_src', 'msp_get_image_src' );
 add_action( 'wp_ajax_nopriv_msp_get_image_src', 'msp_get_image_src' );
 
-add_action( 'wp_ajax_msp_get_promo', 'msp_get_promo' );
-add_action( 'wp_ajax_nopriv_msp_get_promo', 'msp_get_promo' );
+add_action( 'wp_ajax_msp_get_promo_pop_up_link_and_image', 'msp_get_promo_pop_up_link_and_image' );
+add_action( 'wp_ajax_nopriv_msp_get_promo_pop_up_link_and_image', 'msp_get_promo_pop_up_link_and_image' );
 
 add_action( 'wp_ajax_msp_get_leave_feedback_form', 'msp_get_leave_feedback_form' );
 add_action( 'wp_ajax_nopriv_msp_get_leave_feedback_form', 'msp_get_leave_feedback_form' );

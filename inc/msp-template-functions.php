@@ -800,6 +800,21 @@ function msp_get_image_src(){
     wp_die();
 }
 
+function msp_get_promo_pop_up_link_and_image(){
+    /**
+     * returns the src and link for promo image pop up - used for AJAX.
+     */
+
+    $response = array(
+        'link' => get_bloginfo('url') . '/' . get_option( 'promo_pop_up_link' ),
+        'src' => msp_get_product_image_src( $_POST['id'], 'full' )
+    );
+
+    wp_send_json( $response );
+
+    wp_die();
+}
+
 function msp_get_leave_feedback_form(){
     /**
      * Simply gets the HTML template for the feedback form.
@@ -1099,13 +1114,12 @@ function msp_bulk_discount_table(){
             <tbody>
                 <td>Price</td>
                 <?php 
-                    $qtys = get_bulk_discount_data( $product_id, 'discount' );
-                    foreach( $qtys as $value ){
-                        $percent_off = 1 - ($value / 100);
-                        $regular_price = ( $product->is_type( 'variable' ) ) ? $product->get_variation_price('max') : $product->get_price();
-                        $price = number_format( ($regular_price * $percent_off), 2);
-                        printf("<td>$%s</td>", $price);
-                    }
+                     $qtys = get_bulk_discount_data( $product_id, 'discount' );
+                     foreach( $qtys as $value ){
+                         $percent_off = 1 - ($value / 100);
+                         $price = number_format( ($product->get_price() * $percent_off), 2);
+                         printf("<td>$%s</td>", $price);
+                     }
                 ?>
             </tbody>
         </table>

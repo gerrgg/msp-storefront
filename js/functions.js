@@ -249,10 +249,11 @@ jQuery(document).ready(function( $ ){
         },
 
         'promo': function( action, id ){
-          $.post(wp_ajax.url, { action: 'msp_get_image_src', id: id }, function( response ){
-            msp.$modal.find('.modal-body').html( $('<img/>', { src: response, class: 'mx-auto' } ) );
+          $.post(wp_ajax.url, { action: 'msp_get_promo_pop_up_link_and_image', id: id }, function( response ){
+            console.log( response );
+            let html = $( '<a/>', { href: response.link } ).append( $('<img/>', { src: response.src, class: 'mx-auto' } ) )
 
-            console.log( wp_ajax );
+            msp.$modal.find('.modal-body').html( html );
 
             document.cookie = "msp_promo_seen="+ wp_ajax.cookie_version +"; path=/; max-age=2592000;"; 
          });
