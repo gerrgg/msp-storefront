@@ -197,7 +197,7 @@ add_action( 'woocommerce_after_single_product_summary', 'woocommerce_upsell_disp
 remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_price', 10 );
 remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_excerpt', 20 );
 
-add_action( 'woocommerce_single_product_summary', 'msp_get_brand_name', 1 );
+add_action( 'woocommerce_single_product_summary', 'msp_brand_name', 1 );
 add_action( 'woocommerce_single_product_summary', 'msp_add_tabs', 12 );
 add_action( 'woocommerce_single_product_summary', 'msp_open_single_product_tabs', 13 );
 add_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_price', 25 );
@@ -269,7 +269,7 @@ add_action( 'woocommerce_before_shop_loop_item_title', 'woocommerce_template_loo
  * @see we do this to wrap the rest of the product in another tag - CSS
  */
 add_action( 'woocommerce_shop_loop_item_title', 'msp_template_loop_product_link_open', 5 );
-add_action( 'woocommerce_before_shop_loop_item_title', 'msp_get_brand_name', 15 );
+add_action( 'woocommerce_before_shop_loop_item_title', 'msp_brand_name', 15 );
 
 /**
  * woocommerce_after_shop_loop_item
@@ -321,7 +321,7 @@ if ( wp_is_mobile() ){
     remove_action('woocommerce_single_product_summary', 'woocommerce_template_single_rating', 10);
     add_action('woocommerce_before_single_product_summary', 'woocommerce_template_single_rating', 8);
 
-    remove_action( 'woocommerce_single_product_summary', 'msp_get_brand_name', 1 );
-    add_action( 'woocommerce_before_single_product_summary', 'msp_get_brand_name', 1 );
+    remove_action( 'woocommerce_single_product_summary', 'msp_brand_name', 1 );
+    add_action( 'woocommerce_before_single_product_summary', 'msp_brand_name', 1 );
 }
 

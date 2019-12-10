@@ -544,7 +544,7 @@ function msp_check_bogo_deal(){
 	$discount = get_option( 'promo_bogo_discount' ) . '%';	
 	$html = '<p><strong class="pr-1 text-success">BOGO %s Off:</strong>Buy any <a href="%s" class="un">%s</a> and get another <strong>%s off!</strong></p>';
 
-	printf( $html, $discount, msp_get_brand_name(false), $needle, $discount );
+	printf( $html, $discount, msp_get_brand_name(), $needle, $discount );
 }
 
 function msp_product_is_bogo( $product ){

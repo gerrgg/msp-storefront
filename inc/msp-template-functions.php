@@ -1498,7 +1498,7 @@ function msp_featured_item(){
     <?php
 }
 
-function msp_get_brand_name( $echo = true ){
+function msp_brand_name(){
     /**
      * Get and display product brand w/ link
      */
@@ -1510,11 +1510,24 @@ function msp_get_brand_name( $echo = true ){
     if( false === $term ) return $brand;
 
     $link = get_term_link( $term->term_id );
-    if( $echo === true ){
-        printf("<a class='brand pa_all-brand' href='%s'>%s</a>", $link, $brand);
-    } else {
-        return $link;
-    }
+
+    printf("<a class='brand pa_all-brand' href='%s'>%s</a>", $link, $brand);
+}
+
+function msp_get_brand_name(){
+    /**
+     * Get and display product brand w/ link
+     */
+    global $product;
+    $brand = $product->get_attribute('pa_all-brand');
+
+    $term = get_term_by( 'name', $brand, 'pa_all-brand' );
+
+    if( false === $term ) return $brand;
+
+    $link = get_term_link( $term->term_id );
+
+    return $link;
 }
 
 function msp_format_sale_price( $price, $reg, $sale ){
