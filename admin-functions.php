@@ -605,8 +605,6 @@ function msp_specifications_table(){
 
     $specs = msp_get_product_specifications( $post->ID );
 
-    var_dump( $specs );
-
     $count = sizeof( $specs );
 
     ?>
