@@ -267,7 +267,7 @@ function msp_get_product_metadata( $product_ids ){
 	
 	$gtin_field = ( ! empty( get_option( 'msp_gtin_field' ) ) ) ? get_option( 'msp_gtin_field') : '_woocommerce_gpf_data';
 
-    $data_sets = array( 'mpn' => '_sku', 'gtin' => $gtin_field );
+	$data_sets = array( 'mpn' => '_sku', 'gtin' => $gtin_field );
     foreach( $data_sets as $label => $meta_key ){
         $str = '';
         foreach( $product_ids as $id ){
@@ -290,7 +290,8 @@ function msp_product_additional_information_html( $inner_html ){
 	 * takes in an array of key : value pairs and displays them as a table row
 	 * @param array - $inner_html - an array of key value pairs
 	 */
-    if( empty( $inner_html || wp_is_mobile() ) ) return;
+	if( empty( $inner_html ) || wp_is_mobile() ) return;
+	
     echo '<table>';
 	foreach( $inner_html as $label => $value ) : ?>
 		<?php if( ! empty( $value ) ) : ?>

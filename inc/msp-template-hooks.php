@@ -237,6 +237,25 @@ add_action( 'msp_before_create_review_form', 'msp_review_more_products' );
  * @see msp_add_to_product_additional_information - 50
  */
 add_action( 'woocommerce_product_additional_information', 'msp_get_additional_information', 5, 1 );
+add_action( 'woocommerce_product_additional_information', 'msp_product_specification_html', 10, 1 );
+
+
+function msp_product_specification_html(){
+    global $post;
+
+    $specs = msp_get_product_specifications( $post->ID );
+    
+    echo '<table>';
+    foreach( $specs as $spec ) : ?>
+        <tr class="woocommerce-product-attributes-item">
+            <th class="woocommerce-product-attributes-item__label"><?php echo ucfirst($spec->spec_label); ?></th>
+            <td class="woocommerce-product-attributes-item__value"><?php echo $spec->spec_value ?></td>
+        </tr>
+    <?php endforeach;
+    echo '</table>';
+
+}
+
 add_filter( 'msp_additional_information_html', 'msp_get_product_pool', 5, 1 );
 add_filter( 'msp_additional_information_html', 'msp_get_product_metadata', 10, 1 );
 add_filter( 'msp_additional_information_html', 'msp_product_additional_information_html', 15, 1 );
