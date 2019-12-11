@@ -7,28 +7,24 @@ jQuery( function( $ ){
            $('#msp-product-video').on( 'click', 'button.add', msp_admin.add_video_line );
 
            // Page builder
-           $('#msp-front-page-builder').on( 'click', 'button.add', msp_admin.submit_promo_option )
-           $('#msp-front-page-builder').on( 'click', 'button.remove', msp_admin.delete_promo_option )
+           $('#msp-specifications').on( 'click', 'button.add', msp_admin.add_spec_row )
+           $('#msp-specifications').on( 'click', 'button.remove', msp_admin.delete_spec_row )
         },
 
 
         
-        delete_promo_option(e){
-            var tr = $(e.target.parentElement.parentElement);
-            var pos = tr.parent().children().index(tr);
+        delete_spec_row(e){
+            let tr = $(e.target.parentElement.parentElement);
+            let label = tr.find('td:first-child input').val();
+            let post_id = $('#post_ID').val();
 
-            console.log( pos )
+            let data = { action: 'msp_delete_specification',
+                         label: label,
+                         post_id: post_id }
 
-            // setup for ajax
-            var data = {
-                action: 'msp_delete_promo_line',
-                target: $('input[name="msp_promo[' + pos + '][image_id]"]').val()
-            }
-
-            $.post(ajaxurl, data, function( response ){
-                tr.remove();
-            });
-
+            $.post(ajaxurl, data);
+            
+            tr.remove();
         },
 
         submit_promo_option(e){
@@ -55,14 +51,21 @@ jQuery( function( $ ){
 
         },
 
-        add_promo_line(e, i){
-            let button = $(e.target);
+        add_spec_row(e){
+            /**
+             * Find the class of the row (index) and increment. This should avoid specs getting out of order.
+             */
             let $table = $(e.delegateTarget).find('table');
-            
+            let i = Number($table.find('tr').last().attr('class')) + 1;
+
+            if( isNaN(i) ){
+                i = 0;
+            }
+
             $table.append(
-                $('<tr/>').append(
-                    '<td>' + '<input type="text" name="msp_promo[' + i + '][image_id]">' + '</td>',
-                    '<td>' + '<input type="text" name="msp_promo[' + i + '][permalink]">' + '</td>',
+                $('<tr/>', { class: i }).append(
+                    '<td>' + '<input style="width: 100%" type="text" name="specification[' + i + '][label]">' + '</td>',
+                    '<td>' + '<input style="width: 100%" type="text" name="specification[' + i + '][value]">' + '</td>',
                     '<td><button class="remove" type="button" role="button">&times;</button></td>',
                 )
             );

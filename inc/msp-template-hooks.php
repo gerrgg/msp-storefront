@@ -128,19 +128,11 @@ add_action( 'woocommerce_thankyou', 'cheque_payment_method_order_status_to_proce
 add_action( 'wp_ajax_msp_set_estimated_delivery_date', 'msp_set_estimated_delivery_date' );
 add_action( 'wp_ajax_nopriv_msp_set_estimated_delivery_date', 'msp_set_estimated_delivery_date' );
 
-add_action( 'wp_ajax_msp_update_comment_karma', 'msp_add_to_karma_table' );
-add_action( 'wp_ajax_nopriv_msp_update_comment_karma', 'msp_add_to_karma_table' );
-
-add_action( 'wp_ajax_msp_comment_on_comment', 'msp_comment_on_comment_callback' );
-add_action( 'wp_ajax_nopriv_msp_comment_on_comment', 'msp_comment_on_comment_callback' );
-
-add_action( 'wp_ajax_msp_delete_user_product_image', 'msp_delete_user_product_image' );
-
-add_action( 'wp_ajax_msp_get_user_browsing_history', 'msp_get_user_browsing_history' );
-add_action( 'wp_ajax_nopriv_msp_get_user_browsing_history', 'msp_get_user_browsing_history' );
-
 add_action( 'wp_ajax_msp_get_product_size_guide_src', 'msp_get_product_size_guide_src' );
 add_action( 'wp_ajax_nopriv_msp_get_product_size_guide_src', 'msp_get_product_size_guide_src' );
+
+add_action( 'wp_ajax_msp_delete_specification', 'msp_delete_specification' );
+add_action( 'wp_ajax_nopriv_msp_delete_specification', 'msp_delete_specification' );
 
 add_action( 'wp_ajax_msp_get_image_src', 'msp_get_image_src' );
 add_action( 'wp_ajax_nopriv_msp_get_image_src', 'msp_get_image_src' );

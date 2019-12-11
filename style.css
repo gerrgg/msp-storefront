@@ -1179,6 +1179,10 @@ p.create-account, #wc_twilio_sms_optin_field, #ship-to-different-address{
         max-width: 100px;
     }
 
+    #reviews h2.woocommerce-Reviews-title{
+        font-size: 22px;
+    }
+
     
 }
 

@@ -15,8 +15,10 @@ class MSP_Admin{
         add_action( 'woocommerce_process_product_meta', array( $this, 'process_product_resources_meta' ), 10, 2 );
         add_action( 'woocommerce_process_product_meta', array( $this, 'process_product_videos_meta' ), 10, 2 );
         add_action( 'woocommerce_process_product_meta', array( $this, 'process_product_size_guide_meta' ), 10, 2 );
+        add_action( 'woocommerce_process_product_meta', array( $this, 'process_product_specifications_meta' ), 10, 2 );
         add_action( 'woocommerce_process_product_meta', array( $this,'iww_add_gsf_title'), 10, 2 );
 
+        add_action( 'woocommerce_product_options_general_product_data', 'msp_specifications_table' );
         add_action( 'woocommerce_product_options_general_product_data',  array( $this,'iww_gsf_title') );
 
         // Add purchase order meta data to order emails and edit order page.
@@ -32,7 +34,7 @@ class MSP_Admin{
         add_action( 'personal_options_update', array( $this, 'update_user_to_net30_terms'), 5 );
         add_action( 'edit_user_profile_update', array( $this, 'update_user_to_net30_terms'), 5 );
     }
-    
+
 
     public function iww_gsf_title(){
       global $woocommerce, $post;
@@ -206,12 +208,24 @@ class MSP_Admin{
         update_post_meta( $id, '_msp_resources', MSP::package( $arr ) );
     }
 
+    public function process_product_specifications_meta( $id ){
+        $specs = $_POST['specification'];
+
+        foreach( $specs as $spec ){
+            if( ! empty( $spec['label'] ) && ! empty( $spec['value'] ) ){
+                msp_update_specification( $id, $spec['label'], $spec['value'] );
+            }
+        }
+
+    }
+
     public function submit_resources_tab(){
         /**
          * HTML form on back end for linking resources to products
          */
         global $post;
         $resources = msp_get_product_resources( $post->ID );
+
         ?>
         <div id="resource_tab" class="option_group">
             <p class="form-field resource_label_field">
@@ -586,42 +600,42 @@ function msp_product_video_callback( $post ){
     <?php
 }
 
-function msp_promos_callback(){
-    /**
-     * Dynamic table for linking together images and pages.
-     * TODO: Should use Wordpress Media Selector for images and Select2 for permalink
-     * @version 1.0
-     */
-    $promos = msp_get_promos();
-    $count = 0;
+function msp_specifications_table(){
+    global $woocommerce, $post;
+
+    $specs = msp_get_product_specifications( $post->ID );
+
+    var_dump( $specs );
+
+    $count = sizeof( $specs );
+
     ?>
-    <div id="msp-front-page-builder">
-        <form>
-            <table class="wide fixed" cellspacing="0" style="background-color: #fff; padding: 1rem;">
-                <thead>
-                    <th>Image ID</th>
-                    <th>Permalink</th>
-                    <th></th>
-                </thead>
-                <tbody>
-                    
-                    <?php 
-                    if( ! empty( $promos ) ) :
-                        foreach( $promos as $id => $link ) : ?>
-                            <tr>
-                                <td><input type="text" name="msp_promo[<?php echo $count ?>][image_id]" value="<?php echo $id ?>" /></td>
-                                <td><input type="text" name="msp_promo[<?php echo $count ?>][permalink]" value="<?php echo $link ?>" /></td>
-                                <td><button class="remove" type="button" role="button">&times;</button></td>
-                            </tr>
-                        <?php
-                            $count++;
-                        endforeach;
-                    endif; ?>
-                </tbody>
-            </table>
-            <button class="add" type="button" role="button" >+ ADD +</button>
-        </form>
+
+    <div id="msp-specifications" class="options_group" style="padding-left: 165px">
+        <table>
+            <thead>
+                <th>Attribute</th>
+                <th>Value</th>
+                <th>Action</th>
+            </thead>
+            <?php for( $i = 0; $i < sizeof( $specs); $i++ ) : ?>
+                <tr class="<?php echo $i ?>">
+                    <td><input type="text" name="specification[<?php echo $i ?>][label]" style="width: 100%" value="<?php echo $specs[$i]->spec_label ?>" /></td>
+                    <td><input type="text" name="specification[<?php echo $i ?>][value]" style="width: 100%" value="<?php echo $specs[$i]->spec_value ?>" /></td>
+                    <td><button class="remove" type="button">&times;</button></td>
+                </tr>
+            <?php endfor; ?>
+
+            <tr class="<?php echo sizeof( $specs ) + 1 ?>">
+                    <td><input type="text" name="specification[<?php echo sizeof( $specs ) + 1 ?>][label]" style="width: 100%" /></td>
+                    <td><input type="text" name="specification[<?php echo sizeof( $specs ) + 1 ?>][value]" style="width: 100%" /></td>
+                    <td><button class="remove" type="button">&times;</button></td>
+            </tr>
+
+        </table>
+        <button class="add" type="button">+</button>
     </div>
+
     <?php
 }
 

@@ -36,6 +36,54 @@ function msp_get_differant_colored_product_variations( $product ){
 	return $color_options;
 }
 
+function msp_update_specification( $id, $key, $value ){
+	global $wpdb;
+	$table_name = $wpdb->prefix . 'specifications';
+
+	$row = $wpdb->get_row( "SELECT * FROM $table_name WHERE post_id = '$id' AND spec_label = '$key'" );
+
+	if( $row == null ){
+		// insert
+		return $wpdb->insert( 
+			$table_name,
+			array(
+				'post_id'	 => $id,
+				'spec_label' => $key,
+				'spec_value' => $value
+			)
+		);
+	} else {
+		return $wpdb->update( 
+			$table_name,
+			array( 'spec_value' => $value ),
+			array( 'spec_id' => $row->spec_id )
+		);
+	}
+}
+
+function msp_get_product_specifications( $post_id ){
+	global $wpdb;
+	$table_name = $wpdb->prefix . 'specifications';
+	$sql = "SELECT * FROM $table_name WHERE post_id = '$post_id'";
+
+
+	return $wpdb->get_results( $sql );
+}
+
+function msp_delete_specification(){
+	global $wpdb;
+	$table_name = $wpdb->prefix . 'specifications';
+
+	$post_id = $_POST['post_id'];
+	$key = $_POST['label'];
+
+	$row = $wpdb->get_row( "SELECT * FROM $table_name WHERE post_id = '$post_id' AND spec_label = '$key'" );
+
+	echo $wpdb->delete( $table_name, array( 'spec_id' => $row->spec_id ) );
+
+	wp_die();
+}
+
 function get_actual_id( $product ) {
 	/**
 	* Checks if the object passed is a product or variation, returns appropriate ID
@@ -498,7 +546,7 @@ function msp_promo_row( $atts ){
 		$image = msp_get_product_image_src( $images[$i], 'large' );
 
 		// Accomodate product links
-		if( is_wp_error( $link ) ){
+		if( empty($link) || is_wp_error( $link ) ){
 			$product = wc_get_product( (int)$links[$i] );
 			if( ! is_wp_error( $product ) ) $link = $product->get_permalink();
 		}

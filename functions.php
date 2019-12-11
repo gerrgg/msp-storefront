@@ -35,6 +35,8 @@ class MSP{
     function __construct(){
         // Creates custom theme pages upon activation
         add_action( 'init', array( $this, 'create_theme_pages' ), 2 );
+        add_action( 'init', array( $this, 'maybe_create_specifications_table' ), 3 );
+
         // Add custom widget on shop page
         add_action( 'widgets_init', array( $this, 'register_sidebar_shop' ), 100 );
         // Add custom scripts
@@ -55,7 +57,28 @@ class MSP{
         add_filter( 'woocommerce_checkout_fields', array( $this, 'msp_checkout_fields' ), 100 );
         // Adds a condition for which payment options
         add_filter( 'woocommerce_available_payment_gateways', array($this, 'msp_enable_net30'), 999 );
+    }
 
+    function maybe_create_specifications_table(){
+        /**
+         * Creates the wp_specification table if not exists
+         */
+
+         // must require upgrade.php to use maybe_create_table()
+        require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+
+        global $wpdb;
+        $charset_collate = $wpdb->get_charset_collate();
+        $table_name = $wpdb->prefix . 'specifications';
+        $sql = "CREATE TABLE $table_name (
+            spec_id bigint(20)  NOT NULL AUTO_INCREMENT,
+            post_id bigint(20) NOT NULL,
+            spec_label varchar(100) NOT NULL,
+            spec_value varchar(255) NOT NULL,
+            PRIMARY KEY  (spec_id)
+        ) $charset_collate;";
+
+        maybe_create_table($table_name, $sql);
     }
 
 
@@ -436,45 +459,6 @@ class MSP{
 
 //init
 new MSP();
-
-if( class_exists( 'Sync' ) ){
-    /**
-     * If we have the Sync Class, setup portwest sync cron job
-     */
-
-     // Declare a hook which will be prepopulated with vendor data
-    do_action( 'msp_sync_portwest_stock');
-
-    // Setup cronjob - Tell wordpress to execute all functions hooked to 'msp_sync_portwest_stock'
-    wp_schedule_event( time(), 'hourly', 'msp_sync_portwest_stock', array(
-        'vendor' => 'portwest',
-        'url'    => 'http://www.portwest.us/downloads/sohUS.csv',
-        'actions' => array(
-            'stock' => '1',
-        )
-    ));
-
-    // Add a function to that hook which does what we want to do
-    add_action( 'msp_sync_portwest_stock', 'msp_sync_portwest_stock_callback' );
-
-    // Roughly recreate Sync->process() function but with $data instead of $_POST
-    function msp_sync_portwest_stock_callback( $data ){
-        $sync = new Sync();
-
-        foreach( $data['actions'] as $k => $v ){
-            if( $v == '1' ){
-                $sync->flags[$k]['enabled'] = true;
-            }
-        }
-
-        $sync->dry_run = ( isset( $data['actions']['dry_run'] ) );
-        $sync->vendor = $data['vendor'];
-        $sync->url = $data['url'];
-
-        $sync->sync_with_data();
-        wp_mail( 'greg@gerrg.com', 'portwest sync', $data['vendor'] );
-    }
-}
 
 
 
