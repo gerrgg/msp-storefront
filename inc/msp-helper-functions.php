@@ -549,7 +549,7 @@ function msp_promo_row( $atts ){
 		// Accomodate product links
 		if( empty($link) || is_wp_error( $link ) ){
 			$product = wc_get_product( (int)$links[$i] );
-			if( ! is_wp_error( $product ) ) $link = $product->get_permalink();
+			if( $product != false ) $link = $product->get_permalink();
 		}
 
 		// just give up if error
@@ -603,7 +603,8 @@ function msp_check_bogo_deal(){
 
 function msp_product_is_bogo( $product ){
 	$needle = get_option( 'promo_bogo_needle' );
-	return ( $product->get_attribute('pa_all-brand') == $needle );
+	var_dump( $needle );
+	return ( $needle != '' && $product->get_attribute('pa_all-brand') == $needle );
 }
 
 function msp_check_bogo_deal_badge( $product ){
