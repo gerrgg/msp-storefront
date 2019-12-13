@@ -1292,13 +1292,23 @@ function add_custom_discount_2nd_at_50( $wc_cart ){
         if( $brand == $match ){
             $qty = intval( $cart_item['quantity'] );
             for( $i = 0; $i < $qty; $i++ )
-                $items_prices[] = floatval( $cart_item['data']->get_price());
+                $items_prices[] = floatval( $cart_item['data']->get_price() );
         }
     }
-    $count_items_prices = count($items_prices);
 
-    if( $count_items_prices > 1 ) foreach( $items_prices as $key => $price )
-        if( $key % 2 == 1 ) $discount -= number_format($price * $percent_off, 2 );
+    // get number of eligible items to discount
+    $num_of_discounts = intval((count($items_prices) / 2));
+
+    // target the lowest items
+    sort( $items_prices );
+
+    // var_dump( $num_of_discounts, $items_prices );
+
+    if( $num_of_discounts > 0 ) {
+        for( $i = 0; $i < $num_of_discounts; $i++ ) {
+            $discount -= number_format($items_prices[$i] * $percent_off, 2 );
+        }
+    }
 
     if( $discount != 0 ){
         // The discount

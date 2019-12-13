@@ -603,7 +603,6 @@ function msp_check_bogo_deal(){
 
 function msp_product_is_bogo( $product ){
 	$needle = get_option( 'promo_bogo_needle' );
-	var_dump( $needle );
 	return ( $needle != '' && $product->get_attribute('pa_all-brand') == $needle );
 }
 
