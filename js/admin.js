@@ -75,6 +75,7 @@ jQuery( function( $ ){
         add_video_line: function( e ){
             let button = $(e.target);
             let $table = $('#msp_product_video_input_table');
+            
             count = ( ! isNaN( button.attr('data-count') ) ) ? +button.attr('data-count') + 1 : 0;
 
             $table.append(

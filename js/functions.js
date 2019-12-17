@@ -14,6 +14,7 @@ jQuery(document).ready(function( $ ){
 
           $('#msp_submit_question').on( 'blur', 'input[name="question"]', msp.customer_faq_validate_question )
           $('#msp_submit_question').on( 'click', 'button', msp.customer_submit_question )
+          
           $('#msp_customer_faq').on( 'click', '.msp-submit-answer', msp.customer_submit_awnser )
 
           $('.woocommerce-variation-add-to-cart').on( 'change', 'input[name="variation_id"]', msp.replace_single_product_price_range )

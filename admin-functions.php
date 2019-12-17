@@ -643,7 +643,7 @@ function msp_size_guide_callback( $post ){
      */
     $size_guide_src = get_post_meta( $post->ID, '_msp_size_guide', true );
     ?>
-    <div id="msp_product_video_input_table">
+    <div id="msp_size_guide_input_table">
         <p>Size Guide</p>
         <input type="url" name="_msp_size_guide" class="code" value="<?php echo $size_guide_src ?>" />
     </div>
