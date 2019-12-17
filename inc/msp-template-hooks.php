@@ -195,7 +195,7 @@ add_action( 'woocommerce_single_product_summary', 'msp_open_single_product_tabs'
 add_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_price', 25 );
 add_action( 'woocommerce_single_product_summary', 'msp_warn_about_leadtime', 29 );
 add_action( 'woocommerce_single_product_summary', 'msp_check_bogo_deal', 27 );
-add_action( 'woocommerce_single_product_summary', 'msp_show_product_size_guide_btn', 30 );
+add_action( 'msp_before_size_attribute', 'msp_show_product_size_guide_btn', 30 );
 add_action( 'woocommerce_single_product_summary', 'msp_bulk_discount_table', 35 );
 add_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_excerpt', 36);
 add_action( 'woocommerce_single_product_summary', 'msp_close_order_tab_content_tag', 50 );
@@ -239,23 +239,6 @@ add_action( 'msp_before_create_review_form', 'msp_review_more_products' );
 add_action( 'woocommerce_product_additional_information', 'msp_get_additional_information', 5, 1 );
 add_action( 'woocommerce_product_additional_information', 'msp_product_specification_html', 10, 1 );
 
-
-function msp_product_specification_html(){
-    global $post;
-
-    $specs = msp_get_product_specifications( $post->ID );
-    
-    echo '<table>';
-    foreach( $specs as $spec ) : ?>
-        <tr class="woocommerce-product-attributes-item">
-            <th class="woocommerce-product-attributes-item__label"><?php echo ucfirst($spec->spec_label); ?></th>
-            <td class="woocommerce-product-attributes-item__value"><?php echo $spec->spec_value ?></td>
-        </tr>
-    <?php endforeach;
-    echo '</table>';
-
-}
-
 add_filter( 'msp_additional_information_html', 'msp_get_product_pool', 5, 1 );
 add_filter( 'msp_additional_information_html', 'msp_get_product_metadata', 10, 1 );
 add_filter( 'msp_additional_information_html', 'msp_product_additional_information_html', 15, 1 );
@@ -265,6 +248,14 @@ add_action( 'woocommerce_before_shop_loop', 'msp_mobile_product_filter_button', 
 /**
  * woocommerce_archive_description
  */
+
+remove_action( 'woocommerce_archive_description',  'woocommerce_taxonomy_archive_description', 10 );
+remove_action( 'woocommerce_archive_description',  'woocommerce_product_archive_description', 10 );
+
+add_action( 'woocommerce_after_shop_loop',  function(){ echo '<h3>Description</h3>'; }, 45 );
+add_action( 'woocommerce_after_shop_loop',  'woocommerce_taxonomy_archive_description', 50 );
+add_action( 'woocommerce_after_shop_loop',  'woocommerce_product_archive_description', 50 );
+
 add_action( 'woocommerce_archive_description', 'woocommerce_breadcrumb', 5 );
 add_action( 'woocommerce_archive_description', 'msp_add_sub_cat_links', 1 );
 add_action( 'woocommerce_archive_description', 'msp_add_category_images', 2 );

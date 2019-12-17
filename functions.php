@@ -290,15 +290,18 @@ class MSP{
         
         // Start at 30 to skip past decription, specificiations
         $priority = 30;
+
+        // We link to a function to see if the tab is nessicary for calling.
+        // If a product does not have a video, resouse or standard we do not include that tab.
         $custom_tabs = array(
             'product_videos' => msp_get_product_videos( $post->ID ),
             'resources' => msp_get_product_resources( $post->ID ),
+            'standards' => msp_get_product_standards( $post->ID ), 
         );
 
-        // $tabs['description']['callback'] = "msp_maybe_append_description";
-
-
+        
         foreach( $custom_tabs as $key => $data ){
+            // check if tab should be included
             if( ! empty( $data ) ){
                 $tabs[$key] = array(
                     'title'    => deslugify($key),
@@ -307,12 +310,16 @@ class MSP{
                 );
             }
         }
-
-
+        
+        
         // Renamed additional info
         if( $product->has_attributes() || $product->has_dimensions() || $product->has_weight() ) {
             $tabs['additional_information']['title'] = 'Specifications';
+            $tabs['additional_information']['priority'] = 95;
         }
+
+        // put reviews at the bottom
+        $tabs['reviews']['priority'] = 100;
 
         return $tabs;
     }

@@ -1624,3 +1624,54 @@ function msp_warn_about_leadtime(){
        echo '<p style="color: red">Product made to order, ships on or before <b>'. date('M d, Y', $date) .'</b>.</p>';
     }
 }
+
+function msp_product_specification_html(){
+    global $post;
+
+    $specs = msp_get_product_specifications( $post->ID );
+    
+    echo '<table>';
+    foreach( $specs as $spec ) : ?>
+        <tr class="woocommerce-product-attributes-item">
+            <th class="woocommerce-product-attributes-item__label"><?php echo ucfirst($spec->spec_label); ?></th>
+            <td class="woocommerce-product-attributes-item__value"><?php echo $spec->spec_value ?></td>
+        </tr>
+    <?php endforeach;
+    echo '</table>';
+
+}
+
+function msp_get_product_standards( $product_id ){
+    /**
+     * Gets product tag descriptions if not empty 
+     */
+    $product = wc_get_product( $product_id );
+    $tag_list = $product->get_tag_ids();
+    $html = '';
+
+    if( empty( $tag_list ) ) return;
+    
+    foreach( $tag_list as $key => $tag ){
+        $tag = get_term( $tag, 'product_tag' );
+        $desc = tag_description($tag->term_id);
+
+        if( empty( $desc ) ) return;
+
+        $html .= sprintf( "<h4>%s</h4><div class='pl-2'>%s</div>", $tag->name, tag_description($tag->term_id));
+    }
+
+    return $html;
+}
+
+function msp_get_standards_tab( $html ){
+    /**
+     * Outputs the tag html if not empty;
+     */
+    global $product;
+
+    $html = msp_get_product_standards( $product->get_id() );
+
+    if( empty( $html ) ) return;
+
+    echo '<h2>Safety Standards</h2>' . $html;
+}
