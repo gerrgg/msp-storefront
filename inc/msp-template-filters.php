@@ -2,6 +2,14 @@
 
 defined( 'ABSPATH' ) || exit;
 
+add_filter( 'woocommerce_get_availability_text', 'change_backorder_message', 10, 2 );
+
+function change_backorder_message( $text, $product ){
+    if ( $product->managing_stock() && $product->is_on_backorder( 1 ) ) {
+        $text = __( "Out of stock and on backorder, we\'ll keep you updated", "msp" );
+    }
+    return $text;
+}
 
 function msp_add_bootstrap_cols_to_product( $class ){
     /**
