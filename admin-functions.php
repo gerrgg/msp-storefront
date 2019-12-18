@@ -410,7 +410,7 @@ class MSP_Admin{
         array( 'contact_email', 'gtin_field' ) );
 
         $this->add_settings_field_and_register( 'msp_options', 'integration', 'integration', 
-        array( 'google_analytics_account_id', 'google_recaptcha', 'google_adwords', 'google_aw_campaign' ) );
+        array( 'google_analytics_account_id', 'google_recaptcha', 'google_adwords', 'google_aw_campaign', 'bing_ads' ) );
         
         $this->add_settings_field_and_register( 'msp_options', 'woocommerce', 'wc', 
         array( 'easy_qty_breaks', 'add_net_30_to_single_product', 'three_day_shipping_id', 'two_day_shipping_id', 'free_shipping_id', 'ground_shipping_id' ) );
@@ -482,7 +482,6 @@ function wc_two_day_shipping_id_callback(){
 function wc_three_day_shipping_id_callback(){
     echo '<input name="wc_three_day_shipping_id" id="wc_three_day_shipping_id" type="text" value="'. get_option( 'wc_three_day_shipping_id' ) .'" class="code" />';
 }
-
 
 function msp_logo_width_callback(){
     echo '<input name="msp_logo_width" id="msp_logo_width" type="number" value="'. get_option( 'msp_logo_width' ) .'" class="code" />';
@@ -571,9 +570,14 @@ function integration_google_recaptcha_callback(){
     echo '<input name="integration_google_recaptcha" id="integration_google_recaptcha" type="text" value="'. get_option( 'integration_google_recaptcha' ) .'" class="code" />';
 }
 
+function integration_bing_ads_callback(){
+    echo '<input name="integration_bing_ads" id="integration_bing_ads" type="text" value="'. get_option( 'integration_bing_ads' ) .'" class="code" />';
+}
+
 function integration_google_adwords_callback(){
     echo '<input name="integration_google_adwords" id="integration_google_adwords" type="text" value="'. get_option( 'integration_google_adwords' ) .'" class="code" />';
 }
+
 
 function integration_google_aw_campaign_callback(){
     echo '<input name="integration_google_aw_campaign" id="integration_google_aw_campaign" type="text" value="'. get_option( 'integration_google_aw_campaign' ) .'" class="code" />';

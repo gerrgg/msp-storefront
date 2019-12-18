@@ -252,7 +252,7 @@ add_action( 'woocommerce_before_shop_loop', 'msp_mobile_product_filter_button', 
 remove_action( 'woocommerce_archive_description',  'woocommerce_taxonomy_archive_description', 10 );
 remove_action( 'woocommerce_archive_description',  'woocommerce_product_archive_description', 10 );
 
-add_action( 'woocommerce_after_shop_loop',  function(){ echo '<h3>Description</h3>'; }, 45 );
+add_action( 'woocommerce_after_shop_loop',  'msp_archive_description_header', 45 );
 add_action( 'woocommerce_after_shop_loop',  'woocommerce_taxonomy_archive_description', 50 );
 add_action( 'woocommerce_after_shop_loop',  'woocommerce_product_archive_description', 50 );
 
