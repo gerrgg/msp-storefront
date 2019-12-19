@@ -1638,6 +1638,7 @@ function msp_product_specification_html(){
 
     $specs = msp_get_product_specifications( $post->ID );
     
+    
     echo '<table>';
     foreach( $specs as $spec ) : ?>
         <tr class="woocommerce-product-attributes-item">
@@ -1663,9 +1664,10 @@ function msp_get_product_standards( $product_id ){
         $tag = get_term( $tag, 'product_tag' );
         $desc = tag_description($tag->term_id);
 
-        if( empty( $desc ) ) return;
+        if( ! empty( $desc ) ){
+            $html .= sprintf( "<h4>%s</h4><div class='pl-2'>%s</div>", $tag->name, $desc);
+        }
 
-        $html .= sprintf( "<h4>%s</h4><div class='pl-2'>%s</div>", $tag->name, tag_description($tag->term_id));
     }
 
     return $html;
@@ -1681,7 +1683,7 @@ function msp_get_standards_tab( $html ){
 
     if( empty( $html ) ) return;
 
-    echo '<h2>Safety Standards</h2>' . $html;
+    echo '<h2>Safety Certifications</h2>' . $html;
 }
 
 function msp_archive_description_header(){
