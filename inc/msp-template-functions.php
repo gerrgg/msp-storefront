@@ -1595,7 +1595,7 @@ function msp_get_variation_price_html(){
     $product = wc_get_product( $_POST['id'] );
     // if( empty( $product ) ) return;
 
-    if( $product->is_on_sale() ){
+    if( $product != false && $product->is_on_sale() ){
         $price = $product->get_price();
         $reg = $product->get_regular_price();
         $sale = $product->get_sale_price();
