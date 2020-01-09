@@ -575,13 +575,18 @@ function msp_get_price_messages( $sale ){
      * Handy function for appending prices with messages based on sell price
      * @param string $price
      */
-    $price_messages = '<span class="msp-price-messages">';
+	$price_messages = '<span class="msp-price-messages">';
+	$free_shipping_criteria = (int)get_option( 'wc_free_shipping_amount' );
+	$shipping_page = get_page_link( get_option( 'wc_shipping_page' ) );
+	$returns_page = get_page_link( get_option( 'wc_returns_page' ) );
 
-    if( $sale > 100 ){
-        $price_messages .= ' + <strong><a class="text-dark un price-msg" target="new" href="/shipping-delivery/">Free Shipping </a></strong>';
-        $price_messages .= ' & <strong><a class="text-dark un price-msg" target="new" href="/how-to-return/">FREE Returns. </a></strong>';
+	if( empty( $free_shipping_criteria ) || empty( $shipping_page ) ||  empty( $returns_page ) ) return;
+
+    if( $sale > $free_shipping_criteria ){
+        $price_messages .= ' + <strong><a class="text-dark un price-msg" target="new" href="'. $shipping_page .'">Free Shipping </a></strong>';
+        $price_messages .= ' & <strong><a class="text-dark un price-msg" target="new" href="'. $returns_page .'">FREE Returns. </a></strong>';
     } else {
-        $price_messages .= ' & <strong><a class="text-dark un price-msg" target="new" href="/shipping-delivery/">Free Shipping </a></strong> on orders over $100.00.';
+        $price_messages .= ' & <strong><a class="text-dark un price-msg" target="new" href="'. $shipping_page .'">Free Shipping </a></strong> on orders over $100.00.';
 	}
 	
 	$price_messages .= '</span>';

@@ -413,7 +413,7 @@ class MSP_Admin{
         array( 'google_analytics_account_id', 'google_recaptcha', 'google_adwords', 'google_aw_campaign', 'bing_ads' ) );
         
         $this->add_settings_field_and_register( 'msp_options', 'woocommerce', 'wc', 
-        array( 'easy_qty_breaks', 'add_net_30_to_single_product', 'three_day_shipping_id', 'two_day_shipping_id', 'free_shipping_id', 'ground_shipping_id' ) );
+        array( 'easy_qty_breaks', 'add_net_30_to_single_product', 'free_shipping_amount', 'shipping_page', 'returns_page' ) );
     }
 }
 
@@ -461,6 +461,21 @@ function promo_bogo_discount_callback(){
 function wc_add_net_30_to_single_product_callback(){
     $option = get_option( 'wc_add_net_30_to_single_product' );
     echo '<input name="wc_add_net_30_to_single_product" id="wc_add_net_30_to_single_product" type="checkbox" value="1" '. checked(1, $option, false) .' />';
+}
+
+function wc_free_shipping_amount_callback(){
+    $option = get_option( 'wc_free_shipping_amount' );
+    echo '<input name="wc_free_shipping_amount" id="wc_free_shipping_amount" type="text" value="'. get_option( 'wc_free_shipping_amount' ) .'" class="code" />';
+}
+
+function wc_shipping_page_callback(){
+    $option = get_option( 'wc_shipping_page' );
+    echo '<input name="wc_shipping_page" id="wc_shipping_page" type="text" value="'. get_option( 'wc_shipping_page' ) .'" class="code" />';
+}
+
+function wc_returns_page_callback(){
+    $option = get_option( 'wc_returns_page' );
+    echo '<input name="wc_returns_page" id="wc_returns_page" type="text" value="'. get_option( 'wc_returns_page' ) .'" class="code" />';
 }
 
 function wc_easy_qty_breaks_callback(){
