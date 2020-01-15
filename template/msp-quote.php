@@ -11,10 +11,19 @@ if( isset( $_GET['ids'] ) ) : ?>
         $product_variations = $product->get_children();
     ?>
         <div id="product-<?php echo $product_id ?>" class="row">
+
             <div class="col-12 col-6">
+
                 <h2><?php echo $product->get_title(); ?></h2>
-                <?php echo $product->get_image(); ?>
+
+                <?php $src =  msp_get_product_image_src( $product->get_image_id(), 'medium' ); ?> 
+
+                <img src="<?php echo $src ?>" class='img-fluid' />
+
+                <br>
+
             </div>
+
             <div class="col">
                 <?php if( ! empty( $product_variations ) ) : ?>
                     <h3>Variations:</h3>
@@ -44,15 +53,17 @@ if( isset( $_GET['ids'] ) ) : ?>
         </div>
         <hr/>
     <?php endforeach; ?>
+
     <h2>Wheres it going?</h2>
+
     <div class="form-group">
-        <label for="name">Name</label>
-        <input id="name" name="name" class="form-control" type="text">
+        <label for="name">What should we call you?</label>
+        <input id="name" name="name" class="form-control" type="text" required />
     </div>
 
     <div class="form-group">
         <label for="email">Your email</label>
-        <input id="email" name="email" class="form-control" type="email">
+        <input id="email" name="email" class="form-control" type="email" required />
     </div>
     
     <div class="form-group">

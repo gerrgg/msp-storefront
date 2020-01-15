@@ -15,7 +15,8 @@ body.archive #main > .row
 {
 	background-color: #fff;
 	border-left: 1px solid #d9d9d9;
-	border-right: 1px solid #d9d9d9;
+    border-right: 1px solid #d9d9d9;
+    padding: 1rem;
 }
 
 p.stock.available-on-backorder, p.backorder_notification{
@@ -905,10 +906,6 @@ nav.msp-shop-subnav{
     overflow: hidden;
 }
 
-
-#primary{
-    margin-top: 2rem;
-}
 .product_question_inner label{
     font-weight: 800;
 }
@@ -1054,7 +1051,10 @@ p.create-account, #wc_twilio_sms_optin_field, #ship-to-different-address{
 
 /* Small devices (landscape phones, 576px and up) */
 @media (max-width: 576px) {
-
+    .msp-shop-subnav{
+        display: none;
+    }
+    
     #page{
         background-image: none;
     }

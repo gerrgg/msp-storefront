@@ -77,7 +77,7 @@ add_action( 'storefront_before_site', 'msp_mobile_menu_wrapper_close', 100 );
  */
 add_action( 'msp_quick_links', 'msp_quick_links_wrapper_open', 1 );
 add_action( 'msp_quick_links', 'msp_shop_btn', 2 );
-add_action( 'msp_quick_links', 'msp_buy_again_btn', 5 );
+// add_action( 'msp_quick_links', 'msp_buy_again_btn', 5 );
 add_action( 'msp_quick_links', 'msp_get_user_products_history_btn', 10 );
 add_action( 'msp_quick_links', 'msp_quote_btn', 15 );
 add_action( 'msp_quick_links', 'msp_contact_btn', 95 );

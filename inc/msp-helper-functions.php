@@ -586,7 +586,7 @@ function msp_get_price_messages( $sale ){
         $price_messages .= ' + <strong><a class="text-dark un price-msg" target="new" href="'. $shipping_page .'">Free Shipping </a></strong>';
         $price_messages .= ' & <strong><a class="text-dark un price-msg" target="new" href="'. $returns_page .'">FREE Returns. </a></strong>';
     } else {
-        $price_messages .= ' & <strong><a class="text-dark un price-msg" target="new" href="'. $shipping_page .'">Free Shipping </a></strong> on orders over $100.00.';
+        $price_messages .= ' & <strong><a class="text-dark un price-msg" target="new" href="'. $shipping_page .'">Free Shipping </a></strong> on $100+ orders';
 	}
 	
 	$price_messages .= '</span>';
