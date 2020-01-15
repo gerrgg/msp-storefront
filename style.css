@@ -9,6 +9,15 @@
  Tags:         light, dark, two-columns, right-sidebar, responsive-layout, accessibility-ready
  Text Domain:  msp
 */
+
+#content > .col-full,
+body.archive #main > .row
+{
+	background-color: #fff;
+	border-left: 1px solid #d9d9d9;
+	border-right: 1px solid #d9d9d9;
+}
+
 p.stock.available-on-backorder, p.backorder_notification{
     font-weight: 600;
     color: red;
@@ -1045,6 +1054,18 @@ p.create-account, #wc_twilio_sms_optin_field, #ship-to-different-address{
 
 /* Small devices (landscape phones, 576px and up) */
 @media (max-width: 576px) {
+
+    #page{
+        background-image: none;
+    }
+
+    #content > .col-full,
+    body.archive #main > .row
+    {
+        background-color: #fff;
+        border-left: none;
+        border-right: none;
+    }
 
     #msp-archive > .owl-carousel{
         margin-left: 15px;
