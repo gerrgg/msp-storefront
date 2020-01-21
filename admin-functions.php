@@ -400,7 +400,8 @@ class MSP_Admin{
         );
 
         $this->add_settings_field_and_register( 'msp_options', 'promotions', 'promo', 
-        array( 'top_bar_link', 'top_bar_image_id', 'pop_up_title', 'pop_up_link', 'pop_up_image_id', 'pop_up_version', 'bogo_needle', 'bogo_discount' ) );
+        array( 'top_bar_link', 'top_bar_image_id', 'pop_up_title', 'pop_up_link', 'pop_up_image_id', 
+        'pop_up_version', 'bogo_label', 'bogo_target', 'bogo_needle', 'bogo_discount', 'brand_slug' ) );
 
         $this->add_settings_field_and_register( 'msp_options', 'theme_options', 'msp',
          array( 'primary_color', 'link_color', 'header_background', 'header_links', 'footer_background', 'footer_link_color', 
@@ -436,7 +437,7 @@ function promo_pop_up_image_id_callback(){
 }
 
 function promo_pop_up_version_callback(){
-    echo '<input name="promo_pop_up_version" id="promo_pop_up_version" type="text" value="'. get_option( 'promo_pop_up_version' ) .'" class="code" />';
+    echo '<input name="promo_pop_up_version" id="promo_pop_up_version" type="text" value="'. get_option( 'promo_pop_up_version' ) .'" class="code" /> <hr>';
 }
 
 function promo_top_bar_link_callback(){
@@ -446,15 +447,37 @@ function promo_top_bar_link_callback(){
 
 function promo_top_bar_image_id_callback(){
     $option = get_option( 'promo_top_bar_image_id' );
-    echo '<input name="promo_top_bar_image_id" id="promo_top_bar_image_id" type="text" value="'. get_option( 'promo_top_bar_image_id' ) .'" class="code" />';
+    echo '<input name="promo_top_bar_image_id" id="promo_top_bar_image_id" type="text" value="'. get_option( 'promo_top_bar_image_id' ) .'" class="code" /> <hr>';
+}
+
+function promo_bogo_label_callback(){
+    echo '<input name="promo_bogo_label" id="promo_bogo_label" type="text" value="'. get_option( 'promo_bogo_label' ) .'" class="code" />';
+}
+
+function promo_brand_slug_callback(){
+    echo '<input name="promo_brand_slug" id="promo_brand_slug" type="text" value="'. get_option( 'promo_brand_slug' ) .'" class="code" /><br>';
+    echo '<small>Exclude the "pa_"</small>';
+}
+
+function promo_bogo_target_callback(){
+    $target = get_option( 'promo_bogo_target' );
+    ?>
+    <select name="promo_bogo_target" id ="promo_bogo_target" class="code">
+        <option>    -    </option>
+        <option value="brand" <?php if( $target == 'brand' ) echo 'selected' ?> >Brand</option>
+        <option value="category" <?php if( $target == 'category' ) echo 'selected' ?>>Category</option>
+        <option value="specific_ids" <?php if( $target == 'specific_ids' ) echo 'selected' ?>>Specific Ids</option>
+    </select>
+    <?php
 }
 
 function promo_bogo_needle_callback(){
-    echo '<input name="promo_bogo_needle" id="promo_bogo_needle" type="text" value="'. get_option( 'promo_bogo_needle' ) .'" class="code" />';
+    echo '<input name="promo_bogo_needle" id="promo_bogo_needle" type="text" value="'. get_option( 'promo_bogo_needle' ) .'" class="code" /><br>';
+    echo '<small>Label - String | Category - ID | Specific Id\'s - 11, 21, 32, 43</small>';
 }
 
 function promo_bogo_discount_callback(){
-    echo '<input name="promo_bogo_discount" id="promo_bogo_discount" type="number" value="'. get_option( 'promo_bogo_discount' ) .'" class="code" />';
+    echo '<input name="promo_bogo_discount" id="promo_bogo_discount" type="number" value="'. get_option( 'promo_bogo_discount' ) .'" class="code" /> <hr>';
 }
 
 

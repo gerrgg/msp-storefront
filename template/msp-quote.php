@@ -8,7 +8,10 @@ if( isset( $_GET['ids'] ) ) : ?>
     <form id="msp-quote" method="POST" action="<?php echo admin_url( 'admin-post.php' ) ?>">
     <?php foreach( $_GET['ids'] as $product_id ) :
         $product = wc_get_product( $product_id );
-        $product_variations = $product->get_children();
+
+        if( ! $product->is_type( 'simple' ) ){
+            $product_variations = $product->get_children();
+        }
     ?>
         <div id="product-<?php echo $product_id ?>" class="row">
 

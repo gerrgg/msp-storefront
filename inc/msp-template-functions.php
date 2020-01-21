@@ -1283,21 +1283,62 @@ function msp_add_gmc_conversion_code( $order_id ){
     <?php
 }
 
+function msp_meets_bogo_criteria( $product ){
+    /**
+     * Preforms a specific test based on the bogo target (brand, category or ids)
+     * @param WC_Product
+     * @return bool
+     */
+    $type = get_option( 'promo_bogo_target' );
+    $needle = get_option( 'promo_bogo_needle' );
+    $meets_criteria = false;
+
+    if( $type == 'brand' ){
+        $brand_slug = get_option( 'promo_brand_slug' );
+        $brand = $product->get_attribute($brand_slug);
+
+        if( $brand == $needle ){
+            $meets_criteria = true;
+        }
+
+    } elseif( $type == 'category' ){
+        $categories = $product->get_category_ids();
+        foreach( $categories as $category_id ){
+            if( $category_id == $needle ) $meets_criteria = true;
+        }
+    } else {
+        $ids = explode(', ', $needle);
+
+        foreach( $ids as $id ){
+            if( $product->get_id() == $id ) $meets_criteria = true;
+        }
+    }
+
+    return $meets_criteria;
+}
+
 add_action('woocommerce_cart_calculate_fees', 'add_custom_discount_2nd_at_50', 10, 1 );
 function add_custom_discount_2nd_at_50( $wc_cart ){
+    /**
+     * Adds a discount if cart item meets a specific criteria
+     * @param WC_Cart
+     */
     if ( is_admin() && ! defined( 'DOING_AJAX' ) ) return;
     $discount = 0;
     $items_prices = array();
     
-    // Set HERE your targeted variable product ID
-    $match = get_option( 'promo_bogo_needle' );
+    // The discount label you want displayed on cart & checkout
+    $label = get_option( 'promo_bogo_label' );
+
+    // The percent off
     $percent_off = intval(get_option( 'promo_bogo_discount' )) / 100;
 
+    // loop through cart
     foreach ( $wc_cart->get_cart() as $key => $cart_item ) {
         $product = wc_get_product( $cart_item['product_id'] );
-        $brand = $product->get_attribute('pa_all-brand');
 
-        if( $brand == $match ){
+        // check if product meets bogo criteria setup in backend
+        if( msp_meets_bogo_criteria( $product ) ){
             $qty = intval( $cart_item['quantity'] );
             for( $i = 0; $i < $qty; $i++ )
                 $items_prices[] = floatval( $cart_item['data']->get_price() );
@@ -1310,17 +1351,17 @@ function add_custom_discount_2nd_at_50( $wc_cart ){
     // target the lowest items
     sort( $items_prices );
 
-    // var_dump( $num_of_discounts, $items_prices );
-
+    // calculate discount
     if( $num_of_discounts > 0 ) {
         for( $i = 0; $i < $num_of_discounts; $i++ ) {
-            $discount -= number_format($items_prices[$i] * $percent_off, 2 );
+            $discount -= $items_prices[$i] * $percent_off;
         }
     }
 
+
     if( $discount != 0 ){
         // The discount
-        $wc_cart->add_fee( 'Helly Hansen BOGO 50% Off', $discount, true  );
+        $wc_cart->add_fee( $label, $discount, true  );
         # Note: Last argument in add_fee() method is related to applying the tax or not to the discount (true or false)
     }
 }
