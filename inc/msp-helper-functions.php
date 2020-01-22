@@ -594,28 +594,32 @@ function msp_get_price_messages( $sale ){
     return $price_messages;
 }
 
-function msp_check_bogo_deal(){
-	global $product;
-	$needle = get_option( 'promo_bogo_needle' );
-
-	if( ! msp_product_is_bogo( $product ) ) return;
-
-	$discount = get_option( 'promo_bogo_discount' ) . '%';	
-	$html = '<p><strong class="pr-1 text-success">BOGO %s Off:</strong>Buy any <a href="%s" class="un">%s</a> and get another <strong>%s off!</strong></p>';
-
-	printf( $html, $discount, msp_get_brand_name(), $needle, $discount );
-}
-
 function msp_product_is_bogo( $product ){
 	$needle = get_option( 'promo_bogo_needle' );
 	return ( $needle != '' && $product->get_attribute('pa_all-brand') == $needle );
 }
 
 function msp_check_bogo_deal_badge( $product ){
-	
-	if( msp_product_is_bogo( $product ) ){
-		printf( '<span class="badge badge-success">BOGO %s</span>', get_option( 'promo_bogo_discount' ) . '%' );
+
+	$discount = get_option( 'promo_bogo_discount' );
+	$discount = ( $discount == '100' ) ? 'FREE' : $discount . '%';
+
+	if( msp_meets_bogo_criteria( $product ) ){
+		printf( '<span class="badge badge-success">BOGO %s</span>', $discount );
 	}
+}
+
+function msp_check_bogo_deal(){
+	global $product;
+
+	if( ! msp_meets_bogo_criteria( $product ) ) return;
+
+	$discount = get_option( 'promo_bogo_discount' );
+	$discount = ( $discount == '100' ) ? 'FREE' : $discount . '% Off';
+
+	$html = '<p><strong class="pr-1 text-success">BOGO %s:</strong>Buy any <a href="%s" class="un">%s</a> and get another <strong>%s</strong>.</p>';
+
+	printf( $html, $discount, msp_get_bogo_target_link(), msp_get_bogo_needle_label(), $discount );
 }
 
 function pluralize( $count, $str ){

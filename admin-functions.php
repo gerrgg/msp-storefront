@@ -1,5 +1,4 @@
 <?php 
-
 class MSP_Admin{
     /**
      * Class used for everything backend on this child-theme.
@@ -33,6 +32,7 @@ class MSP_Admin{
         // Saving Net 30 checkbox data - For both self and other users.
         add_action( 'personal_options_update', array( $this, 'update_user_to_net30_terms'), 5 );
         add_action( 'edit_user_profile_update', array( $this, 'update_user_to_net30_terms'), 5 );
+        
     }
 
 

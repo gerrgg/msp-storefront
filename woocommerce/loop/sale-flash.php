@@ -27,7 +27,7 @@ global $post, $product;
 
     <?php endif;
     
-    if ( msp_product_is_bogo( $product ) ) :
+    if ( msp_meets_bogo_criteria( $product ) ) :
 
         msp_check_bogo_deal_badge( $product );
 

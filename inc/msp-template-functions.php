@@ -1317,6 +1317,52 @@ function msp_meets_bogo_criteria( $product ){
     return $meets_criteria;
 }
 
+function msp_get_bogo_target_link(){
+    /**
+     * Return Link
+     */
+    $type = get_option( 'promo_bogo_target' );
+    $needle = get_option( 'promo_bogo_needle' );
+
+    if( $type === 'brand' ){
+
+        return msp_get_brand_name( $needle );
+
+    } else if( $type === 'category' ){
+
+        $term = get_term( (int) $needle, 'product_cat' );
+        
+        if( ! is_wp_error( $term ) ){
+           return get_term_link( $term, 'product_cat' );
+        }
+
+    } else {
+        // create page for specific ids
+        return '#';
+
+    }
+}
+
+function msp_get_bogo_needle_label(){
+    $type = get_option( 'promo_bogo_target' );
+    $needle = get_option( 'promo_bogo_needle' );
+
+    if( $type === 'brand' ){
+        return $needle;
+    } else if( $type === 'category' ){
+
+        $term = get_term( (int) $needle, 'product_cat' );
+        
+        if( ! is_wp_error( $term ) ){
+           return $term->name;
+        }
+
+    } else {
+        // create page for specific ids
+        return ' BOGO item ';
+    }
+}
+
 add_action('woocommerce_cart_calculate_fees', 'add_custom_discount_2nd_at_50', 10, 1 );
 function add_custom_discount_2nd_at_50( $wc_cart ){
     /**

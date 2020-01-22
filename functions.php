@@ -10,6 +10,7 @@ define('PATH', get_stylesheet_directory() );
 // PATH => /srv/www/wordpress-one/public_html/wp-content/themes/msp-storefront 
 
 //require
+
 require_once( PATH . '/vendor/wp-bootstrap-navwalker-master/class-wp-bootstrap-navwalker.php' );
 require_once( PATH . '/admin-functions.php' );
 require_once( PATH . '/inc/msp-template-hooks.php' );
