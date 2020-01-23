@@ -12,16 +12,22 @@
  *
  * @see 	    https://docs.woocommerce.com/document/template-structure/
  * @package 	WooCommerce/Templates
- * @version     3.0.0
+ * @version     3.9.0
  */
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 if ( $related_products ) : ?>
 
-	<section class="related products">
+		<section class="related products">
 
-		<h2><?php esc_html_e( 'Related products', 'woocommerce' ); ?></h2>
+		<?php
+		$heading = apply_filters( 'woocommerce_product_related_products_heading', __( 'Related products', 'woocommerce' ) );
+
+		if ( $heading ) :
+			?>
+			<h2><?php echo esc_html( $heading ); ?></h2>
+		<?php endif; ?>
 
         <?php woocommerce_product_loop_start(); ?>
         

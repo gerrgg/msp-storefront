@@ -15,10 +15,12 @@ class MSP_Admin{
         add_action( 'woocommerce_process_product_meta', array( $this, 'process_product_videos_meta' ), 10, 2 );
         add_action( 'woocommerce_process_product_meta', array( $this, 'process_product_size_guide_meta' ), 10, 2 );
         add_action( 'woocommerce_process_product_meta', array( $this, 'process_product_specifications_meta' ), 10, 2 );
+        add_action( 'woocommerce_process_product_meta', array( $this, 'save_discontinued_meta' ), 10, 2 );
         add_action( 'woocommerce_process_product_meta', array( $this,'iww_add_gsf_title'), 10, 2 );
 
         add_action( 'woocommerce_product_options_general_product_data', 'msp_specifications_table' );
         add_action( 'woocommerce_product_options_general_product_data',  array( $this,'iww_gsf_title') );
+        add_action( 'woocommerce_product_options_general_product_data',  'add_discontinued_checkbox' );
 
         // Add purchase order meta data to order emails and edit order page.
         add_filter('woocommerce_email_order_meta_keys', 'sc_add_po_to_emails');
@@ -35,6 +37,10 @@ class MSP_Admin{
         
     }
 
+    public function save_discontinued_meta( $post_id ){
+        $woocommerce_checkbox = isset( $_POST['_msp_is_discontinued'] ) ? 'yes' : 'no';
+        update_post_meta( $post_id, '_msp_is_discontinued', $woocommerce_checkbox );
+    }
 
     public function iww_gsf_title(){
       global $woocommerce, $post;
@@ -753,4 +759,16 @@ function sc_make_tracking_link( $shipper, $tracking ){
     'usps' => 'https://tools.usps.com/go/TrackConfirmAction?tLabels='
   );
   return $base_urls[$shipper] . $tracking;
+}
+
+function add_discontinued_checkbox(){
+    echo '<div class="option_group">';
+
+        woocommerce_wp_checkbox( array(
+            'id'            => '_msp_is_discontinued',
+            'wrapper_class' => '',
+            'label'         => __('Product is discontinued', 'msp-sc' ),
+        ) );
+
+        echo '</div>';
 }

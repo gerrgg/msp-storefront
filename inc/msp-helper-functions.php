@@ -556,7 +556,7 @@ function msp_promo_row( $atts ){
 		if( is_wp_error( $link ) ) return;
 	?>
 
-		<div class="col-12 col-lg-<?php echo $columns ?>">
+		<div class="col-6 col-lg-<?php echo $columns ?>">
 			<a href="<?php echo $link ?>">
 				<img src="<?php echo $image ?>" class="img-thumb mb-2" />
 			</a>
@@ -592,11 +592,6 @@ function msp_get_price_messages( $sale ){
 	$price_messages .= '</span>';
 	
     return $price_messages;
-}
-
-function msp_product_is_bogo( $product ){
-	$needle = get_option( 'promo_bogo_needle' );
-	return ( $needle != '' && $product->get_attribute('pa_all-brand') == $needle );
 }
 
 function msp_check_bogo_deal_badge( $product ){

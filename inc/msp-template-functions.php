@@ -1621,9 +1621,11 @@ function msp_brand_name(){
      * Get and display product brand w/ link
      */
     global $product;
-    $brand = $product->get_attribute('pa_all-brand');
+    $brand_slug = get_option( 'promo_brand_slug' );
 
-    $term = get_term_by( 'name', $brand, 'pa_all-brand' );
+    $brand = $product->get_attribute( $brand_slug );
+
+    $term = get_term_by( 'name', $brand, $brand_slug );
 
     if( false === $term ) return $brand;
 
@@ -1637,9 +1639,10 @@ function msp_get_brand_name(){
      * Get and display product brand w/ link
      */
     global $product;
-    $brand = $product->get_attribute('pa_all-brand');
+    $brand_slug = get_option( 'promo_brand_slug' );
+    $brand = $product->get_attribute( $brand_slug );
 
-    $term = get_term_by( 'name', $brand, 'pa_all-brand' );
+    $term = get_term_by( 'name', $brand, $brand_slug );
 
     if( false === $term ) return $brand;
 
@@ -1704,7 +1707,10 @@ function msp_get_price_html( $product ){
         $price_messages = msp_get_price_messages( $product->get_price() );
         $html = $product->get_price_html() . $price_messages;
     }
-	return $label . $html;
+
+    if( ! empty( $label ) ){
+        return $label . $html;
+    }
 }
 
 function msp_warn_about_leadtime(){
