@@ -15,12 +15,10 @@ class MSP_Admin{
         add_action( 'woocommerce_process_product_meta', array( $this, 'process_product_videos_meta' ), 10, 2 );
         add_action( 'woocommerce_process_product_meta', array( $this, 'process_product_size_guide_meta' ), 10, 2 );
         add_action( 'woocommerce_process_product_meta', array( $this, 'process_product_specifications_meta' ), 10, 2 );
-        add_action( 'woocommerce_process_product_meta', array( $this, 'save_discontinued_meta' ), 10, 2 );
         add_action( 'woocommerce_process_product_meta', array( $this,'iww_add_gsf_title'), 10, 2 );
 
         add_action( 'woocommerce_product_options_general_product_data', 'msp_specifications_table' );
         add_action( 'woocommerce_product_options_general_product_data',  array( $this,'iww_gsf_title') );
-        add_action( 'woocommerce_product_options_general_product_data',  'add_discontinued_checkbox' );
 
         // Add purchase order meta data to order emails and edit order page.
         add_filter('woocommerce_email_order_meta_keys', 'sc_add_po_to_emails');
@@ -37,10 +35,6 @@ class MSP_Admin{
         
     }
 
-    public function save_discontinued_meta( $post_id ){
-        $woocommerce_checkbox = isset( $_POST['_msp_is_discontinued'] ) ? 'yes' : 'no';
-        update_post_meta( $post_id, '_msp_is_discontinued', $woocommerce_checkbox );
-    }
 
     public function iww_gsf_title(){
       global $woocommerce, $post;
@@ -761,14 +755,98 @@ function sc_make_tracking_link( $shipper, $tracking ){
   return $base_urls[$shipper] . $tracking;
 }
 
-function add_discontinued_checkbox(){
-    echo '<div class="option_group">';
 
-        woocommerce_wp_checkbox( array(
-            'id'            => '_msp_is_discontinued',
-            'wrapper_class' => '',
-            'label'         => __('Product is discontinued', 'msp-sc' ),
-        ) );
-
-        echo '</div>';
+// 1. Add custom field input @ Product Data > Variations > Single Variation
+ 
+add_action( 'woocommerce_variation_options_pricing', 'msp_add_discontinued_checkbox', 1, 3 );
+ 
+function msp_add_discontinued_checkbox( $loop, $variation_data, $variation ) {
+    woocommerce_wp_checkbox( array(
+        'id' => 'msp_discontinued[' . $loop . ']',
+        'class' => 'short',
+        'label' => __( 'Product Discontinued?  ', 'woocommerce' ),
+        'value' => get_post_meta( $variation->ID, 'msp_discontinued', true )
+        )
+    );
 }
+ 
+// -----------------------------------------
+// 2. Save custom field on product variation save
+ 
+add_action( 'woocommerce_save_product_variation', 'msp_save_custom_field_variations', 10, 2 );
+ 
+function msp_save_custom_field_variations( $variation_id, $i ) {
+$custom_field = $_POST['msp_discontinued'][$i];
+if ( isset( $custom_field ) ) update_post_meta( $variation_id, 'msp_discontinued', esc_attr( $custom_field ) );
+}
+ 
+// -----------------------------------------
+// 3. Store custom field value into variation data
+ 
+add_filter( 'woocommerce_available_variation', 'msp_add_custom_field_variation_data' );
+ 
+function msp_add_custom_field_variation_data( $variations ) {
+$variations['msp_discontinued'] = '<div class="woocommerce_custom_field">Custom Field: <span>' . get_post_meta( $variations[ 'variation_id' ], 'msp_discontinued', true ) . '</span></div>';
+return $variations;
+}
+
+/**
+ * Handle a custom 'customvar' query var to get products with the 'customvar' meta.
+ * @param array $query - Args for WP_Query.
+ * @param array $query_vars - Query vars from WC_Product_Query.
+ * @return array modified $query
+ */
+function handle_custom_query_var( $query, $query_vars ) {
+	if ( ! empty( $query_vars['msp_discontinued'] ) ) {
+		$query['meta_query'][] = array(
+			'key' => 'msp_discontinued',
+			'value' => esc_attr( $query_vars['msp_discontinued'] ),
+		);
+	}
+
+	return $query;
+}
+
+// teach wc_get_products to look for 'msp_discontinued' meta
+add_filter( 'woocommerce_product_data_store_cpt_get_products_query', 'handle_custom_query_var', 10, 2 );
+
+
+add_shortcode( 'msp_get_discontinued', 'msp_show_discontinued_products' );
+function msp_get_discontinued_products(){
+    /**
+     * Gets all products variations marked as discontinued
+     * @return int - product ID's
+     */
+    $products = wc_get_products( array( 'type' => 'variation', 
+                                        'msp_discontinued' => 'yes',
+                                        'return' => 'ids' )  );
+    return $products;
+}
+
+function msp_show_discontinued_products( ){
+    /**
+     * Show discontinued products
+     * TODO: NOT DONE
+     */
+    $close_out_items = msp_get_discontinued_products(); 
+
+    ?>
+
+    <div class="row">
+        <?php
+            $loop = new WP_Query( $close_out_items );
+
+            if ( $loop->have_posts() ) {
+                while ( $loop->have_posts() ) : 
+                    wc_get_template_part( 'content', 'product' );
+                endwhile;
+            } else {
+                echo __( 'No products found' );
+            }
+
+            wp_reset_postdata();
+        ?>
+    </div><!--/.products-->
+    <?php
+}
+

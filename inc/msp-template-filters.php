@@ -96,4 +96,43 @@ function msp_the_title( $title, $id = null ) {
 }
 add_filter( 'the_title', 'msp_the_title', 10, 2 );
 
+//https://stackoverflow.com/questions/43564232/add-the-product-description-to-woocommerce-email-notifications
+// Setting the email_is as a global variable
+add_action('woocommerce_email_before_order_table', 'the_email_id_as_a_global', 1, 4);
+function the_email_id_as_a_global($order, $sent_to_admin, $plain_text, $email ){
+    $GLOBALS['email_id_str'] = $email->id;
+}
 
+// Displaying product description in new email notifications
+add_action( 'woocommerce_order_item_meta_end', 'maybe_add_product_discontinued_in_new_email_notification', 10, 4 );
+function maybe_add_product_discontinued_in_new_email_notification( $item_id, $item, $order = null, $plain_text = false ){
+
+    // Getting the email ID global variable
+    $refNameGlobalsVar = $GLOBALS;
+    $email_id = $refNameGlobalsVar['email_id_str'];
+
+    // If empty email ID we exit
+    if(empty($email_id)) return;
+
+    // Only for "New Order email notification"
+    if ( 'new_order' == $email_id ) {
+
+        if( version_compare( WC_VERSION, '3.0', '<' ) ) { 
+            $product_id = $item['product_id']; // Get The product ID (for simple products)
+            $product = wc_get_product($item['product_id']); 
+        } else {
+            $product = $item->get_product();
+        }
+
+        $is_discontinued = get_post_meta( $product->get_id(), 'msp_discontinued', true );
+        $our_cost = get_post_meta( $product->get_id(), 'our_cost', true );
+
+        if( $is_discontinued === 'yes' ){
+            echo '<div class="product-discontinued"><p><strong>Product Discontinued</strong></p></div>';
+        }
+
+        if( ! empty( $our_cost ) ){
+            echo '<div class="product-our-cost"><p><strong>Our Cost: </strong> $' . $our_cost . ' </p></div>';
+        }
+    }
+}
