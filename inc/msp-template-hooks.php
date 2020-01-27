@@ -196,6 +196,9 @@ add_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_p
 
 add_action( 'woocommerce_single_product_summary', 'msp_add_helly_hansen_link', 26 );
 function msp_add_helly_hansen_link(){
+    /**
+     * Tell the customer she can get a better price if you call in your order.
+     */
     global $product;
     $brand = msp_get_brand_name( $product->get_id() );
 
@@ -204,7 +207,7 @@ function msp_add_helly_hansen_link(){
         <div class="alert alert-secondary mt-2" role="alert">
             <h3><b>Save <span class="text-success">$$$</span> on Helly Hansen Workwear</b></h3>
             <p>If you would like to pay a lower price than the one listed above, call us at:  <a href="tel:888-723-3864">888-723-3864</a>.</p>
-            <button class="btn btn-danger">Place your order by phone</button>
+            <a role="button" href="tel:888-723-3864" class="btn btn-danger">Place your order by phone</a>
         </div>
         <?php
     }

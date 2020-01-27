@@ -11,11 +11,23 @@ class MSP_Admin{
         // Custom meta boxes for use in backend (product edit mostly)
         add_action( 'add_meta_boxes', array( $this, 'msp_meta_boxes' ) );
         add_action( 'woocommerce_product_options_advanced', array( $this, 'submit_resources_tab' ) );
-        add_action( 'woocommerce_process_product_meta', array( $this, 'process_product_resources_meta' ), 10, 2 );
-        add_action( 'woocommerce_process_product_meta', array( $this, 'process_product_videos_meta' ), 10, 2 );
-        add_action( 'woocommerce_process_product_meta', array( $this, 'process_product_size_guide_meta' ), 10, 2 );
-        add_action( 'woocommerce_process_product_meta', array( $this, 'process_product_specifications_meta' ), 10, 2 );
-        add_action( 'woocommerce_process_product_meta', array( $this,'iww_add_gsf_title'), 10, 2 );
+        add_action( 'woocommerce_product_options_pricing', array( $this, 'add_our_cost_input_simple_product'), 10, 3 );
+
+        //variation custom fields
+        add_action( 'woocommerce_variation_options_pricing', array( $this, 'msp_add_discontinued_checkbox'), 1, 3 );
+        add_action( 'woocommerce_variation_options_pricing', array( $this, 'msp_add_our_cost_input'), 2, 3 );
+
+        // save variation custom fields
+        add_action( 'woocommerce_save_product_variation', array( $this, 'msp_save_discontinued_meta'), 10, 2 );
+        add_action( 'woocommerce_save_product_variation', array( $this,'msp_save_our_cost_meta'), 10, 2 );
+
+        // Save product data
+        add_action( 'woocommerce_process_product_meta', array( $this, 'process_product_meta' ), 10, 2 );
+        add_action( 'woocommerce_process_product_meta', array( $this, 'process_product_resources_meta' ), 11, 2 );
+        add_action( 'woocommerce_process_product_meta', array( $this, 'process_product_videos_meta' ), 12, 2 );
+        add_action( 'woocommerce_process_product_meta', array( $this, 'process_product_size_guide_meta' ), 13, 2 );
+        add_action( 'woocommerce_process_product_meta', array( $this, 'process_product_specifications_meta' ), 14, 2 );
+        add_action( 'woocommerce_process_product_meta', array( $this,'iww_add_gsf_title'), 15, 2 );
 
         add_action( 'woocommerce_product_options_general_product_data', 'msp_specifications_table' );
         add_action( 'woocommerce_product_options_general_product_data',  array( $this,'iww_gsf_title') );
@@ -35,8 +47,32 @@ class MSP_Admin{
         
     }
 
+    public function process_product_meta( $id ){
+        /**
+         * If our cost is there, add it to the product
+         */
+        if( ! empty( $_POST['our_cost'] ) ) update_post_meta( $id, 'our_cost', $_POST['our_cost'] );
+    }
+
+    public function add_our_cost_input_simple_product( ){
+        /**
+         * Add an 'our_cost' input for simple products
+         */
+        global $post;
+
+        woocommerce_wp_text_input( array(
+            'id' => 'our_cost',
+            'class' => 'short wc_price',
+            'label' => __( 'Our Cost  ', 'woocommerce' ),
+            'value' => get_post_meta( $post->ID, 'our_cost', true )
+        ) );
+    }
+
 
     public function iww_gsf_title(){
+        /**
+         * Display a nicer title
+         */
       global $woocommerce, $post;
       echo '<div class="options_group">';
       woocommerce_wp_text_input(
@@ -155,6 +191,16 @@ class MSP_Admin{
         );
     }
 
+    public function msp_save_discontinued_meta( $variation_id, $i ) {
+        $custom_field = $_POST['msp_discontinued'][$i];
+        if ( isset( $custom_field ) ) update_post_meta( $variation_id, 'msp_discontinued', esc_attr( $custom_field ) );
+    }
+     
+    public function msp_save_our_cost_meta( $variation_id, $i ) {
+        $custom_field = $_POST['our_cost'][$i];
+        if ( isset( $custom_field ) ) update_post_meta( $variation_id, 'our_cost', esc_attr( $custom_field ) );
+    }
+
     public function theme_options(){
         /**
         * hooked into the admin_init so we can create menus and customize site settings
@@ -251,7 +297,36 @@ class MSP_Admin{
         <?php
     }
 
+    public function msp_add_discontinued_checkbox( $loop, $variation_data, $variation ) {
+        /**
+         * HTML which displays the 'Product Discontinued' checkbox in Product Variations
+         */
+        woocommerce_wp_checkbox( array(
+            'id' => 'msp_discontinued[' . $loop . ']',
+            'class' => 'short',
+            'label' => __( 'Product Discontinued?  ', 'woocommerce' ),
+            'value' => get_post_meta( $variation->ID, 'msp_discontinued', true )
+        ) );
+        
+    }
+
+    public function msp_add_our_cost_input( $loop, $variation_data, $variation ) {
+        /**
+         * HTML which displays the 'Our cost' Text input in Product Variations
+         */
+        woocommerce_wp_text_input( array(
+            'id' => 'our_cost[' . $loop . ']',
+            'class' => 'short wc_price',
+            'label' => __( 'Our Cost  ', 'woocommerce' ),
+            'value' => get_post_meta( $variation->ID, 'our_cost', true )
+        ) );
+        
+    }
+
     public function enqueue_scripts( $hook ){
+        /**
+         * Add admin script
+         */
         wp_enqueue_script('admin', get_stylesheet_directory_uri() . '/js/admin.js');
     }
 
@@ -755,40 +830,13 @@ function sc_make_tracking_link( $shipper, $tracking ){
   return $base_urls[$shipper] . $tracking;
 }
 
+ 
+// -----------------------------------------
+// Save Meta
 
-// 1. Add custom field input @ Product Data > Variations > Single Variation
+
+
  
-add_action( 'woocommerce_variation_options_pricing', 'msp_add_discontinued_checkbox', 1, 3 );
- 
-function msp_add_discontinued_checkbox( $loop, $variation_data, $variation ) {
-    woocommerce_wp_checkbox( array(
-        'id' => 'msp_discontinued[' . $loop . ']',
-        'class' => 'short',
-        'label' => __( 'Product Discontinued?  ', 'woocommerce' ),
-        'value' => get_post_meta( $variation->ID, 'msp_discontinued', true )
-        )
-    );
-}
- 
-// -----------------------------------------
-// 2. Save custom field on product variation save
- 
-add_action( 'woocommerce_save_product_variation', 'msp_save_custom_field_variations', 10, 2 );
- 
-function msp_save_custom_field_variations( $variation_id, $i ) {
-$custom_field = $_POST['msp_discontinued'][$i];
-if ( isset( $custom_field ) ) update_post_meta( $variation_id, 'msp_discontinued', esc_attr( $custom_field ) );
-}
- 
-// -----------------------------------------
-// 3. Store custom field value into variation data
- 
-add_filter( 'woocommerce_available_variation', 'msp_add_custom_field_variation_data' );
- 
-function msp_add_custom_field_variation_data( $variations ) {
-$variations['msp_discontinued'] = '<div class="woocommerce_custom_field">Custom Field: <span>' . get_post_meta( $variations[ 'variation_id' ], 'msp_discontinued', true ) . '</span></div>';
-return $variations;
-}
 
 /**
  * Handle a custom 'customvar' query var to get products with the 'customvar' meta.

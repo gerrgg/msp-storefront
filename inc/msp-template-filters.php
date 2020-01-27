@@ -106,10 +106,10 @@ function the_email_id_as_a_global($order, $sent_to_admin, $plain_text, $email ){
 // Displaying product description in new email notifications
 add_action( 'woocommerce_order_item_meta_end', 'maybe_add_product_discontinued_in_new_email_notification', 10, 4 );
 function maybe_add_product_discontinued_in_new_email_notification( $item_id, $item, $order = null, $plain_text = false ){
-
     // Getting the email ID global variable
-    $refNameGlobalsVar = $GLOBALS;
-    $email_id = $refNameGlobalsVar['email_id_str'];
+    if( isset( $refNameGlobalsVar['email_id_str'] ) ){
+        $email_id = $refNameGlobalsVar['email_id_str'];
+    }
 
     // If empty email ID we exit
     if(empty($email_id)) return;
