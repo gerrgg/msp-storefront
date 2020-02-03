@@ -923,7 +923,7 @@ function msp_get_shop_subnav(){
     
 
     ?>
-        <nav class="navbar msp-shop-subnav border-top border-bottom" style="background: <?php echo $bg_color ?>">
+        <nav class="navbar d-none s-dm-flex msp-shop-subnav border-top border-bottom" style="background: <?php echo $bg_color ?>">
             <div class="navbar-nav flex-row">
                <?php
                 wp_nav_menu( array(

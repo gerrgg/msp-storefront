@@ -71,7 +71,7 @@ class MSP_Admin{
 
     public function iww_gsf_title(){
         /**
-         * Display a nicer title
+         * Display a nicer
          */
       global $woocommerce, $post;
       echo '<div class="options_group">';
@@ -295,19 +295,6 @@ class MSP_Admin{
             </p>
         </div>
         <?php
-    }
-
-    public function msp_add_discontinued_checkbox_simple( $loop, $variation_data, $variation ) {
-        /**
-         * HTML which displays the 'Product Discontinued' checkbox in Product Variations
-         */
-        woocommerce_wp_checkbox( array(
-            'id' => 'msp_discontinued[' . $loop . ']',
-            'class' => 'short',
-            'label' => __( 'Product Discontinued?  ', 'woocommerce' ),
-            'value' => get_post_meta( $variation->ID, 'msp_discontinued', true )
-        ) );
-        
     }
 
     public function msp_add_discontinued_checkbox( $loop, $variation_data, $variation ) {

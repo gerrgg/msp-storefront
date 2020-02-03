@@ -9,7 +9,7 @@ if( isset( $_GET['ids'] ) ) : ?>
     <?php foreach( $_GET['ids'] as $product_id ) :
         $product = wc_get_product( $product_id );
 
-        if( ! $product->is_type( 'simple' ) ){
+        if( ! empty( $product ) && ! $product->is_type( 'simple' ) ){
             $product_variations = $product->get_children();
         }
     ?>
