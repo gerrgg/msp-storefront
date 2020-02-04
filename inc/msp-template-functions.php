@@ -920,10 +920,8 @@ function msp_get_shop_subnav(){
     
     if( empty( $nav_items ) || wp_is_mobile() ) return;
 
-    
-
     ?>
-        <nav class="navbar d-none s-dm-flex msp-shop-subnav border-top border-bottom" style="background: <?php echo $bg_color ?>">
+        <nav class="navbar d-none d-sm-flex msp-shop-subnav border-top border-bottom" style="background: <?php echo $bg_color ?>">
             <div class="navbar-nav flex-row">
                <?php
                 wp_nav_menu( array(
