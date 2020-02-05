@@ -154,7 +154,10 @@ function msp_submit_bulk_form(){
     $to = get_option( 'msp_contact_email' );
     if( empty( $to ) ) $to = get_option( 'admin_email' );
 
-    $headers = array('Content-Type: text/html; charset=UTF-8');
+    $headers = array(
+        'Content-Type: text/html; charset=UTF-8', 
+        'Reply-To:' . $_POST['email']
+    );
 
     $sitename = get_bloginfo( 'name' );
 
