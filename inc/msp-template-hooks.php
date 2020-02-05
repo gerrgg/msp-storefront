@@ -194,7 +194,7 @@ add_action( 'woocommerce_single_product_summary', 'msp_add_tabs', 12 );
 add_action( 'woocommerce_single_product_summary', 'msp_open_single_product_tabs', 13 );
 add_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_price', 25 );
 
-add_action( 'woocommerce_single_product_summary', 'msp_add_helly_hansen_link', 26 );
+// add_action( 'woocommerce_single_product_summary', 'msp_add_helly_hansen_link', 26 );
 function msp_add_helly_hansen_link(){
     /**
      * Tell the customer she can get a better price if you call in your order.

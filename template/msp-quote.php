@@ -38,7 +38,7 @@ if( isset( $_GET['ids'] ) ) : ?>
                                     <img class="img-mini" src="<?php echo msp_get_product_image_src( $variation->get_image_id(), 'woocommerce_thumbnail' ) ?>" />
                                     <span class="text-center"><?php echo $variation->get_sku(); ?></span>
                                 </td>
-                                <td class="price"><?php echo '$' . $variation->get_price(); ?></td>
+                                <td class="price"><?php echo '$' . number_format( $variation->get_price(), 2); ?></td>
                                 <td>
                                     <label>How many? </label><br>
                                     <input type="number" id="<?php echo $variation_id .'-qty"' ?> name="<?php echo 'product['. $variation_id .']"' ?> />
