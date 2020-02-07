@@ -123,8 +123,8 @@ function maybe_add_product_discontinued_in_new_email_notification( $item_id, $it
             echo '<div class="product-discontinued"><p><strong>Product Discontinued</strong></p></div>';
         }
 
-        if( ! empty( $our_cost ) ){
-            echo '<div class="product-our-cost"><p><strong>Our Cost: </strong> $' . $our_cost . ' </p></div>';
-        }
+        // if( ! empty( $our_cost ) ){
+        //     echo '<div class="product-our-cost"><p><strong>Our Cost: </strong> $' . $our_cost . ' </p></div>';
+        // }
     }
 }
