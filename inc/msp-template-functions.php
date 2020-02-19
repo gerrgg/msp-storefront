@@ -764,7 +764,7 @@ function msp_dynamic_modal(){
     <div class="modal fade" id="msp_modal" tabindex="-1" role="dialog" aria-labelledby="msp_modal" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header d-none d-sm-block">
                     <h5 class="modal-title" id="msp_modal">Modal title</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -1077,12 +1077,15 @@ function msp_add_sub_cat_links(){
      * Gets children of current categoriy, lists them.
      */
     $nav_items = msp_get_category_children();
+    
     if( empty( $nav_items ) ) return;
+
     $echo = 'Shop for ';
     echo '<p class="text-left">';
     foreach( $nav_items as $item ){
         $echo .= '<a href="'. get_term_link( $item->term_id ) .'">'. $item->name .'</a>, ';
     }
+
     echo rtrim($echo, ', ') . '.</p>';
 }
 

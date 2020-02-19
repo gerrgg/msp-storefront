@@ -3,7 +3,7 @@ defined( 'ABSPATH' ) || exit;
 
 # TODO: Really need to cache our objects.
 
-class User_History{
+class User_History {
     /**
      * A class which records the ID of a page visited by a user. 
      * This data is stored as a $_SESSION and uploaded to the DB for logged in users.

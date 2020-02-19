@@ -52,7 +52,7 @@ function remove_add_to_cart_message() {
     return;
 }
 
-add_filter( 'the_content', 'msp_maybe_add_tab_info' );
+add_filter( 'the_content', 'msp_maybe_add_tab_info', 50 );
 function msp_maybe_add_tab_info( $content ){
     /**
      * This filter grabs any additional information from yikes_product_tabs plugin.
@@ -73,6 +73,86 @@ function msp_maybe_add_tab_info( $content ){
     
     return $content;
 }
+
+/**
+ * Allow HTML in term (category, tag) descriptions
+ */
+foreach ( array( 'pre_term_description' ) as $filter ) {
+	remove_filter( $filter, 'wp_filter_kses' );
+	if ( ! current_user_can( 'unfiltered_html' ) ) {
+		add_filter( $filter, 'wp_filter_post_kses' );
+	}
+}
+ 
+foreach ( array( 'term_description' ) as $filter ) {
+	remove_filter( $filter, 'wp_kses_data' );
+}
+
+add_filter( 'the_content', 'msp_maybe_attribute_description', 50 );
+function msp_maybe_attribute_description( $content ){
+    /**
+     * Gets product attribute descriptions and displays them in content.
+     */
+
+    $arr = array();
+    $html = "";
+
+    if( is_product() ){
+        global $product;
+        // get attributes that are visible and not variations
+        $visible_attributes = msp_get_visible_non_variable_product_attributes( $product );
+
+        foreach( $visible_attributes as $attribute ){
+            $term = wc_get_product_terms( $product->get_id(), $attribute->get_name(), array( 'all' ) );
+
+            if( ! is_wp_error( $term ) ){
+                // clean attribute slug and capitalize
+                $taxonomy_name = ucfirst(str_replace('pa_', '', $term[0]->taxonomy ));
+
+                // init strings
+                $term_name = $term_description = "";
+
+                for( $i = 0; $i < sizeof( $term ); $i++  ){
+                    // only use attributes with descriptions
+                    if( ! empty( $term[$i]->description ) ){
+                        $term_name .= $term[$i]->name . ', ';
+                        $term_description .= sprintf( "<div>%s</div>", $term[$i]->description );
+                    }
+                }
+
+                if( ! empty( $term_description ) ){
+                    $html .= sprintf( "<h4>%s - %s</h4>%s", $taxonomy_name, rtrim($term_name, ", "), $term_description );
+                }
+            }
+        }
+        $content .= $html;
+       
+    }
+    
+    return $content;
+}
+
+function msp_get_visible_non_variable_product_attributes( $product ){
+    /**
+     * Returns an array of product attributes that are visible but not used as a variation.
+     * @param WC_Product
+     * @return Array of WC_Product_Attribute
+     */
+
+    $arr = array();
+
+    foreach( $product->get_attributes() as $attribute ){
+        
+        // If attribute is visible but not used for variations.
+        if( $attribute->get_visible() && ! $attribute->get_variation() ){
+            array_push( $arr, $attribute );
+        }
+    }
+
+    return $arr;
+}
+
+
 
 add_filter( 'woocommerce_dropdown_variation_attribute_options_args', 'msp_add_form_control_to_select_boxes', 100 );
 // Add class .form-control to default class for select tags
