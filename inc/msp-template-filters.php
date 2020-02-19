@@ -105,7 +105,7 @@ function msp_maybe_attribute_description( $content ){
         foreach( $visible_attributes as $attribute ){
             $term = wc_get_product_terms( $product->get_id(), $attribute->get_name(), array( 'all' ) );
 
-            if( ! is_wp_error( $term ) ){
+            if( ! is_wp_error( $term ) & isset( $term[0] ) ){
                 // clean attribute slug and capitalize
                 $taxonomy_name = ucfirst(str_replace('pa_', '', $term[0]->taxonomy ));
 
@@ -142,7 +142,7 @@ function msp_get_visible_non_variable_product_attributes( $product ){
     $arr = array();
 
     foreach( $product->get_attributes() as $attribute ){
-        
+
         // If attribute is visible but not used for variations.
         if( $attribute->get_visible() && ! $attribute->get_variation() ){
             array_push( $arr, $attribute );
