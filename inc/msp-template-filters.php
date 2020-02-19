@@ -94,16 +94,19 @@ function msp_maybe_category_description( $content ){
     /**
      * Get current taxonomy, get description and put into content.
      */
-    global $product;
 
-    foreach( $product->get_category_ids() as $tax_id ){
-        $term = get_term( $tax_id, 'product_cat' );
-        if( ! is_wp_error( $term ) && ! empty( $term->description ) ){
-            $content .= sprintf( "<h4>%s</h4>%s", $term->name, $term->description );
+    if( is_product() ){
+        global $product;
+    
+        foreach( $product->get_category_ids() as $tax_id ){
+            $term = get_term( $tax_id, 'product_cat' );
+            if( ! is_wp_error( $term ) && ! empty( $term->description ) ){
+                $content .= sprintf( "<h4>%s</h4>%s", $term->name, $term->description );
+            }
         }
+    
+        return $content;
     }
-
-    return $content;
 }
 
 add_filter( 'the_content', 'msp_maybe_attribute_description', 50 );
