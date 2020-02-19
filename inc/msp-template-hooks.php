@@ -279,6 +279,7 @@ add_action( 'woocommerce_after_shop_loop',  'woocommerce_product_archive_descrip
 add_action( 'woocommerce_archive_description', 'woocommerce_breadcrumb', 5 );
 add_action( 'woocommerce_archive_description', 'msp_add_sub_cat_links', 1 );
 add_action( 'woocommerce_archive_description', 'msp_add_category_images', 2 );
+
 /**
  * woocommerce_before_shop_loop_item_title
  * @see we do this to wrap a product image in an a tag - CSS

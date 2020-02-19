@@ -88,7 +88,26 @@ foreach ( array( 'term_description' ) as $filter ) {
 	remove_filter( $filter, 'wp_kses_data' );
 }
 
+add_filter( 'the_content', 'msp_maybe_category_description', 49 );
+
+function msp_maybe_category_description( $content ){
+    /**
+     * Get current taxonomy, get description and put into content.
+     */
+    global $product;
+
+    foreach( $product->get_category_ids() as $tax_id ){
+        $term = get_term( $tax_id, 'product_cat' );
+        if( ! is_wp_error( $term ) && ! empty( $term->description ) ){
+            $content .= sprintf( "<h4>%s</h4>%s", $term->name, $term->description );
+        }
+    }
+
+    return $content;
+}
+
 add_filter( 'the_content', 'msp_maybe_attribute_description', 50 );
+
 function msp_maybe_attribute_description( $content ){
     /**
      * Gets product attribute descriptions and displays them in content.
