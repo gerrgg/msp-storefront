@@ -105,8 +105,8 @@ function msp_maybe_category_description( $content ){
             }
         }
     
-        return $content;
     }
+    return $content;
 }
 
 add_filter( 'the_content', 'msp_maybe_attribute_description', 50 );
