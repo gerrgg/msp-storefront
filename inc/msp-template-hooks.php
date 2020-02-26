@@ -193,26 +193,6 @@ add_action( 'woocommerce_single_product_summary', 'msp_brand_name', 1 );
 add_action( 'woocommerce_single_product_summary', 'msp_add_tabs', 12 );
 add_action( 'woocommerce_single_product_summary', 'msp_open_single_product_tabs', 13 );
 add_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_price', 25 );
-
-// add_action( 'woocommerce_single_product_summary', 'msp_add_helly_hansen_link', 26 );
-function msp_add_helly_hansen_link(){
-    /**
-     * Tell the customer she can get a better price if you call in your order.
-     */
-    global $product;
-    $brand = msp_get_brand_name( $product->get_id() );
-
-    if( $brand == 'Helly Hansen Workwear' ){
-        ?>
-        <div class="alert alert-secondary mt-2" role="alert">
-            <h3><b>Save <span class="text-success">$$$</span> on Helly Hansen Workwear</b></h3>
-            <p>If you would like to pay a lower price than the one listed above, call us at:  <a href="tel:888-723-3864">888-723-3864</a>.</p>
-            <a role="button" href="tel:888-723-3864" class="btn btn-danger">Place your order by phone</a>
-        </div>
-        <?php
-    }
-}
-
 add_action( 'woocommerce_single_product_summary', 'msp_warn_about_leadtime', 29 );
 add_action( 'woocommerce_single_product_summary', 'msp_check_bogo_deal', 27 );
 add_action( 'msp_before_size_attribute', 'msp_show_product_size_guide_btn', 30 );
@@ -309,23 +289,8 @@ add_action( 'woocommerce_single_product_summary', 'msp_featured_item', 11 );
 
 add_action( 'storefront_before_content', 'msp_get_shop_subnav', 105 );
 
-
 add_action( 'wp_footer', 'bbloomer_cart_refresh_update_qty' ); 
 add_action( 'wp_footer', 'msp_maybe_show_promo_pop_up' );
-function msp_maybe_show_promo_pop_up(){
-    $modal_title = get_option( 'promo_pop_up_title' );
-    $modal_id = get_option( 'promo_pop_up_image_id' );
-
-    if( empty( $modal_id ) ) return;
-    
-    // IF COOKIE NOT EXISTS
-    make_modal_btn( array(
-        'class' => 'promo_pop_up_btn d-none',
-        'title' => $modal_title,
-        'model' => 'promo',
-        'id' => $modal_id
-    ));
-}
 
 
 //theme options

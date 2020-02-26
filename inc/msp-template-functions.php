@@ -920,7 +920,7 @@ function msp_get_shop_subnav(){
     $show_images = get_option( 'msp_shop_nav_images' );
 
     $nav_items = msp_get_top_level_categories();
-    
+
     if( empty( $nav_items ) || wp_is_mobile() ) return;
 
     ?>
@@ -1081,7 +1081,9 @@ function msp_add_sub_cat_links(){
     if( empty( $nav_items ) ) return;
 
     $echo = 'Shop for ';
+
     echo '<p class="text-left">';
+
     foreach( $nav_items as $item ){
         $echo .= '<a href="'. get_term_link( $item->term_id ) .'">'. $item->name .'</a>, ';
     }
@@ -1791,4 +1793,19 @@ function msp_archive_description_header(){
             echo '<h3>Description</h3>';
         }
     }
+}
+
+function msp_maybe_show_promo_pop_up(){
+    $modal_title = get_option( 'promo_pop_up_title' );
+    $modal_id = get_option( 'promo_pop_up_image_id' );
+
+    if( empty( $modal_id ) ) return;
+    
+    // IF COOKIE NOT EXISTS
+    make_modal_btn( array(
+        'class' => 'promo_pop_up_btn d-none',
+        'title' => $modal_title,
+        'model' => 'promo',
+        'id' => $modal_id
+    ));
 }

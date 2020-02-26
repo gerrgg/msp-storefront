@@ -39,7 +39,7 @@ class MSP{
         add_action( 'init', array( $this, 'maybe_create_specifications_table' ), 3 );
 
         // Add custom widget on shop page
-        add_action( 'widgets_init', array( $this, 'register_sidebar_shop' ), 100 );
+        // add_action( 'widgets_init', array( $this, 'register_sidebar_shop' ), 100 );
         // Add custom scripts
         add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
         // Add custom menu for loggin out

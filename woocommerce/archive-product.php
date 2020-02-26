@@ -30,7 +30,7 @@ do_action( 'woocommerce_before_main_content' );
 <div class="row">
 	<div class="col">
 		<?php
-			get_sidebar('shop'); 
+			get_sidebar(); 
 		?>
 		
 	</div>
