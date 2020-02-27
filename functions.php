@@ -39,7 +39,7 @@ class MSP{
         add_action( 'init', array( $this, 'maybe_create_specifications_table' ), 3 );
 
         // Add custom widget on shop page
-        // add_action( 'widgets_init', array( $this, 'register_sidebar_shop' ), 100 );
+
         // Add custom scripts
         add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
         // Add custom menu for loggin out
@@ -464,6 +464,26 @@ class MSP{
     }
 
 }
+
+add_action( 'widgets_init', 'remove_widget_layered_nav', 15 );
+
+function remove_widget_layered_nav() {
+    // Ensure our parent class exists to avoid fatal error (thanks Wilgert!)
+    var_dump( class_exists( 'WC_Widget_Layered_Nav' ) );
+
+    if ( class_exists( 'WC_Widget_Layered_Nav' ) ) {
+
+      unregister_widget( 'WC_Widget_Layered_Nav' );
+
+      include_once( 'widgets/widget-layered-nav.php' );
+
+      var_dump( class_exists( 'MSP_WC_Widget_Layered_Nav' ) );
+  
+      register_widget( 'MSP_WC_Widget_Layered_Nav' );
+    }
+  
+  }
+
 
 //init
 new MSP();

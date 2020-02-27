@@ -9,6 +9,8 @@
  Tags:         light, dark, two-columns, right-sidebar, responsive-layout, accessibility-ready
  Text Domain:  msp
 */
+.
+
 .right-sidebar .content-area, .right-sidebar .widget-area{
     width: 100%!important;
 }
@@ -527,6 +529,7 @@ a.woocommerce-button.button{
 .mobile-menu-button{
     color: #B2DD58;
     border: 1px solid rgba(0,0,0,0.2);
+    background-color: #fff;
     margin-right: .5rem;
 }
 
@@ -836,7 +839,7 @@ table.woocommerce-product-attributes{
 .woocommerce-loop-product__title, .cart-collaterals h2.woocommerce-loop-product__title{
     font-size: 14px;
     line-height: 18px;
-    height: 35px;
+    height: 75px;
     text-overflow: ellipsis;
     overflow: hidden;
 }
