@@ -151,7 +151,7 @@ function msp_maybe_attribute_description( $content ){
                 }
 
                 if( ! empty( $term_description ) ){
-                    $html .= sprintf( "<h4>%s - %s</h4>%s", $taxonomy_name, rtrim($term_name, ", "), $term_description );
+                    $html .= sprintf( "<h3>%s</h3>%s", rtrim($term_name, ", "), $term_description );
                 }
             }
         }

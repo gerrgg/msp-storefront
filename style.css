@@ -822,8 +822,9 @@ img.avatar.avatar-60{
 .woocommerce .col-1, .col-2{ max-width:none !important;}
 
 /* Single Product */
-.woocommerce-product-gallery__image.flex-active-slide > a{
+.woocommerce-product-gallery__image.flex-active-slide > a, .woocommerce-product-gallery__image a{
     display: flex;
+    align-items: center;
     justify-content: center;
 }
 
@@ -1043,9 +1044,11 @@ p.create-account, #wc_twilio_sms_optin_field, #ship-to-different-address{
 
 /* Large devices (desktops, 768px and up) */
 @media (min-width: 577px) and (max-width: 992px) {
+
     #masthead .container{
         max-width: 990px !important;
     }
+
     #hidden-cart-button{
         order: 10;
     }
@@ -1061,7 +1064,13 @@ p.create-account, #wc_twilio_sms_optin_field, #ship-to-different-address{
 }
 
 /* Small devices (landscape phones, 576px and up) */
+
 @media (max-width: 576px) {
+
+    ul{
+        margin: 1rem;
+    }
+
     #page{
         background-image: none;
     }
