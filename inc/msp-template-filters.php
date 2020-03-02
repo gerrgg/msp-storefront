@@ -102,13 +102,14 @@ function msp_maybe_category_description( $content ){
         $terms = get_terms( array(
             'object_ids' => $product->get_id(), 
             'taxonomy' => 'product_cat',
-            'orderby' => 'parent',
             'order' => 'ASC'
         ));
 
+        var_dump( $terms );
+
         foreach( $terms as $term ){
             if( ! is_wp_error( $term ) && ! empty( $term->description ) ){
-                $content .= sprintf( "<h4>%s</h4>%s", $term->name, $term->description );
+                $content .= sprintf( "<h3>%s</h3>%s", $term->name, $term->description );
             }
         }
     
@@ -118,7 +119,7 @@ function msp_maybe_category_description( $content ){
     return $content;
 }
 
-add_filter( 'the_content', 'msp_maybe_attribute_description', 50 );
+add_filter( 'the_content', 'msp_maybe_attribute_description', 10 );
 
 function msp_maybe_attribute_description( $content ){
     /**
