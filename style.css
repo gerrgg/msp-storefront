@@ -826,6 +826,7 @@ img.avatar.avatar-60{
     display: flex;
     align-items: center;
     justify-content: center;
+    min-height: 400px;
 }
 
 #msp-feedback-form .msp-star-wrapper{
@@ -1066,6 +1067,11 @@ p.create-account, #wc_twilio_sms_optin_field, #ship-to-different-address{
 /* Small devices (landscape phones, 576px and up) */
 
 @media (max-width: 576px) {
+
+    /* Single Product */
+    .woocommerce-product-gallery__image.flex-active-slide > a, .woocommerce-product-gallery__image a{
+        min-height: 200px;
+    }
 
     ul{
         margin: 1rem;
