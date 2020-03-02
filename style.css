@@ -1069,7 +1069,7 @@ p.create-account, #wc_twilio_sms_optin_field, #ship-to-different-address{
 @media (max-width: 576px) {
 
     #content > .col-full{
-        margin: 0px 3px;
+        margin: 0px 6px;
     }
 
     /* Single Product */
@@ -1078,7 +1078,7 @@ p.create-account, #wc_twilio_sms_optin_field, #ship-to-different-address{
     }
 
     ul{
-        margin: 1rem;
+        margin: 0 0 0 2rem;
     }
 
     #page{
