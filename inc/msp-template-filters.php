@@ -105,8 +105,6 @@ function msp_maybe_category_description( $content ){
             'order' => 'ASC'
         ));
 
-        var_dump( $terms );
-
         foreach( $terms as $term ){
             if( ! is_wp_error( $term ) && ! empty( $term->description ) ){
                 $content .= sprintf( "<h3>%s</h3>%s", $term->name, $term->description );

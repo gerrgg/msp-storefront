@@ -465,7 +465,7 @@ class MSP{
 
 }
 
-add_action( 'widgets_init', 'remove_widget_layered_nav', 15 );
+// add_action( 'widgets_init', 'remove_widget_layered_nav', 15 );
 
 function remove_widget_layered_nav() {
     // Ensure our parent class exists to avoid fatal error (thanks Wilgert!)
