@@ -42,7 +42,7 @@ do_action( 'woocommerce_before_add_to_cart_form' ); ?>
 									'product'   => $product,
                                     ) );
 
-                                    if( preg_match( '/size/', $attribute_name ) ){
+                                    if( preg_match( "/Size|size/", $attribute_name ) ){
                                         do_action( 'msp_before_size_attribute' );
                                     }
 
