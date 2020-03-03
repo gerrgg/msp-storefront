@@ -104,7 +104,7 @@ function msp_maybe_category_description( $content ){
             'taxonomy' => 'product_cat',
             'order' => 'ASC'
         ));
-
+        
         foreach( $terms as $term ){
             if( ! is_wp_error( $term ) && ! empty( $term->description ) ){
                 $content .= sprintf( "<h3>%s</h3>%s", $term->name, $term->description );
@@ -151,7 +151,7 @@ function msp_maybe_attribute_description( $content ){
                 }
 
                 if( ! empty( $term_description ) ){
-                    $html .= sprintf( "<h3>%s</h3>%s", rtrim($term_name, ", "), $term_description );
+                    $html .= sprintf( "<h3>%s</h3>%s<hr>", rtrim($term_name, ", "), $term_description );
                 }
             }
         }
