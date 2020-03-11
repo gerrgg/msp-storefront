@@ -719,11 +719,13 @@ function msp_get_product_videos_tab(){
     $resources = msp_get_product_videos( $post->ID );
 
     echo '<h2>Product Videos</h2>';
+    echo '<div class="owl-carousel">';
     foreach( $resources as $arr ) : ?>
         <div class="embed-responsive embed-responsive-16by9 mb-2">
             <iframe class="embed-responsive-item" src="<?php echo $arr[0] ?>" allowfullscreen></iframe>
         </div>
     <?php endforeach;
+    echo '</div>';
 }
 
 function msp_show_product_size_guide_btn(){
@@ -1417,6 +1419,8 @@ function add_custom_discount_2nd_at_50( $wc_cart ){
         # Note: Last argument in add_fee() method is related to applying the tax or not to the discount (true or false)
     }
 }
+
+
 
 function msp_cart_item_price( $price, $item, $key ){
     /**

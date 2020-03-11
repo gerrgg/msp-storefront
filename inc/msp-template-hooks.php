@@ -313,3 +313,5 @@ if ( wp_is_mobile() ){
     add_action( 'woocommerce_before_single_product_summary', 'msp_brand_name', 1 );
 }
 
+
+
