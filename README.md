@@ -1,35 +1,43 @@
 # MSP Storefront
 A custom child theme built for Michigan Safety Products of Flint Inc. Built on [Woocommerce Storefront](https://github.com/woocommerce/storefront).
 
-## Dependancies
-- Woocommerce
-- Woocommerce PDF Invoices
-- Ajax Search for WooCommerce 
+## Todo
+- Seperate sync vendor to plugin
 
-## Features
-- HEADER - Lightweight custom header
-- HEADER - Slide-out navigation
-- HEADER - Includes quick links to pre-built pages like ( Buy again, Quote & Contact ).
-- HEADER - Integrated with [Ajax Search for Woocommerce](https://wordpress.org/plugins/ajax-search-for-woocommerce/)
-- HOME - Custom front page with hook for adding promos
-- HOME - Dynamic front page displays all departments
-- SHOP - Filter products by attributes
-- SHOP - Custom sub nav and carousel for child categories
-- SINGLE PRODUCT - Carousel sliders
-- SINGLE PRODUCT - Additional information renamed to 'specifications' and now list product data like MPN, and GTIN.
-- SINGLE PRODUCT - Included 2 extra tabs for product videos and resources.
+### Merchant-e
+- Move this to Merchant-e plugin
+- Class name warning
+- Depreciated credit_card_form() method
+- Implement stored payment methods
 
-- FRONTEND - Dynamic modal used for anything from images to forms and feedback.
-- FRONTEND - Uses [WooCommerce Bulk Discount](https://wordpress.org/plugins/woocommerce-bulk-discount/)
+### General
+- Improve mobile view - Remove dependancies on wp_is_mobile();
+- Switch to sass - REALLY should
 
-- BACKEND - Included NET30 functionality
-- BACKEND - Google Analytics integration
-- BACKEND - Meta boxes for submitting product resources, videos and size guides.
-- BACKEND - Custom form on edit order page for posting tracking numbers
+### Header
+- Integrate fall protection logo
+- Implement mega menu's for desktop view
+- Improve look of nested menu's for mobile view - Use JS to "slide" to the right
 
-## Integration
-- [Font Awesome](https://fontawesome.com/icons?d=gallery)
-- [Slideout JS](https://github.com/Mango/slideout)
-- [Bootstrap](https://getbootstrap.com/docs/4.3/getting-started/introduction/)
-- [Owl Carousel](https://owlcarousel2.github.io/OwlCarousel2/)
-- [Select 2](https://select2.org/)
+### Admin Edit category page
+- Add product video/resources/specifications to category page
+- Allow for dynamic product sliders which display about shop pages
+
+
+#### Shop
+- Put sort-by above & below shop
+- Fix filters to header on mobile view
+- Sort shop filters but DESC, show top 6 and collapse the rest
+
+#### cart
+- cart images are too big
+- remove underline and make product link more friendly
+
+### asperational goals
+- Remove all unused logic
+- Find a way to implement amazon-like variable scroll across multiple simple pages
+- Attach category wide resources, product videos, linkage?
+- Complete tracking system working with UPS/USPS & Fedex
+- Improved checkout process (keep checkout button at top)
+- Smart recommendations based on user data
+- 

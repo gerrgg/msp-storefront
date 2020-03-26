@@ -1093,6 +1093,29 @@ function msp_add_sub_cat_links(){
     echo rtrim($echo, ', ') . '.</p>';
 }
 
+function msp_suggest_products(  ){
+    $categories = msp_get_category_children();
+
+    //get category slugs
+    foreach( $categories as $category ){
+        if( ! empty( $category->slug ) ){
+            $args = array( 
+                'limit' => 8,
+                'order' => 'DESC',
+                'category' => array( $category->slug ),
+                'return' => 'ids'
+            );
+
+            $products = wc_get_products( $args );
+
+
+            // var_dump( $products );
+        }
+    }
+
+    // var_dump( $category_slugs );
+}
+
 function msp_mobile_product_filter_button(){
     /**
      * A simple button displayed on shop pages (mobile) which will hide/show store filters.
