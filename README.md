@@ -23,6 +23,10 @@ A custom child theme built for Michigan Safety Products of Flint Inc. Built on [
 - Add product video/resources/specifications to category page
 - Allow for dynamic product sliders which display about shop pages
 
+### Attribute edit page
+- Include select for choosing 'display type'. (label, image, select)
+- Add nessicary logic to display differant html types
+
 
 #### Shop
 - Put sort-by above & below shop
