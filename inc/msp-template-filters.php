@@ -4,9 +4,14 @@ defined( 'ABSPATH' ) || exit;
 
 add_filter( 'woocommerce_get_availability_text', 'change_backorder_message', 10, 2 );
 
+/**
+ * Allows admin to display message below products on backorder.
+ */
 function change_backorder_message( $text, $product ){
+    $theme_msg = get_option( 'wc_backorder_message' );
+
     if ( $product->managing_stock() && $product->is_on_backorder( 1 ) ) {
-        $text = __( "Out of stock and on backorder, we'll keep you updated", "msp" );
+        $text = ( empty( $theme_msg ) ) ? "Out of stock and on backorder, we'll keep you updated" : $theme_msg;
     }
     return $text;
 }
@@ -88,7 +93,7 @@ foreach ( array( 'term_description' ) as $filter ) {
 	remove_filter( $filter, 'wp_kses_data' );
 }
 
-add_filter( 'the_content', 'msp_maybe_category_description', 49 );
+add_filter( 'the_content', 'msp_maybe_category_description', 10 );
 
 function msp_maybe_category_description( $content ){
     /**
@@ -117,7 +122,7 @@ function msp_maybe_category_description( $content ){
     return $content;
 }
 
-add_filter( 'the_content', 'msp_maybe_attribute_description', 10 );
+add_filter( 'the_content', 'msp_maybe_attribute_description', 49 );
 
 function msp_maybe_attribute_description( $content ){
     /**

@@ -489,7 +489,7 @@ class MSP_Admin{
         array( 'google_analytics_account_id', 'google_recaptcha', 'google_adwords', 'google_aw_campaign', 'bing_ads' ) );
         
         $this->add_settings_field_and_register( 'msp_options', 'woocommerce', 'wc', 
-        array( 'easy_qty_breaks', 'add_net_30_to_single_product', 'free_shipping_amount', 'shipping_page', 'returns_page' ) );
+        array( 'backorder_message', 'easy_qty_breaks', 'add_net_30_to_single_product', 'free_shipping_amount', 'shipping_page', 'returns_page' ) );
     }
 }
 
@@ -564,6 +564,11 @@ function wc_add_net_30_to_single_product_callback(){
 function wc_free_shipping_amount_callback(){
     $option = get_option( 'wc_free_shipping_amount' );
     echo '<input name="wc_free_shipping_amount" id="wc_free_shipping_amount" type="text" value="'. get_option( 'wc_free_shipping_amount' ) .'" class="code" />';
+}
+
+function wc_backorder_message_callback(){
+    $option = get_option( 'wc_backorder_message' );
+    echo '<input name="wc_backorder_message" id="wc_backorder_message" type="text" value="'. get_option( 'wc_backorder_message' ) .'" class="code" />';
 }
 
 function wc_shipping_page_callback(){
