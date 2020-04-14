@@ -190,7 +190,6 @@ function msp_get_visible_non_variable_product_attributes( $product ){
 
 
 add_filter( 'woocommerce_dropdown_variation_attribute_options_args', 'msp_add_form_control_to_select_boxes', 100 );
-// Add class .form-control to default class for select tags
 function msp_add_form_control_to_select_boxes( $args ){
     $args['class'] = 'form-control';
     return $args;
@@ -203,13 +202,14 @@ function msp_product_price_class( $class ){
 }
 
 function msp_the_title( $title, $id = null ) {
-
     $seo_name = get_post_meta( $id, 'gsf_title', true );
     $title = ( ! empty( $seo_name ) ) ? $title . ' ' . $seo_name : $title;
 
     return $title;
 }
 add_filter( 'the_title', 'msp_the_title', 10, 2 );
+
+
 
 //https://stackoverflow.com/questions/43564232/add-the-product-description-to-woocommerce-email-notifications
 // Setting the email_is as a global variable

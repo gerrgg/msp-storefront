@@ -10,14 +10,17 @@ if( $product->is_type( 'variable' ) ){
     $children = $product->get_children();
     foreach( $children as $id ){
         $child = wc_get_product( $id );
-        $child_vars[$id] = array(
-            'id' => $id,
-            'sku' => $child->get_sku(),
-            'attr_str' => wc_get_formatted_variation( $child->get_variation_attributes(), true, false, true ),
-            'price' => number_format((float)$child->get_price(), 2, '.', ''),
-            'instock' => $child->get_stock_status(),
-            'stock' => $child->get_stock_quantity(),
-        );
+
+        if( $child->is_purchasable() ){
+            $child_vars[$id] = array(
+                'id' => $id,
+                'sku' => $child->get_sku(),
+                'attr_str' => wc_get_formatted_variation( $child->get_variation_attributes(), true, false, true ),
+                'price' => number_format((float)$child->get_price(), 2, '.', ''),
+                'instock' => $child->get_stock_status(),
+                'stock' => $child->get_stock_quantity(),
+            );
+        }
     }
 } else {
     return; // dont make tab
@@ -30,7 +33,7 @@ $image_src = msp_get_product_image_src( $product->get_image_id(), 'thumbnail' );
     <div id="var_bulk_form">
         <?php
         foreach( $child_vars as $var ){
-            if( $var['instock'] == 'instock' ){
+            if( $var['instock'] == 'instock'  ){
                 ?>
                     <div class="d-flex">
                         <input id="<?php echo $var['id'] ?>" type="number" min="0" max="<?php echo $var['stock'] ?>" placeholder="0" class="my-2 var-bulk-update qty" />

@@ -10,6 +10,8 @@
  Text Domain:  msp
 */
 
+
+
 .right-sidebar .content-area, .right-sidebar .widget-area{
     width: 100%!important;
 }
@@ -64,7 +66,7 @@ body.error404 .woocommerce.columns-2 .col-xl-2{
 }
 
 .summary h1.product_title.entry-title{
-    font-size: 1.75rem;
+    font-size: 1.25rem;
     font-family: 'Open Sans', sans-serif;
 }
 
@@ -1177,10 +1179,11 @@ p.create-account, #wc_twilio_sms_optin_field, #ship-to-different-address{
         float: right;
     }
     body.single-product h1.product_title{
-        font-size: 1.3rem;
+        font-size: 1.1rem;
         line-break: 1.4!important;
-        font-family: 'Sen', sans-serif;
+        font-family: 'open-sans', sans-serif;
     }
+
     .single-product div.product .images, 
     .single-product div.product .summary, 
     .single-product div.product .woocommerce-product-gallery{
