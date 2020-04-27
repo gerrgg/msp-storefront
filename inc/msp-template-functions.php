@@ -1709,18 +1709,53 @@ function msp_get_variation_price_html(){
 }
 
 function msp_get_price_html( $product ){
-
+    
     if( $product->get_price() == '' || ! $product->is_in_stock() ){
         echo 'Sorry, product is not available at this time';
     } else {
         $label = '<span class="price-label">Price: </span>';
+
+        $qty = msp_get_product_unit_price( $product );
+
         $price_messages = msp_get_price_messages( $product->get_price() );
-        $html = $product->get_price_html() . $price_messages;
+
+        $html = $product->get_price_html() . $qty . '<br>' . $price_messages;
     }
 
     if( ! empty( $label ) ){
         return $label . $html;
     }
+}
+
+function msp_product_has_price_range( $product ){
+
+    if( $product->is_on_sale() ){
+        return ( $product->get_variation_sale_price( 'min' ) != $product->get_variation_sale_price( 'max' ) );
+    } else {
+        return ( $product->get_variation_regular_price( 'min' ) != $product->get_variation_regular_price( 'max' ) );
+    }
+    
+    return true;
+
+}
+
+function msp_get_product_unit_price( $product ){
+    /**
+     * Checks for product meta data, and displays per unit cost on multi-count items.
+     */
+    $qty = get_post_meta( $product->get_id(), 'msp_product_quantity', true );
+
+    // dont show a per unit cost on variable products with price ranges
+    if( $product->is_type( 'variable' ) && msp_product_has_price_range( $product ) ) return;
+
+    $html = '';
+
+    if( ! empty( $qty ) && intval($qty) > 1 ){
+        $unit_cost = number_format( $product->get_price() / $qty, 2);
+        $html = sprintf("<span class='unit_price'>(%s%s / per unit)</span>", get_woocommerce_currency_symbol(), $unit_cost);
+    }
+
+    return $html;
 }
 
 function msp_warn_about_leadtime(){

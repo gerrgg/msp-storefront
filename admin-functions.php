@@ -30,6 +30,7 @@ class MSP_Admin{
         add_action( 'woocommerce_process_product_meta', array( $this,'iww_add_gsf_title'), 15, 2 );
 
         add_action( 'woocommerce_product_options_general_product_data', 'msp_specifications_table' );
+        add_action( 'woocommerce_product_options_general_product_data',  array( $this,'msp_quantity') );
         add_action( 'woocommerce_product_options_general_product_data',  array( $this,'iww_gsf_title') );
 
         // Add purchase order meta data to order emails and edit order page.
@@ -46,6 +47,47 @@ class MSP_Admin{
         add_action( 'edit_user_profile_update', array( $this, 'update_user_to_net30_terms'), 5 );
         
     }
+
+    function msp_quantity(){
+        global $woocommerce, $post;
+        $meta_value = get_post_meta( $post->ID, 'msp_product_quantity', true );
+        $value = empty( $meta_value ) ? 1 : $meta_value;
+
+        echo '<div class="options_group">';
+
+        woocommerce_form_field(
+            'msp_product_quantity',
+            array(
+                'type' => 'number',
+                'wrapper_class' => 'form-field',
+                'label'         => 'QTY',
+                'description'   => 'How many items with each order?',
+            ),
+            $value
+        );
+
+        echo '</div>';
+    }
+
+        // A callback function to add a custom field to our "presenters" taxonomy  
+    function presenters_taxonomy_custom_fields($tag) {  
+        // Check for existing taxonomy meta for the term you're editing  
+            $t_id = $tag->term_id; // Get the ID of the term you're editing  
+            $term_meta = get_option( "taxonomy_term_$t_id" ); // Do the check  
+        ?>  
+        
+        <tr class="form-field">  
+            <th scope="row" valign="top">  
+                <label for="presenter_id"><?php _e('WordPress User ID'); ?></label>  
+            </th>  
+            <td>  
+                <input type="text" name="term_meta[presenter_id]" id="term_meta[presenter_id]" size="25" style="width:60%;" value="<?php echo $term_meta['presenter_id'] ? $term_meta['presenter_id'] : ''; ?>"><br />  
+                <span class="description"><?php _e('The Presenter\'s WordPress User ID'); ?></span>  
+            </td>  
+        </tr>  
+        
+        <?php  
+        }  
 
     public function process_product_meta( $id ){
         /**
@@ -80,8 +122,8 @@ class MSP_Admin{
             'id'            => 'gsf_title',
             'wrapper_class' => 'form-field-wide',
             'label'         => __('GSF Title', 'woocommerce' ),
-          'description'   => 'Try to stay under 70',
-          'custom_attributes' => array('autocomplete' => 'off'),
+            'description'   => 'Try to stay under 70',
+            'custom_attributes' => array('autocomplete' => 'off'),
         )
       );
       echo '<p class="form-field form-field-wide">Title Length: <span id="title-length"></span></p>';
@@ -92,6 +134,9 @@ class MSP_Admin{
     public function iww_add_gsf_title( $post_id ){
       if( isset( $_POST['gsf_title'] ) )
             update_post_meta( $post_id, 'gsf_title', $_POST['gsf_title'] );
+
+        if( isset( $_POST['msp_product_quantity'] ) )
+            update_post_meta( $post_id, 'msp_product_quantity', $_POST['msp_product_quantity'] );
     }
 
     public function add_next_order_btn(){
@@ -903,3 +948,21 @@ function msp_show_discontinued_products( ){
     <?php
 }
 
+add_action('pa_brand_edit_form_fields','msp_pa_brand_form_fields');
+add_action('pa_brand_add_form_fields','msp_pa_brand_form_fields');
+
+function msp_pa_brand_form_fields () {
+?>
+    <tr class="form-field">
+            <th valign="top" scope="row">
+                <label for="display"><?php _e('Display Type', ''); ?></label>
+            </th>
+            <td>
+                <select name="display_type">
+                    <option value="select">Select</option>
+                    <option value="variation_image">Variation Image w/ label</option>
+                </select>
+            </td>
+        </tr>
+        <?php 
+    }

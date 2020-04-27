@@ -17,7 +17,7 @@ jQuery(document).ready(function( $ ){
           
           $('#msp_customer_faq').on( 'click', '.msp-submit-answer', msp.customer_submit_awnser )
 
-          $('.woocommerce-variation-add-to-cart').on( 'change', 'input[name="variation_id"]', msp.replace_single_product_price_range )
+          // $('.woocommerce-variation-add-to-cart').on( 'change', 'input[name="variation_id"]', msp.replace_single_product_price_range )
 
           $('#filter-button').click(function(){
               $('#shop-filters').slideToggle();
@@ -74,7 +74,8 @@ jQuery(document).ready(function( $ ){
           main_price.html('<div class="spinner-border text-danger" role="status"><span class="sr-only">Loading...</span></div>')
 
           $.post(wp_ajax.url, data, function( response ){
-            main_price.html(response + availability + desc);
+            console.log( response )
+            main_price.html(response + availability);
           });
         }
 
