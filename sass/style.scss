@@ -14,7 +14,7 @@ a{
 	text-decoration: none;
 }
 
-$color-light-grey: #777;
+$color-light-grey: rgba(0,0,0,0.1);
 $color_1: red;
 $color_2: #333;
 $color_3: #fff;
@@ -1564,7 +1564,12 @@ a.a-un {
 			line-break: 1.4 !important;
 			font-family: $font_family_2;
 		}
+
+		.product{
+			margin-top: 1rem;
+		}
 	}
+
 	.single-product {
 		div.product {
 			.images {
@@ -1576,13 +1581,31 @@ a.a-un {
 			.woocommerce-product-gallery {
 				margin-bottom: 0px;
 			}
+
 			p.price {
-				margin: .25rem 0;
-				font-size: 1.5em;
 				line-height: 1.2rem !important;
+
+				span.amount{
+					&:before{
+						color: #777;
+						font-size: 1rem;
+						content: "Price:";
+						padding-right: .5rem;
+					}
+
+					font-size: 2rem;
+				}
 			}
 		}
+
+		.up-sells{
+			padding-top: .5rem;
+			border-top: 1px solid $color-light-grey;
+
+		}
 	}
+
+
 	.woocommerce-orders-table {
 		tr {
 			display: block;
