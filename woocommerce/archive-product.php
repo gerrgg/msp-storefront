@@ -29,7 +29,10 @@ do_action( 'woocommerce_before_main_content' );
 ?>
 <div class="row">
 	<div class="col">
-		<div></div>
+		<div id="mobile-filter-wrapper">
+			<span class="result-count"><?php echo woocommerce_result_count(); ?></span>
+			<a id="filter-button" role="button" class="badge badge-primary"><i class="fas fa-filter"></i> Filters</a>
+		</div>
 		<?php get_sidebar(); ?>
 	</div>
 

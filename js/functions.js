@@ -20,7 +20,7 @@ jQuery(document).ready(function( $ ){
           // $('.woocommerce-variation-add-to-cart').on( 'change', 'input[name="variation_id"]', msp.replace_single_product_price_range )
 
           $('#filter-button').click(function(){
-              $('#shop-filters').slideToggle();
+              $('.widget-area').slideToggle();
           });
 
           // makes the update shipping options more consistant.

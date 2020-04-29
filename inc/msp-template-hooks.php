@@ -243,7 +243,9 @@ add_filter( 'msp_additional_information_html', 'msp_get_product_pool', 5, 1 );
 add_filter( 'msp_additional_information_html', 'msp_get_product_metadata', 10, 1 );
 add_filter( 'msp_additional_information_html', 'msp_product_additional_information_html', 15, 1 );
 
+add_action( 'woocommerce_before_shop_loop', 'woocommerce_catalog_ordering', 30 );
 add_action( 'woocommerce_before_shop_loop', 'msp_mobile_product_filter_button', 5 );
+
 
 /**
  * woocommerce_archive_description
