@@ -126,8 +126,10 @@ p.price p {
 body.woocommerce-cart .onsale {
   display: none; }
 
-table.variations td.value {
-  margin: 0px; }
+table.variations {
+  border: none; }
+  table.variations td.value {
+    margin: 0px; }
 
 td.savings span.woocommerce-Price-amount.amount {
   font-size: 15px; }
