@@ -9,6 +9,9 @@
  Tags:         light, dark, two-columns, right-sidebar, responsive-layout, accessibility-ready
  Text Domain:  msp
 */
+a {
+  text-decoration: none; }
+
 table {
   border: 1px solid #777; }
   table tr {

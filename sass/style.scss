@@ -10,6 +10,10 @@
  Text Domain:  msp
 */
 
+a{
+	text-decoration: none;
+}
+
 $color-light-grey: #777;
 $color_1: red;
 $color_2: #333;
@@ -231,7 +235,7 @@ body.woocommerce-cart {
 }
 table.variations {
 	border: none;
-	
+
 	td.value {
 		margin: 0px;
 	}
