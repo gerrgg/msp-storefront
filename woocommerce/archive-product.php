@@ -27,7 +27,6 @@ get_header( 'shop' );
 do_action( 'woocommerce_before_main_content' );
 
 ?>
-<div class="row">
 	<div class="col">
 		<div id="mobile-filter-wrapper">
 			<span class="result-count"><?php echo woocommerce_result_count(); ?></span>
