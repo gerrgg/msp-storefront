@@ -1743,6 +1743,7 @@ function msp_get_product_unit_price( $product ){
     /**
      * Checks for product meta data, and displays per unit cost on multi-count items.
      */
+    
     $qty = get_post_meta( $product->get_id(), 'msp_product_quantity', true );
 
     // dont show a per unit cost on variable products with price ranges
@@ -1847,4 +1848,14 @@ function msp_maybe_show_promo_pop_up(){
         'model' => 'promo',
         'id' => $modal_id
     ));
+
+}
+
+function msp_pack_count(){
+    global $product;
+
+    $qty = get_post_meta( $product->get_id(), 'msp_product_quantity', true );
+    if( empty( $qty ) ) return;
+
+    printf( '<span class="feature-base">%s Pack</span>', $qty );
 }

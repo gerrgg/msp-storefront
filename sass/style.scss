@@ -10,6 +10,7 @@
  Text Domain:  msp
 */
 
+$color-light-grey: #777;
 $color_1: red;
 $color_2: #333;
 $color_3: #fff;
@@ -17,7 +18,7 @@ $color_4: rgb(85, 85, 85);
 $color_5: rgb(177, 39, 4);
 $color_6: grey;
 $color_7: #28a745;
-$color_8: #B0413E;
+$primary: #B0413E;
 $color_9: #e3c000;
 $color_10: #B2DD58;
 $color_11: rgba(0,0,0,0.5);
@@ -27,20 +28,45 @@ $color_13: #666;
 $font_family_1: 'Open Sans', sans-serif;
 $font_family_2: 'open-sans', sans-serif;
 
-$background_color_1: #fff;
+$white: #fff;
 $background_color_2: #333;
 $background_color_3: #515762;
 $background_color_4: green;
 $background_color_5: #00c400;
 $background_color_6: #0f834d;
 $background_color_7: #e84c3d;
-$background_color_8: #FFF;
-$background_color_9: rgba(0,0,0,0);
-$background_color_10: rgba(0,0,0,.5);
-$background_color_11: rgba(0,0,0,0.1);
-$background_color_12: #B0413E;
-$background_color_13: #f7f7f7;
-$background_color_14: #893a3e;
+$background_primary: #FFF;
+$black: rgba(0,0,0,1);
+$white0: rgba(0,0,0,.5);
+$white1: rgba(0,0,0,0.1);
+$white2: #B0413E;
+$white3: #f7f7f7;
+$white4: #893a3e;
+
+table{
+	border: 1px solid $color-light-grey;
+
+	tr{
+		border-bottom: 1px solid $color-light-grey;
+
+		&:last-child{
+			border: none;
+		}
+	}
+
+
+}
+
+span.item_count{
+	background-color: $primary;
+	border-radius: 6px;
+	border: 1px solid $white;
+	color: $white;
+	padding: 0.25rem;
+	position: absolute;
+	top: 0;
+	left: 0px;
+}
 
 .right-sidebar {
 	.content-area {
@@ -62,7 +88,7 @@ $background_color_14: #893a3e;
 }
 #content {
 	>.col-full {
-		background-color: $background_color_1;
+		background-color: $white;
 		border-left: 1px solid #d9d9d9;
 		border-right: 1px solid #d9d9d9;
 		padding: 1rem;
@@ -71,10 +97,14 @@ $background_color_14: #893a3e;
 body.archive {
 	#main {
 		>.row {
-			background-color: $background_color_1;
+			background-color: $white;
 			border-left: 1px solid #d9d9d9;
 			border-right: 1px solid #d9d9d9;
 			padding: 1rem;
+		}
+
+		#secondary{
+			display: none;
 		}
 	}
 }
@@ -246,7 +276,7 @@ table.msp-price {
 	font-size: 16px;
 	tr {
 		padding: 0px;
-		background-color: $background_color_1 !important;
+		background-color: $white !important;
 		line-height: 20px;
 		>td {
 			&:first-child {
@@ -257,7 +287,7 @@ table.msp-price {
 	}
 	td {
 		padding: 0px;
-		background-color: $background_color_1 !important;
+		background-color: $white !important;
 		line-height: 20px;
 	}
 }
@@ -733,23 +763,23 @@ body {
 	display: none;
 }
 a {
-	color: $color_8;
+	color: $primary;
 	text-decoration: none;
 	&:hover {
-		color: $color_8;
+		color: $primary;
 		text-decoration: none;
 	}
 	&:visited {
-		color: $color_8;
+		color: $primary;
 		text-decoration: none;
 	}
 }
 a.active {
-	color: $color_8;
+	color: $primary;
 	text-decoration: none;
 }
 a.focus {
-	color: $color_8;
+	color: $primary;
 	text-decoration: none;
 }
 a.btn-success {
@@ -851,7 +881,7 @@ p.stars {
 		padding-left: 1.5rem;
 		font-weight: 400;
 		&:hover {
-			background-color: $background_color_11;
+			background-color: $white1;
 			color: $color_10;
 			cursor: pointer;
 		}
@@ -869,7 +899,7 @@ p.stars {
 .mobile-menu-button {
 	color: $color_10;
 	border: 1px solid rgba(0,0,0,0.2);
-	background-color: $background_color_1;
+	background-color: $white;
 	margin-right: .5rem;
 }
 .mobile-label {
@@ -905,12 +935,12 @@ p.stars {
 	position: relative;
 	z-index: 1001;
 	will-change: transform;
-	background-color: $background_color_8;
+	background-color: $background_primary;
 	min-height: 100vh;
 	&:before {
 		content: '';
 		display: block;
-		background-color: $background_color_9;
+		background-color: $black;
 		transition: background-color 0.25s ease-in-out;
 	}
 }
@@ -939,12 +969,12 @@ body.modal-open {
 		top: 0;
 		bottom: 0;
 		width: 100%;
-		background-color: $background_color_10;
+		background-color: $white0;
 		z-index: 99;
 	}
 }
 #browsing-history-block {
-	background-color: $background_color_1;
+	background-color: $white;
 	border-bottom: 16px solid #333333;
 	width: 100vw;
 	left: 0px;
@@ -979,7 +1009,7 @@ label.price {
 		text-decoration: none;
 		width: 100%;
 		color: $color_3;
-		background-color: $background_color_12;
+		background-color: $white2;
 		text-align: center;
 	}
 }
@@ -987,21 +1017,21 @@ a.add_to_cart_button {
 	text-decoration: none;
 	width: 100%;
 	color: $color_3;
-	background-color: $background_color_12;
+	background-color: $white2;
 	text-align: center;
 }
 .product_type_grouped {
 	text-decoration: none;
 	width: 100%;
 	color: $color_3;
-	background-color: $background_color_12;
+	background-color: $white2;
 	text-align: center;
 }
 .link-normal {
 	text-decoration: none !important;
 }
 .btn-danger {
-	background-color: $background_color_12;
+	background-color: $white2;
 }
 .woocommerce-password-strength {
 	display: none !important;
@@ -1064,7 +1094,7 @@ img.avatar.avatar-60 {
 .product-rating-histogram {
 	tr {
 		td {
-			background-color: $background_color_1 !important;
+			background-color: $white !important;
 		}
 	}
 	td {
@@ -1240,7 +1270,7 @@ s {
 	padding: 1rem 0;
 	border-top: 1px solid rgba(0,0,0, 1);
 	border-bottom: 1px solid rgba(0,0,0, 1);
-	background-color: $background_color_13;
+	background-color: $white3;
 	color: $color_2;
 	a {
 		color: $color_2;
@@ -1296,7 +1326,7 @@ a.anchor {
 	}
 }
 p.woocommerce-noreviews.qna {
-	background-color: $background_color_14;
+	background-color: $white4;
 }
 a[role="button"].link-normal {
 	color: $color_12;
@@ -1375,7 +1405,7 @@ a.a-un {
 		>.col-full {
 			margin: 0px 6px;
 			padding: 0px;
-			background-color: $background_color_1;
+			background-color: $white;
 			border-left: none;
 			border-right: none;
 		}
@@ -1403,7 +1433,7 @@ a.a-un {
 		#main {
 			>.row {
 				padding: 0px;
-				background-color: $background_color_1;
+				background-color: $white;
 				border-left: none;
 				border-right: none;
 			}
@@ -1429,7 +1459,7 @@ a.a-un {
 		margin-top: .5rem;
 	}
 	.storefront-breadcrumb {
-		display: none;
+		// display: none;
 	}
 	.owl-item {
 		>.product {

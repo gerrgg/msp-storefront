@@ -9,6 +9,23 @@
  Tags:         light, dark, two-columns, right-sidebar, responsive-layout, accessibility-ready
  Text Domain:  msp
 */
+table {
+  border: 1px solid #777; }
+  table tr {
+    border-bottom: 1px solid #777; }
+    table tr:last-child {
+      border: none; }
+
+span.item_count {
+  background-color: #B0413E;
+  border-radius: 6px;
+  border: 1px solid #fff;
+  color: #fff;
+  padding: 0.25rem;
+  position: absolute;
+  top: 0;
+  left: 0px; }
+
 .right-sidebar .content-area {
   width: 100% !important; }
 .right-sidebar .widget-area {
@@ -28,6 +45,8 @@ body.archive #main > .row {
   border-left: 1px solid #d9d9d9;
   border-right: 1px solid #d9d9d9;
   padding: 1rem; }
+body.archive #main #secondary {
+  display: none; }
 
 p.stock.available-on-backorder {
   font-weight: 600;
@@ -651,7 +670,7 @@ p.stars a::after {
   .slideout-panel:before {
     content: '';
     display: block;
-    background-color: rgba(0, 0, 0, 0);
+    background-color: black;
     transition: background-color 0.25s ease-in-out; }
 
 .slideout-open {
@@ -1067,9 +1086,6 @@ a.a-un {
 
   #primary {
     margin-top: .5rem; }
-
-  .storefront-breadcrumb {
-    display: none; }
 
   .owl-item > .product h2.woocommerce-loop-product__title {
     font-size: 13px; }

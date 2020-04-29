@@ -29,11 +29,10 @@ do_action( 'woocommerce_before_main_content' );
 ?>
 <div class="row">
 	<div class="col">
-		<?php
-			get_sidebar(); 
-		?>
-		
+		<div></div>
+		<?php get_sidebar(); ?>
 	</div>
+
 	<div class="col-12 col-lg-10">
 		<header class="woocommerce-products-header">
 			<?php if ( apply_filters( 'woocommerce_show_page_title', true ) ) : ?>
