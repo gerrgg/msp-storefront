@@ -14,6 +14,27 @@ a{
 	text-decoration: none;
 }
 
+p.price {
+	line-height: 1.2rem !important;
+
+	span.amount{
+		&:before{
+			color: #777;
+			font-size: 1rem;
+			content: "Price:";
+			padding-right: .5rem;
+		}
+
+		font-size: 2rem;
+	}
+
+	span.amount:last-child{
+		&:before{
+			content: "";
+		}
+	}
+}
+
 #msp-top-bar{
 	display: block;
 	text-align: center;
@@ -1586,20 +1607,7 @@ a.a-un {
 				margin-bottom: 0px;
 			}
 
-			p.price {
-				line-height: 1.2rem !important;
-
-				span.amount{
-					&:before{
-						color: #777;
-						font-size: 1rem;
-						content: "Price:";
-						padding-right: .5rem;
-					}
-
-					font-size: 2rem;
-				}
-			}
+			
 		}
 
 		.up-sells{

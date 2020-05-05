@@ -12,6 +12,18 @@
 a {
   text-decoration: none; }
 
+p.price {
+  line-height: 1.2rem !important; }
+  p.price span.amount {
+    font-size: 2rem; }
+    p.price span.amount:before {
+      color: #777;
+      font-size: 1rem;
+      content: "Price:";
+      padding-right: .5rem; }
+  p.price span.amount:last-child:before {
+    content: ""; }
+
 #msp-top-bar {
   display: block;
   text-align: center;
@@ -1165,15 +1177,6 @@ a.a-un {
     margin-bottom: 0px; }
   .single-product div.product .woocommerce-product-gallery {
     margin-bottom: 0px; }
-  .single-product div.product p.price {
-    line-height: 1.2rem !important; }
-    .single-product div.product p.price span.amount {
-      font-size: 2rem; }
-      .single-product div.product p.price span.amount:before {
-        color: #777;
-        font-size: 1rem;
-        content: "Price:";
-        padding-right: .5rem; }
   .single-product .up-sells {
     padding-top: .5rem;
     border-top: 1px solid rgba(0, 0, 0, 0.1); }
