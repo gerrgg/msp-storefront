@@ -14,6 +14,15 @@ a{
 	text-decoration: none;
 }
 
+#msp-top-bar{
+	display: block;
+	text-align: center;
+	font-weight: 600;
+	background-color: #ffe16d;
+	color: #513b3b;
+	cursor: pointer;
+}
+
 $color-light-grey: rgba(0,0,0,0.1);
 $color_1: red;
 $color_2: #333;
@@ -112,6 +121,8 @@ body.archive {
 	}
 }
 
+
+
 #mobile-filter-wrapper{
 	display: none;
 	justify-content: space-between;
@@ -191,16 +202,9 @@ body.error404 {
 		overflow: hidden;
 	}
 }
+
 .storefront-full-width-content.single-product {
-	div.product {
-		.woocommerce-product-gallery {
-			img {
-				max-height: 600px;
-				width: auto;
-				margin: 0 auto;
-			}
-		}
-	}
+	
 	#reviews {
 		.commentlist {
 			li {

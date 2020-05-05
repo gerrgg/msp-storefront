@@ -12,6 +12,14 @@
 a {
   text-decoration: none; }
 
+#msp-top-bar {
+  display: block;
+  text-align: center;
+  font-weight: 600;
+  background-color: #ffe16d;
+  color: #513b3b;
+  cursor: pointer; }
+
 table {
   border: 1px solid rgba(0, 0, 0, 0.1); }
   table tr {
@@ -104,10 +112,6 @@ body.error404 .woocommerce.columns-2 .col-xl-2 {
   font-weight: 600;
   overflow: hidden; }
 
-.storefront-full-width-content.single-product div.product .woocommerce-product-gallery img {
-  max-height: 600px;
-  width: auto;
-  margin: 0 auto; }
 .storefront-full-width-content.single-product #reviews .commentlist li .avatar {
   width: 100%;
   height: auto;

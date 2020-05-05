@@ -520,7 +520,7 @@ class MSP_Admin{
         );
 
         $this->add_settings_field_and_register( 'msp_options', 'promotions', 'promo', 
-        array( 'top_bar_link', 'top_bar_image_id', 'pop_up_title', 'pop_up_link', 'pop_up_image_id', 
+        array( 'top_bar_text', 'top_bar_link', 'top_bar_image_id', 'pop_up_title', 'pop_up_link', 'pop_up_image_id', 
         'pop_up_version', 'bogo_label', 'bogo_target', 'bogo_needle', 'bogo_discount', 'brand_slug' ) );
 
         $this->add_settings_field_and_register( 'msp_options', 'theme_options', 'msp',
@@ -558,6 +558,11 @@ function promo_pop_up_image_id_callback(){
 
 function promo_pop_up_version_callback(){
     echo '<input name="promo_pop_up_version" id="promo_pop_up_version" type="text" value="'. get_option( 'promo_pop_up_version' ) .'" class="code" /> <hr>';
+}
+
+function promo_top_bar_text_callback(){
+    $option = get_option( 'promo_top_bar_text' );
+    echo '<input name="promo_top_bar_text" id="promo_top_bar_text" type="text" placeholder="some shit you wanna say" value="'. get_option( 'promo_top_bar_text' ) .'" class="code" />';
 }
 
 function promo_top_bar_link_callback(){

@@ -1570,22 +1570,18 @@ function bbloomer_cart_refresh_update_qty() {
 
  
  
- add_action( 'storefront_before_header', 'msp_top_bar' );
+ add_action( 'after_msp_header', 'msp_top_bar' );
+
  function msp_top_bar(){
+     /**
+      * Displays top bar used for warnings and promos
+      */
      $link = get_option( 'promo_top_bar_link' );
-     $image_id = get_option( 'promo_top_bar_image_id' );
+     $text = get_option( 'promo_top_bar_text' );
 
-     $src = msp_get_product_image_src( $image_id, 'full' );
-
-     if( empty( $src ) ) return;
-
-     ?>
-     <div id="msp-top-bar" class="" style="background-color: #333;">
-        <a href="/<?php echo $link ?>" class="">
-            <img class="mx-auto" src="<?php echo $src ?>" />
-        </a>
-     </div>
-     <?php
+     if( ! empty( $text ) ){
+         printf( '<a id="msp-top-bar" href="%s">%s</a>', $link, $text );
+     }
  }
 
 function msp_loop_format_sale_price( $regular_price, $sale_price ) {
@@ -1608,7 +1604,7 @@ function msp_featured_item(){
     <div class="single-product-featured-item">
         <div class="feature-base">
             <div class="feature-text">
-                <span style="color: #fff;">Workwear</span>
+                <span style="color: #fff;">Best</span>
                 <span style="color: #ff9900; font-weight: 600">Choice</span>
             </div>
         </div>
