@@ -11,6 +11,21 @@ body {
     }
 
     .owl-carousel{
+        position: relative;
+
+        .owl-nav{
+           position: absolute;
+           width: 100%;
+           margin: 0 -7px;
+           font-size: 6rem;
+           text-align: center;
+           justify-content: space-between;
+           display: flex;
+           top: 55%;
+           padding: 0 1rem;
+           transform: translate(0%, -100%);
+        }
+
     
         .owl-item{
 
@@ -36,12 +51,7 @@ body {
                     
                 }
             }
-    
-            
-    
-    
         }
-    
     }
 }
 
@@ -187,3 +197,4 @@ body {
         overflow: hidden;
     }
 }
+

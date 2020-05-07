@@ -157,6 +157,7 @@ jQuery(document).ready(function( $ ){
           $('.owl-carousel').owlCarousel({
               responsiveClass: true,
               nav: true,
+              dots: true,
               margin: 10,
               stagePadding: 40,
               responsive:{
@@ -171,6 +172,7 @@ jQuery(document).ready(function( $ ){
                   }
               }
           })
+
           $('.owl-stage').css( 'padding-left: 0px;' );
       },
 
