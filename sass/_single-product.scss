@@ -1,0 +1,113 @@
+ body.single-product {
+
+    .product{
+        padding: 1rem 0.5rem;
+        list-style-type: none;
+
+        h1.product_title {
+            font-size: 17px;
+            font-family: $font-roboto;
+            color: rgb(85, 85, 85);
+        }
+
+        .woocommerce-product-gallery {
+            margin-bottom: 0px;
+            // display: flex;
+            // justify-content: center;
+            // align-items: center;
+    
+            .woocommerce-product-gallery__image a{
+                height: 400px;
+                display: flex; 
+
+                -webkit-box-orient: horizontal; 
+                -moz-box-orient: horizontal;
+                flex-direction: row;
+
+                -webkit-box-pack: center;
+                -moz-box-pack: center;
+                justify-content: center;
+
+                -webkit-box-align: center;
+                -moz-box-align: center;
+                align-items: center;
+
+                &:hover{
+                    height: 100vh;
+                }
+               
+                img{
+                    height: 100%;
+                    width: auto;
+                }
+            }
+            
+        }
+
+        .unit_price {
+            font-size: .8rem;
+            color: $color_13;
+            margin-left: .25rem;
+        }
+    
+        .woocommerce-product-rating {
+            margin: 0px;
+        }
+    
+        .price {
+            font-size: 1.5em;
+            line-height: 1.2rem;
+            color: $color_price_red;
+            margin: 1rem 0;
+
+            span.amount:last-child{
+                &:before{
+                    content: "";
+                }
+            }
+    
+            span.amount{
+                &:first-child:before{
+                    color: #777;
+                    font-size: 1rem;
+                    content: "Price:";
+                    padding-right: .5rem;
+                }
+        
+                font-size: 2rem;
+            }
+    
+           
+            
+        }
+
+        .woocommerce-product-details__short-description{
+            ul{
+                margin: 0.7rem;
+                padding: 0;
+            }
+        }
+    
+        form.cart{
+            button.single_add_to_cart_button{
+                width: 100%;
+                background-color: rgb(65, 105, 225);
+                border: $border-hard;
+                -webkit-appearance: button;
+                font-size: 1.1rem;
+            }
+
+        }
+    
+        .woocommerce-product-gallery{
+            li{
+                border: $border-light;
+            }
+        }
+    
+    }
+
+
+}
+
+

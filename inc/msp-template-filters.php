@@ -196,10 +196,6 @@ function msp_add_form_control_to_select_boxes( $args ){
 }
 
 
-add_filter( 'woocommerce_product_price_class', 'msp_product_price_class', 10 );
-function msp_product_price_class( $class ){
-    return $class . ' my-1';
-}
 
 function msp_the_title( $title, $id = null ) {
     $seo_name = get_post_meta( $id, 'gsf_title', true );

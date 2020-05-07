@@ -8,7 +8,7 @@ $color_1: red;
 $color_2: #333;
 $color_3: #fff;
 $color_4: rgb(85, 85, 85);
-$color_5: rgb(177, 39, 4);
+$color_price_red: rgb(177, 39, 4);
 $color_6: grey;
 $color_7: #28a745;
 $primary: #B0413E;
@@ -18,8 +18,10 @@ $color_11: rgba(0,0,0,0.5);
 $color_12: unset;
 $color_13: #666;
 
-$font_family_1: 'Open Sans', sans-serif;
-$font_family_2: 'open-sans', sans-serif;
+$link-color-blue: rgb(0, 102, 192);
+
+// FONT
+$font_roboto: 'Roboto', sans-serif;
 
 $white: #fff;
 $background_color_2: #333;

@@ -1,0 +1,53 @@
+body {
+    .owl-carousel{
+    
+        .owl-item{
+    
+            h2.woocommerce-loop-product__title{
+                font-size: 0.9rem;
+                color: $link-color-blue;
+                font-weight: 600;
+                margin: 0;
+            }
+
+            .woocommerce-LoopProduct-link.woocommerce-loop-product__link{
+                height: 200px;
+                display: flex; 
+
+                -webkit-box-orient: horizontal; 
+                -moz-box-orient: horizontal;
+                flex-direction: row;
+
+                -webkit-box-pack: center;
+                -moz-box-pack: center;
+                justify-content: center;
+
+                -webkit-box-align: center;
+                -moz-box-align: center;
+                align-items: center;
+
+                img{
+                    height: 100%;
+                    width: auto;
+                    
+                }
+            }
+    
+            .price {
+                margin: 0;
+                overflow: hidden;
+                
+                span.amount{
+                    font-size: 1rem;
+
+                    &:first-child:before{
+                        display: none;
+                    }
+                }
+            }
+    
+    
+        }
+    
+    }
+}
