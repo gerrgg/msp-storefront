@@ -28,7 +28,7 @@ do_action( 'woocommerce_before_main_content' );
 
 ?>
 <div class="row">
-	<div class="col">
+	<div id="msp-sidebar" class="col">
 		<div id="mobile-filter-wrapper">
 			<span class="result-count"><?php echo woocommerce_result_count(); ?></span>
 			<a id="filter-button" role="button" class="badge badge-primary"><i class="fas fa-filter"></i> Filters</a>
@@ -36,7 +36,7 @@ do_action( 'woocommerce_before_main_content' );
 		<?php get_sidebar(); ?>
 	</div>
 
-	<div class="col-12 col-lg-10">
+	<div id="msp-results" class="col-12 col-lg-10">
 		<header class="woocommerce-products-header">
 			<?php if ( apply_filters( 'woocommerce_show_page_title', true ) ) : ?>
 				<h1 class="woocommerce-products-header__title page-title"><?php woocommerce_page_title(); ?></h1>

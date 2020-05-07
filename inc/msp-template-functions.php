@@ -926,7 +926,7 @@ function msp_get_shop_subnav(){
     if( empty( $nav_items ) || wp_is_mobile() ) return;
 
     ?>
-        <nav class="navbar d-none d-sm-flex msp-shop-subnav border-top border-bottom" style="background: <?php echo $bg_color ?>">
+        <nav class="navbar d-none d-sm-flex msp-shop-subnav" style="background: <?php echo $bg_color ?>">
             <div class="navbar-nav flex-row">
                <?php
                 wp_nav_menu( array(
@@ -1570,7 +1570,7 @@ function bbloomer_cart_refresh_update_qty() {
 
  
  
- add_action( 'after_msp_header', 'msp_top_bar' );
+ add_action( 'storefront_before_content', 'msp_top_bar' );
 
  function msp_top_bar(){
      /**

@@ -290,7 +290,7 @@ remove_action( 'woocommerce_before_single_product_summary', 'woocommerce_show_pr
 add_action( 'woocommerce_single_product_summary', 'msp_featured_item', 11 );
 // add_action( 'woocommerce_before_shop_loop_item_title', 'msp_pack_count', 12 );
 
-add_action( 'storefront_before_content', 'msp_get_shop_subnav', 105 );
+add_action( 'storefront_before_content', 'msp_get_shop_subnav', 10 );
 
 add_action( 'wp_footer', 'bbloomer_cart_refresh_update_qty' ); 
 add_action( 'wp_footer', 'msp_maybe_show_promo_pop_up' );

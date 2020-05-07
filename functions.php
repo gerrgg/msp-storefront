@@ -198,6 +198,8 @@ class MSP{
         if( ! empty( get_option( 'msp_primary_color' ) ) ){
             $color = get_option( 'msp_primary_color' );
             $css .= "
+                .primary-color: $color;
+                
                 #header-menu ul.navbar-nav > li
                 {
                     border-bottom: 3px solid $color!important;

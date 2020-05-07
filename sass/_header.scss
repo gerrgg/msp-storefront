@@ -1,7 +1,20 @@
 #masthead{
+
     .mobile-menu-button i{
         color: #fff;
-    }
+	}
+
+	#header-menu{
+		ul{
+			flex-direction: row;
+
+			li{
+				padding: 0 0.25rem;
+				margin: 0 0.25rem;
+			}
+		}
+	}
+	
 }
 
 #msp-top-bar{
@@ -18,9 +31,10 @@
 	display: none;
 
 	.title {
-		background-color: $background_color_2;
+		background-color: $color-medium-black;
 		color: $color_10;
 	}
+
 	li {
 		font-size: 16px;
 		padding-left: 1.5rem;
@@ -31,6 +45,7 @@
 			cursor: pointer;
 		}
 	}
+
 	>a.close {
 		position: absolute;
 		top: 5px;
@@ -40,6 +55,7 @@
 		text-align: center;
 		cursor: pointer;
 	}
+
 }
 
 .mobile-label {
@@ -49,11 +65,13 @@
 	border-bottom: 1px solid rgba(0,0,0,0.1);
 	margin: 0 0 .5rem 0;
 }
+
 #mobile-menu-categories {
 	li {
 		border-bottom: 1px solid rgba(0,0,0,0.1);
 	}
 }
+
 .slideout-menu {
 	position: fixed;
 	top: 0;
@@ -96,6 +114,7 @@
 		display: block;
 	}
 }
+
 body.modal-open {
 	.slideout-panel {
 		transform: none !important;
@@ -103,6 +122,7 @@ body.modal-open {
 		will-change: unset !important;
 	}
 }
+
 .panel-open {
 	&:before {
 		position: absolute;

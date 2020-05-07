@@ -70,7 +70,6 @@ do_action( 'storefront_before_site' );
 	 * @hooked storefront_header_widget_region - 10
 	 * @hooked woocommerce_breadcrumb - 10
 	 */
-	do_action( 'after_msp_header' );
 	do_action( 'storefront_before_content' );
 	?>
 
