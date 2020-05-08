@@ -6,3 +6,11 @@
 		width: 100% !important;
 	}
 }
+
+@media #{$phone-width} {
+	body{
+		.col-full{
+			margin: 0;
+		}
+	}
+}

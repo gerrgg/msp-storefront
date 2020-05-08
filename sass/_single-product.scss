@@ -5,8 +5,12 @@
         list-style-type: none;
 
         h1.product_title {
-            font-size: 17px;
-            font-family: $font-roboto;
+            font-size: 1.25rem;
+
+            @media #{$phone-width}{
+                font-size: $font-size-md;
+            }
+
             color: rgb(85, 85, 85);
         }
 
@@ -31,10 +35,6 @@
                 -webkit-box-align: center;
                 -moz-box-align: center;
                 align-items: center;
-
-                &:hover{
-                    height: 100vh;
-                }
                
                 img{
                     height: 100%;
@@ -51,7 +51,7 @@
         }
     
         .price {
-            font-size: 1.5em;
+            font-size: 100%;
             line-height: 1.2rem;
             color: $color_price_red;
             margin: 1rem 0;

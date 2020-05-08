@@ -1,3 +1,8 @@
+// MEDIA QUERIES
+$phone-width: "only screen and (max-width: 576px)";
+
+
+
 // BORDERS
 $border-light: 1px solid rgba(0,0,0,0.1);
 $border-med: 1px solid rgba(0,0,0,0.3);
@@ -25,6 +30,14 @@ $link-color-blue: rgb(0, 102, 192);
 
 // FONT
 $font_roboto: 'Roboto', sans-serif;
+
+/// FONT SIZE
+
+$font-size-xs: 0.25rem;
+$font-size-sm: 0.5rem;
+$font-size-md: 1rem;
+$font-size-lg: 1.5rem;
+$font-size-xl: 2rem;
 
 $white: #fff;
 $color-medium-black: #333;

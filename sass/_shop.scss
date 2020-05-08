@@ -2,11 +2,27 @@ body {
     
     .storefront-breadcrumb{
         padding: 0;
-        margin: 0;
+        margin: 0 0 1rem 0;
 
-        .col-full{
-            max-width: 100%;
-            padding: 0;
+        @media #{$phone-width}{
+            display: none;
+        }
+
+        .woocommerce-breadcrumb{
+            color: #fff;
+            font-size: 0.75rem;
+
+            a{
+                color: #333;
+            }
+
+            span{
+                color: #000;
+
+                &:last-child{
+                    color: #fff;
+                }
+            }
         }
     }
 
@@ -180,12 +196,21 @@ body {
 
     border-top: $border-light;
 
-    li{
-        margin: 0 7.5px;
-    }
-
+    
     .navbar-nav{
         margin: 0 auto;
+        
+        li{
+            margin: 0 7.5px;
+
+            a{
+                ul.dropdown-menu{
+                    position: absolute !important;
+                }
+            }
+        }
+
+        
     }
 
     a.nav-link{
