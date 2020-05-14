@@ -33,7 +33,6 @@ body.single-product .product {
       -moz-box-align: center;
       align-items: center; }
       body.single-product .product .woocommerce-product-gallery .woocommerce-product-gallery__image a img {
-        height: 100%;
         width: auto; }
   body.single-product .product .woocommerce-product-rating {
     margin: 0px; }
@@ -73,7 +72,11 @@ body.single-product .product {
   flex-direction: row; }
   #masthead #header-menu ul li {
     padding: 0 0.25rem;
-    margin: 0 0.25rem; }
+    margin: 0 0.25rem;
+    border-bottom: 2px solid #ff1b1b; }
+    #masthead #header-menu ul li a {
+      padding: 0;
+      margin: 0; }
 
 #msp-top-bar {
   display: block;
@@ -164,12 +167,17 @@ body.modal-open .slideout-panel {
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 99; }
 
+body .archive {
+  background-color: #fff; }
 body .storefront-breadcrumb {
   padding: 0;
   margin: 0 0 1rem 0; }
   @media only screen and (max-width: 576px) {
     body .storefront-breadcrumb {
       display: none; } }
+  body .storefront-breadcrumb .col-full {
+    max-width: 100%;
+    padding: 0 0.5rem; }
   body .storefront-breadcrumb .woocommerce-breadcrumb {
     color: #fff;
     font-size: 0.75rem; }
@@ -205,7 +213,6 @@ body .owl-carousel {
     -moz-box-align: center;
     align-items: center; }
     body .owl-carousel .owl-item .woocommerce-LoopProduct-link.woocommerce-loop-product__link img {
-      height: 100%;
       width: auto; }
 
 #msp-sidebar {
@@ -251,6 +258,8 @@ body .owl-carousel {
 
 #msp-archive {
   background-color: #fff; }
+  #msp-archive li {
+    list-style: none; }
   #msp-archive h2.woocommerce-loop-product__title {
     font-size: 0.9rem;
     color: #0066c0;
@@ -321,10 +330,28 @@ a {
 @media only screen and (max-width: 576px) {
   body .col-full {
     margin: 0; } }
+#primary {
+  margin: 0;
+  padding: 0; }
+
+#main {
+  padding: 0;
+  margin: 0; }
+
+.footer-widgets {
+  max-width: 100%; }
+
+#msp-copyright {
+  text-align: center; }
+
+body {
+  font-size: .75rem; }
+
 h1, h2, h3, h4, h5, h6 {
   font-family: "Roboto", sans-serif; }
 
 p {
-  font-family: "Roboto", sans-serif; }
+  font-family: "Roboto", sans-serif;
+  font-size: .75rem; }
 
 /*# sourceMappingURL=style.css.map */

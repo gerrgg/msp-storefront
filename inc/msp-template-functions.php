@@ -1472,7 +1472,7 @@ function msp_add_copyright(){
     $bbb_link = 'https://www.bbb.org/us/mi/harbor-springs/profile/safety-clothing/michigan-safety-products-0372-38125928/accreditation-information';
 
     echo '<div id="msp-copyright" style="background-color: '. $bg_color .'">';
-    echo msp_header_site_identity();
+    // echo msp_header_site_identity();
     printf("<a href='%s' class='d-block' style='color: $link_color'>%s  <i class='fas fa-copyright'></i>  Michigan Safety Products of Flint Inc. </a>", $bbb_link, $copyright_year);
     echo '</div>';
 }

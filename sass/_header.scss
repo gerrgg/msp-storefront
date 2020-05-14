@@ -11,6 +11,12 @@
 			li{
 				padding: 0 0.25rem;
 				margin: 0 0.25rem;
+				border-bottom: 2px solid $primary;
+
+				a{
+					padding: 0;
+					margin: 0;
+				}
 			}
 		}
 	}

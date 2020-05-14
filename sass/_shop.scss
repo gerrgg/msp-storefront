@@ -1,4 +1,8 @@
 body {
+
+    .archive{
+        background-color: #fff;
+    }
     
     .storefront-breadcrumb{
         padding: 0;
@@ -6,6 +10,11 @@ body {
 
         @media #{$phone-width}{
             display: none;
+        }
+
+        .col-full{
+            max-width: 100%;
+            padding: 0 0.5rem;
         }
 
         .woocommerce-breadcrumb{
@@ -62,7 +71,7 @@ body {
                 align-items: center;
 
                 img{
-                    height: 100%;
+                    // height: 100%;
                     width: auto;
                     
                 }
@@ -134,9 +143,12 @@ body {
         padding: 15px;
     }
 }
+
 #msp-archive{
 
     background-color: #fff;
+
+    li{ list-style: none; }
 
     h2.woocommerce-loop-product__title{
         font-size: 0.9rem;
