@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 if ( $related_products ) : ?>
 
-		<section class="related products">
+		<section class="related_products">
 
 		<?php
 		$heading = apply_filters( 'woocommerce_product_related_products_heading', __( 'Related products', 'woocommerce' ) );

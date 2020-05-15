@@ -1,6 +1,8 @@
 <?php 
 defined( 'ABSPATH' ) || exit;
 
+add_filter( 'woocommerce_enqueue_styles', '__return_empty_array' );
+
 //globals
 define('URI', get_stylesheet_directory_uri() );
 // URI => http://one.wordpress.test/wp-content/themes/msp-storefront

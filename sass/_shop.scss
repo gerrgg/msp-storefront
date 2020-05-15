@@ -43,19 +43,19 @@ body {
            width: 100%;
            margin: 0 -7px;
            font-size: 6rem;
+           line-height: 0px;
            text-align: center;
            justify-content: space-between;
            display: flex;
-           top: 55%;
-           padding: 0 1rem;
-           transform: translate(0%, -100%);
+           top: 50%;
+        //    transform: translate(-50%, -50%);
         }
 
     
         .owl-item{
 
             .woocommerce-LoopProduct-link.woocommerce-loop-product__link{
-                height: 200px;
+                max-height: 200px;
                 display: flex; 
 
                 -webkit-box-orient: horizontal; 
@@ -71,7 +71,7 @@ body {
                 align-items: center;
 
                 img{
-                    // height: 100%;
+                    height: auto;
                     width: auto;
                     
                 }
@@ -142,6 +142,9 @@ body {
         background-color: #fff;
         padding: 15px;
     }
+
+    height: 100%;
+    background-color: #fff;
 }
 
 #msp-archive{

@@ -4,13 +4,19 @@
 	}
 	.widget-area {
 		width: 100% !important;
+		@media #{$phone-width} {
+			display: none;
+		}
 	}
 }
 
-@media #{$phone-width} {
-	body{
-		.col-full{
-			margin: 0;
+body{
+	.col-full{
+		max-width: 85em;
+
+		@media #{$phone-width} {
+			max-width: 100%;
+			margin: 0 auto;
 		}
 	}
 }

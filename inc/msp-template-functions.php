@@ -1700,7 +1700,7 @@ function msp_get_variation_price_html(){
         $html = msp_get_price_html($product);
     }
 
-    echo $html;
+    echo $product->get_price_html();
     wp_die();
 }
 
