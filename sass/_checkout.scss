@@ -1,0 +1,58 @@
+body.woocommerce-checkout{
+
+    article { padding: .25rem }
+
+    .amount{
+        color: $color-price-red;
+    }
+
+    #order_review_heading{
+        width: 100%;
+        margin-top: 1rem;
+        padding-top: 1rem;
+    }
+
+    #order_review{
+        width: 100%;
+        margin: .5rem;
+    }
+
+    .woocommerce-billing-fields, .woocommerce-shipping-fields, .woocommerce-additional-fields{
+        margin: 0 .5rem;
+
+        p { padding: 0; margin: .5rem 0; }
+
+        .woocommerce-input-wrapper{
+            width: 100%;
+        }
+
+    }
+
+    #payment {
+        ul.wc_payment_methods{
+            li{
+                background-color: #333;
+                color: #fff;
+                border-bottom: 1px solid #fff;
+
+                a{
+                    color: green;
+                    font-weight: 600;
+                }
+
+                .payment_box{
+                    color: #333;
+
+                    p.form-row-last{
+                        display: block;
+                    }
+                }
+            }
+            
+        }
+    }
+}
+
+.star-rating span::before, .quantity .plus, .quantity .minus, p.stars a:hover::after, p.stars a::after, .star-rating span::before, #payment .payment_methods li input[type="radio"]:first-child:checked + label::before{
+    color: green;
+}

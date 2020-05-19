@@ -1,6 +1,10 @@
 table{
 	border: 1px solid $color-light-grey;
 
+	th{
+		background-color: #333;
+	}
+
 	tr{
 		border-bottom: 1px solid $color-light-grey;
 
@@ -16,3 +20,4 @@ a{
     text-decoration: none;
     color: $link-color-blue;
 }
+

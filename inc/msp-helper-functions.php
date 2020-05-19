@@ -622,11 +622,19 @@ function pluralize( $count, $str ){
 }
 
 
-function sc_add_po_to_emails( $keys ) {
-     $keys['Purchase Order'] = '_billing_po'; // This will look for a custom field called '_billing_po' and add it to emails
+function sc_add_custom_meta_to_emails( $keys ) {
+	// This will look for a custom field called '_billing_po' and add it to emails
+	 $keys['Purchase Order'] = '_billing_po';
      return $keys;
 }
 
 function sc_add_po_meta_data($order){
     echo '<p><strong>'.__('Purchase Order').':</strong> ' . get_post_meta( $order->get_id(), '_billing_po', true ) . '</p>';
 }
+
+function msp_wc_checkout_button(){
+	$link = wc_get_checkout_url();
+	printf( '<a class="checkout-button button alt wc-forward msp-checkout" href="%s">Proceed to checkout</a>', $link );
+}
+
+add_action( 'woocommerce_cart_collaterals', 'msp_wc_checkout_button', 5 );

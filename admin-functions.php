@@ -34,7 +34,7 @@ class MSP_Admin{
         add_action( 'woocommerce_product_options_general_product_data',  array( $this,'iww_gsf_title') );
 
         // Add purchase order meta data to order emails and edit order page.
-        add_filter('woocommerce_email_order_meta_keys', 'sc_add_po_to_emails');
+        add_filter('woocommerce_email_order_meta_keys', 'sc_add_custom_meta_to_emails', 1, 1000);
         add_action( 'woocommerce_admin_order_data_after_billing_address', 'sc_add_po_meta_data', 10, 1 );
         
 

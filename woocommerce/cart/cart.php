@@ -18,6 +18,7 @@ defined( 'ABSPATH' ) || exit;
 do_action( 'woocommerce_before_cart' ); ?>
 
 
+
 <div class="row">
     <div class="col-12 col-sm-8">
         <form class="woocommerce-cart-form" action="<?php echo esc_url( wc_get_cart_url() ); ?>" method="post">
@@ -32,17 +33,16 @@ do_action( 'woocommerce_before_cart' ); ?>
                         if ( $_product && $_product->exists() && $cart_item['quantity'] > 0 && apply_filters( 'woocommerce_cart_item_visible', true, $cart_item, $cart_item_key ) ) {
                             $product_permalink = apply_filters( 'woocommerce_cart_item_permalink', $_product->is_visible() ? $_product->get_permalink( $cart_item ) : '', $cart_item, $cart_item_key );
                             ?>
-                            <div class="d-flex p-3 border-bottom woocommerce-cart-form__cart-item <?php echo esc_attr( apply_filters( 'woocommerce_cart_item_class', 'cart_item', $cart_item, $cart_item_key ) ); ?>">
-                                    <div class="pr-2">
-                                        <?php
-                                        $thumbnail = apply_filters( 'woocommerce_cart_item_thumbnail', $_product->get_image(), $cart_item, $cart_item_key );
-                                        if ( ! $product_permalink ) {
-                                            echo $thumbnail; // PHPCS: XSS ok.
-                                        } else {
-                                            printf( '<a href="%s">%s</a>', esc_url( $product_permalink ), $thumbnail ); // PHPCS: XSS ok.
-                                        }
-                                        ?>
-                                    </div>
+                            <div class="woocommerce-cart-form__cart-item <?php echo esc_attr( apply_filters( 'woocommerce_cart_item_class', 'cart_item', $cart_item, $cart_item_key ) ); ?>">
+                                    <?php
+
+                                    $thumbnail = apply_filters( 'woocommerce_cart_item_thumbnail', $_product->get_image(), $cart_item, $cart_item_key );
+                                    if ( ! $product_permalink ) {
+                                        echo $thumbnail; // PHPCS: XSS ok.
+                                    } else {
+                                        printf( '<a href="%s">%s</a>', esc_url( $product_permalink ), $thumbnail ); // PHPCS: XSS ok.
+                                    }
+                                    ?>
 
                                     <div>
                                         <p class="product-name" data-title="<?php esc_attr_e( 'Product', 'woocommerce' ); ?>" >
@@ -66,7 +66,6 @@ do_action( 'woocommerce_before_cart' ); ?>
                                         </p>
 
                                         <p class="product-price" data-title="<?php esc_attr_e( 'Price', 'woocommerce' ); ?>">
-                                            Price: 
                                             <?php
                                                 echo apply_filters( 'woocommerce_cart_item_price', WC()->cart->get_product_price( $_product ), $cart_item, $cart_item_key ); // PHPCS: XSS ok.
                                             ?>
@@ -101,7 +100,7 @@ do_action( 'woocommerce_before_cart' ); ?>
                                             echo apply_filters( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                                                 'woocommerce_cart_item_remove_link',
                                                 sprintf(
-                                                    '<a href="%s" class="" aria-label="%s" data-product_id="%s" data-product_sku="%s"> Delete </a>',
+                                                    '<a href="%s" class="delete" aria-label="%s" data-product_id="%s" data-product_sku="%s"> Delete </a>',
                                                     esc_url( wc_get_cart_remove_url( $cart_item_key ) ),
                                                     esc_html__( 'Remove this item', 'woocommerce' ),
                                                     esc_attr( $product_id ),
