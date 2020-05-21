@@ -126,10 +126,6 @@ function msp_maybe_category_description( $content ){
                     $content .= msp_get_term_description( $term );
                 }
             }
-
-            // do parent;
-            $content .= msp_get_term_description( $terms );
-
         }
     }
 
@@ -169,7 +165,7 @@ function msp_sort_terms_to_hierarchy($terms){
         }
     }
 
-    return array_reverse( $terms );
+    return $terms;
 }
 
 function msp_maybe_attribute_description( $content ){
