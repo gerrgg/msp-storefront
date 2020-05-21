@@ -1,8 +1,6 @@
 <?php 
 defined( 'ABSPATH' ) || exit;
 
-add_filter( 'woocommerce_enqueue_styles', '__return_empty_array' );
-
 //globals
 define('URI', get_stylesheet_directory_uri() );
 // URI => http://one.wordpress.test/wp-content/themes/msp-storefront
@@ -10,8 +8,6 @@ define('URI', get_stylesheet_directory_uri() );
 
 define('PATH', get_stylesheet_directory() );
 // PATH => /srv/www/wordpress-one/public_html/wp-content/themes/msp-storefront 
-
-//require
 
 require_once( PATH . '/vendor/wp-bootstrap-navwalker-master/class-wp-bootstrap-navwalker.php' );
 require_once( PATH . '/admin-functions.php' );
@@ -21,6 +17,7 @@ require_once( PATH . '/inc/msp-template-filters.php' );
 require_once( PATH . '/inc/msp-helper-functions.php' );
 
 require 'plugin-update-checker/plugin-update-checker.php';
+
 $myUpdateChecker = Puc_v4_Factory::buildUpdateChecker(
 	'https://github.com/gregbast1994/msp-storefront',
 	__FILE__,
@@ -39,8 +36,6 @@ class MSP{
         // Creates custom theme pages upon activation
         add_action( 'init', array( $this, 'create_theme_pages' ), 2 );
         add_action( 'init', array( $this, 'maybe_create_specifications_table' ), 3 );
-
-        // Add custom widget on shop page
 
         // Add custom scripts
         add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
