@@ -70,7 +70,7 @@ body.single-product .product {
         padding-right: .5rem; }
     body.single-product .product .price .unit_price {
       font-size: .8rem;
-      color: rgba(0, 0, 0, 0.5);
+      color: #e8e8e8;
       margin-left: .25rem; }
   body.single-product .product .woocommerce-product-details__short-description ul {
     margin: 0.7rem;
@@ -220,7 +220,7 @@ body.modal-open .slideout-panel {
   top: 0;
   bottom: 0;
   width: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: #e8e8e8;
   z-index: 99; }
 
 body .archive {
@@ -354,7 +354,7 @@ body .owl-carousel {
         display: none; }
     #msp-archive .price .unit_price {
       font-size: .8rem;
-      color: rgba(0, 0, 0, 0.5);
+      color: #e8e8e8;
       margin-left: .25rem; }
 
 .msp-shop-subnav {
