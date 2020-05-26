@@ -309,6 +309,9 @@ body .owl-carousel {
 #msp-results {
   height: 100%;
   background-color: #fff; }
+  #msp-results div.term-description {
+    padding: 1rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1); }
   #msp-results header {
     display: block;
     margin: 0 -15px;
