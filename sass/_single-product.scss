@@ -75,7 +75,7 @@
 
             .unit_price {
                 font-size: .8rem;
-                color: $color_13;
+                color: $color-light-grey;
                 margin-left: .25rem;
             }
         
@@ -92,7 +92,7 @@
         form.cart{
             button.single_add_to_cart_button{
                 width: 100%;
-                background-color: rgb(65, 105, 225);
+                background-color: $color-secondary;
                 border: $border-hard;
                 -webkit-appearance: button;
                 font-size: 1.1rem;
@@ -105,8 +105,6 @@
                 border: $border-light;
             }
         }
-
-        // Add to cart
 
         form.cart{
             margin: 0;

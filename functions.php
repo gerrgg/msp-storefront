@@ -191,89 +191,16 @@ class MSP{
         /**
          * Checks theme options, and outputs css rules accordingly.
          */
-        $css = '';
-        if( ! empty( get_option( 'msp_primary_color' ) ) ){
-            $color = get_option( 'msp_primary_color' );
-            $css .= "
-                .primary-color: $color;
+            $css = '';
+            $css .= '.primary-color { color: '. get_option( 'msp_primary_color' ) .' }
+                     .alt-color { color: '. get_option( 'msp_primary_color' ) .' }
+                     .bg-primary-color { background-color: '. get_option( 'msp_header_background' ) .' }
+                     .site-footer li a { color: '. get_option( 'msp_footer_link_color' ) .' !important }
+                     .bg-alt-color { background-color: '. get_option( 'msp_footer_background' ) .' !important }';
                 
-                #header-menu ul.navbar-nav > li
-                {
-                    border-bottom: 3px solid $color!important;
-                }
+            
 
-                .woocommerce-info{ background-color: $color!important }
-
-                .navbar-light .navbar-nav .nav-link:hover,
-                .navbar-light .navbar-nav .nav-link:active,
-                .navbar-nav .active>.nav-link,
-                .mobile-menu-button,
-                .cart-wrapper .item-counter, #mobile-menu .title
-                {
-                    color: $color!important;
-                }
-                .nav-pills.bg-dark .nav-link.active, .nav-pills .show > .nav-link{ background-color: $color!important; }
-
-                .onsale{ background-color: $color!important; }
-                
-            ";
-        }
-
-        // LINK COLOR //
-        if( ! empty( get_option( 'msp_link_color' ) ) ){
-            $link_color = get_option( 'msp_link_color' );
-            $css .= "
-                a, a:hover, a:visited, a.active, a.focus{
-                    color: $link_color;
-                }
-                .buy-again-product a.add_to_cart_button,
-                a.add_to_cart_button,
-                .product_type_grouped, 
-                .btn-danger {
-                    background-color: $link_color!important;
-                }
-            ";
-        }
-
-        // LINK COLOR //
-        if( ! empty( get_option( 'msp_header_links' ) ) ){
-            $header_color = get_option( 'msp_header_links' );
-            $css .= "
-                #masthead .navbar-light .navbar-nav .nav-link, .fa-shopping-cart, .navbar-nav .show > .nav-link,
-                #masthead .navbar-light .navbar-nav .nav-link, .fa-shopping-cart, .navbar-nav .show > .nav-link{
-                    color: $header_color!important;
-                }
-                
-            ";
-        }
-
-        if( ! empty( get_option( 'msp_shop_nav_color_link' ) ) ){
-            $header_color = get_option( 'msp_shop_nav_color_link' );
-            $css .= "
-                nav.msp-shop-subnav .navbar-nav .show > .nav-link,
-                .navbar-light .navbar-nav .nav-link:hover,
-                .navbar-light .navbar-nav .nav-link:active,
-                .navbar-nav .active > .nav-link,
-                .msp-shop-subnav a.nav-link
-                {
-                    color: $header_color!important;
-                }
-
-            ";
-        }
-
-
-
-        if( ! empty( get_option( 'msp_footer_background' ) ) ){
-            $bg_color = get_option( 'msp_footer_background' );
-            $css .= "footer.site-footer{ background-color: $bg_color!important; }";
-        }
-
-        if( ! empty( get_option( 'msp_footer_link_color' ) ) ){
-            $link_color = get_option( 'msp_footer_link_color' );
-            $css .= "footer.site-footer a, footer.site-footer,
-            footer.site-footer h1, footer.site-footer h2, footer.site-footer h3, footer.site-footer h4, footer.site-footer h5, .site-footer h6 { color: $link_color!important }";
-        }
+       
 
         wp_register_style( 'msp', false );
         wp_enqueue_style( 'msp' );

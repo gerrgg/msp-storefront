@@ -7,8 +7,7 @@ defined( 'ABSPATH' ) || exit;
  * Opens the header wrapper
  */
 function msp_header_wrapper_open(){
-    $background_color = ! empty( get_option('msp_header_background') ) ? get_option('msp_header_background') : '#333';
-    echo '<nav class="navbar navbar-light" style="background-color: '. $background_color .'"><div class="container align-items-end">';
+    echo '<nav class="navbar navbar-light bg-primary-color"><div class="container align-items-end">';
 }
 
 /**
@@ -705,7 +704,7 @@ function msp_get_resources_tab(){
     echo '<h2>Resources</h2>';
     echo '<ul>';
     foreach( $resources as $arr ) : ?>
-        <li><a target="new" href="<?php echo $arr[1] ?>"><?php echo $arr[0] ?></a></li>
+        <li><a target="_blank" href="<?php echo $arr[1] ?>"><?php echo $arr[0] ?></a></li>
     <?php endforeach;
     echo '</ul>';
 }
@@ -1454,11 +1453,11 @@ function msp_add_copyright(){
     $bg_color = get_option( 'msp_copyright_color' );
     $link_color = get_option( 'msp_copyright_link_color' );
     $copyright_year = date("Y");
+    
     $bbb_link = 'https://www.bbb.org/us/mi/harbor-springs/profile/safety-clothing/michigan-safety-products-0372-38125928/accreditation-information';
 
     echo '<div id="msp-copyright" style="background-color: '. $bg_color .'">';
-    // echo msp_header_site_identity();
-    printf("<a href='%s' class='d-block' style='color: $link_color'>%s  <i class='fas fa-copyright'></i>  Michigan Safety Products of Flint Inc. </a>", $bbb_link, $copyright_year);
+    printf("<a target='_new' href='%s' class='d-block' style='color: $link_color'>%s  <i class='fas fa-copyright'></i>  Michigan Safety Products of Flint Inc. </a>", $bbb_link, $copyright_year);
     echo '</div>';
 }
 

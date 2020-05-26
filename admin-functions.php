@@ -523,8 +523,7 @@ class MSP_Admin{
         'pop_up_version', 'bogo_label', 'bogo_target', 'bogo_needle', 'bogo_discount', 'brand_slug' ) );
 
         $this->add_settings_field_and_register( 'msp_options', 'theme_options', 'msp',
-         array( 'primary_color', 'link_color', 'header_background', 'header_links', 'footer_background', 'footer_link_color', 
-         'logo_width', 'shop_nav_color', 'shop_nav_color_link', 'shop_nav_images', 'copyright_color', 'copyright_link_color' ) );
+         array( 'primary_color', 'secondary_color', 'link_color', 'header_background', 'footer_background', 'footer_link_color' ) );
 
         $this->add_settings_field_and_register( 'msp_options', 'emails', 'msp', 
         array( 'contact_email', 'gtin_field' ) );
@@ -656,6 +655,10 @@ function msp_logo_width_callback(){
 
 function msp_primary_color_callback(){
     echo '<input name="msp_primary_color" id="msp_primary_color" type="text" value="'. get_option( 'msp_primary_color' ) .'" class="color-field code" />';
+}
+
+function msp_secondary_color_callback(){
+    echo '<input name="msp_secondary_color" id="msp_secondary_color" type="text" value="'. get_option( 'msp_secondary_color' ) .'" class="color-field code" />';
 }
 
 function msp_copyright_color_callback(){
@@ -841,6 +844,7 @@ function sc_save_tracking_details( $ord_id ){
     $link = sc_make_tracking_link( $shipper, $tracking );
     update_post_meta( $ord_id, 'tracking_link', $link );
     $sitename = get_bloginfo('name');
+
     $button_color = get_option( 'msp_primary_color' ) ?: '#ff9900';
 
     $note = 'Good news!<br> Your order has shipped and can be tracked using the link below.<br><br>';
@@ -930,9 +934,7 @@ function msp_show_discontinued_products( ){
      * Show discontinued products
      * TODO: NOT DONE
      */
-    $close_out_items = msp_get_discontinued_products(); 
-
-    ?>
+    $close_out_items = msp_get_discontinued_products(); ?>
 
     <div class="row">
         <?php
@@ -952,21 +954,3 @@ function msp_show_discontinued_products( ){
     <?php
 }
 
-add_action('pa_brand_edit_form_fields','msp_pa_brand_form_fields');
-add_action('pa_brand_add_form_fields','msp_pa_brand_form_fields');
-
-function msp_pa_brand_form_fields () {
-?>
-    <tr class="form-field">
-            <th valign="top" scope="row">
-                <label for="display"><?php _e('Display Type', ''); ?></label>
-            </th>
-            <td>
-                <select name="display_type">
-                    <option value="select">Select</option>
-                    <option value="variation_image">Variation Image w/ label</option>
-                </select>
-            </td>
-        </tr>
-        <?php 
-    }

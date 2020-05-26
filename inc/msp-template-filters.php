@@ -21,8 +21,6 @@ foreach ( array( 'term_description' ) as $filter ) {
  */
 
 
-
-
 function change_backorder_message( $text, $product ){
     /**
      * Allows admin to display message below products on backorder.
@@ -111,22 +109,11 @@ function msp_maybe_category_description( $content ){
         global $product;
     
         $terms = get_terms( array(
-            'object_ids' => $product->get_id(), 
+            'object_ids' => $product->get_id(),
             'taxonomy' => 'product_cat',
         ));
 
-        // sort into Hierarchys
-        $sorted_terms = msp_sort_terms_to_hierarchy( $terms );
-
-        foreach( $sorted_terms as $terms ){
-
-            // do children
-            if( isset( $terms->children ) ){
-                foreach( $terms->children as $term ){
-                    $content .= msp_get_term_description( $term );
-                }
-            }
-        }
+        foreach( $terms as $term ) $content .= msp_get_term_description( $term );
     }
 
     // must always return content (leave outside if ^^)

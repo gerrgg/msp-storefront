@@ -1,0 +1,17 @@
+.site-footer{
+    @extend .text-light;
+
+    li{
+        list-style: inside;
+        a{
+            font-size: 1rem;
+            // text-decoration: none !important;
+        }
+
+    }
+
+    h5{
+        color: $color-white;
+
+    }
+}

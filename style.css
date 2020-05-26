@@ -9,6 +9,24 @@
  Tags:         light, dark, two-columns, right-sidebar, responsive-layout, accessibility-ready
  Text Domain:  msp
 */
+.text-light, .site-footer {
+  color: #fff; }
+
+.text-dark {
+  color: #333; }
+
+table {
+  border: 1px solid rgba(0, 0, 0, 0.1); }
+  table th {
+    background-color: #333; }
+  table tr {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1); }
+    table tr:last-child {
+      border: none; }
+
+a {
+  color: #0066c0; }
+
 body.single-product .product {
   padding: 1rem 0.5rem;
   list-style-type: none; }
@@ -52,14 +70,14 @@ body.single-product .product {
         padding-right: .5rem; }
     body.single-product .product .price .unit_price {
       font-size: .8rem;
-      color: #666;
+      color: rgba(0, 0, 0, 0.1);
       margin-left: .25rem; }
   body.single-product .product .woocommerce-product-details__short-description ul {
     margin: 0.7rem;
     padding: 0; }
   body.single-product .product form.cart button.single_add_to_cart_button {
     width: 100%;
-    background-color: royalblue;
+    background-color: #0d237d;
     border: 1px solid rgba(0, 0, 0, 0.5);
     -webkit-appearance: button;
     font-size: 1.1rem; }
@@ -97,6 +115,8 @@ body.single-product .msp-tab-content {
 
 #masthead .navbar {
   padding: 0 0 .25rem 0; }
+  #masthead .navbar a.nav-link {
+    color: #fff; }
   #masthead .navbar .container {
     padding: 0 .25rem; }
 #masthead .mobile-menu-button i {
@@ -111,6 +131,9 @@ body.single-product .msp-tab-content {
       padding: 0;
       margin: 0; }
 
+.msp-shop-subnav li a.nav-link {
+  color: #fff; }
+
 #msp-top-bar {
   display: block;
   text-align: center;
@@ -124,14 +147,14 @@ body.single-product .msp-tab-content {
   display: none; }
   #mobile-menu .title {
     background-color: #333;
-    color: #B2DD58; }
+    color: #fff; }
   #mobile-menu li {
     font-size: 16px;
     padding-left: 1.5rem;
     font-weight: 400; }
     #mobile-menu li:hover {
-      background-color: rgba(0, 0, 0, 0.1);
-      color: #B2DD58;
+      background-color: #fff;
+      color: #fff;
       cursor: pointer; }
   #mobile-menu > a.close {
     position: absolute;
@@ -144,7 +167,7 @@ body.single-product .msp-tab-content {
 
 .mobile-label {
   padding-left: 1.5rem;
-  color: rgba(0, 0, 0, 0.5);
+  color: #fff;
   font-weight: 600;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   margin: 0 0 .5rem 0; }
@@ -170,12 +193,12 @@ body.single-product .msp-tab-content {
   position: relative;
   z-index: 1001;
   will-change: transform;
-  background-color: #FFF;
+  background-color: #fff;
   min-height: 100vh; }
   .slideout-panel:before {
     content: '';
     display: block;
-    background-color: black;
+    background-color: #333;
     transition: background-color 0.25s ease-in-out; }
 
 .slideout-open {
@@ -249,7 +272,7 @@ body .owl-carousel {
       width: auto; }
 
 #msp-sidebar {
-  background-color: #f9f9f9;
+  background-color: 1px solid rgba(0, 0, 0, 0.1);
   color: #333;
   border-right: 1px dotted rgba(0, 0, 0, 0.1); }
   #msp-sidebar #mobile-filter-wrapper {
@@ -328,7 +351,7 @@ body .owl-carousel {
         display: none; }
     #msp-archive .price .unit_price {
       font-size: .8rem;
-      color: #666;
+      color: rgba(0, 0, 0, 0.1);
       margin-left: .25rem; }
 
 .msp-shop-subnav {
@@ -346,19 +369,6 @@ body .owl-carousel {
     height: 32px;
     font-weight: 600;
     overflow: hidden; }
-
-table {
-  border: 1px solid rgba(0, 0, 0, 0.1); }
-  table th {
-    background-color: #333; }
-  table tr {
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1); }
-    table tr:last-child {
-      border: none; }
-
-a {
-  text-decoration: none;
-  color: #0066c0; }
 
 .right-sidebar .content-area {
   width: 100% !important; }
@@ -499,5 +509,12 @@ body.woocommerce-checkout #payment ul.wc_payment_methods li {
 
 .star-rating span::before, .quantity .plus, .quantity .minus, p.stars a:hover::after, p.stars a::after, .star-rating span::before, #payment .payment_methods li input[type="radio"]:first-child:checked + label::before {
   color: green; }
+
+.site-footer li {
+  list-style: inside; }
+  .site-footer li a {
+    font-size: 1rem; }
+.site-footer h5 {
+  color: #fff; }
 
 /*# sourceMappingURL=style.css.map */

@@ -82,7 +82,7 @@ body {
 
 #msp-sidebar{
 
-    background-color: $bg-color-light-grey;
+    background-color: $border-light;
     color: #333;
     border-right: 1px dotted rgba(0,0,0,0.1);
 
@@ -121,7 +121,7 @@ body {
         
 
         span.widget-title{
-            color: $primary;
+            color: $color-primary;
             font-weight: 600;
             border-bottom: 1px dotted #fff;
             padding: 0;
@@ -136,15 +136,21 @@ body {
 }
 
 #msp-results{
+    
+    height: 100%;
+    background-color: #fff;
+
+    div.term-description{
+        padding: 1rem;
+        border-bottom: $border-light;
+    }
+
     header{
         display: block;
         margin: 0 -15px;
         background-color: #fff;
         padding: 15px;
     }
-
-    height: 100%;
-    background-color: #fff;
 }
 
 #msp-archive{
@@ -200,7 +206,7 @@ body {
 
         .unit_price {
             font-size: .8rem;
-            color: $color_13;
+            color: $color-light-grey;
             margin-left: .25rem;
         }
     }

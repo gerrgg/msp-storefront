@@ -36,7 +36,7 @@ $image_src = msp_get_product_image_src( $product->get_image_id(), 'thumbnail' );
             if( $var['instock'] == 'instock'  ){
                 ?>
                     <div class="d-flex">
-                        <input id="<?php echo $var['id'] ?>" type="number" min="0" max="<?php echo $var['stock'] ?>" placeholder="0" class="my-2 var-bulk-update qty" />
+                        <input id="<?php echo $var['id'] ?>" type="number" placeholder="0" class="my-2 var-bulk-update qty" />
                         <div class="ml-5">
                             <span><?php echo $var['sku'], ' - ' . $var['attr_str'] ?></span><br>
                             <span><?php echo '<b>' . $var['stock'] . '</b>' ?> in stock</span>
