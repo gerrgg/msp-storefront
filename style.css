@@ -70,7 +70,7 @@ body.single-product .product {
         padding-right: .5rem; }
     body.single-product .product .price .unit_price {
       font-size: .8rem;
-      color: rgba(0, 0, 0, 0.1);
+      color: rgba(0, 0, 0, 0.5);
       margin-left: .25rem; }
   body.single-product .product .woocommerce-product-details__short-description ul {
     margin: 0.7rem;
@@ -272,7 +272,7 @@ body .owl-carousel {
       width: auto; }
 
 #msp-sidebar {
-  background-color: 1px solid rgba(0, 0, 0, 0.1);
+  background-color: rgba(0, 0, 0, 0.1);
   color: #333;
   border-right: 1px dotted rgba(0, 0, 0, 0.1); }
   #msp-sidebar #mobile-filter-wrapper {
@@ -301,7 +301,7 @@ body .owl-carousel {
     #msp-sidebar .widget-area span.widget-title {
       color: #ff1b1b;
       font-weight: 600;
-      border-bottom: 1px dotted #fff;
+      border-bottom: 2px dotted #0d237d;
       padding: 0; }
     #msp-sidebar .widget-area a {
       color: #333; }
@@ -354,7 +354,7 @@ body .owl-carousel {
         display: none; }
     #msp-archive .price .unit_price {
       font-size: .8rem;
-      color: rgba(0, 0, 0, 0.1);
+      color: rgba(0, 0, 0, 0.5);
       margin-left: .25rem; }
 
 .msp-shop-subnav {
