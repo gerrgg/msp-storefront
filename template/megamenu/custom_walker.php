@@ -38,8 +38,10 @@ class msp_mega_menu_walker extends Walker_Nav_Menu
         if( $depth > 0 && ! empty( $item->image_url ) ){
           $prepend = "<img src='$item->image_url' class='img-fluid' />";
         }
+
         
         $item_output .= $args->link_before . $prepend . apply_filters( 'the_title', $item->title, $item->ID ) . $append;
+
         $item_output .= '</a>';
         
 

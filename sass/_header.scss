@@ -47,7 +47,10 @@
 		}
 		
 		.sub-menu{
-			display: none;
+			// display: none;
+			display: flex;
+			flex-flow: row wrap;
+
 			position: absolute;
 			left: 0;
 			list-style: none;
