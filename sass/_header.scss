@@ -28,14 +28,22 @@
 }
 
 .msp-shop-subnav{
+	justify-content: center;
+
 	li{
+		
+		margin: 0;
+		padding: 0;
 
-		&:hover > .sub-menu{
-			display: flex;
-		}
-
+		&:first-child{ border-left: 1px solid $color-white; }
+		
+		&:hover > .sub-menu{ display: flex; }
+		
 		a.nav-link{
+			padding: 0 .75rem;
 			color: $color-white;
+			border-right: 1px solid $color-white;
+			font-weight: 600;;
 		}
 		
 		.sub-menu{
@@ -69,6 +77,7 @@
 		}
 	}
 }
+
 
 #msp-top-bar{
 	display: block;

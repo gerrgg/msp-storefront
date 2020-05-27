@@ -880,19 +880,26 @@ function commerce_connector_tracking( $order_id ){
      * @param int $order_id
      */
     $order = wc_get_order( $order_id );
+
     $product_str = 'https://www.commerce-connector.com/tracking/tracking.gif?shop=1234567890ABC&';
     $count = 0;
+
     foreach( $order->get_items() as $order_item ){
         $product_id = ( $order_item->get_variation_id() != 0 ) ? $order_item->get_variation_id() : $order_item->get_product_id();
         $product = wc_get_product( $product_id );
-            $gpf = get_post_meta( $product->get_id(), '_woocommerce_gpf_data', true );
-            if( ! empty( $gpf['gtin'] ) ){
-                $product_str .= sprintf( '&ean[%d]=%s&sale[%d]=%d', $count, $gpf['gtin'], $count, $order_item['quantity'] );
-            }
+        $gpf = get_post_meta( $product->get_id(), '_woocommerce_gpf_data', true );
+
+        if( ! empty( $gpf['gtin'] ) ){
+            $product_str .= sprintf( '&ean[%d]=%s&sale[%d]=%d', $count, $gpf['gtin'], $count, $order_item['quantity'] );
+        }
+        
         $count++;
     }
+
     ?>
+
     <img src="<?php echo $product_str ?>" width="1" height="1" border="0"/>
+
     <?php
 }
 

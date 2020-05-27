@@ -213,34 +213,4 @@ body {
 }
 
 
-.msp-shop-subnav{
-
-    border-top: $border-light;
-
-    
-    .navbar-nav{
-        margin: 0 auto;
-        
-        li{
-            margin: 0 7.5px;
-
-            a{
-                ul.dropdown-menu{
-                    position: absolute !important;
-                }
-            }
-        }
-
-        
-    }
-
-    a.nav-link{
-        color: #333;
-        padding: 0;
-        line-height: 40px;
-        height: 32px;
-        font-weight: 600;
-        overflow: hidden;
-    }
-}
 
