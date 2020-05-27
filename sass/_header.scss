@@ -47,17 +47,13 @@
 		}
 		
 		.sub-menu{
-			// display: none;
+			display: none;
 			position: absolute;
 			left: 0;
 			list-style: none;
 
 			width: 100%;
 			padding: 1rem 10rem;
-
-			@media #{$phone-width} {
-				padding: 0rem;
-			}
 
 			margin: 0;
 			z-index: 100;
