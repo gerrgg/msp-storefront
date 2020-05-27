@@ -372,6 +372,7 @@ class MSP_Admin{
          * Add admin script
          */
         wp_enqueue_script('admin', get_stylesheet_directory_uri() . '/js/admin.js');
+        wp_enqueue_media();
     }
 
     public function submit_tracking_form(){

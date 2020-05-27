@@ -15,6 +15,7 @@ require_once( PATH . '/inc/msp-template-hooks.php' );
 require_once( PATH . '/inc/msp-template-functions.php' );
 require_once( PATH . '/inc/msp-template-filters.php' );
 require_once( PATH . '/inc/msp-helper-functions.php' );
+require_once( PATH . '/inc/msp-class-mega-menu.php' );
 
 require 'plugin-update-checker/plugin-update-checker.php';
 
@@ -390,25 +391,6 @@ class MSP{
     }
 
 }
-
-// add_action( 'widgets_init', 'remove_widget_layered_nav', 15 );
-
-function remove_widget_layered_nav() {
-    // Ensure our parent class exists to avoid fatal error (thanks Wilgert!)
-    var_dump( class_exists( 'WC_Widget_Layered_Nav' ) );
-
-    if ( class_exists( 'WC_Widget_Layered_Nav' ) ) {
-
-      unregister_widget( 'WC_Widget_Layered_Nav' );
-
-      include_once( 'widgets/widget-layered-nav.php' );
-
-      var_dump( class_exists( 'MSP_WC_Widget_Layered_Nav' ) );
-  
-      register_widget( 'MSP_WC_Widget_Layered_Nav' );
-    }
-  
-  }
 
 
 //init

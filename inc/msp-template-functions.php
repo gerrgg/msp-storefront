@@ -934,7 +934,7 @@ function msp_get_shop_subnav(){
                     'menu_class'      => 'navbar-nav m-0 flex-row',
                     'theme_location'  => 'under_header',
                     'fallback_cb'     => 'WP_Bootstrap_Navwalker::fallback',
-                    'walker'          => new WP_Bootstrap_Navwalker(),
+                    'walker'          => new msp_mega_menu_walker(),
                 ) );
                ?>
             </div>

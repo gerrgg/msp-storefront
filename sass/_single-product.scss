@@ -124,6 +124,10 @@
             
             table.variations{
                 border: none;
+
+                select + a{
+                    padding-left: 1rem;
+                }
             }
         
             .single_variation_wrap{

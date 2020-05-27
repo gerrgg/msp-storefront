@@ -2,18 +2,11 @@
 	.navbar{
 		padding: 0 0 .25rem 0;
 
-		a.nav-link{
-			color: $color-white;
-		}
-
-		.container{
-			padding: 0 .25rem;
-		}
+		a.nav-link{ color: $color-white; }
+		.container{ padding: 0 .25rem; }
 	}
 
-    .mobile-menu-button i{
-        color: #fff;
-	}
+    .mobile-menu-button i{ color: #fff; }
 
 	#header-menu{
 		ul{
@@ -37,8 +30,42 @@
 .msp-shop-subnav{
 	li{
 
+		&:hover > .sub-menu{
+			display: flex;
+		}
+
 		a.nav-link{
 			color: $color-white;
+		}
+		
+		.sub-menu{
+			display: none;
+			justify-content: space-evenly;
+			position: absolute;
+			left: 0;
+			list-style: none;
+
+			width: 100%;
+			padding: 1rem;
+			margin: 0;
+			z-index: 100;
+
+			background-color: $color-white;
+			border-bottom: $border-light;
+			border-left: $border-light;
+			border-right: $border-light;
+
+			a{
+				color: #333;
+				height: auto;
+				text-align: center;
+			}
+
+			img{
+				border: $border-light;
+				padding: .5rem;
+				margin: 0 auto;
+			}
 		}
 	}
 }
@@ -55,6 +82,14 @@
 
 #mobile-menu {
 	display: none;
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	width: 356px;
+	min-height: 100vh;
+	overflow-y: scroll;
+	-webkit-overflow-scrolling: touch;
+	z-index: 0;
 
 	.title {
 		background-color: $color-black;
@@ -65,6 +100,8 @@
 		font-size: 16px;
 		padding-left: 1.5rem;
 		font-weight: 400;
+		border-bottom: 1px solid rgba(0,0,0,0.1);
+
 		&:hover {
 			background-color: $color-white;
 			color: $color-white;
@@ -72,7 +109,7 @@
 		}
 	}
 
-	>a.close {
+	> a.close {
 		position: absolute;
 		top: 5px;
 		right: 5px;
@@ -82,32 +119,16 @@
 		cursor: pointer;
 	}
 
-}
+	.mobile-label {
+		padding-left: 1.5rem;
 
-.mobile-label {
-	padding-left: 1.5rem;
-	color: $color-white;
-	font-weight: 600;
-	border-bottom: 1px solid rgba(0,0,0,0.1);
-	margin: 0 0 .5rem 0;
-}
+		color: $color-black;
 
-#mobile-menu-categories {
-	li {
+		font-weight: 600;
 		border-bottom: 1px solid rgba(0,0,0,0.1);
+		margin: 0 0 .5rem 0;
 	}
-}
 
-.slideout-menu {
-	position: fixed;
-	top: 0;
-	bottom: 0;
-	width: 356px;
-	min-height: 100vh;
-	overflow-y: scroll;
-	-webkit-overflow-scrolling: touch;
-	z-index: 0;
-	display: none;
 }
 
 .slideout-menu-right {
@@ -141,6 +162,17 @@
 	}
 }
 
+.panel-open {
+	&:before {
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		width: 100%;
+		background-color: rgba(0,0,0,0.5);
+		z-index: 99;
+	}
+}
+
 body.modal-open {
 	.slideout-panel {
 		transform: none !important;
@@ -149,13 +181,3 @@ body.modal-open {
 	}
 }
 
-.panel-open {
-	&:before {
-		position: absolute;
-		top: 0;
-		bottom: 0;
-		width: 100%;
-		background-color: $color-med-grey;
-		z-index: 99;
-	}
-}

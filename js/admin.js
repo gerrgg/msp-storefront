@@ -9,6 +9,30 @@ jQuery( function( $ ){
            // Page builder
            $('#msp-specifications').on( 'click', 'button.add', msp_admin.add_spec_row )
            $('#msp-specifications').on( 'click', 'button.remove', msp_admin.delete_spec_row )
+
+           $('#menu-to-edit').on( 'click', 'input.upload-btn', msp_admin.upload_media )
+        },
+
+        upload_media( e ){
+            /**
+             * Enables use of the WP Media button in WP-Admin menu item
+             */
+            e.preventDefault();
+            let input = e.target.previousElementSibling
+
+            image = wp.media({
+                title: 'Upload Image',
+                multiple: false
+            }).open()
+            .on( 'select', function(e){
+                var uploaded_image = image.state().get('selection').first();
+
+                console.log(uploaded_image);
+                var image_url = uploaded_image.toJSON().url;
+
+                input.value = image_url;
+            });
+
         },
 
 
