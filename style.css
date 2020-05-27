@@ -160,7 +160,8 @@ body.single-product .msp-tab-content {
       background-color: #fff;
       border-bottom: 1px solid rgba(0, 0, 0, 0.1);
       border-left: 1px solid rgba(0, 0, 0, 0.1);
-      border-right: 1px solid rgba(0, 0, 0, 0.1); }
+      border-right: 1px solid rgba(0, 0, 0, 0.1);
+      box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1); }
       .msp-shop-subnav li .sub-menu li {
         width: 20%; }
         .msp-shop-subnav li .sub-menu li a {

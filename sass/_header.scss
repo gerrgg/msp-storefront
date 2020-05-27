@@ -53,10 +53,12 @@
 
 			position: absolute;
 			left: 0;
+
 			list-style: none;
 
 			width: 100%;
 			padding: 1rem 10rem;
+			
 
 			margin: 0;
 			z-index: 100;
@@ -65,6 +67,7 @@
 			border-bottom: $border-light;
 			border-left: $border-light;
 			border-right: $border-light;
+			box-shadow: 1px 1px 5px $color-light-grey;
 
 			li{
 				width: 20%;
