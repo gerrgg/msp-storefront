@@ -148,6 +148,7 @@ body.single-product .msp-tab-content {
       border-right: 1px solid #fff;
       font-weight: 600; }
     .msp-shop-subnav li .sub-menu {
+      display: none;
       position: absolute;
       left: 0;
       list-style: none;
@@ -159,9 +160,6 @@ body.single-product .msp-tab-content {
       border-bottom: 1px solid rgba(0, 0, 0, 0.1);
       border-left: 1px solid rgba(0, 0, 0, 0.1);
       border-right: 1px solid rgba(0, 0, 0, 0.1); }
-      @media only screen and (max-width: 576px) {
-        .msp-shop-subnav li .sub-menu {
-          padding: 0rem; } }
       .msp-shop-subnav li .sub-menu li {
         width: 20%; }
         .msp-shop-subnav li .sub-menu li a {
