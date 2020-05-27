@@ -148,7 +148,7 @@ body.single-product .msp-tab-content {
       border-right: 1px solid #fff;
       font-weight: 600; }
     .msp-shop-subnav li .sub-menu {
-      display: flex;
+      display: none;
       flex-flow: row wrap;
       position: absolute;
       left: 0;
