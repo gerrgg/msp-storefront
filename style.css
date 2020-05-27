@@ -148,27 +148,30 @@ body.single-product .msp-tab-content {
       border-right: 1px solid #fff;
       font-weight: 600; }
     .msp-shop-subnav li .sub-menu {
-      display: none;
-      justify-content: space-evenly;
       position: absolute;
       left: 0;
       list-style: none;
       width: 100%;
-      padding: 1rem;
+      padding: 1rem 10rem;
       margin: 0;
       z-index: 100;
       background-color: #fff;
       border-bottom: 1px solid rgba(0, 0, 0, 0.1);
       border-left: 1px solid rgba(0, 0, 0, 0.1);
       border-right: 1px solid rgba(0, 0, 0, 0.1); }
-      .msp-shop-subnav li .sub-menu a {
-        color: #333;
-        height: auto;
-        text-align: center; }
-      .msp-shop-subnav li .sub-menu img {
-        border: 1px solid rgba(0, 0, 0, 0.1);
-        padding: .5rem;
-        margin: 0 auto; }
+      @media only screen and (max-width: 576px) {
+        .msp-shop-subnav li .sub-menu {
+          padding: 0rem; } }
+      .msp-shop-subnav li .sub-menu li {
+        width: 20%; }
+        .msp-shop-subnav li .sub-menu li a {
+          color: #0066c0;
+          font-weight: 600;
+          text-align: center; }
+          .msp-shop-subnav li .sub-menu li a img {
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            padding: .5rem;
+            margin: 0 auto; }
 
 #msp-top-bar {
   display: block;

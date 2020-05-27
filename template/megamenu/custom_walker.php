@@ -32,7 +32,6 @@ class msp_mega_menu_walker extends Walker_Nav_Menu
         $prepend = '';
 
         $item_output = $args->before;
-
         
         $item_output .= '<a class="nav-link" '. $attributes . '>';
 

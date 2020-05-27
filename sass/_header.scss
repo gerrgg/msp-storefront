@@ -47,14 +47,18 @@
 		}
 		
 		.sub-menu{
-			display: none;
-			justify-content: space-evenly;
+			// display: none;
 			position: absolute;
 			left: 0;
 			list-style: none;
 
 			width: 100%;
-			padding: 1rem;
+			padding: 1rem 10rem;
+
+			@media #{$phone-width} {
+				padding: 0rem;
+			}
+
 			margin: 0;
 			z-index: 100;
 
@@ -63,17 +67,24 @@
 			border-left: $border-light;
 			border-right: $border-light;
 
-			a{
-				color: #333;
-				height: auto;
-				text-align: center;
+			li{
+				width: 20%;
+
+				a{
+					color: $link-color-blue;
+					font-weight: 600;
+					text-align: center;
+
+					img{
+						border: $border-light;
+						padding: .5rem;
+						margin: 0 auto;
+					}
+				}
+
 			}
 
-			img{
-				border: $border-light;
-				padding: .5rem;
-				margin: 0 auto;
-			}
+
 		}
 	}
 }
