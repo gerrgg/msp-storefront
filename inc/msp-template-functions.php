@@ -7,7 +7,7 @@ defined( 'ABSPATH' ) || exit;
  * Opens the header wrapper
  */
 function msp_header_wrapper_open(){
-    echo '<nav class="navbar navbar-light bg-primary-color"><div class="container align-items-end">';
+    echo '<nav class="navbar navbar-light bg-primary-color"><div class="container">';
 }
 
 /**
@@ -23,10 +23,9 @@ function msp_header_mobile_menu_button(){
 function msp_header_site_identity(){
     $logo_id = get_theme_mod( 'custom_logo' );
     $logo_src = wp_get_attachment_image_src( $logo_id, 'medium' );
-    $logo_width = ( ! empty( get_option( 'msp_logo_width' ) ) ) ? get_option( 'msp_logo_width' ) : '100';
 
     if( has_custom_logo() && ! empty( $logo_src ) ){
-        echo '<a class="navbar-brand" href="'. get_bloginfo('url') .'"><img src="'. $logo_src[0] .'" style="max-width: '. $logo_width .'px"/></a>';
+        echo '<a class="navbar-brand" href="'. get_bloginfo('url') .'"><img src="'. $logo_src[0] .'" /></a>';
     } else {
         echo '<a class="navbar-brand" href="'. get_bloginfo('url') .'">'. bloginfo( 'sitename' ) .'</a>';
     }
@@ -751,7 +750,7 @@ function msp_shameless_self_plug(){
      */
     ?>
     <p class="text-center bg-dark text-light m-0 p-0">
-        <a class="text-light link-normal" href="http://gerrg.com">Made possible with <i class="fas fa-coffee mx-2"></i> & <i class="fas fa-heart text-danger mx-2"></i></a>
+        <a class="text-light link-normal" href="http://gerrg.com">Made possible with <i class="fas fa-coffee mr-"></i>, <i class="fas fa-heart text-danger mx-1"></i> & you!</a>
     </p>
     <?php
 }
@@ -923,16 +922,12 @@ function msp_get_shop_subnav(){
      * Outputs the html for a subnav if applicable
      */
 
-    $bg_color = ( ! empty( get_option( 'msp_shop_nav_color' ) ) ) ? get_option( 'msp_shop_nav_color' ) : '#f7f7f7';
-    $link_color = ( ! empty( get_option( 'msp_shop_nav_color_link' ) ) ) ? get_option( 'msp_shop_nav_color_link' ) : '#333';
-    $show_images = get_option( 'msp_shop_nav_images' );
-
     $nav_items = msp_get_top_level_categories();
 
     if( empty( $nav_items ) || wp_is_mobile() ) return;
 
     ?>
-        <nav class="navbar d-none d-sm-flex msp-shop-subnav" style="background: <?php echo $bg_color ?>">
+        <nav class="navbar d-none d-sm-flex msp-shop-subnav">
             <div class="navbar-nav flex-row">
                <?php
                 wp_nav_menu( array(
@@ -1457,14 +1452,12 @@ function msp_add_copyright(){
     /**
      * Connected to theme options. Gives the Admin a chance to change colors.
      */
-    $bg_color = get_option( 'msp_copyright_color' );
-    $link_color = get_option( 'msp_copyright_link_color' );
     $copyright_year = date("Y");
     
     $bbb_link = 'https://www.bbb.org/us/mi/harbor-springs/profile/safety-clothing/michigan-safety-products-0372-38125928/accreditation-information';
 
-    echo '<div id="msp-copyright" style="background-color: '. $bg_color .'">';
-    printf("<a target='_new' href='%s' class='d-block' style='color: $link_color'>%s  <i class='fas fa-copyright'></i>  Michigan Safety Products of Flint Inc. </a>", $bbb_link, $copyright_year);
+    echo '<div id="msp-copyright">';
+    printf("<a target='_new' href='%s' class='d-block'> %s  <i class='fas fa-copyright'></i>  Michigan Safety Products of Flint Inc. </a>", $bbb_link, $copyright_year);
     echo '</div>';
 }
 

@@ -1,17 +1,29 @@
 .site-footer{
-    @extend .text-light;
+    background-color: $color-black;
+    color: $color-white;
+    border-top: 1px solid $color-white;
+    
+    padding: 1rem 0 0 0;
 
-    li{
-        list-style: inside;
-        a{
-            font-size: 1rem;
-            // text-decoration: none !important;
-        }
-
+    h1, h2, h3, h4, h5, h6{
+        color: $color-primary;
     }
 
-    h5{
-        color: $color-white;
+    ul li {
+        list-style: inside;
 
+        a{
+            color: $color-white !important;
+            text-decoration: none;
+        }
+    }
+}
+
+#msp-copyright{
+    background-color: $bg-color-alt;
+
+    a{
+
+        color: $color-black;
     }
 }

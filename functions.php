@@ -162,7 +162,7 @@ class MSP{
 
         // Custom javascript functions
         wp_enqueue_script( 'main', URI . '/js/functions.js', array('jquery'), '', true );
-        $this->inline_css();
+        // $this->inline_css();
 
         // make admin urls available to JS
         wp_localize_script( 'main', 'wp_ajax', array(
@@ -192,20 +192,7 @@ class MSP{
         /**
          * Checks theme options, and outputs css rules accordingly.
          */
-            $css = '';
-            $css .= '.primary-color { color: '. get_option( 'msp_primary_color' ) .' }
-                     .alt-color { color: '. get_option( 'msp_primary_color' ) .' }
-                     .bg-primary-color { background-color: '. get_option( 'msp_header_background' ) .' }
-                     .site-footer li a { color: '. get_option( 'msp_footer_link_color' ) .' !important }
-                     .bg-alt-color { background-color: '. get_option( 'msp_footer_background' ) .' !important }';
-                
             
-
-       
-
-        wp_register_style( 'msp', false );
-        wp_enqueue_style( 'msp' );
-        wp_add_inline_style( 'msp', $css );
     }
 
     public function msp_product_tabs( $tabs ){

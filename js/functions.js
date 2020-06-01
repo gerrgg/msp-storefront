@@ -159,7 +159,6 @@ jQuery(document).ready(function( $ ){
               nav: true,
               dots: true,
               margin: 10,
-              stagePadding: 40,
               responsive:{
                   0:{
                       items:2,
@@ -173,7 +172,6 @@ jQuery(document).ready(function( $ ){
               }
           })
 
-          $('.owl-stage').css( 'padding-left: 0px;' );
       },
 
       

@@ -18,6 +18,7 @@
 <?php wp_head(); ?>
 
 <?php msp_add_google_analytics(); ?> 
+
 </head>
 
 <body <?php body_class(); ?>>

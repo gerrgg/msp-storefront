@@ -47,8 +47,9 @@ body {
            text-align: center;
            justify-content: space-between;
            display: flex;
-           top: 50%;
-        //    transform: translate(-50%, -50%);
+           top: 30%;
+           color: $color-primary;
+
         }
 
     
@@ -82,16 +83,16 @@ body {
 
 #msp-sidebar{
 
-    background-color: $color-light-grey;
-    color: #333;
+    background-color: $color-black;
+    color: $color-white;
     border-right: 1px dotted rgba(0,0,0,0.1);
 
     #mobile-filter-wrapper{
         display: none;
         justify-content: space-between;
-        padding: 0.5rem 1rem;
+        padding: 0.25rem 1rem;
         margin: 0 -15px;
-        background-color: #3c3c3c;
+        background-color: $bg-color-alt-dark;
         color: #fff;
         font-weight: 700;
         border-bottom: 1px solid rgba(0,0,0,0.2);
@@ -106,8 +107,8 @@ body {
         a.badge{
             cursor: pointer;
             color: #fff;
-            font-size: 15px;
-            background-color: #777;
+            font-size: .85rem;
+            background-color: $color-secondary;
         }
 
         @media (max-width: 576px) {
@@ -116,19 +117,17 @@ body {
     }
 
     .widget-area{
-
         padding: .5rem 0;
         
-
         span.widget-title{
-            color: $color-primary;
+            color: $color-secondary;
             font-weight: 600;
-            border-bottom: 2px dotted $color-secondary;
+            border-bottom: 2px dotted $color-white;
             padding: 0;
         }
     
         a{
-            color: #333;
+            color: $color-white;
         }
     }
 
@@ -136,7 +135,6 @@ body {
 }
 
 #msp-results{
-    
     height: 100%;
     background-color: #fff;
 
@@ -149,7 +147,7 @@ body {
         display: block;
         margin: 0 -15px;
         background-color: #fff;
-        padding: 15px;
+        padding: 1rem .5rem;
     }
 }
 
@@ -157,10 +155,16 @@ body {
 
     background-color: #fff;
 
-    li{ list-style: none; }
+    li{ 
+        list-style: none;
+        border: $border-light;
+    }
 
     h2.woocommerce-loop-product__title{
         font-size: 0.9rem;
+
+        @media #{$phone-width}{ font-size: 0.7rem; }
+
         color: $link-color-blue;
         font-weight: 600;
         margin: 0;

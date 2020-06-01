@@ -8,18 +8,19 @@ $border-hard: 1px solid rgba(0,0,0,0.5);
 
 $color-light-grey: rgba(0,0,0,0.1);
 $color-med-grey: rgb(232,232,232);
+
 $color-price_red: rgb(177, 39, 4);
 
-$color-primary: #ff1b1b;
-$color-secondary: #0d237d;
+$color-primary: #75ff40;
+$color-secondary: #f84c4c;
 
 $color-white: #fff;
 $color-black: #333;
 
-$link-color-blue: #0066c0;
+$bg-color-alt: #9b9b9b;
+$bg-color-alt-dark: #4a4a4a;
 
-.text-light{ color: $color-white };
-.text-dark{ color: $color-black };
+$link-color-blue: #0066c0;
 
 // FONT
 $font_roboto: 'Roboto', sans-serif;
@@ -30,3 +31,9 @@ $font-size-sm: 0.5rem;
 $font-size-md: 1rem;
 $font-size-lg: 1.5rem;
 $font-size-xl: 2rem;
+
+
+.no-text-overflow{
+    overflow: hidden;
+    white-space: nowrap;
+}

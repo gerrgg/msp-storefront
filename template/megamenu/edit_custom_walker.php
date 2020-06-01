@@ -178,7 +178,7 @@ class Walker_Nav_Menu_Edit_Custom extends Walker_Nav_Menu  {
 					</label>
 					<input type="text" id="edit-menu-item-image-url-<?php echo $item_id; ?>" class="widefat code edit-menu-item-custom" name="menu-item-image-url[<?php echo $item_id; ?>]" value="<?php echo esc_attr( $item->image_url ); ?>" />
 					<input type="button" name="upload-btn" class="button-secondary upload-btn" value="Upload Image">
-				</p>   
+				</p>
 				  
 	            <div class="menu-item-actions description-wide submitbox">
 	                <?php if( 'custom' != $item->type && $original_title !== false ) : ?>
