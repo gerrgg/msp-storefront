@@ -19,9 +19,8 @@ jQuery(document).ready(function( $ ){
 
           $('.woocommerce-variation-add-to-cart').on( 'change', 'input[name="variation_id"]', msp.replace_single_product_price_range )
 
-          $('#filter-button').click(function(){
-              $('.widget-area').slideToggle();
-          });
+          $('#filter-button').click(function(){ $('.widget-area').slideToggle() });
+
 
           // makes the update shipping options more consistant.
           this.$checkout_fields.on( 'focusout', 'input', function(){ $(document.body).trigger('update_checkout') } );
@@ -32,9 +31,24 @@ jQuery(document).ready(function( $ ){
 
           this.$modal.on( 'show.bs.modal', this.route )
           this.$modal.on( 'submit', 'form', this.submit )
+
           this.$header.on( 'click', 'li.menu-item-has-children', this.open_nav_child_list )
 
           this.promo_pop_up();
+
+      },
+
+      append_nav_layers: function(){
+        $('.woocommerce-widget-layered-nav').each(function(i, e){
+          e.insertAdjacentHTML( 'beforeend', '<a href="javascript:void(0)" class="see_more" >See more</a>' );
+        });
+      },
+
+      see_more_nav_layers: function( e ){
+        let list = e.delegateTarget.getElementsByTagName('ul')[0]
+        if( typeof list !== 'undefined' ){
+          console.log( list );
+        }
 
       },
 
@@ -122,7 +136,7 @@ jQuery(document).ready(function( $ ){
           var slideout = new Slideout({
               'panel': document.getElementById('page'),
               'menu': document.getElementById('mobile-menu'),
-              'padding': 300,
+              'padding': 256,
               'tolerance': 70,
               'touch': false,
           });

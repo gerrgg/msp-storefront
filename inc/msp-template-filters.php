@@ -20,7 +20,6 @@ foreach ( array( 'term_description' ) as $filter ) {
  * ===================================================
  */
 
-
 function change_backorder_message( $text, $product ){
     /**
      * Allows admin to display message below products on backorder.

@@ -68,26 +68,6 @@ class MSP_Admin{
         echo '</div>';
     }
 
-        // A callback function to add a custom field to our "presenters" taxonomy  
-    function presenters_taxonomy_custom_fields($tag) {  
-        // Check for existing taxonomy meta for the term you're editing  
-            $t_id = $tag->term_id; // Get the ID of the term you're editing  
-            $term_meta = get_option( "taxonomy_term_$t_id" ); // Do the check  
-        ?>  
-        
-        <tr class="form-field">  
-            <th scope="row" valign="top">  
-                <label for="presenter_id"><?php _e('WordPress User ID'); ?></label>  
-            </th>  
-            <td>  
-                <input type="text" name="term_meta[presenter_id]" id="term_meta[presenter_id]" size="25" style="width:60%;" value="<?php echo $term_meta['presenter_id'] ? $term_meta['presenter_id'] : ''; ?>"><br />  
-                <span class="description"><?php _e('The Presenter\'s WordPress User ID'); ?></span>  
-            </td>  
-        </tr>  
-        
-        <?php  
-        }  
-
     public function process_product_meta( $id ){
         /**
          * If our cost is there, add it to the product

@@ -1,0 +1,9 @@
+@mixin fa-icon($code){
+    font-family: 'Font Awesome 5 Free';
+    content: $code;
+}
+
+@mixin no-wrap{
+    overflow: hidden;
+    white-space: nowrap;
+}

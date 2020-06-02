@@ -31,7 +31,7 @@
 			 .item-counter{
 				 font-size: 1.5rem;
 				 color: $color-primary;
-				 @extend .no-text-overflow;
+				 @include no-wrap;
 			 }
 		 }
 	}
@@ -100,8 +100,7 @@
 				padding-left: .75rem;
 				color: $color-secondary;
 				font-weight: 600;
-				font-family: 'Font Awesome 5 Free';
-    			content: "\F078";
+				@include fa-icon("\F078");
 			}
 		}
 		

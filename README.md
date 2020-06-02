@@ -12,7 +12,6 @@ A custom child theme built for Michigan Safety Products of Flint Inc. Built on [
 
 ### General
 - Improve mobile view - Remove dependancies on wp_is_mobile();
-- Switch to sass - REALLY should
 
 ### Header
 - Integrate fall protection logo
@@ -26,7 +25,6 @@ A custom child theme built for Michigan Safety Products of Flint Inc. Built on [
 ### Attribute edit page
 - Include select for choosing 'display type'. (label, image, select)
 - Add nessicary logic to display differant html types
-
 
 #### Shop
 - Put sort-by above & below shop
@@ -44,4 +42,3 @@ A custom child theme built for Michigan Safety Products of Flint Inc. Built on [
 - Complete tracking system working with UPS/USPS & Fedex
 - Improved checkout process (keep checkout button at top)
 - Smart recommendations based on user data
-- 

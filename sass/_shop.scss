@@ -87,6 +87,12 @@ body {
     color: $color-white;
     border-right: 1px dotted rgba(0,0,0,0.1);
 
+    .woocommerce-widget-layered-nav-list{
+        max-height: 140px;
+        overflow: hidden;
+
+    }
+
     #mobile-filter-wrapper{
         display: none;
         justify-content: space-between;
@@ -106,9 +112,10 @@ body {
     
         a.badge{
             cursor: pointer;
-            color: #fff;
             font-size: .85rem;
-            background-color: $color-secondary;
+            background-color: $color-primary;
+            color: $color-black;
+
         }
 
         @media (max-width: 576px) {

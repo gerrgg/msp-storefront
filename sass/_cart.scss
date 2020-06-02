@@ -5,6 +5,21 @@ body.woocommerce-cart{
 
 
     .shop_table{
+        td { padding: .5rem; }
+
+        tr.woocommerce-shipping-totals td{
+            background-color: $color-white !important;
+            color: $color-black;
+
+
+            p { margin: 0px; }
+            
+            span.woocommerce-Price-amount{
+                color: $color-price_red;
+                font-size: 1rem;
+            }
+        }
+
         .woocommerce-shipping-destination{
             padding: .75rem 0;
             font-size: .9rem;
@@ -12,23 +27,31 @@ body.woocommerce-cart{
             text-align: center;
             text-decoration: underline;
 
-
         }
+
+        .shipping-calculator-button { color: $link-color-blue; }
         
         ul.shipping_method{
             li{
                 display: flex;
                 margin: 0;
-                padding: 0;
+                padding: .5rem 0;
+
+                h1.iww-date-estimate{
+                    font-size: .5rem;
+                }
 
                 label, input.shipping_method{
                     margin: 0;
+
+                    
                 }
+
             }
         }
 
         .woocommerce-Price-amount{
-            color: $color_price_red;
+            color: $color-white;
             font-size: 1rem;
         }
 

@@ -1,12 +1,37 @@
-table{
+table:not(.variations){
 	border: 1px solid $color-light-grey;
-
-	th{
-		background-color: #333;
-	}
+	background-color: $color-black;
+	color: $color-white;
 
 	tr{
 		border-bottom: 1px solid $color-light-grey;
+
+		&:first-child td a{ color: $color-primary; }
+
+		&:nth-child(2n) td {
+			background-color: $bg-color-alt-dark !important;
+		}
+
+		td{
+			background-color: $bg-color-alt-med !important;
+			color: $color-white;
+
+			a{
+				color: $color-white;
+				font-weight: 600;
+				text-decoration: underline;
+			}
+		}
+
+		th {
+			background-color: $color-black !important;
+			color: $color-primary;
+
+			a{
+				color: $color-white;
+				text-decoration: underline;
+			}
+		}
 
 		&:last-child{
 			border: none;

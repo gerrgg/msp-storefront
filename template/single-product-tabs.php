@@ -7,7 +7,7 @@ global $product;
 ?>
 
 <!-- Nav tabs -->
-<ul class="nav nav-tabs my-2 ml-0" id="single-product-nav-tabs" role="tablist">
+<ul class="nav nav-tabs m-0" id="single-product-nav-tabs" role="tablist">
   <li class="nav-item">
     <a class="nav-link active" id="order-tab" data-toggle="tab" href="#order-tab-content" role="tab" aria-controls="order-tab-content" aria-selected="true">
       <i class="fas fa-list pr-1"></i>

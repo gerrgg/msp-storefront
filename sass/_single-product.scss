@@ -13,12 +13,19 @@
 
             color: rgb(85, 85, 85);
         }
+        
+        #single-product-nav-tabs {
+            a { color: $color-black }
+
+            a.active { 
+                color: $color-white;
+                background-color: $color-black;
+                border: 1px solid $color-black;
+            }
+        }
 
         .woocommerce-product-gallery {
             margin-bottom: 0px;
-            // display: flex;
-            // justify-content: center;
-            // align-items: center;
     
             .woocommerce-product-gallery__image a{
                 height: 400px;
@@ -37,7 +44,7 @@
                 align-items: center;
                
                 img{
-                    // height: 100%;
+                    height: 100%;
                     width: auto;
                 }
             }
@@ -49,6 +56,7 @@
         .woocommerce-product-rating {
             margin: 0px;
         }
+
     
         .price {
             font-size: 100%;
@@ -170,6 +178,40 @@
     .msp-tab-content{
         padding: .5rem 0;
         border-bottom: $border-light;
+    }
+
+    #resources_tab{
+        ul {
+            border: $border-light;
+            // padding: 1rem;
+            margin: 0;
+
+            li{
+                padding: 0;
+                border-bottom: 1px solid $color-white;
+                list-style: none;
+                background-color: $color-black;
+                display: flex;
+    
+                &:before{
+                    font-size: 1.5rem;
+                    color: $color-secondary;
+                    padding: 0 .5rem;
+                    @include fa-icon("\F1C1");
+                }
+
+                &:last-child{ border: 0px }
+
+                a{
+                    display: block;
+                    padding: .5rem 0;
+                    font-size: 0.85rem;
+                    color: $color-primary;
+                }
+            }
+        }
+        
+        
     }
 
 
