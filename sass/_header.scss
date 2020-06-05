@@ -8,9 +8,12 @@
 
 		.navbar-brand{
 			padding: 0 .5rem;
-			max-width: 150px;
+			max-width: 250px;
 
-			@media #{$phone-width}{ padding: .5rem 0; }
+			@media #{$phone-width}{ 
+				padding: .5rem 0; 
+				max-width: 175px;
+			}
 
 			margin: 0;
 		}
@@ -28,9 +31,13 @@
 
 		 .cart-wrapper{
 			 font-size: .75rem;
+
 			 .item-counter{
 				 font-size: 1.5rem;
 				 color: $color-primary;
+
+
+
 				 @include no-wrap;
 			 }
 		 }
@@ -39,6 +46,8 @@
 	.mobile-menu-button{
 		i{ 
 			color: $color-primary; 
+
+
 		}
 	}
 

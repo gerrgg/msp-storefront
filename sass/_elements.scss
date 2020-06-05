@@ -6,7 +6,7 @@ table:not(.variations){
 	tr{
 		border-bottom: 1px solid $color-light-grey;
 
-		&:first-child td a{ color: $color-primary; }
+		// &:first-child td a{ color: $color-primary; }
 
 		&:nth-child(2n) td {
 			background-color: $bg-color-alt-dark !important;

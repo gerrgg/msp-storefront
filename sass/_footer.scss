@@ -27,3 +27,11 @@
         color: $color-black;
     }
 }
+
+#self-plug{
+    background-color: $color-black;
+
+    a{ color: $color-white; }
+    i.fa-coffee{ color: $color-secondary; }
+    i.fa-heart{ color: $color-primary; }
+}

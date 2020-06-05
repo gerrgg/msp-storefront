@@ -15,7 +15,7 @@ body.woocommerce-cart{
             p { margin: 0px; }
             
             span.woocommerce-Price-amount{
-                color: $color-price_red;
+                color: $color-price-red;
                 font-size: 1rem;
             }
         }
@@ -82,7 +82,7 @@ body.woocommerce-cart{
                 p.product-price{
                     font-size: 100%;
                     line-height: 1.2rem;
-                    color: $color_price_red;
+                    color: $color-price-red;
                     margin: 1rem 0;
     
                     span.amount:last-child{

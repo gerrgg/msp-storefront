@@ -61,7 +61,7 @@
         .price {
             font-size: 100%;
             line-height: 1.2rem;
-            color: $color_price_red;
+            color: $color-price-red;
             margin: 1rem 0;
 
             span.amount:last-child{
@@ -192,6 +192,7 @@
                 list-style: none;
                 background-color: $color-black;
                 display: flex;
+                align-items: baseline;
     
                 &:before{
                     font-size: 1.5rem;
@@ -206,7 +207,8 @@
                     display: block;
                     padding: .5rem 0;
                     font-size: 0.85rem;
-                    color: $color-primary;
+                    color: $color-white;
+                    text-decoration: underline;
                 }
             }
         }

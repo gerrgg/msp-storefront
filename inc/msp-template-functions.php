@@ -749,8 +749,8 @@ function msp_shameless_self_plug(){
      * Simply says that I made this website / theme.
      */
     ?>
-    <p class="text-center bg-dark text-light m-0 p-0">
-        <a class="text-light link-normal" href="http://gerrg.com">Made possible with <i class="fas fa-coffee mr-"></i>, <i class="fas fa-heart text-danger mx-1"></i> & you!</a>
+    <p id="self-plug" class="text-center">
+        <a href="http://gerrg.com">Made w/ <i class="fas fa-coffee"></i> & <i class="fas fa-heart"></i>.</a>
     </p>
     <?php
 }
