@@ -30,8 +30,10 @@
 
 #self-plug{
     background-color: $color-black;
+    padding: 0;
+    margin: 0;
 
     a{ color: $color-white; }
-    i.fa-coffee{ color: $color-secondary; }
-    i.fa-heart{ color: $color-primary; }
+    i.fa-coffee{ color: $color-primary; }
+    i.fa-heart{ color: $color-secondary; }
 }

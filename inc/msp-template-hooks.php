@@ -314,8 +314,10 @@ if ( wp_is_mobile() ){
 add_filter( 'msp_additional_information_html', 'msp_get_product_pool', 5, 1 );
 add_filter( 'msp_additional_information_html', 'msp_get_product_metadata', 10, 1 );
 add_filter( 'msp_additional_information_html', 'msp_product_additional_information_html', 15, 1 );
-// add_filter( 'the_content', 'msp_maybe_attribute_description', 49 );
+
 add_filter( 'the_content', 'msp_maybe_category_description', 10 );
+add_filter( 'the_content', 'msp_maybe_attribute_description', 11 );
+
 add_filter( 'woocommerce_get_availability_text', 'change_backorder_message', 10, 2 );
 add_filter('woocommerce_post_class', 'msp_add_bootstrap_cols_to_product', 30, 3);
 add_filter('woocommerce_product_loop_start', 'msp_woocommerce_product_loop_start', 999);
