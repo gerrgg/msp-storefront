@@ -188,7 +188,7 @@ function msp_maybe_attribute_description( $content ){
                 }
 
                 if( ! empty( $term_description ) ){
-                    $html .= sprintf( "%s<br>", rtrim($term_name, ", "), $term_description );
+                    $html .= sprintf( "%s<br>", $term_description );
                 }
             }
         }
