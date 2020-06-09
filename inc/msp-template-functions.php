@@ -1784,7 +1784,7 @@ function msp_get_product_standards( $product_id ){
         $desc = tag_description($tag->term_id);
 
         if( ! empty( $desc ) ){
-            $html .= sprintf( "<h4>%s</h4><div class='pl-2'>%s</div>", $tag->name, $desc);
+            $html .= sprintf( "%s", $desc);
         }
 
     }
@@ -1806,6 +1806,7 @@ function msp_get_standards_tab( $html ){
 }
 
 function msp_archive_description_header(){
+
     if ( is_product_taxonomy() && 0 === absint( get_query_var( 'paged' ) ) ) {
         $term = get_queried_object();
 
