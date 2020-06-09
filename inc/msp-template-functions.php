@@ -1802,7 +1802,7 @@ function msp_get_standards_tab( $html ){
 
     if( empty( $html ) ) return;
 
-    echo '<h2>Safety Certifications</h2>' . $html;
+    echo $html;
 }
 
 function msp_archive_description_header(){

@@ -210,8 +210,8 @@ class MSP{
         // If a product does not have a video, resouse or standard we do not include that tab.
         $custom_tabs = array(
             'product_videos' => msp_get_product_videos( $post->ID ),
-            'resources' => msp_get_product_resources( $post->ID ),
             'standards' => msp_get_product_standards( $post->ID ), 
+            'resources' => msp_get_product_resources( $post->ID ),
         );
 
         
