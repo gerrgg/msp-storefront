@@ -128,7 +128,7 @@ function msp_get_term_description( $term ){
     $html = '';
 
     if( ! is_wp_error( $term ) && ! empty( $term->description ) ){
-        $html .= sprintf( "<h5>%s</h5>%s", $term->name, $term->description );
+        $html .= sprintf( "%s", $term->description );
     }
 
     return $html;
