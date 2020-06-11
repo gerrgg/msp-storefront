@@ -5,6 +5,12 @@ body.woocommerce-cart{
 
 
     .shop_table{
+
+        th{
+            background-color: $bg-color-alt-dark !important;
+            color: $color-white;
+        }
+
         td { padding: .5rem; }
 
         tr.woocommerce-shipping-totals td{
@@ -82,7 +88,6 @@ body.woocommerce-cart{
                 p.product-price{
                     font-size: 100%;
                     line-height: 1.2rem;
-                    color: $color-price-red;
                     margin: 1rem 0;
     
                     span.amount:last-child{
@@ -98,7 +103,8 @@ body.woocommerce-cart{
                             content: "Price:";
                             padding-right: .25rem;
                         }
-                
+                        
+                        color: $color-price-red;
                         font-size: 1.2rem;
                     }
                 }
