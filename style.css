@@ -10,6 +10,7 @@
  Tags:         light, dark, two-columns, right-sidebar, responsive-layout, accessibility-ready
  Text Domain:  msp
 */
+/** Blank by default **/
 table:not(.variations) {
   border: 1px solid rgba(0, 0, 0, 0.1);
   background-color: #333;
