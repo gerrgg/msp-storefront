@@ -169,7 +169,6 @@ body.single-product .up-sells #msp-archive h2.woocommerce-loop-product__title {
 }
 body.single-product .msp-tab-content {
   padding: 0.5rem 0;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 body.single-product #resources_tab ul {
   border: 1px solid rgba(0, 0, 0, 0.1);
