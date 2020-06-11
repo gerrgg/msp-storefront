@@ -206,17 +206,6 @@ add_action( 'woocommerce_single_product_summary', 'msp_add_bulk_tab', 100 );
 add_action( 'woocommerce_single_product_summary', 'msp_add_quote_tab', 101 );
 add_action( 'woocommerce_single_product_summary', 'msp_close_single_product_tabs', 9999 );
 
-add_action( 'woocommerce_email_before_order_table', 'msp_add_tracking_link_to_order_complete', 105, 4 );
-
-function msp_add_tracking_link_to_order_complete( $order, $sent_to_admin, $plain_text, $email ){
-    $tracking_link = get_post_meta( $order->get_order_number(), 'tracking_link', true );
-    $style = "width: 350px; font-size: 24px; background-color: #3d9dcc; color: #fff; display: block; padding: 1rem; margin: 0 auto;";
-    $message = "Track package";
-
-    if( $email->id === 'customer_completed_order' ){ 
-        printf( '<p style="text-align: center"><a href="%s" style="%s">%s</a></p>', $tracking_link, $style, $message );
-    }
-}
 
 if( get_option( 'wc_add_net_30_to_single_product' ) )
     add_action( 'woocommerce_single_product_summary', 'add_net_30', 37 );

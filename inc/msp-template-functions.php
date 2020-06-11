@@ -1102,9 +1102,9 @@ function msp_bulk_discount_table(){
 
     if( $enabled == 'yes' && $has_a_rule ){
         ?>
-        <h5 class="m-2">Bulk Discount Pricing: </h4>
-        <table id="msp-bulk-pricing" class="table-bordered">
-            <thead class="bg-dark text-light">
+        <h5>Bulk Discount Pricing:</h5>
+        <table id="msp-bulk-pricing">
+            <thead>
                 <td>QTY</td>
                 <?php 
                     $qtys = get_bulk_discount_data( $product_id, 'quantity' );

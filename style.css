@@ -124,7 +124,7 @@ body.single-product .product .price span.amount:first-child:before {
 }
 body.single-product .product .price .unit_price {
   font-size: 0.8rem;
-  color: #e8e8e8;
+  color: #4a4a4a;
   margin-left: 0.25rem;
 }
 body.single-product .product .price p.stock {
@@ -168,8 +168,20 @@ body.single-product .product form.cart .single_variation_wrap .woocommerce-varia
 body.single-product .product form.cart .single_variation_wrap .woocommerce-variation-availability {
   display: none;
 }
+body.single-product .product form.cart + h5 {
+  padding: 1rem 0;
+  margin: 0;
+}
 body.single-product .product form.variations_form {
   display: block;
+}
+body.single-product .product #msp-bulk-pricing thead td {
+  background-color: #333 !important;
+  color: #b2dd57;
+  font-weight: 600;
+}
+body.single-product .product #msp-bulk-pricing td {
+  border-right: 1px solid #fff;
 }
 body.single-product .msp-tab-content {
   padding: 0.5rem 0;
@@ -216,7 +228,11 @@ body.single-product #reviews #comments .commentlist li .avatar {
 body.single-product #reviews #comments .commentlist li .comment-text {
   width: 93%;
 }
+body.single-product #reviews #comments .commentlist li .comment-text .star-rating {
+  float: unset;
+}
 body.single-product #reviews #review_form_wrapper #respond {
+  margin-top: 2rem;
   background-color: #4a4a4a;
   color: #fff;
   font-size: 1rem;
@@ -244,13 +260,13 @@ body.single-product #reviews #review_form_wrapper #respond .comment-form-rating 
 }
 #masthead .navbar .navbar-brand {
   padding: 0 0.5rem;
-  max-width: 250px;
+  max-width: 175px;
   margin: 0;
 }
 @media only screen and (max-width: 576px) {
   #masthead .navbar .navbar-brand {
     padding: 0.5rem 0;
-    max-width: 175px;
+    max-width: 125px;
   }
 }
 #masthead .navbar a.nav-link {
@@ -592,7 +608,7 @@ body .owl-carousel .owl-item .woocommerce-LoopProduct-link.woocommerce-loop-prod
 #msp-archive li {
   list-style: none;
   border: 1px solid rgba(0, 0, 0, 0.1);
-  padding: 0;
+  padding: 0.25rem;
   text-align: center;
 }
 #msp-archive li .product-brand a {
@@ -604,7 +620,7 @@ body .owl-carousel .owl-item .woocommerce-LoopProduct-link.woocommerce-loop-prod
   max-height: 50px;
   overflow: hidden;
   display: -webkit-box;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   color: #0066c0;
   font-weight: 600;
@@ -852,7 +868,7 @@ body.woocommerce-checkout #order_review td.product-name {
   overflow: hidden;
   overflow: hidden;
   display: -webkit-box;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
 }
 body.woocommerce-checkout #order_review .woocommerce-Price-amount {

@@ -69,6 +69,7 @@
             }
     
             span.amount{
+
                 &:first-child:before{
                     color: #777;
                     font-size: 1rem;
@@ -81,7 +82,7 @@
 
             .unit_price {
                 font-size: .8rem;
-                color: $color-med-grey;
+                color: $color-dark-grey;
                 margin-left: .25rem;
             }
         
@@ -96,22 +97,15 @@
             }
         }
     
-        form.cart{
-            button.single_add_to_cart_button{
-                width: 100%;
-                background-color: $color-secondary;
-                border: $border-hard;
-                -webkit-appearance: button;
-                font-size: 1.1rem;
-            }
-
+        form.cart button.single_add_to_cart_button{
+            width: 100%;
+            background-color: $color-secondary;
+            border: $border-hard;
+            -webkit-appearance: button;
+            font-size: 1.1rem;
         }
     
-        .woocommerce-product-gallery{
-            li{
-                border: $border-light;
-            }
-        }
+        .woocommerce-product-gallery li{ border: $border-light; }
 
         form.cart{
             margin: 0;
@@ -141,18 +135,30 @@
                 .woocommerce-variation-price { display: none; }
                 .woocommerce-variation-availability { display: none; }
             }
-    
+            
+            & + h5 { padding: 1rem 0; margin: 0; } 
+        }
+        
+
+        form.variations_form{ display: block; }
+
+        #msp-bulk-pricing{
+
+            thead td{ 
+                background-color: $color-black !important; 
+                color: $color-primary;
+                font-weight: 600;
+            }
+
+            td{ border-right: 1px solid $color-white; }
         }
 
-        form.variations_form{
-            display: block;
-        }
-    
     }
 
     .msp-tab-content{ padding: .5rem 0; }
 
     #resources_tab{
+
         ul {
             border: $border-light;
             margin: 0;
@@ -181,31 +187,39 @@
                     font-size: 1rem;
                     color: $color-white;
                     max-height: 35px;
-
                 }
             }
         }
-        
-        
     }
 
     #reviews{
+
         #comments{
+
             .woocommerce-Reviews-title{ @include no-wrap  }
+
             .commentlist li {
+
                 .avatar{
                     max-width: 6%;
                     float: left;
                     margin: 0;
                 }
+
                 .comment-text{
                     width: 93%;
+
+                    .star-rating{ float: unset }
                 }
             }
         }
 
         #review_form_wrapper{
+
             #respond{
+                margin-top: 2rem;
+                
+
                 background-color: $color-dark-grey;
                 color: $color-white;
                 font-size: 1rem;
@@ -223,9 +237,6 @@
             }
         }
     }
-
-    
-
 }
 
 

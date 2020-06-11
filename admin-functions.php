@@ -840,12 +840,10 @@ function sc_save_tracking_details( $ord_id ){
  * @return string updated message
  */
 function sv_wc_twilio_sms_variable_replacement( $message, $order ) {
-
     // Shipment tracking: use first package
     $tracking_link = get_post_meta( $order->get_id(), 'tracking_link', true );
-    if( ! empty( $tracking_link ) ){
-        $message = str_replace( '%tracking_link%', $tracking_link, $message );
-    }
+
+    if( ! empty( $tracking_link ) ){ $message = str_replace( '%tracking_link%', $tracking_link, $message ); }
 
 	return $message;
 }
@@ -925,5 +923,17 @@ function msp_show_discontinued_products( ){
         ?>
     </div><!--/.products-->
     <?php
+}
+
+add_action( 'woocommerce_email_before_order_table', 'msp_add_tracking_link_to_order_complete', 105, 4 );
+
+function msp_add_tracking_link_to_order_complete( $order, $sent_to_admin, $plain_text, $email ){
+    $tracking_link = get_post_meta( $order->get_order_number(), 'tracking_link', true );
+    $style = "width: 350px; font-size: 24px; background-color: #3d9dcc; color: #fff; display: block; padding: 1rem; margin: 0 auto;";
+    $message = "Track package";
+
+    if( $email->id === 'customer_completed_order' ){ 
+        printf( '<p style="text-align: center"><a href="%s" style="%s">%s</a></p>', $tracking_link, $style, $message );
+    }
 }
 
