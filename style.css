@@ -33,7 +33,7 @@ table:not(.variations) tr td a {
 }
 table:not(.variations) tr th {
   background-color: #333 !important;
-  color: #ff5e56;
+  color: #b2dd57;
 }
 table:not(.variations) tr th a {
   color: #fff;
@@ -120,7 +120,7 @@ body.single-product .product .woocommerce-product-details__short-description ul 
 }
 body.single-product .product form.cart button.single_add_to_cart_button {
   width: 100%;
-  background-color: #3d9dcc;
+  background-color: #f47470;
   border: 1px solid rgba(0, 0, 0, 0.5);
   -webkit-appearance: button;
   font-size: 1.1rem;
@@ -185,7 +185,7 @@ body.single-product #resources_tab ul li {
 }
 body.single-product #resources_tab ul li:before {
   font-size: 1.5rem;
-  color: #3d9dcc;
+  color: #f47470;
   padding: 0 0.5rem;
   font-family: "Font Awesome 5 Free";
   content: "";
@@ -238,12 +238,12 @@ body.single-product #resources_tab ul li a {
 }
 #masthead .navbar .cart-wrapper .item-counter {
   font-size: 1.5rem;
-  color: #ff5e56;
+  color: #b2dd57;
   overflow: hidden;
   white-space: nowrap;
 }
 #masthead .mobile-menu-button i {
-  color: #ff5e56;
+  color: #b2dd57;
 }
 #masthead #header-menu ul {
   flex-direction: row;
@@ -251,7 +251,7 @@ body.single-product #resources_tab ul li a {
 #masthead #header-menu ul li {
   padding: 0 0.25rem;
   margin: 0 0.25rem;
-  border-bottom: 2px solid #ff5e56;
+  border-bottom: 2px solid #b2dd57;
 }
 #masthead #header-menu ul li a {
   margin: 0;
@@ -291,7 +291,7 @@ body.single-product #resources_tab ul li a {
 }
 .msp-shop-subnav li a.nav-link:after {
   padding-left: 0.75rem;
-  color: #3d9dcc;
+  color: #f47470;
   font-weight: 600;
   font-family: "Font Awesome 5 Free";
   content: "";
@@ -316,13 +316,13 @@ body.single-product #resources_tab ul li a {
   margin: 1rem 0;
 }
 .msp-shop-subnav li .sub-menu li a {
-  color: #3d9dcc !important;
+  color: #f47470 !important;
   font-weight: 400;
   text-align: center;
 }
 .msp-shop-subnav li .sub-menu li a:after {
   padding-left: 0;
-  color: #ff5e56;
+  color: #b2dd57;
   content: "";
 }
 .msp-shop-subnav li .sub-menu li a img {
@@ -470,7 +470,7 @@ body .owl-carousel .owl-nav {
   justify-content: space-between;
   display: flex;
   top: 30%;
-  color: #ff5e56;
+  color: #b2dd57;
 }
 body .owl-carousel .owl-item .woocommerce-LoopProduct-link.woocommerce-loop-product__link {
   max-height: 200px;
@@ -517,7 +517,7 @@ body .owl-carousel .owl-item .woocommerce-LoopProduct-link.woocommerce-loop-prod
 #msp-sidebar #mobile-filter-wrapper a.badge {
   cursor: pointer;
   font-size: 0.85rem;
-  background-color: #ff5e56;
+  background-color: #b2dd57;
   color: #333;
 }
 @media (max-width: 576px) {
@@ -529,7 +529,7 @@ body .owl-carousel .owl-item .woocommerce-LoopProduct-link.woocommerce-loop-prod
   padding: 0.5rem 0;
 }
 #msp-sidebar .widget-area span.widget-title {
-  color: #3d9dcc;
+  color: #f47470;
   font-weight: 600;
   border-bottom: 2px dotted #fff;
   padding: 0;
@@ -824,7 +824,7 @@ body.woocommerce-checkout #payment ul.wc_payment_methods li .payment_box p.form-
   padding: 1rem 0 0 0;
 }
 .site-footer h1, .site-footer h2, .site-footer h3, .site-footer h4, .site-footer h5, .site-footer h6 {
-  color: #ff5e56;
+  color: #b2dd57;
 }
 .site-footer ul li {
   list-style: inside;
@@ -850,10 +850,10 @@ body.woocommerce-checkout #payment ul.wc_payment_methods li .payment_box p.form-
   color: #fff;
 }
 #self-plug i.fa-coffee {
-  color: #ff5e56;
+  color: #b2dd57;
 }
 #self-plug i.fa-heart {
-  color: #3d9dcc;
+  color: #f47470;
 }
 
 /*# sourceMappingURL=style.css.map */
