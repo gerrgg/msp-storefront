@@ -1,11 +1,14 @@
 <?php
 
 defined( 'ABSPATH' ) || exit;
+
+/** ARCHIVE - SHOP PAGE - TAXONOMY  */
+remove_action( 'woocommerce_after_shop_loop_item_title', 'woocommerce_template_loop_rating', 5 );
+add_action( 'woocommerce_shop_loop_item_title', 'woocommerce_template_loop_rating', 5 );
+
 /**
  * init - maybe move to functions.php
  */
-
-
 add_action( 'init', 'msp_remove_actions' );
 function msp_remove_actions(){
     remove_action( 'storefront_before_content', 'woocommerce_breadcrumb', 10);
@@ -17,6 +20,8 @@ function msp_remove_actions(){
     remove_action( 'woocommerce_after_single_product_summary', 'storefront_upsell_display', 15 );
     remove_action( 'storefront_sidebar', 'storefront_get_sidebar', 10 );
 }
+
+
 
 /**
  * storefront_after_footer
@@ -267,6 +272,12 @@ add_action( 'woocommerce_after_shop_loop',  'woocommerce_product_archive_descrip
 add_action( 'woocommerce_archive_description', 'woocommerce_breadcrumb', 5 );
 add_action( 'woocommerce_archive_description', 'msp_add_sub_cat_links', 1 );
 add_action( 'woocommerce_archive_description', 'msp_add_category_images', 2 );
+
+add_action( 'woocommerce_review_order_before_payment', 'msp_add_payment_heading' );
+
+function msp_add_payment_heading(){
+    echo "<h3 class='payment-method-header'>Select your payment option</h3>";
+}
 
 /**
  * woocommerce_before_shop_loop_item_title

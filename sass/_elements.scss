@@ -46,3 +46,8 @@ a{
     color: $link-color-blue;
 }
 
+.woocommerce-info, .woocommerce-noreviews, p.no-comments{
+	background-color: $color-secondary;
+	color: $color-white;
+}
+

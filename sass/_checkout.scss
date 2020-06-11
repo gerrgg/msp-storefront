@@ -14,8 +14,31 @@ body.woocommerce-checkout{
 
     #order_review{
         width: 100%;
-        margin: .5rem;
+
+        th{
+            background-color: $bg-color-alt-dark !important;
+            color: $color-white;
+        }
+
+        td{
+            background-color: $color-white !important;
+            color: $color-black;
+
+            &.product-name{
+                display: block;
+                width: 100%;
+                max-height: 60px;
+                overflow: hidden;
+                @include text-ellipsis;
+            }
+        }
+
+        .woocommerce-Price-amount{
+            font-size: 1rem;
+        }
+
     }
+
 
     .woocommerce-billing-fields, .woocommerce-shipping-fields, .woocommerce-additional-fields{
         margin: 0 .5rem;
@@ -28,15 +51,28 @@ body.woocommerce-checkout{
 
     }
 
+    .payment-method-header{ margin-top: 1rem; }
+
     #payment {
-        ul.wc_payment_methods{
+
+        ul.payment_methods{
+            border: 1px solid $bg-color-alt-dark;
+
+            @media #{$phone-width}{ margin: 1rem 0 !important; }
+
             li{
-                background-color: #333;
-                color: #fff;
-                border-bottom: 1px solid #fff;
+                &:hover{
+                    background-color: $color-white;
+                    color: $color-black;
+                }
+
+                background-color: $color-dark-grey;
+                color: $color-white;
+
+                border-bottom: 1px solid $color-white;
 
                 a{
-                    color: green;
+                    color: $color-primary;;
                     font-weight: 600;
                 }
 
@@ -47,12 +83,29 @@ body.woocommerce-checkout{
                         display: block;
                     }
                 }
+
+                &:last-child{ border: 0px; }
             }
             
         }
+
+        div.place-order{
+            @media #{$phone-width}{ 
+                margin: 0;
+                padding: 0;
+            }
+    
+            #place_order{
+                background-color: $color-primary;
+            }
+        }
     }
+
+
 }
 
+
+
 .star-rating span::before, .quantity .plus, .quantity .minus, p.stars a:hover::after, p.stars a::after, .star-rating span::before, #payment .payment_methods li input[type="radio"]:first-child:checked + label::before{
-    color: green;
+    color: $color-secondary;
 }

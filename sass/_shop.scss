@@ -165,17 +165,31 @@ body {
     li{ 
         list-style: none;
         border: $border-light;
+        padding: 0;
+        text-align: center;
+
+        .product-brand a{
+            font-weight: 800;
+            color: $color-black;
+        }
     }
 
     h2.woocommerce-loop-product__title{
         font-size: 0.9rem;
 
-        @media #{$phone-width}{ font-size: 0.7rem; }
+        @media #{$phone-width}{ font-size: 0.75rem; }
+
+        max-height: 50px;
+
+        
+        @include text-ellipsis;
 
         color: $link-color-blue;
         font-weight: 600;
-        margin: 0;
+        margin-top: .5rem;
     }
+
+    .star-rating{ margin: 0 auto; }
 
     .woocommerce-LoopProduct-link.woocommerce-loop-product__link{
         height: 200px;

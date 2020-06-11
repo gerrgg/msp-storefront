@@ -931,7 +931,7 @@ function msp_get_shop_subnav(){
             <div class="navbar-nav flex-row">
                <?php
                 wp_nav_menu( array(
-                    'depth'	          => 2, // 1 = no dropdowns, 2 = with dropdowns.
+                    'depth'	          => 2,
                     'container'       => 'div',
                     'menu_class'      => 'navbar-nav m-0 flex-row',
                     'theme_location'  => 'under_header',
@@ -1611,17 +1611,25 @@ function msp_brand_name(){
      * Get and display product brand w/ link
      */
     global $product;
-    $brand_slug = get_option( 'promo_brand_slug' );
-
+    // Some sites use all-brand, some use brand. We need the slug so we can get the link.
+    $brand_slug = ( $product->get_attribute( 'brand' ) != "" ) ? 'brand' : 'all-brand';
     $brand = $product->get_attribute( $brand_slug );
 
-    $term = get_term_by( 'name', $brand, $brand_slug );
+    if( empty( $brand ) ) return;
 
-    if( false === $term ) return $brand;
+    // we found a brand
+    $term = get_term_by( 'name', $brand, 'pa_' . $brand_slug );
 
-    $link = get_term_link( $term->term_id );
+    if( $term === false ){
+        printf( '<div class="product-brand"><span>%s</span></div>', $brand );
+    } else {
+        $link = get_term_link( $term->term_id );
+        printf( '<div class="product-brand"><a href="%s">%s</a></div>', $link, $brand );
+    }
 
-    printf("<a class='brand pa_all-brand' href='%s'>%s</a>", $link, $brand);
+
+    
+
 }
 
 function msp_get_brand_name(){
@@ -1670,10 +1678,7 @@ function msp_format_sale_price( $price, $reg, $sale ){
 }
 
 function msp_get_variation_price_html(){
-    // wp_send_json( $_POST );
-
     $product = wc_get_product( $_POST['id'] );
-    // if( empty( $product ) ) return;
 
     if( $product != false && $product->is_on_sale() ){
         $price = $product->get_price();
@@ -1689,22 +1694,12 @@ function msp_get_variation_price_html(){
 }
 
 function msp_get_price_html( $product ){
+    $label = '<span class="price-label">Price: </span>';
+    $qty = msp_get_product_unit_price( $product );
+    $price_messages = msp_get_price_messages( $product->get_price() );
+    $html = $product->get_price_html() . $qty . '<br>' . $price_messages;
     
-    if( $product->get_price() == '' || ! $product->is_in_stock() ){
-        echo 'Sorry, product is not available at this time';
-    } else {
-        $label = '<span class="price-label">Price: </span>';
-
-        $qty = msp_get_product_unit_price( $product );
-
-        $price_messages = msp_get_price_messages( $product->get_price() );
-
-        $html = $product->get_price_html() . $qty . '<br>' . $price_messages;
-    }
-
-    if( ! empty( $label ) ){
-        return $label . $html;
-    }
+    if( ! empty( $label ) ){ return $label . $html; }
 }
 
 function msp_product_has_price_range( $product ){
