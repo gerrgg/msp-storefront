@@ -10,6 +10,15 @@
  Tags:         light, dark, two-columns, right-sidebar, responsive-layout, accessibility-ready
  Text Domain:  msp
 */
+/**
+ - APPLESAFETY - 
+$color-primary: #b2dd57;
+$color-secondary: #f47470;
+
+ - FALL PROTECTION USA - 
+$color-primary: #ff5e56;
+$color-secondary: #3d9dcc;
+**/
 /** Blank by default **/
 table:not(.variations) {
   border: 1px solid rgba(0, 0, 0, 0.1);
