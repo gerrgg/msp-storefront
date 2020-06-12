@@ -160,6 +160,21 @@ add_action( 'wp_ajax_nopriv_msp_get_products', 'msp_get_products' );
 
 add_action( 'wp_ajax_msp_get_variation_price_html', 'msp_get_variation_price_html' );
 add_action( 'wp_ajax_nopriv_msp_get_variation_price_html', 'msp_get_variation_price_html' );
+
+add_filter( 'woocommerce_get_price_html', 'msp_get_price_html', 100, 2 );
+add_filter( 'woocommerce_cart_item_price', 'msp_get_cart_item_price_html', 100, 3 );
+
+function msp_get_price_html( $price, $product ){
+    $qty = msp_get_product_unit_price( $product );
+    return $price . $qty;
+}
+
+function msp_get_cart_item_price_html( $wc,  $cart_item,  $cart_item_key ){
+    $id = ( $cart_item['variation_id'] === 0 ) ? $cart_item["product_id"] : $cart_item['variation_id'];
+    $product = wc_get_product( $id );
+    return $product->get_price_html();
+}
+
 /**
  * Admin Post
  */

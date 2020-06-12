@@ -14,12 +14,11 @@ class MSP_Admin{
         add_action( 'woocommerce_product_options_pricing', array( $this, 'add_our_cost_input_simple_product'), 10, 3 );
 
         //variation custom fields
+        add_action( 'woocommerce_variation_options_pricing',  array( $this,'msp_quantity') );
         add_action( 'woocommerce_variation_options_pricing', array( $this, 'msp_add_discontinued_checkbox'), 1, 3 );
-        add_action( 'woocommerce_variation_options_pricing', array( $this, 'msp_add_our_cost_input'), 2, 3 );
 
         // save variation custom fields
-        add_action( 'woocommerce_save_product_variation', array( $this, 'msp_save_discontinued_meta'), 10, 2 );
-        add_action( 'woocommerce_save_product_variation', array( $this,'msp_save_our_cost_meta'), 10, 2 );
+        add_action( 'woocommerce_save_product_variation', array( $this, 'save_product_variation_meta'), 10, 2 );
 
         // Save product data
         add_action( 'woocommerce_process_product_meta', array( $this, 'process_product_meta' ), 10, 2 );
@@ -67,28 +66,6 @@ class MSP_Admin{
 
         echo '</div>';
     }
-
-    public function process_product_meta( $id ){
-        /**
-         * If our cost is there, add it to the product
-         */
-        if( ! empty( $_POST['our_cost'] ) ) update_post_meta( $id, 'our_cost', $_POST['our_cost'] );
-    }
-
-    public function add_our_cost_input_simple_product( ){
-        /**
-         * Add an 'our_cost' input for simple products
-         */
-        global $post;
-
-        woocommerce_wp_text_input( array(
-            'id' => 'our_cost',
-            'class' => 'short wc_price',
-            'label' => __( 'Our Cost  ', 'woocommerce' ),
-            'value' => get_post_meta( $post->ID, 'our_cost', true )
-        ) );
-    }
-
 
     public function iww_gsf_title(){
         /**
@@ -215,14 +192,14 @@ class MSP_Admin{
         );
     }
 
-    public function msp_save_discontinued_meta( $variation_id, $i ) {
-        $custom_field = $_POST['msp_discontinued'][$i];
-        if ( isset( $custom_field ) ) update_post_meta( $variation_id, 'msp_discontinued', esc_attr( $custom_field ) );
-    }
-     
-    public function msp_save_our_cost_meta( $variation_id, $i ) {
-        $custom_field = $_POST['our_cost'][$i];
-        if ( isset( $custom_field ) ) update_post_meta( $variation_id, 'our_cost', esc_attr( $custom_field ) );
+    public function save_product_variation_meta( $variation_id, $i ) {
+        $variation_meta_keys = array( 'msp_discontinued', 'our_cost', 'msp_product_quantity' );
+
+        foreach( $variation_meta_keys as $key ){
+            $custom_field = $_POST[$key][$i];
+            if ( isset( $custom_field ) ) update_post_meta( $variation_id, $key, esc_attr( $custom_field ) );
+        }
+
     }
 
     public function theme_options(){

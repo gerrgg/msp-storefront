@@ -1679,27 +1679,10 @@ function msp_format_sale_price( $price, $reg, $sale ){
 
 function msp_get_variation_price_html(){
     $product = wc_get_product( $_POST['id'] );
-
-    if( $product != false && $product->is_on_sale() ){
-        $price = $product->get_price();
-        $reg = $product->get_regular_price();
-        $sale = $product->get_sale_price();
-        $html = msp_format_sale_price($price, $reg, $sale); 
-    } else {
-        $html = msp_get_price_html($product);
-    }
-
+    $qty = msp_get_product_unit_price( $product );
+    // echo $product->get_price_html() . $qty;
     echo $product->get_price_html();
     wp_die();
-}
-
-function msp_get_price_html( $product ){
-    $label = '<span class="price-label">Price: </span>';
-    $qty = msp_get_product_unit_price( $product );
-    $price_messages = msp_get_price_messages( $product->get_price() );
-    $html = $product->get_price_html() . $qty . '<br>' . $price_messages;
-    
-    if( ! empty( $label ) ){ return $label . $html; }
 }
 
 function msp_product_has_price_range( $product ){
@@ -1718,11 +1701,11 @@ function msp_get_product_unit_price( $product ){
     /**
      * Checks for product meta data, and displays per unit cost on multi-count items.
      */
-    
-    $qty = get_post_meta( $product->get_id(), 'msp_product_quantity', true );
+    $id = $product->get_id();
+    $qty = get_post_meta( $id, 'msp_product_quantity', true );
 
     // dont show a per unit cost on variable products with price ranges
-    if( $product->is_type( 'variable' ) && msp_product_has_price_range( $product ) ) return;
+    // if( $product->is_type( 'variable' ) && msp_product_has_price_range( $product ) ) return;
 
     $html = '';
 

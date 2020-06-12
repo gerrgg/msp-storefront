@@ -90,7 +90,7 @@ function get_actual_id( $product ) {
 	* @param WC_Product|WC_Product_Variation $product
 	* @return int - Product ID
 	*/
-	return ( $product instanceof WC_Product_Variation ) ? $this->get_variation_id($product) : $this->get_product_id($product);
+	return ( $product instanceof WC_Product_Variation ) ? $product->get_variation_id() : $product->get_id();
 }
 
 function msp_get_products(){
