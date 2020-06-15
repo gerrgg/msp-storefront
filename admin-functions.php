@@ -11,7 +11,6 @@ class MSP_Admin{
         // Custom meta boxes for use in backend (product edit mostly)
         add_action( 'add_meta_boxes', array( $this, 'msp_meta_boxes' ) );
         add_action( 'woocommerce_product_options_advanced', array( $this, 'submit_resources_tab' ) );
-        add_action( 'woocommerce_product_options_pricing', array( $this, 'add_our_cost_input_simple_product'), 10, 3 );
 
         //variation custom fields
         add_action( 'woocommerce_variation_options_pricing',  array( $this,'msp_quantity') );

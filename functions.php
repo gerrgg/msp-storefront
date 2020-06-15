@@ -185,7 +185,7 @@ class MSP{
         $color_primary = get_option( 'msp_primary_color' );
         $color_secondary = get_option( 'msp_secondary_color' );
 
-        $css .= "
+        $css = "
             body.woocommerce-checkout #payment ul.payment_methods li a { color: $color_primary !important; }
             #place_order { background-color: $color_primary !important; }
             table:not(.variations) tr th { color: $color_primary !important; }
@@ -200,9 +200,7 @@ class MSP{
             .msp-shop-subnav ul.navbar-nav > li.menu-item-has-children > a::after { color: $color_secondary !important; }
             .site-footer h1, .site-footer h2, .site-footer h3, .site-footer h4, .site-footer h5, .site-footer h6 { color: $color_primary !important; }
             body.single-product #resources_tab ul li::before { color: $color_secondary !important; }
-
             .woocommerce-info, .woocommerce-noreviews, p.no-comments { background-color: $color_secondary !important; }
-
             .star-rating span::before, .quantity .plus, .quantity .minus, p.stars a:hover::after, p.stars a::after, .star-rating span::before, #payment .payment_methods li input[type='radio']:first-child:checked + label::before { color: $color_secondary !important }
         ";
 

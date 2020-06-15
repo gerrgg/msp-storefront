@@ -86,7 +86,6 @@ add_action( 'msp_quick_links', 'msp_quote_btn', 15 );
 add_action( 'msp_quick_links', 'msp_contact_btn', 95 );
 add_action( 'msp_quick_links', 'msp_quick_links_wrapper_close', 100 );
 
-
 /**
  * msp_order_details
  * 
@@ -95,23 +94,6 @@ add_action( 'msp_quick_links', 'msp_quick_links_wrapper_close', 100 );
 add_action( 'msp_my_order_details', 'msp_order_details_html', 1, 1 );
 add_action( 'msp_my_order_details', 'msp_update_order_tracking', 2, 1 );
 
-
-/**
- * msp_order_details_actions
- * 
- * @see msp_order_tracking_button();
- * @see msp_order_product_review_button();
- * @see msp_order_feedback_button();
- * @see msp_order_return_button();
- * @see msp_order_report_issue_button();
- */
-// add_action( 'msp_order_details_actions', 'msp_order_tracking_button', 5, 1 );
-// add_action( 'msp_order_details_actions', 'msp_order_product_review_button', 10, 1 );
-// add_action( 'msp_order_details_actions', 'msp_order_feedback_button', 15, 1 );
-// add_action( 'msp_order_details_actions', 'msp_order_return_button', 20 );
-// add_action( 'msp_order_details_actions', 'msp_order_report_issue_button', 25 );
-
-// add_action( 'woocommerce_before_cart_table', 'woocommerce_button_proceed_to_checkout' );
 
 /**
  * woocommerce_checkout_order_processed
@@ -226,32 +208,6 @@ if( get_option( 'wc_add_net_30_to_single_product' ) )
     add_action( 'woocommerce_single_product_summary', 'add_net_30', 37 );
 
 /**
- * msp_before_create_review_form
- * @see msp_review_more_products - 5;
- */
-add_action( 'msp_before_create_review_form', 'msp_review_more_products' );
-
-/**
- * msp_create_review_form
- * @see msp_create_review_wrapper_open - 5;
- * @see msp_create_review_top - 5;
- * @see msp_get_review_more_star_buttons -10;
- * @see msp_create_review_upload_form - 15;
- * @see msp_create_review_headline - 20;
- * @see msp_create_review_content - 25;
- * @see msp_create_review_wrapper_close - 100;
- * 
- */
-
-// add_action( 'msp_create_review_form', 'msp_create_review_wrapper_open', 1 );
-// add_action( 'msp_create_review_form', 'msp_create_review_top', 5, 1 );
-// add_action( 'msp_create_review_form', 'msp_get_review_more_star_buttons', 10 );
-// add_action( 'msp_create_review_form', 'msp_create_review_upload_form', 15, 1 );
-// add_action( 'msp_create_review_form', 'msp_create_review_headline', 20, 1 );
-// add_action( 'msp_create_review_form', 'msp_create_review_content', 25, 1 );
-// add_action( 'msp_create_review_form', 'msp_create_review_wrapper_close', 100 );
-
-/**
  * woocommerce_product_additional_information
  * @see msp_add_to_product_additional_information - 50
  */
@@ -278,7 +234,6 @@ add_action( 'woocommerce_archive_description', 'msp_add_sub_cat_links', 1 );
 add_action( 'woocommerce_archive_description', 'msp_add_category_images', 2 );
 
 add_action( 'woocommerce_review_order_before_payment', 'msp_add_payment_heading' );
-
 function msp_add_payment_heading(){
     echo "<h3 class='payment-method-header'>Select your payment option</h3>";
 }
@@ -288,7 +243,6 @@ function msp_add_payment_heading(){
  * @see we do this to wrap a product image in an a tag - CSS
  */
 add_action( 'woocommerce_before_shop_loop_item_title', 'woocommerce_template_loop_product_link_close', 15 );
-// add_action( 'woocommerce_before_shop_loop_item_title', 'msp_featured_item', 10 );
 
 /**
  * woocommerce_before_shop_loop_item_title
@@ -307,9 +261,7 @@ remove_action( 'woocommerce_after_shop_loop_item', 'woocommerce_template_loop_ad
  */
 add_action( 'woocommerce_before_single_product_summary', 'woocommerce_breadcrumb', 5 );
 remove_action( 'woocommerce_before_single_product_summary', 'woocommerce_show_product_sale_flash', 10 );
-// add_action( 'woocommerce_single_product_summary', 'woocommerce_show_product_sale_flash', 11 );
 add_action( 'woocommerce_single_product_summary', 'msp_featured_item', 11 );
-// add_action( 'woocommerce_before_shop_loop_item_title', 'msp_pack_count', 12 );
 
 add_action( 'storefront_before_content', 'msp_get_shop_subnav', 10 );
 
