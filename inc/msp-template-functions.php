@@ -1809,12 +1809,3 @@ function msp_maybe_show_promo_pop_up(){
     ));
 
 }
-
-function msp_pack_count(){
-    global $product;
-
-    $qty = get_post_meta( $product->get_id(), 'msp_product_quantity', true );
-    if( empty( $qty ) ) return;
-
-    printf( '<span class="feature-base">%s Pack</span>', $qty );
-}

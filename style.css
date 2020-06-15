@@ -357,7 +357,6 @@ body.single-product #reviews #review_form_wrapper #respond .comment-form-rating 
   content: "";
 }
 .msp-shop-subnav ul.navbar-nav > li .sub-menu li a {
-  color: #3d9dcc !important;
   font-weight: 400;
   text-align: center;
 }
@@ -918,10 +917,6 @@ body.woocommerce-checkout #payment ul.payment_methods li:last-child {
 }
 body.woocommerce-checkout #payment div.place-order #place_order {
   background-color: #ff5e56;
-}
-
-.star-rating span::before, .quantity .plus, .quantity .minus, p.stars a:hover::after, p.stars a::after, .star-rating span::before, #payment .payment_methods li input[type=radio]:first-child:checked + label::before {
-  color: #3d9dcc;
 }
 
 .site-footer {
