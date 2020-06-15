@@ -149,29 +149,6 @@ class MSP_Admin{
         wp_die();
     }
 
-    public function add_net30_metabox($user){
-        $is_net30 = get_user_meta( $user->ID, 'iww_net30', true );
-        ?>
-        <h1><?php esc_html_e( 'Activate Net 30', 'iww' ) ?></h1>
-        <table class="form-table" style="background-color: red; color: #fff;">
-                <tr>
-                    <th><label for="iww_net30"><?php esc_html_e( 'Activate NET 30', 'iww' ); ?></label></th>
-                    <td>
-                <input type="checkbox" id="iww_net30" name="iww_net_30_data" value="1" <?php if ( $is_net30 ) echo ' checked="checked"'; ?> />
-                    </td>
-                </tr>
-            </table>
-        <?php
-    }
-
-    public function update_user_to_net30_terms( $user_id ){
-        if( current_user_can( 'edit_user', $user_id ) ) {
-            update_user_meta( $user_id, 'iww_net30', $_POST['iww_net_30_data'] );
-            $sessions = WP_Session_Tokens::get_instance( $user_id );
-            $sessions->destroy_all();
-        }
-    }
-
     public function msp_meta_boxes(){
         add_meta_box(
             'msp-product-video',
@@ -476,21 +453,15 @@ class MSP_Admin{
             'msp_options'
         );
 
-        $this->add_settings_field_and_register( 'msp_options', 'promotions', 'promo', 
-        array( 'top_bar_text', 'top_bar_link', 'top_bar_image_id', 'pop_up_title', 'pop_up_link', 'pop_up_image_id', 
-        'pop_up_version', 'bogo_label', 'bogo_target', 'bogo_needle', 'bogo_discount', 'brand_slug' ) );
+        $this->add_settings_field_and_register( 'msp_options', 'promotions', 'promo', array( 'top_bar_text', 'top_bar_link' ) );
 
-        $this->add_settings_field_and_register( 'msp_options', 'theme_options', 'msp',
-         array( 'primary_color', 'secondary_color', 'link_color', 'header_background', 'footer_background', 'footer_link_color' ) );
+        $this->add_settings_field_and_register( 'msp_options', 'theme_options', 'msp', array( 'primary_color', 'secondary_color' ) );
 
-        $this->add_settings_field_and_register( 'msp_options', 'emails', 'msp', 
-        array( 'contact_email', 'gtin_field' ) );
+        $this->add_settings_field_and_register( 'msp_options', 'emails', 'msp', array( 'contact_email', 'gtin_field' ) );
 
         $this->add_settings_field_and_register( 'msp_options', 'integration', 'integration', 
         array( 'google_analytics_account_id', 'google_recaptcha', 'google_adwords', 'google_aw_campaign', 'bing_ads' ) );
-        
-        $this->add_settings_field_and_register( 'msp_options', 'woocommerce', 'wc', 
-        array( 'backorder_message', 'easy_qty_breaks', 'add_net_30_to_single_product', 'free_shipping_amount', 'shipping_page', 'returns_page' ) );
+    
     }
 }
 
@@ -552,61 +523,6 @@ function promo_bogo_target_callback(){
     <?php
 }
 
-function promo_bogo_needle_callback(){
-    echo '<input name="promo_bogo_needle" id="promo_bogo_needle" type="text" value="'. get_option( 'promo_bogo_needle' ) .'" class="code" /><br>';
-    echo '<small>Label - String | Category - ID | Specific Id\'s - 11, 21, 32, 43</small>';
-}
-
-function promo_bogo_discount_callback(){
-    echo '<input name="promo_bogo_discount" id="promo_bogo_discount" type="number" value="'. get_option( 'promo_bogo_discount' ) .'" class="code" /> <hr>';
-}
-
-
-function wc_add_net_30_to_single_product_callback(){
-    $option = get_option( 'wc_add_net_30_to_single_product' );
-    echo '<input name="wc_add_net_30_to_single_product" id="wc_add_net_30_to_single_product" type="checkbox" value="1" '. checked(1, $option, false) .' />';
-}
-
-function wc_free_shipping_amount_callback(){
-    $option = get_option( 'wc_free_shipping_amount' );
-    echo '<input name="wc_free_shipping_amount" id="wc_free_shipping_amount" type="text" value="'. get_option( 'wc_free_shipping_amount' ) .'" class="code" />';
-}
-
-function wc_backorder_message_callback(){
-    $option = get_option( 'wc_backorder_message' );
-    echo '<input name="wc_backorder_message" id="wc_backorder_message" type="text" value="'. get_option( 'wc_backorder_message' ) .'" class="code" />';
-}
-
-function wc_shipping_page_callback(){
-    $option = get_option( 'wc_shipping_page' );
-    echo '<input name="wc_shipping_page" id="wc_shipping_page" type="text" value="'. get_option( 'wc_shipping_page' ) .'" class="code" />';
-}
-
-function wc_returns_page_callback(){
-    $option = get_option( 'wc_returns_page' );
-    echo '<input name="wc_returns_page" id="wc_returns_page" type="text" value="'. get_option( 'wc_returns_page' ) .'" class="code" />';
-}
-
-function wc_easy_qty_breaks_callback(){
-    $option = get_option( 'wc_easy_qty_breaks' );
-    echo '<input name="wc_easy_qty_breaks" id="wc_easy_qty_breaks" type="checkbox" value="1" '. checked(1, $option, false) .' />';
-}
-
-function wc_free_shipping_id_callback(){
-    echo '<input name="wc_free_shipping_id" id="wc_free_shipping_id" type="text" value="'. get_option( 'wc_free_shipping_id' ) .'" class="code" />';
-}
-
-function wc_ground_shipping_id_callback(){
-    echo '<input name="wc_ground_shipping_id" id="wc_ground_shipping_id" type="text" value="'. get_option( 'wc_ground_shipping_id' ) .'" class="code" />';
-}
-function wc_two_day_shipping_id_callback(){
-    echo '<input name="wc_two_day_shipping_id" id="wc_two_day_shipping_id" type="text" value="'. get_option( 'wc_two_day_shipping_id' ) .'" class="code" />';
-}
-
-function wc_three_day_shipping_id_callback(){
-    echo '<input name="wc_three_day_shipping_id" id="wc_three_day_shipping_id" type="text" value="'. get_option( 'wc_three_day_shipping_id' ) .'" class="code" />';
-}
-
 function msp_logo_width_callback(){
     echo '<input name="msp_logo_width" id="msp_logo_width" type="number" value="'. get_option( 'msp_logo_width' ) .'" class="code" />';
 }
@@ -619,75 +535,12 @@ function msp_secondary_color_callback(){
     echo '<input name="msp_secondary_color" id="msp_secondary_color" type="text" value="'. get_option( 'msp_secondary_color' ) .'" class="color-field code" />';
 }
 
-function msp_copyright_color_callback(){
-    echo '<input name="msp_copyright_color" id="msp_copyright_color" type="text" value="'. get_option( 'msp_copyright_color' ) .'" class="color-field code" />';
-}
-
-function msp_copyright_link_color_callback(){
-    echo '<input name="msp_copyright_link_color" id="msp_copyright_link_color" type="text" value="'. get_option( 'msp_copyright_link_color' ) .'" class="color-field code" />';
-}
-
-function msp_link_color_callback(){
-    echo '<input name="msp_link_color" id="msp_link_color" type="text" value="'. get_option( 'msp_link_color' ) .'" class="color-field code" />';
-}
-
-function msp_header_background_callback(){
-    echo '<input name="msp_header_background" id="msp_header_background" type="text" value="'. get_option( 'msp_header_background' ) .'" class="color-field code" />';
-}
-
-function msp_header_links_callback(){
-    echo '<input name="msp_header_links" id="msp_header_links" type="text" value="'. get_option( 'msp_header_links' ) .'" class="color-field code" />';
-}
-
-function msp_shop_nav_color_callback(){
-    echo '<input name="msp_shop_nav_color" id="msp_shop_nav_color" type="text" value="'. get_option( 'msp_shop_nav_color' ) .'" class="color-field code" />';
-}
-
-function msp_shop_nav_color_link_callback(){
-    echo '<input name="msp_shop_nav_color_link" id="msp_shop_nav_color_link" type="text" value="'. get_option( 'msp_shop_nav_color_link' ) .'" class="color-field code" />';
-}
-
-function msp_shop_nav_images_callback(){
-    $option = get_option( 'msp_shop_nav_images' );
-    echo '<input name="msp_shop_nav_images" id="msp_shop_nav_images" type="checkbox" value="1" '. checked(1, $option, false) .' />';
-}
-
-
-function msp_footer_background_callback(){
-    echo '<input name="msp_footer_background" id="msp_footer_background" type="text" value="'. get_option( 'msp_footer_background' ) .'" class="color-field code" />';
-}
-
-function msp_footer_link_color_callback(){
-    echo '<input name="msp_footer_link_color" id="msp_footer_link_color" type="text" value="'. get_option( 'msp_footer_link_color' ) .'" class="color-field code" />';
-}
-
 function msp_contact_email_callback(){
     echo '<input name="msp_contact_email" id="msp_contact_email" type="email" value="'. get_option( 'msp_contact_email' ) .'" class="code" />';
 }
 
 function msp_gtin_field_callback(){
     echo '<input name="msp_gtin_field" id="msp_gtin_field" type="text" value="'. get_option( 'msp_gtin_field' ) .'" class="code" />';
-}
-
-function ups_api_key_callback(){
-    echo '<input name="ups_api_key" id="ups_api_key" type="text" value="'. get_option( 'ups_api_key' ) .'" class="code" />';
-}
-function ups_api_username_callback(){
-    echo '<input name="ups_api_username" id="ups_api_username" type="text" value="'. get_option( 'ups_api_username' ) .'" class="code" />';
-}
-function ups_api_password_callback(){
-    echo '<input name="ups_api_password" id="ups_api_password" type="text" value="'. get_option( 'ups_api_password' ) .'" class="code" />';
-}
-function ups_api_account_callback(){
-    echo '<input name="ups_api_account" id="ups_api_account" type="text" value="'. get_option( 'ups_api_account' ) .'" class="code" />';
-}
-function ups_api_mode_callback(){
-    echo '<input name="ups_api_mode" id="ups_api_mode_test" type="radio" value="https://wwwcie.ups.com/ups.app/xml/" class="code" '. checked( 'https://wwwcie.ups.com/ups.app/xml/', get_option( 'ups_api_mode' ), false ) .' />Test';
-    echo '<br>';
-    echo '<input name="ups_api_mode" id="ups_api_mode_production" type="radio" value="https://onlinetools.ups.com/ups.app/xml/" class="code" '. checked( 'https://onlinetools.ups.com/ups.app/xml/', get_option( 'ups_api_mode' ), false ) .' />Production';
-}
-function ups_api_end_of_day_callback(){
-    echo '<input type="time" id="ups_api_end_of_day" name="ups_api_end_of_day" value="'. get_option( 'ups_api_end_of_day' ) .'">';
 }
 
 function integration_google_analytics_account_id_callback(){
@@ -902,15 +755,4 @@ function msp_show_discontinued_products( ){
     <?php
 }
 
-add_action( 'woocommerce_email_before_order_table', 'msp_add_tracking_link_to_order_complete', 105, 4 );
-
-function msp_add_tracking_link_to_order_complete( $order, $sent_to_admin, $plain_text, $email ){
-    $tracking_link = get_post_meta( $order->get_order_number(), 'tracking_link', true );
-    $style = "width: 350px; font-size: 24px; background-color: #3d9dcc; color: #fff; display: block; padding: 1rem; margin: 0 auto;";
-    $message = "Track package";
-
-    if( $email->id === 'customer_completed_order' ){ 
-        printf( '<p style="text-align: center"><a href="%s" style="%s">%s</a></p>', $tracking_link, $style, $message );
-    }
-}
 

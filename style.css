@@ -283,9 +283,6 @@ body.single-product #reviews #review_form_wrapper #respond .comment-form-rating 
   overflow: hidden;
   white-space: nowrap;
 }
-#masthead .mobile-menu-button i {
-  color: #ff5e56;
-}
 #masthead #header-menu ul {
   flex-direction: row;
 }

@@ -41,14 +41,6 @@
 		 }
 	}
 
-	.mobile-menu-button{
-		i{ 
-			color: $color-primary; 
-
-
-		}
-	}
-
 	#header-menu{
 		ul{
 			flex-direction: row;
@@ -139,7 +131,6 @@
 
 				a{
 
-					color: $color-secondary !important;
 					font-weight: 400;
 					text-align: center;
 
