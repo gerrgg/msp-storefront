@@ -12,6 +12,9 @@ if( isset( $_GET['ids'] ) ) : ?>
         if( ! empty( $product ) && ! $product->is_type( 'simple' ) ){
             $product_variations = $product->get_children();
         }
+
+        if( $product === false ) return;
+
     ?>
         <div id="product-<?php echo $product_id ?>" class="row">
 
