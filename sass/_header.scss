@@ -45,13 +45,16 @@
 			li{
 				padding: 0 0.25rem;
 				margin: 0 0.25rem;
-				border-bottom: 2px solid $color-primary;
+				border-bottom: 0px;
 
 				a{
 					margin: 0;
 				}
 			}
 		}
+
+		#menu-top-bar-right ul li{ border: 0 !important }
+		.navbar-nav .dropdown-menu{ position: absolute; }
 	}
 	
 }

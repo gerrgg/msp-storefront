@@ -194,7 +194,7 @@ class MSP{
             #masthead .navbar .cart-wrapper .item-counter { color: $color_primary !important; }
             #masthead button.mobile-menu-button i { color: $color_primary !important; }
             body.single-product .product form.cart button.single_add_to_cart_button { background-color: $color_primary !important; }
-            #masthead #header-menu ul li { border-bottom: 2px solid $color_primary !important; }
+            #masthead #header-menu ul.navbar-nav li { border-bottom: 2px solid $color_primary !important; }
             .msp-shop-subnav ul.navbar-nav > li .sub-menu li a { color: $color_secondary !important; }
             #msp-sidebar .widget-area span.widget-title { color: $color_secondary !important; }
             #msp-sidebar #mobile-filter-wrapper a.badge { background-color: $color_primary !important; }

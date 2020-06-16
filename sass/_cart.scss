@@ -2,6 +2,8 @@ body.woocommerce-cart{
 
     article { padding: .25rem }
 
+    a.shipping-calculator-button{ color: $color-white; }
+
 
 
     .shop_table{
@@ -112,13 +114,27 @@ body.woocommerce-cart{
                 p.product-name{
                     a { text-decoration: none; }
                     font-size: .9rem;
+                    padding: .25rem 0;
+                    margin: 0;
+                }
+
+                .variation{
+                    display: flex;
+                    margin: 0;
+
+                    dd{ 
+                        padding-right: 1rem;
+                        margin: 0; 
+
+                        p{ padding-left: .25rem; margin: 0; }
+                    }
                 }
     
                 .cart-item-actions{
                     align-items: baseline;
     
                     .quantity{
-                        input{ padding: 0 .5rem; }
+                        input{ padding:.5rem; }
                     }
                     a.delete { padding: 0 .5rem; text-decoration: none; }
                 }
