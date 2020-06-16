@@ -198,6 +198,7 @@ class MSP{
             #msp-sidebar .widget-area span.widget-title { color: $color_secondary !important; }
             #msp-sidebar #mobile-filter-wrapper a.badge { background-color: $color_primary !important; }
             .msp-shop-subnav ul.navbar-nav > li.menu-item-has-children > a::after { color: $color_secondary !important; }
+            .msp-shop-subnav ul.navbar-nav > li .sub-menu li a > { color: $color_primary !important; }
             .site-footer h1, .site-footer h2, .site-footer h3, .site-footer h4, .site-footer h5, .site-footer h6 { color: $color_primary !important; }
             body.single-product #resources_tab ul li::before { color: $color_secondary !important; }
             .woocommerce-info, .woocommerce-noreviews, p.no-comments { background-color: $color_secondary !important; }
