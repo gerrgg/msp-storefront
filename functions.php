@@ -195,10 +195,13 @@ class MSP{
             #masthead button.mobile-menu-button i { color: $color_primary !important; }
             body.single-product .product form.cart button.single_add_to_cart_button { background-color: $color_primary !important; }
             #masthead #header-menu ul li { border-bottom: 2px solid $color_primary !important; }
+            .msp-shop-subnav ul.navbar-nav > li .sub-menu li a { color: $color_secondary !important; }
             #msp-sidebar .widget-area span.widget-title { color: $color_secondary !important; }
             #msp-sidebar #mobile-filter-wrapper a.badge { background-color: $color_primary !important; }
             .msp-shop-subnav ul.navbar-nav > li.menu-item-has-children > a::after { color: $color_secondary !important; }
+            .single-product-featured-item .feature-text span:first-child { color: $color_primary !important; }
             .site-footer h1, .site-footer h2, .site-footer h3, .site-footer h4, .site-footer h5, .site-footer h6 { color: $color_primary !important; }
+            .widget_price_filter .ui-slider .ui-slider-range, .widget_price_filter .ui-slider .ui-slider-handle { color: $color_primary !important; }
             body.single-product #resources_tab ul li::before { color: $color_secondary !important; }
             .woocommerce-info, .woocommerce-noreviews, p.no-comments { background-color: $color_secondary !important; }
             .star-rating span::before, .quantity .plus, .quantity .minus, p.stars a:hover::after, p.stars a::after, .star-rating span::before, #payment .payment_methods li input[type='radio']:first-child:checked + label::before { color: $color_secondary !important }

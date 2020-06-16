@@ -454,7 +454,7 @@ class MSP_Admin{
 
         $this->add_settings_field_and_register( 'msp_options', 'promotions', 'promo', array( 'top_bar_text', 'top_bar_link' ) );
 
-        $this->add_settings_field_and_register( 'msp_options', 'theme_options', 'msp', array( 'primary_color', 'secondary_color' ) );
+        $this->add_settings_field_and_register( 'msp_options', 'theme_options', 'msp', array( 'primary_color', 'secondary_color', 'light_or_dark_theme' ) );
 
         $this->add_settings_field_and_register( 'msp_options', 'emails', 'msp', array( 'contact_email', 'gtin_field' ) );
 
@@ -528,6 +528,14 @@ function msp_logo_width_callback(){
 
 function msp_primary_color_callback(){
     echo '<input name="msp_primary_color" id="msp_primary_color" type="text" value="'. get_option( 'msp_primary_color' ) .'" class="color-field code" />';
+}
+
+function msp_light_or_dark_theme_callback(){
+    $value = get_option( 'msp_light_or_dark_theme' ); ?>
+
+    <input type="radio" name="msp_light_or_dark_theme" value="dark-theme" <?php checked( 'dark-theme' == $value ); ?> /> Dark<br>
+    <input type="radio" name="msp_light_or_dark_theme" value="light-theme" <?php checked( 'light-theme' == $value ); ?> /> Light
+    <?php
 }
 
 function msp_secondary_color_callback(){

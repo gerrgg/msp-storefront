@@ -7,11 +7,12 @@
 		@media #{$phone-width}{ padding: 0; }
 
 		.navbar-brand{
-			padding: 0 .5rem;
+			padding: 0;
 			max-width: 175px;
 
 			@media #{$phone-width}{ 
-				padding: .5rem 0; 
+				padding: 0 .5rem; 
+				margin: 0;
 				max-width: 125px;
 			}
 
@@ -23,11 +24,7 @@
 			padding: 0;
 		 }
 
-		.container{ padding: 0 .25rem; }
-
-		 .dgwt-wcas-search-wrapp{
-			 padding-bottom: .5rem;
-		 }
+		 @media #{$phone-width}{ .container{ padding: 0; } }
 
 		 .cart-wrapper{
 			 font-size: .75rem;
