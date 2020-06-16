@@ -985,19 +985,19 @@ body.woocommerce-checkout #payment div.place-order #place_order {
   background-color: #ff5e56;
 }
 
-.site-footer {
+#colophon {
   background-color: #333;
   color: #fff;
   border-top: 1px solid #fff;
   padding: 1rem 0 0 0;
 }
-.site-footer h1, .site-footer h2, .site-footer h3, .site-footer h4, .site-footer h5, .site-footer h6 {
+#colophon h1, #colophon h2, #colophon h3, #colophon h4, #colophon h5, #colophon h6 {
   color: #ff5e56;
 }
-.site-footer ul li {
+#colophon ul li {
   list-style: inside;
 }
-.site-footer ul li a {
+#colophon ul li a {
   color: #fff !important;
   text-decoration: none;
 }
