@@ -1007,6 +1007,29 @@ body.woocommerce-checkout #payment ul.payment_methods li:last-child {
 body.woocommerce-checkout #payment div.place-order #place_order {
   background-color: #ff5e56;
 }
+body.woocommerce-checkout section.woocommerce-customer-details .woocommerce-columns--addresses {
+  padding: 1rem;
+  background-color: #4a4a4a;
+  color: #fff;
+  margin-bottom: 1rem;
+}
+body.woocommerce-checkout section.woocommerce-customer-details .woocommerce-column--billing-address {
+  border-right: 1px solid #ff5e56;
+  margin-right: 0px;
+}
+body.woocommerce-checkout section.woocommerce-customer-details h2 {
+  color: #ff5e56;
+}
+body.woocommerce-checkout section.woocommerce-customer-details div {
+  max-width: 50%;
+  width: 50%;
+}
+@media only screen and (max-width: 576px) {
+  body.woocommerce-checkout section.woocommerce-customer-details div {
+    width: 100%;
+    max-width: 100%;
+  }
+}
 
 #colophon {
   background-color: #333;

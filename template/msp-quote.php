@@ -13,7 +13,7 @@ if( isset( $_GET['ids'] ) ) : ?>
             $product_variations = $product->get_children();
         }
 
-        if( $product === false ) return;
+        if( $product == false ) return;
 
     ?>
         <div id="product-<?php echo $product_id ?>" class="row">
