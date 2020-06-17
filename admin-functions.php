@@ -13,8 +13,8 @@ class MSP_Admin{
         add_action( 'woocommerce_product_options_advanced', array( $this, 'submit_resources_tab' ) );
 
         //variation custom fields
-        add_action( 'woocommerce_variation_options_pricing',  array( $this,'msp_quantity') );
         add_action( 'woocommerce_variation_options_pricing', array( $this, 'msp_add_discontinued_checkbox'), 1, 3 );
+        add_action( 'woocommerce_variation_options_pricing',  array( $this,'msp_variation_quantity'), 1, 3 );
 
         // save variation custom fields
         add_action( 'woocommerce_save_product_variation', array( $this, 'save_product_variation_meta'), 10, 2 );
@@ -43,6 +43,27 @@ class MSP_Admin{
         add_action( 'personal_options_update', array( $this, 'update_user_to_net30_terms'), 5 );
         add_action( 'edit_user_profile_update', array( $this, 'update_user_to_net30_terms'), 5 );
         
+    }
+
+    function msp_variation_quantity( $loop, $variation_data, $variation ){
+        $key = 'msp_product_quantity';
+
+        echo '<div class="options_group">';
+
+        woocommerce_form_field(
+            $key . '['. $loop .']',
+
+            array(
+                'type' => 'number',
+                'wrapper_class' => 'form-field',
+                'label'         => 'QTY',
+                'description'   => 'How many items with each order?',
+            ),
+            
+            get_post_meta( $variation->ID, $key, true )
+        );
+
+        echo '</div>';
     }
 
     function msp_quantity(){
@@ -171,11 +192,11 @@ class MSP_Admin{
     public function save_product_variation_meta( $variation_id, $i ) {
         $variation_meta_keys = array( 'msp_discontinued', 'our_cost', 'msp_product_quantity' );
 
-        foreach( $variation_meta_keys as $key ){
-            $custom_field = $_POST[$key][$i];
-            if ( isset( $custom_field ) ) update_post_meta( $variation_id, $key, esc_attr( $custom_field ) );
+        foreach( $variation_meta_keys as $meta_key ){
+            if( isset( $_POST[$meta_key] ) ){ update_post_meta( $variation_id, $meta_key, $_POST[$meta_key][$i] ); }
         }
 
+        
     }
 
     public function theme_options(){
