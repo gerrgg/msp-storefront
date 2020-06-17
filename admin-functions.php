@@ -664,6 +664,7 @@ function msp_size_guide_callback( $post ){
 }
 
 add_action( 'woocommerce_process_shop_order_meta', 'sc_save_tracking_details', 50 );
+
 function sc_save_tracking_details( $ord_id ){
     /*
     Quick fix for sending customers tracking - eventually want to hook into API's and automate task.
@@ -682,6 +683,15 @@ function sc_save_tracking_details( $ord_id ){
     $order = wc_get_order( $ord_id );
     $link = sc_make_tracking_link( $shipper, $tracking );
     update_post_meta( $ord_id, 'tracking_link', $link );
+
+    $button_color = ( ! empty( get_option( 'msp_primary_color' ) ) ) ? get_option( 'msp_primary_color' ) : '#333';
+    
+    $style = "width: 350px; font-size: 24px; background-color: ". $button_color ."; color: #fff; display: block; padding: 1rem; margin: 0 auto;";
+    $message = "Track package";
+    
+
+    $order->add_order_note( sprintf( '<p style="text-align: center"><a href="%s" style="%s">%s</a></p>', $link, $style, $message ) );
+
   }
 
 }
@@ -782,5 +792,27 @@ function msp_show_discontinued_products( ){
     </div><!--/.products-->
     <?php
 }
+
+
+add_action( 'woocommerce_email_before_order_table', 'msp_add_tracking_link_to_order_complete', 105, 4 );
+
+if( ! function_exists( 'msp_add_tracking_link_to_order_complete' ) ){
+
+    function msp_add_tracking_link_to_order_complete( $order, $sent_to_admin, $plain_text, $email ){
+        /**
+         * Include tracking number in completed order email IF isset.
+         */
+        $tracking_link = get_post_meta( $order->get_order_number(), 'tracking_link', true );
+        $button_color = ( ! empty( get_option( 'msp_primary_color' ) ) ) ? get_option( 'msp_primary_color' ) : '#333';
+    
+        $style = "width: 350px; font-size: 24px; background-color: ". $button_color ."; color: #fff; display: block; padding: 1rem; margin: 0 auto;";
+        $message = "Track package";
+    
+        if( $email->id === 'customer_completed_order' && $tracking_link !== '') printf( '<p style="text-align: center"><a href="%s" style="%s">%s</a></p>', $tracking_link, $style, $message );
+        
+    }
+
+}
+
 
 
