@@ -626,3 +626,9 @@ function msp_wc_checkout_button(){
 	$link = wc_get_checkout_url();
 	printf( '<a class="checkout-button button alt wc-forward msp-checkout" href="%s">Proceed to checkout</a>', $link );
 }
+
+function msp_get_theme_class(){
+	$value = get_option( 'msp_light_or_dark_theme' );
+
+	return ( ! empty( $value ) ) ? $value : 'dark-theme';
+}

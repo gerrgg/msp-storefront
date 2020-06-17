@@ -23,6 +23,7 @@
 
 <body <?php body_class(); ?>>
 
+
 <?php 
 /**
  * Functions hooded into storefront_before_site action
@@ -34,6 +35,7 @@
  * @hooked msp_mobile_menu_wrapper_close - 100
  */
 do_action( 'storefront_before_site' ); 
+$theme_class = msp_get_theme_class();
 ?>
 
 
@@ -41,7 +43,7 @@ do_action( 'storefront_before_site' );
 <div id="page" class="hfeed site">
 	<?php do_action( 'storefront_before_header' ); ?>
 
-	<header id="masthead" class="" role="banner" style="<?php storefront_header_styles(); ?>">
+	<header id="masthead" class="<?php echo $theme_class ?>" role="banner" style="<?php storefront_header_styles(); ?>">
 
 		<?php
 		/**

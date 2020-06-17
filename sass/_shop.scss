@@ -172,6 +172,11 @@ body {
             font-weight: 800;
             color: $color-black;
         }
+
+        .item-highlights{
+            position: absolute;
+            top: 8px;
+        }
     }
 
     h2.woocommerce-loop-product__title{
@@ -193,6 +198,8 @@ body {
 
     .woocommerce-LoopProduct-link.woocommerce-loop-product__link{
         height: 200px;
+
+        text-decoration: none;
 
         display: flex; 
         -webkit-box-orient: horizontal; 
@@ -238,5 +245,41 @@ body {
     margin-left: .25rem;
 }
 
+.single-product-featured-item {
+    margin: 0 auto;
+    width: 150px;
+    height: 20px;
+    position: relative;
+    background-color: $color-black;
+    font-weight: 600;
+    text-align: center;
 
+    &:before{
+        position: absolute;
+        right: -10px;
+        bottom: 0;
+        width: 0;
+        height: 0;
+        border-left: 10px solid $color-black;
+        border-top: 10px solid transparent;
+        border-bottom: 10px solid transparent;
+    }
+
+    &:after{
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 0;
+        height: 0;
+        border-left: 10px solid white;
+        border-top: 10px solid transparent;
+        border-bottom: 10px solid transparent;
+    }
+
+    .feature-text{
+        span:last-child{ color: $color-white; }
+    }
+
+}
 

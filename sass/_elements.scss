@@ -16,7 +16,7 @@ table:not(.variations){
 			background-color: $bg-color-alt-med !important;
 			color: $color-white;
 
-			a{
+			a:not(.button){
 				color: $color-white;
 				font-weight: 600;
 				text-decoration: underline;
@@ -37,17 +37,31 @@ table:not(.variations){
 			border: none;
 		}
 	}
-
-
 }
 
 a{
-    // text-decoration: none;
     color: $link-color-blue;
 }
-
+.widget_price_filter .ui-slider .ui-slider-range, .widget_price_filter .ui-slider .ui-slider-handle{
+	color: $color-primary;
+}
 .woocommerce-info, .woocommerce-noreviews, p.no-comments{
 	background-color: $color-secondary;
 	color: $color-white;
 }
 
+.light-theme{
+	background-color: #f7f7f7 !important;
+	a{ color: #333 !important }
+	color: #333;
+	
+}
+
+.woocommerce-MyAccount-navigation{
+	padding: 1rem;
+}
+
+
+.hentry .entry-content a { text-decoration: none; }
+
+li.review { list-style: none }

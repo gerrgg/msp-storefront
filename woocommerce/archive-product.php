@@ -25,6 +25,7 @@ get_header( 'shop' );
  * @hooked WC_Structured_Data::generate_website_data() - 30
  */
 do_action( 'woocommerce_before_main_content' );
+$theme_color = msp_get_theme_class();
 
 ?>
 <div class="row">

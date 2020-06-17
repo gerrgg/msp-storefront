@@ -7,7 +7,7 @@ defined( 'ABSPATH' ) || exit;
  * Opens the header wrapper
  */
 function msp_header_wrapper_open(){
-    echo '<nav class="navbar navbar-light bg-primary-color"><div class="container">';
+    echo "<nav class='navbar'><div class='container'>";
 }
 
 /**
@@ -1588,18 +1588,10 @@ function msp_featured_item(){
     <div class="single-product-featured-item">
         <div class="feature-base">
             <div class="feature-text">
-                <span style="color: #fff;">Best</span>
-                <span style="color: #ff9900; font-weight: 600">Choice</span>
+                <span>Best</span>
+                <span>Seller</span>
             </div>
         </div>
-
-    
-    <?php 
-        // $terms = get_the_terms( get_the_ID(), 'product_cat' );
-        // $term = end( $terms );
-        // if( ! empty( $term ) && is_product() )  printf("<span class='pl-2'>for  \"<a class='featured-in-link' href='%s'>%s</a> \"</span>", get_term_link( $term->term_id ), $term->name); 
-    ?>
-
     </div>
 
 
