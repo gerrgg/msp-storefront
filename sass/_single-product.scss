@@ -1,5 +1,7 @@
  body.single-product {
 
+    #msp-archive{ margin-left: unset }
+
     .product{
         .single-product-featured-item{
             margin: 0 0 .5rem 0;
@@ -83,6 +85,36 @@
         
                 font-size: 2rem;
             }
+
+            del{
+                text-decoration: none;
+                display: block;
+                margin-bottom: .5rem;
+
+                span.amount:first-child:before{
+                    content: "Was:";
+                    color: #777;
+                    font-size: 1rem;
+                    padding-right: .5rem;
+
+                }
+
+                span.amount{
+                    font-size: 1rem;
+                    text-decoration: line-through;
+                }
+                
+                color: $color-black; 
+            }
+
+            ins{ 
+                margin: 0;
+
+                span.amount:first-child:before{
+                    content: "Now:";
+                }
+            }
+            
         
             p.stock{ margin-top: 1rem; }
             

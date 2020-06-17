@@ -84,6 +84,9 @@ li.review {
   list-style: none;
 }
 
+body.single-product #msp-archive {
+  margin-left: unset;
+}
 body.single-product .product {
   padding: 1rem 0.5rem;
   list-style-type: none;
@@ -148,6 +151,28 @@ body.single-product .product .price span.amount:first-child:before {
   font-size: 1rem;
   content: "Price:";
   padding-right: 0.5rem;
+}
+body.single-product .product .price del {
+  text-decoration: none;
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+body.single-product .product .price del span.amount:first-child:before {
+  content: "Was:";
+  color: #777;
+  font-size: 1rem;
+  padding-right: 0.5rem;
+}
+body.single-product .product .price del span.amount {
+  font-size: 1rem;
+  text-decoration: line-through;
+}
+body.single-product .product .price ins {
+  margin: 0;
+}
+body.single-product .product .price ins span.amount:first-child:before {
+  content: "Now:";
 }
 body.single-product .product .price p.stock {
   margin-top: 1rem;
