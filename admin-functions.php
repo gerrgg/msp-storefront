@@ -31,10 +31,6 @@ class MSP_Admin{
         add_action( 'woocommerce_product_options_general_product_data',  array( $this,'msp_quantity') );
         add_action( 'woocommerce_product_options_general_product_data',  array( $this,'iww_gsf_title') );
 
-        // Add purchase order meta data to order emails and edit order page.
-
-        
-
         // Net 30 checkbox - For both self and other users.
         add_action( 'show_user_profile', array( $this, 'add_net30_metabox'), 1 );
         add_action( 'edit_user_profile', array( $this, 'add_net30_metabox'), 1 );
@@ -663,7 +659,7 @@ function msp_size_guide_callback( $post ){
     <?php
 }
 
-add_action( 'woocommerce_process_shop_order_meta', 'sc_save_tracking_details', 50 );
+add_action( 'woocommerce_process_shop_order_meta', 'sc_save_tracking_details', 1 );
 
 function sc_save_tracking_details( $ord_id ){
     /*
@@ -691,7 +687,7 @@ function sc_save_tracking_details( $ord_id ){
     
 
     $order->add_order_note( sprintf( '<p style="text-align: center"><a href="%s" style="%s">%s</a></p>', $link, $style, $message ) );
-
+    
   }
 
 }
