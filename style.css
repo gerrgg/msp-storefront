@@ -181,6 +181,9 @@ body.single-product .product .woocommerce-product-details__short-description ul 
   margin: 0.7rem;
   padding: 0;
 }
+body.single-product .product .woocommerce-product-details__short-description ul li > strong {
+  color: #333;
+}
 body.single-product .product form.cart button.single_add_to_cart_button {
   width: 100%;
   background-color: #3d9dcc;
