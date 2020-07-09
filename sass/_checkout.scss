@@ -101,6 +101,26 @@ body.woocommerce-checkout{
         }
     }
 
+    section.woocommerce-customer-details{
+
+        .woocommerce-columns--addresses{
+            padding: 1rem;
+            background-color: $bg-color-alt-dark;
+            color: $color-white;
+            margin-bottom: 1rem;
+        }
+
+        .woocommerce-column--billing-address{ border-right: 1px solid $color-primary; margin-right: 0px }
+
+        h2{ color: $color-primary }
+
+        div{ 
+            max-width: 50%; 
+            width: 50%;
+            @media #{$phone-width}{ width: 100%; max-width: 100%; }
+        }
+    }
+
 
 }
 

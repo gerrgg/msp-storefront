@@ -13,8 +13,8 @@ class MSP_Admin{
         add_action( 'woocommerce_product_options_advanced', array( $this, 'submit_resources_tab' ) );
 
         //variation custom fields
-        add_action( 'woocommerce_variation_options_pricing',  array( $this,'msp_quantity') );
         add_action( 'woocommerce_variation_options_pricing', array( $this, 'msp_add_discontinued_checkbox'), 1, 3 );
+        add_action( 'woocommerce_variation_options_pricing',  array( $this,'msp_variation_quantity'), 1, 3 );
 
         // save variation custom fields
         add_action( 'woocommerce_save_product_variation', array( $this, 'save_product_variation_meta'), 10, 2 );
@@ -31,10 +31,6 @@ class MSP_Admin{
         add_action( 'woocommerce_product_options_general_product_data',  array( $this,'msp_quantity') );
         add_action( 'woocommerce_product_options_general_product_data',  array( $this,'iww_gsf_title') );
 
-        // Add purchase order meta data to order emails and edit order page.
-
-        
-
         // Net 30 checkbox - For both self and other users.
         add_action( 'show_user_profile', array( $this, 'add_net30_metabox'), 1 );
         add_action( 'edit_user_profile', array( $this, 'add_net30_metabox'), 1 );
@@ -43,6 +39,27 @@ class MSP_Admin{
         add_action( 'personal_options_update', array( $this, 'update_user_to_net30_terms'), 5 );
         add_action( 'edit_user_profile_update', array( $this, 'update_user_to_net30_terms'), 5 );
         
+    }
+
+    function msp_variation_quantity( $loop, $variation_data, $variation ){
+        $key = 'msp_product_quantity';
+
+        echo '<div class="options_group">';
+
+        woocommerce_form_field(
+            $key . '['. $loop .']',
+
+            array(
+                'type' => 'number',
+                'wrapper_class' => 'form-field',
+                'label'         => 'QTY',
+                'description'   => 'How many items with each order?',
+            ),
+            
+            get_post_meta( $variation->ID, $key, true )
+        );
+
+        echo '</div>';
     }
 
     function msp_quantity(){
@@ -171,11 +188,11 @@ class MSP_Admin{
     public function save_product_variation_meta( $variation_id, $i ) {
         $variation_meta_keys = array( 'msp_discontinued', 'our_cost', 'msp_product_quantity' );
 
-        foreach( $variation_meta_keys as $key ){
-            $custom_field = $_POST[$key][$i];
-            if ( isset( $custom_field ) ) update_post_meta( $variation_id, $key, esc_attr( $custom_field ) );
+        foreach( $variation_meta_keys as $meta_key ){
+            if( isset( $_POST[$meta_key] ) ){ update_post_meta( $variation_id, $meta_key, $_POST[$meta_key][$i] ); }
         }
 
+        
     }
 
     public function theme_options(){
@@ -642,7 +659,8 @@ function msp_size_guide_callback( $post ){
     <?php
 }
 
-add_action( 'woocommerce_process_shop_order_meta', 'sc_save_tracking_details', 50 );
+add_action( 'woocommerce_process_shop_order_meta', 'sc_save_tracking_details', 1 );
+
 function sc_save_tracking_details( $ord_id ){
     /*
     Quick fix for sending customers tracking - eventually want to hook into API's and automate task.
@@ -661,6 +679,15 @@ function sc_save_tracking_details( $ord_id ){
     $order = wc_get_order( $ord_id );
     $link = sc_make_tracking_link( $shipper, $tracking );
     update_post_meta( $ord_id, 'tracking_link', $link );
+
+    $button_color = ( ! empty( get_option( 'msp_primary_color' ) ) ) ? get_option( 'msp_primary_color' ) : '#333';
+    
+    $style = "width: 350px; font-size: 24px; background-color: ". $button_color ."; color: #fff; display: block; padding: 1rem; margin: 0 auto;";
+    $message = "Track package";
+    
+
+    $order->add_order_note( sprintf( '<p style="text-align: center"><a href="%s" style="%s">%s</a></p>', $link, $style, $message ) );
+    
   }
 
 }
@@ -761,5 +788,27 @@ function msp_show_discontinued_products( ){
     </div><!--/.products-->
     <?php
 }
+
+
+add_action( 'woocommerce_email_before_order_table', 'msp_add_tracking_link_to_order_complete', 105, 4 );
+
+if( ! function_exists( 'msp_add_tracking_link_to_order_complete' ) ){
+
+    function msp_add_tracking_link_to_order_complete( $order, $sent_to_admin, $plain_text, $email ){
+        /**
+         * Include tracking number in completed order email IF isset.
+         */
+        $tracking_link = get_post_meta( $order->get_order_number(), 'tracking_link', true );
+        $button_color = ( ! empty( get_option( 'msp_primary_color' ) ) ) ? get_option( 'msp_primary_color' ) : '#333';
+    
+        $style = "width: 350px; font-size: 24px; background-color: ". $button_color ."; color: #fff; display: block; padding: 1rem; margin: 0 auto;";
+        $message = "Track package";
+    
+        if( $email->id === 'customer_completed_order' && $tracking_link !== '') printf( '<p style="text-align: center"><a href="%s" style="%s">%s</a></p>', $tracking_link, $style, $message );
+        
+    }
+
+}
+
 
 

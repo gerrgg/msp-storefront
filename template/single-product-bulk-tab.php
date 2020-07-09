@@ -11,6 +11,8 @@ if( $product->is_type( 'variable' ) ){
     foreach( $children as $id ){
         $child = wc_get_product( $id );
 
+        if( is_null( $child ) || $child == false ) return;
+
         if( $child->is_purchasable() ){
             $child_vars[$id] = array(
                 'id' => $id,

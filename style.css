@@ -84,6 +84,9 @@ li.review {
   list-style: none;
 }
 
+body.single-product #msp-archive {
+  margin-left: unset;
+}
 body.single-product .product {
   padding: 1rem 0.5rem;
   list-style-type: none;
@@ -149,12 +152,37 @@ body.single-product .product .price span.amount:first-child:before {
   content: "Price:";
   padding-right: 0.5rem;
 }
+body.single-product .product .price del {
+  text-decoration: none;
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+body.single-product .product .price del span.amount:first-child:before {
+  content: "Was:";
+  color: #777;
+  font-size: 1rem;
+  padding-right: 0.5rem;
+}
+body.single-product .product .price del span.amount {
+  font-size: 1rem;
+  text-decoration: line-through;
+}
+body.single-product .product .price ins {
+  margin: 0;
+}
+body.single-product .product .price ins span.amount:first-child:before {
+  content: "Now:";
+}
 body.single-product .product .price p.stock {
   margin-top: 1rem;
 }
 body.single-product .product .woocommerce-product-details__short-description ul {
   margin: 0.7rem;
   padding: 0;
+}
+body.single-product .product .woocommerce-product-details__short-description ul li strong {
+  color: #333;
 }
 body.single-product .product form.cart button.single_add_to_cart_button {
   width: 100%;
@@ -1006,6 +1034,29 @@ body.woocommerce-checkout #payment ul.payment_methods li:last-child {
 }
 body.woocommerce-checkout #payment div.place-order #place_order {
   background-color: #ff5e56;
+}
+body.woocommerce-checkout section.woocommerce-customer-details .woocommerce-columns--addresses {
+  padding: 1rem;
+  background-color: #4a4a4a;
+  color: #fff;
+  margin-bottom: 1rem;
+}
+body.woocommerce-checkout section.woocommerce-customer-details .woocommerce-column--billing-address {
+  border-right: 1px solid #ff5e56;
+  margin-right: 0px;
+}
+body.woocommerce-checkout section.woocommerce-customer-details h2 {
+  color: #ff5e56;
+}
+body.woocommerce-checkout section.woocommerce-customer-details div {
+  max-width: 50%;
+  width: 50%;
+}
+@media only screen and (max-width: 576px) {
+  body.woocommerce-checkout section.woocommerce-customer-details div {
+    width: 100%;
+    max-width: 100%;
+  }
 }
 
 #colophon {

@@ -13,7 +13,7 @@ if( isset( $_GET['ids'] ) ) : ?>
             $product_variations = $product->get_children();
         }
 
-        if( $product === false ) return;
+        if( $product == false ) return;
 
     ?>
         <div id="product-<?php echo $product_id ?>" class="row">
@@ -41,7 +41,7 @@ if( isset( $_GET['ids'] ) ) : ?>
                                     <img class="img-mini" src="<?php echo msp_get_product_image_src( $variation->get_image_id(), 'woocommerce_thumbnail' ) ?>" />
                                     <span class="text-center"><?php echo $variation->get_sku(); ?></span>
                                 </td>
-                                <td class="price"><?php echo '$' . number_format( $variation->get_price(), 2); ?></td>
+                                <td class="price"><?php echo $variation->get_price_html(); ?> </td>
                                 <td>
                                     <label>How many? </label><br>
                                     <input type="number" id="<?php echo $variation_id .'-qty"' ?> name="<?php echo 'product['. $variation_id .']"' ?> />
