@@ -87,6 +87,9 @@ li.review {
 body.single-product #msp-archive {
   margin-left: unset;
 }
+body.single-product #msp-product-videos {
+  margin-bottom: 1rem;
+}
 body.single-product .product {
   padding: 1rem 0.5rem;
   list-style-type: none;

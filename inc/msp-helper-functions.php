@@ -290,7 +290,7 @@ function msp_product_additional_information_html( $inner_html ){
 	 * takes in an array of key : value pairs and displays them as a table row
 	 * @param array - $inner_html - an array of key value pairs
 	 */
-	if( empty( $inner_html ) || wp_is_mobile() ) return;
+	if( empty( $inner_html ) ) return;
 	
     echo '<table>';
 	foreach( $inner_html as $label => $value ) : ?>

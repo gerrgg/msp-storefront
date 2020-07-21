@@ -717,7 +717,7 @@ function msp_get_product_videos_tab(){
     $resources = msp_get_product_videos( $post->ID );
 
     echo '<h2>Product Videos</h2>';
-    echo '<div class="owl-carousel">';
+    echo '<div id="msp-product-videos" class="owl-carousel">';
     foreach( $resources as $arr ) : ?>
         <div class="embed-responsive embed-responsive-16by9 mb-2">
             <iframe class="embed-responsive-item" src="<?php echo $arr[0] ?>" allowfullscreen></iframe>
@@ -924,7 +924,7 @@ function msp_get_shop_subnav(){
 
     $nav_items = msp_get_top_level_categories();
 
-    if( empty( $nav_items ) || wp_is_mobile() ) return;
+    if( empty( $nav_items ) ) return;
 
     ?>
         <nav class="navbar d-none d-sm-flex msp-shop-subnav">

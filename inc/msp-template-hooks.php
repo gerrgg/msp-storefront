@@ -178,9 +178,9 @@ add_action( 'wp_ajax_nopriv_msp_process_contact_form', 'msp_process_contact_form
  * woocommerce_after_single_product_summary
  * @see comments_template();
  */
+add_action( 'woocommerce_after_single_product_summary', 'msp_get_product_videos_tab', 0 );
 add_action( 'woocommerce_after_single_product_summary', 'woocommerce_upsell_display', 5 );
 // add_action( 'woocommerce_after_single_product_summary', 'woocommerce_output_related_products', 5);
-
 
 /**
  * woocommerce_single_product_summary
