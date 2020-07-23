@@ -1748,41 +1748,30 @@ function msp_get_product_tabs( $content ){
     /**
      * Gets product tag descriptions if not empty 
      */
-    global $product;
 
-    if( $product ) {;
+     if( is_product() ){
 
-        $tag_list = $product->get_tag_ids();
+         global $product;
+     
+         $tag_list = $product->get_tag_ids();
+     
+         foreach( $tag_list as $key => $tag ){
 
-        if( empty( $tag_list ) ) return;
-        
-        foreach( $tag_list as $key => $tag ){
-            $tag = get_term( $tag, 'product_tag' );
-            $desc = tag_description($tag->term_id);
+             $tag = get_term( $tag, 'product_tag' );
+             $desc = tag_description($tag->term_id);
+     
+             if( ! empty( $desc ) ){
+                 $content .= sprintf( "%s", $desc);
+             }
+     
+         }
 
-            if( ! empty( $desc ) ){
-                $content .= sprintf( "%s", $desc);
-            }
+     }
 
-        }
-
-    }
 
     return $content;
 }
 
-function msp_get_standards_tab( $html ){
-    /**
-     * Outputs the tag html if not empty;
-     */
-    global $product;
-
-    $html = msp_get_product_tabs( $product->get_id() );
-
-    if( empty( $html ) ) return;
-
-    echo $html;
-}
 
 function msp_archive_description_header(){
 
