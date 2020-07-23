@@ -1747,7 +1747,7 @@ function msp_get_product_tabs( $content ){
      */
     global $product;
 
-    if( ! $product ) {;
+    if( $product ) {;
 
         $tag_list = $product->get_tag_ids();
 
@@ -1762,7 +1762,7 @@ function msp_get_product_tabs( $content ){
             }
 
         }
-        
+
     }
 
     return $content;
