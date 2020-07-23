@@ -608,19 +608,22 @@ function iww_make_date( $dates ){
     date_default_timezone_set('EST');
     $day_of_the_week = date('N');
     $hour_of_the_day = date('G');
-    
+
     $date_str = '';
 
-    foreach( $dates as $key => $date ){
+    foreach( $dates as $key => $number_of_days ){
+
         if( $key != 0 ) $date_str .= ' - ';
 
-        if( $day_of_the_week > 4 ){
-            if( $day_of_the_week == 5 && $hour_of_the_day < 12 ) $date--;
-            $date_str .= date( 'l, F jS', strtotime( '+'. $date .'days', strtotime( 'next monday' ) ) );
-        } else {
-            if( $hour_of_the_day > 12 ) $date++;
-            $date_str .= date( 'l, F jS', strtotime( '+'. $date .'days' ) );
+        $delivers_on_day_of_week = date( 'N', strtotime( '+'. $number_of_days .'days' ) );
+
+        if( $delivers_on_day_of_week == 6 || $delivers_on_day_of_week == 7 ){
+
+            $number_of_days += abs( 8 - $delivers_on_day_of_week );
+
         }
+
+        $date_str .= date( 'l, F jS', strtotime( '+'. $number_of_days .'days' ) );
 
     }
 
