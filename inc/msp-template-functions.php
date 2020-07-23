@@ -716,6 +716,8 @@ function msp_get_product_videos_tab(){
     global $post;
     $resources = msp_get_product_videos( $post->ID );
 
+    if( empty( $resources ) ) return; 
+     
     echo '<h2>Product Videos</h2>';
     echo '<div id="msp-product-videos" class="owl-carousel">';
     foreach( $resources as $arr ) : ?>
@@ -1739,13 +1741,12 @@ function msp_product_specification_html(){
 
 }
 
-function msp_get_product_standards( $product_id ){
+function msp_get_product_tabs( $content ){
     /**
      * Gets product tag descriptions if not empty 
      */
-    $product = wc_get_product( $product_id );
+    global $product;
     $tag_list = $product->get_tag_ids();
-    $html = '';
 
     if( empty( $tag_list ) ) return;
     
@@ -1754,12 +1755,12 @@ function msp_get_product_standards( $product_id ){
         $desc = tag_description($tag->term_id);
 
         if( ! empty( $desc ) ){
-            $html .= sprintf( "%s", $desc);
+            $content .= sprintf( "%s", $desc);
         }
 
     }
 
-    return $html;
+    return $content;
 }
 
 function msp_get_standards_tab( $html ){
@@ -1768,7 +1769,7 @@ function msp_get_standards_tab( $html ){
      */
     global $product;
 
-    $html = msp_get_product_standards( $product->get_id() );
+    $html = msp_get_product_tabs( $product->get_id() );
 
     if( empty( $html ) ) return;
 

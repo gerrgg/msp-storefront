@@ -119,6 +119,7 @@ function msp_maybe_category_description( $content ){
     return $content;
 }
 
+
 function msp_get_term_description( $term ){
     /**
      * Extracts term description if there is one and returns html
