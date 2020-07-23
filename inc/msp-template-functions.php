@@ -717,7 +717,7 @@ function msp_get_product_videos_tab(){
     $resources = msp_get_product_videos( $post->ID );
 
     if( empty( $resources ) ) return; 
-     
+
     echo '<h2>Product Videos</h2>';
     echo '<div id="msp-product-videos" class="owl-carousel">';
     foreach( $resources as $arr ) : ?>
@@ -1746,6 +1746,9 @@ function msp_get_product_tabs( $content ){
      * Gets product tag descriptions if not empty 
      */
     global $product;
+
+    if( ! $product ) return;
+    
     $tag_list = $product->get_tag_ids();
 
     if( empty( $tag_list ) ) return;
