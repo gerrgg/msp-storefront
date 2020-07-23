@@ -1747,20 +1747,22 @@ function msp_get_product_tabs( $content ){
      */
     global $product;
 
-    if( ! $product ) return;
-    
-    $tag_list = $product->get_tag_ids();
+    if( ! $product ) {;
 
-    if( empty( $tag_list ) ) return;
-    
-    foreach( $tag_list as $key => $tag ){
-        $tag = get_term( $tag, 'product_tag' );
-        $desc = tag_description($tag->term_id);
+        $tag_list = $product->get_tag_ids();
 
-        if( ! empty( $desc ) ){
-            $content .= sprintf( "%s", $desc);
+        if( empty( $tag_list ) ) return;
+        
+        foreach( $tag_list as $key => $tag ){
+            $tag = get_term( $tag, 'product_tag' );
+            $desc = tag_description($tag->term_id);
+
+            if( ! empty( $desc ) ){
+                $content .= sprintf( "%s", $desc);
+            }
+
         }
-
+        
     }
 
     return $content;
