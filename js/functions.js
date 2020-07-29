@@ -361,6 +361,8 @@ $('#billing_postcode').keyup( function(e){
     }
 });
 
+$('#billing_po').val('');
+
 
 function setCookie(cname, cvalue, exdays) {
   var d = new Date();
