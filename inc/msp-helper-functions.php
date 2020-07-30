@@ -564,6 +564,10 @@ function msp_promo_row( $atts ){
 	for( $i = 0; $i < sizeof( $links ); $i++ ){
 
 		$link = get_term_link( (int) $links[$i], 'product_cat' );
+
+		// accomodate tags
+		if( empty( $link ) || is_wp_error( $link ) ) $link = get_tag_link( (int) $links[$i] );
+		
 		$image = msp_get_product_image_src( $images[$i], 'large' );
 
 		// Accomodate product links
