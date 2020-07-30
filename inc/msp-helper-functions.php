@@ -558,9 +558,8 @@ function msp_promo_row( $atts ){
 	$links = explode( ', ', $atts['links'] );
 	$images = explode( ', ', $atts['images'] );
 
-	ob_start();
-
-	$html .= '<div class="owl-carousel mb-4">';
+	
+	$html = '<div class="owl-carousel mb-4">';
 
 	for( $i = 0; $i < sizeof( $links ); $i++ ){
 
