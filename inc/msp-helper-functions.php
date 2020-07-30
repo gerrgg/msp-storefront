@@ -560,9 +560,10 @@ function msp_promo_row( $atts ){
 
 	ob_start();
 
-	echo '<div class="owl-carousel">';
+	$html .= '<div class="owl-carousel mb-4">';
 
-	for( $i = 0; $i < sizeof( $links ); $i++ ) : 
+	for( $i = 0; $i < sizeof( $links ); $i++ ){
+
 		$link = get_term_link( (int) $links[$i], 'product_cat' );
 		$image = msp_get_product_image_src( $images[$i], 'large' );
 
@@ -574,17 +575,13 @@ function msp_promo_row( $atts ){
 
 		// just give up if error
 		if( is_wp_error( $link ) ) return;
-	?>
 
-		<a href="<?php echo $link ?>">
-			<img src="<?php echo $image ?>"/>
-		</a>
+		$html .= sprintf( "<a href='%s'><img src='%s'/></a>", $link, $image );
 
-	<?php endfor;
+	}
 
-	echo '</div>';
+	$html .= '</div>';
 
-	$html = ob_get_clean();
 	return $html;
 }
 
