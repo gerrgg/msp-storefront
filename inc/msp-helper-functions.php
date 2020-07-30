@@ -550,26 +550,25 @@ if( ! function_exists( 'woo_hack_invoke_private_method' ) ){
 function msp_promo_row( $atts ){
 	/**
 	 * Easily display html which connect links to promotional images.
-	 * @param array - Key value pair format - link_id => media_id  
+	 * @param array - Key value pair format - [msp_fp_promo links="223, 55" images="6607, 6608"]  
 	 */
 	if( empty( $atts ) ) return;
 
 
 	$links = explode( ', ', $atts['links'] );
 	$images = explode( ', ', $atts['images'] );
-	$columns = 12 / sizeof( $links );
 
 	ob_start();
 
-	echo '<div class="row">';
+	echo '<div class="owl-carousel">';
 
 	for( $i = 0; $i < sizeof( $links ); $i++ ) : 
-		$link = get_term_link( (int)$links[$i], 'product_cat' );
+		$link = get_term_link( (int) $links[$i], 'product_cat' );
 		$image = msp_get_product_image_src( $images[$i], 'large' );
 
 		// Accomodate product links
 		if( empty($link) || is_wp_error( $link ) ){
-			$product = wc_get_product( (int)$links[$i] );
+			$product = wc_get_product( (int) $links[$i] );
 			if( $product != false ) $link = $product->get_permalink();
 		}
 
@@ -577,11 +576,9 @@ function msp_promo_row( $atts ){
 		if( is_wp_error( $link ) ) return;
 	?>
 
-		<div class="col-6 col-lg-<?php echo $columns ?>">
-			<a href="<?php echo $link ?>">
-				<img src="<?php echo $image ?>" class="img-thumb mb-2" />
-			</a>
-		</div>
+		<a href="<?php echo $link ?>">
+			<img src="<?php echo $image ?>"/>
+		</a>
 
 	<?php endfor;
 
@@ -590,6 +587,7 @@ function msp_promo_row( $atts ){
 	$html = ob_get_clean();
 	return $html;
 }
+
 
 function msp_get_price_messages( $sale ){
     /**

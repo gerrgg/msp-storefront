@@ -1553,7 +1553,9 @@ function bbloomer_cart_refresh_update_qty() {
  // Leave functions here for easy access. :D
  
  add_shortcode( 'msp_fp_products', 'msp_get_products_slider' );
+
  add_shortcode( 'msp_fp_promo', 'msp_promo_row' );
+ 
  add_shortcode( 'msp_fp_reviews', 'msp_get_shop_reviews' );
  add_shortcode( 'msp_fp_customer_service', 'msp_get_customer_service_info' );
 
