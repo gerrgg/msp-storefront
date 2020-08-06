@@ -651,3 +651,15 @@ function msp_get_theme_class(){
 
 	return ( ! empty( $value ) ) ? $value : 'dark-theme';
 }
+
+function getYoutubeVideoStatus( $video_id ){
+    /**
+     * Get the status of a youtube video
+     * @param string $video_id
+     * @return string | bool
+     */
+    $url = "https://www.googleapis.com/youtube/v3/videos?part=status&id=$video_id&key=AIzaSyCvRpbZfOgPnU7jcn1Z0K8Kzs4n7bLYeGA";
+    $results = json_decode(file_get_contents($url));
+
+    return( isset( $results->items[0]->status->privacyStatus ) ) ? $results->items[0]->status->privacyStatus : false;
+}
