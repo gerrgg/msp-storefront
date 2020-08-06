@@ -720,15 +720,21 @@ function msp_get_product_videos_tab(){
     $resources = msp_get_product_videos( $post->ID );
 
     if( empty( $resources ) ) return; 
+    ?>
 
-    echo '<h2>Product Videos</h2>';
-    echo '<div id="msp-product-videos" class="owl-carousel">';
-    foreach( $resources as $arr ) : ?>
-        <div class="embed-responsive embed-responsive-16by9 mb-2">
-            <iframe class="embed-responsive-item" src="<?php echo $arr[0] ?>" allowfullscreen></iframe>
-        </div>
-    <?php endforeach;
-    echo '</div>';
+    <div id="msp-product-videos" class="owl-carousel">
+        <?php foreach( $resources as $arr ) : 
+            $video_url = str_replace('https://www.youtube.com/embed/', '', $arr[0]);
+            // check if video available
+            if( getYoutubeVideoStatus($video_url) !== false ) : ?>
+
+            <div class="embed-responsive embed-responsive-16by9 mb-2">
+                <iframe class="embed-responsive-item" src="<?php echo $arr[0] ?>" allowfullscreen></iframe>
+            </div>
+            <?php endif; ?>
+        <?php endforeach; ?>
+    </div>
+    <?php
 }
 
 function msp_show_product_size_guide_btn(){

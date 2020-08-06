@@ -307,3 +307,22 @@ add_filter('loop_shop_per_page', 'msp_products_per_page', 999);
 add_filter( 'wc_add_to_cart_message_html', 'remove_add_to_cart_message' );
 
 
+
+
+add_action('wp_footer', 'test');
+function test(){
+    var_dump( getYoutubeVideoStatus('imF5oTuALTo') );
+    var_dump( getYoutubeVideoStatus('Ks-_Mh1QhMc') );
+}
+
+function getYoutubeVideoStatus( $video_id ){
+    /**
+     * Get the status of a youtube video
+     * @param string $video_id
+     * @return string | bool
+     */
+    $url = "https://www.googleapis.com/youtube/v3/videos?part=status&id=$video_id&key=AIzaSyCvRpbZfOgPnU7jcn1Z0K8Kzs4n7bLYeGA";
+    $results = json_decode(file_get_contents($url));
+
+    return( isset( $results->items[0]->status->privacyStatus ) ) ? $results->items[0]->status->privacyStatus : false;
+}
