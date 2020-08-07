@@ -14,6 +14,7 @@
 <link rel="profile" href="http://gmpg.org/xfn/11">
 <link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>">
 <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet"> 
+<link rel="preload" href="/wp-content/plugins/woocommerce/assets/fonts/star.woff" as="font" crossorigin="anonymous">
 
 <?php wp_head(); ?>
 
