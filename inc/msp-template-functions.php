@@ -722,6 +722,7 @@ function msp_get_product_videos_tab(){
     if( empty( $resources ) ) return; 
     ?>
 
+    <h4>Product Videos</h4>
     <div id="msp-product-videos" class="owl-carousel">
         <?php foreach( $resources as $arr ) : 
             $video_url = str_replace('https://www.youtube.com/embed/', '', $arr[0]);
