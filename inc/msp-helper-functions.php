@@ -663,3 +663,20 @@ function getYoutubeVideoStatus( $video_id ){
 
     return( isset( $results->items[0]->status->privacyStatus ) ) ? $results->items[0]->status->privacyStatus : false;
 }
+
+function msp_get_order_status_name( $order_status ){
+	/**
+	 * If order status includes a number - use that number to create a date to ship.
+	 */
+	$output = preg_replace( '/[^0-9]/', '', $order_status );
+	return( ! empty( $output ) ) ? 'Ships by ' . date('M d, Y', strtotime("+$output day") ) : wc_get_order_status_name( $order_status );
+
+}
+
+function msp_maybe_get_tracking_link( $order_number ){
+	/**
+	 * If there is a tracking number - show it
+	 */
+	$link = get_post_meta( $order_number, 'tracking_link', true );
+	if( ! empty( $link ) ) return sprintf( " - <a href='%s'>%s</a>", $link, 'Track package' );
+}
