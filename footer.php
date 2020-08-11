@@ -35,6 +35,6 @@
 </div><!-- #page -->
 
 <?php wp_footer(); ?>
-
+<script src="//code.tidio.co/qgnmbr4vfrekzqwsvlxuuahfxz98ydoa.js" async></script>
 </body>
 </html>
