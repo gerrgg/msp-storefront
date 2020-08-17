@@ -84,6 +84,9 @@ li.review {
   list-style: none;
 }
 
+body.single-product #msp_modal {
+  padding: 0 !important;
+}
 body.single-product #msp-archive {
   margin-left: unset;
 }
