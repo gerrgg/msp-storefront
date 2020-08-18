@@ -9,8 +9,8 @@ if ( ! defined( 'ABSPATH' ) ) {
     <p class="lead">If you’d rather talk to one of us, call <a href="tel:888-723-3864">888-723-3864</a>.</p>
     <form style="max-width: 500px;">
         <div class="form-group">
-            <label for="name">Name</label>
-            <input type="text" id="name" name="name" class="form-control" />
+            <label for="name">Name <span class="required">*</span></label>
+            <input type="text" id="name" name="name" class="form-control" required />
         </div>
 
         <div class="form-group">

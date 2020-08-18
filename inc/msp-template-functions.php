@@ -991,7 +991,7 @@ function msp_process_contact_form(){
         $to = get_option( 'msp_contact_email' );
 
         // check required fields
-        if( empty( $_POST['email'] ) || empty($_POST['message']) ){
+        if( empty( $_POST['email'] ) || empty($_POST['message']) || empty($_POST['name']) ){
             echo 0;
             wp_die();
         }
