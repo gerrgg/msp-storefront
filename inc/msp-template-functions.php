@@ -1578,7 +1578,7 @@ function bbloomer_cart_refresh_update_qty() {
      $text = get_option( 'promo_top_bar_text' );
 
      if( ! empty( $text ) ){
-         printf( '<a id="msp-top-bar" href="%s">%s</a>', $link, $text );
+         printf( '<a target="_blank" rel="noopener noreferrer" id="msp-top-bar" href="%s">%s</a>', $link, $text );
      }
  }
 
