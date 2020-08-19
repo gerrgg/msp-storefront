@@ -331,38 +331,28 @@ class MSP{
         */
 
         // TODO: Map to Theme Options
-        $custom_rules = array(
-            'ltl' => 54,
-            'ups_only' => 418
-        );
-
         $shipping_classes = array(
-            'free' => empty( get_option( 'wc_free_shipping_id' ) ) ? '9' : get_option( 'wc_free_shipping_id' ),
-            'ground' => empty( get_option( 'wc_ground_shipping_id' ) ) ? '9' : get_option( 'wc_ground_shipping_id' ),
-            'two_day' => empty( get_option( 'wc_two_day_shipping_id' ) ) ? '' : get_option( 'wc_two_day_shipping_id' ),
-            'three_day' => empty( get_option( 'wc_three_day_shipping_id' ) ) ? '11' : get_option( 'wc_three_day_shipping_id' ),
+            'ltl' => get_option( 'woo_ltl_shipping_class_id' ),
+            'ups_only' => get_option( 'woo_ups_only_shipping_class_id' )
         );
 
-        $cart_weight = WC()->cart->get_cart_contents_weight();
-
-        if( $cart_weight > 20 ){
-            unset( $rates['flat_rate:' . $shipping_classes['two_day']] );
-            unset( $rates['flat_rate:' . $shipping_classes['three_day']] );
-        }
+        $shipping_methods = array(
+            'free' => empty( get_option( 'woo_free_shipping_method_id' ) ) ? '9' : get_option( 'woo_free_shipping_method_id' ),
+            'ltl' => empty( get_option( 'woo_ltl_shipping_method_id' ) ) ? '6' : get_option( 'woo_ltl_shipping_method_id' ),
+        );
 
         foreach( WC()->cart->cart_contents as $key => $values ) {
 
             // if any products match LTL shipping class, return ONLY ltl freight option
-            if( $values[ 'data' ]->get_shipping_class_id() == $custom_rules['ltl'] ) {
-                $ltl = $rates['flat_rate:6'];
-                $rates = array( 'flat_rate:6' => $ltl );
+            if( $values[ 'data' ]->get_shipping_class_id() == $shipping_classes['ltl'] ) {
+                $ltl = $rates['flat_rate:' . $shipping_methods['ltl']];
+                $rates = array( 'flat_rate:' . $shipping_methods['ltl'] => $ltl );
                 return $rates;
             }
 
             // If any products match the UPS ONLY shipping method, remove free shipping and flat rate ground  
-            if( $values[ 'data' ]->get_shipping_class_id() == $custom_rules['ups_only'] ) {
-                unset( $rates['flat_rate:11']);
-                unset( $rates['free_shipping:9']);
+            if( $values[ 'data' ]->get_shipping_class_id() == $shipping_classes['ups_only'] ) {
+                unset( $rates['free_shipping:' . $shipping_methods['free']]);
             }
         }
     
