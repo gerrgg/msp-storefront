@@ -330,17 +330,19 @@ class MSP{
         * @param array - Shipping methods
         */
 
-        // TODO: Map to Theme Options
+        // These are the classes assigned to individual products (the condition)
         $shipping_classes = array(
             'ltl' => get_option( 'woo_ltl_shipping_class_id' ),
             'ups_only' => get_option( 'woo_ups_only_shipping_class_id' )
         );
 
+        // There are the methods which are removed and added as needed
         $shipping_methods = array(
             'free' => empty( get_option( 'woo_free_shipping_method_id' ) ) ? '9' : get_option( 'woo_free_shipping_method_id' ),
             'ltl' => empty( get_option( 'woo_ltl_shipping_method_id' ) ) ? '6' : get_option( 'woo_ltl_shipping_method_id' ),
         );
 
+        // loop cart and check for conditions
         foreach( WC()->cart->cart_contents as $key => $values ) {
 
             // if any products match LTL shipping class, return ONLY ltl freight option
@@ -355,7 +357,8 @@ class MSP{
                 unset( $rates['free_shipping:' . $shipping_methods['free']]);
             }
         }
-    
+        
+        // If we make it this far - delete the LTL fright option
         unset( $rates['flat_rate:6']);
         return $rates;
     }
