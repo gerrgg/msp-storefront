@@ -359,7 +359,7 @@ class MSP{
         }
         
         // If we make it this far - delete the LTL fright option
-        unset( $rates['flat_rate:6']);
+        unset( $rates['flat_rate:' . $shipping_methods['ltl']]);
         return $rates;
     }
 
