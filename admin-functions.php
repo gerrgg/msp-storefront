@@ -469,17 +469,23 @@ class MSP_Admin{
             'msp_options'
         );
 
-        $this->add_settings_field_and_register( 'msp_options', 'promotions', 'promo', array( 'top_bar_text', 'top_bar_link' ) );
+        $this->add_settings_field_and_register( 'msp_options', 'promotions', 'promo', 
+        array( 'top_bar_text', 'top_bar_link' ) );
 
         $this->add_settings_field_and_register( 'msp_options', 'woocommerce', 'woo', 
-        array( 'ups_only_shipping_class_id', 'ltl_shipping_class_id', 'free_shipping_method_id', 'ltl_shipping_method_id' ) );
+        array( 'ups_only_shipping_class_id', 'ltl_shipping_class_id', 
+               'free_shipping_method_id', 'ltl_shipping_method_id' ) );
 
-        $this->add_settings_field_and_register( 'msp_options', 'theme_options', 'msp', array( 'primary_color', 'secondary_color', 'light_or_dark_theme' ) );
+        $this->add_settings_field_and_register( 'msp_options', 'theme_options', 'msp', 
+        array( 'primary_color', 'secondary_color', 'light_or_dark_theme' ) );
 
-        $this->add_settings_field_and_register( 'msp_options', 'emails', 'msp', array( 'contact_email', 'gtin_field' ) );
+        $this->add_settings_field_and_register( 'msp_options', 'emails', 'msp', 
+        array( 'contact_email', 'gtin_field' ) );
 
         $this->add_settings_field_and_register( 'msp_options', 'integration', 'integration', 
-        array( 'google_analytics_account_id', 'google_recaptcha', 'google_adwords', 'google_aw_campaign', 'bing_ads' ) );
+        array( 'google_analytics_account_id', 'google_recaptcha', 
+               'google_adwords', 'google_aw_campaign', 'bing_ads', 
+               'ups_api_key', 'ups_username', 'ups_password' ) );
     
     }
 }
@@ -616,6 +622,18 @@ function integration_google_adwords_callback(){
     echo '<input name="integration_google_adwords" id="integration_google_adwords" type="text" value="'. get_option( 'integration_google_adwords' ) .'" class="code" />';
 }
 
+function integration_ups_api_key_callback(){
+    echo '<input name="integration_ups_api_key" id="integration_ups_api_key" type="text" value="'. get_option( 'integration_ups_api_key' ) .'" class="code" />';
+}
+
+function integration_ups_username_callback(){
+    echo '<input name="integration_ups_username" id="integration_ups_username" type="text" value="'. get_option( 'integration_ups_username' ) .'" class="code" />';
+}
+
+function integration_ups_password_callback(){
+    echo '<input name="integration_ups_password" id="integration_ups_password" type="password" value="'. get_option( 'integration_ups_password' ) .'" class="code" />';
+}
+
 
 function integration_google_aw_campaign_callback(){
     echo '<input name="integration_google_aw_campaign" id="integration_google_aw_campaign" type="text" value="'. get_option( 'integration_google_aw_campaign' ) .'" class="code" />';
@@ -687,7 +705,7 @@ function msp_size_guide_callback( $post ){
     ?>
     <div id="msp_size_guide_input_table">
         <p>Size Guide</p>
-        <input type="url" name="_msp_size_guide" class="code" value="<?php echo $size_guide_src ?>" />
+        <input type="text" name="_msp_size_guide" class="code" value="<?php echo $size_guide_src ?>" />
     </div>
     <?php
 }

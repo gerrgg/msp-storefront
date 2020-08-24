@@ -9,13 +9,14 @@ define('URI', get_stylesheet_directory_uri() );
 define('PATH', get_stylesheet_directory() );
 // PATH => /srv/www/wordpress-one/public_html/wp-content/themes/msp-storefront 
 
-require_once( PATH . '/vendor/wp-bootstrap-navwalker-master/class-wp-bootstrap-navwalker.php' );
+require_once( PATH . '/vendor/autoload.php' );
 require_once( PATH . '/admin-functions.php' );
 require_once( PATH . '/inc/msp-template-hooks.php' );
 require_once( PATH . '/inc/msp-template-functions.php' );
 require_once( PATH . '/inc/msp-template-filters.php' );
 require_once( PATH . '/inc/msp-helper-functions.php' );
 require_once( PATH . '/inc/msp-class-mega-menu.php' );
+require_once( PATH . '/inc/msp-ups-time-in-transit.php');
 
 /**
  * Front-end Theme Settings

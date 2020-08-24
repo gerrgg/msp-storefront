@@ -557,47 +557,6 @@ function msp_update_order_estimated_delivery( $order_id ){
         update_post_meta( $order_id, 'msp_estimated_delivery_date', $_SESSION['msp_estimated_delivery_date'] );
 }
 
-/**
- * TODO: Hard-coded; should add some kinda of UI to theme options.
- * Creates a simple guess for when a package should deliver based on the method provided.
- * @param string $method - The label of a shipper method
- * @return string $date_str - A string created by @see iww_make_date();
- */
-function msp_get_default_est_delivery( $method ){
-	switch( $method ){
-        case 'Flat Ground Shipping':
-        $date_str = iww_make_date( [2, 6] );
-        break;
-        case 'Ground (UPS)':
-        $date_str = iww_make_date( [2, 6] );
-        break;
-        case 'Ground Shipping':
-        $date_str = iww_make_date( [2, 6] );
-        break;
-		case '3 Day Select (UPS)':
-		$date_str = iww_make_date( [3] );
-        break;
-		case '2nd Day Air (UPS)':
-		$date_str = iww_make_date( [2] );
-		break;
-		case 'Next Day Air (UPS)':
-		$date_str = iww_make_date( [1] );
-		break;
-		case 'Next Day Air Saver (UPS)':
-		$date_str = iww_make_date( [1] );
-		break;
-		case 'Next Day Air Early AM (UPS)':
-		$date_str = iww_make_date( [1] );
-		break;
-		case 'Free shipping':
-		$date_str = iww_make_date( [2, 10] );
-		break;
-		default :
-		$date_str = '';
-		break;
-	}
-	return $date_str;
-}
 
 /**
  * Takes in an array of dates, takes into account the current day and hour and returns a guess as to when the package should arrive.
@@ -1808,3 +1767,5 @@ function msp_maybe_show_promo_pop_up(){
     ));
 
 }
+
+
