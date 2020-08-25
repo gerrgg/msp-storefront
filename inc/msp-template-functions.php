@@ -1666,17 +1666,20 @@ function msp_get_product_unit_price( $product ){
     /**
      * Checks for product meta data, and displays per unit cost on multi-count items.
      */
-    $id = $product->get_id();
-    $qty = get_post_meta( $id, 'msp_product_quantity', true );
-
-    // dont show a per unit cost on variable products with price ranges
-    // if( $product->is_type( 'variable' ) && msp_product_has_price_range( $product ) ) return;
-
     $html = '';
-
-    if( ! empty( $qty ) && intval($qty) > 1 ){
-        $unit_cost = number_format( $product->get_price() / $qty, 2);
-        $html = sprintf("<span class='unit_price'>(%s%s / per unit)</span>", get_woocommerce_currency_symbol(), $unit_cost);
+    
+    if( $product ){
+        $id = $product->get_id();
+        $qty = get_post_meta( $id, 'msp_product_quantity', true );
+    
+        // dont show a per unit cost on variable products with price ranges
+        // if( $product->is_type( 'variable' ) && msp_product_has_price_range( $product ) ) return;
+    
+    
+        if( ! empty( $qty ) && intval($qty) > 1 ){
+            $unit_cost = number_format( $product->get_price() / $qty, 2);
+            $html = sprintf("<span class='unit_price'>(%s%s / per unit)</span>", get_woocommerce_currency_symbol(), $unit_cost);
+        }
     }
 
     return $html;
