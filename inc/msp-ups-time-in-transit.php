@@ -49,11 +49,15 @@ function msp_get_pickup_date(){
     $time = $date->modify('+1 hour')->format('G');
     $leadtime = 0;
 
-    // if friday and after 3pm
-    if( $day == 5 && $time > 13 ){
-        $leadtime = 3;
-    } else if( $day === 6 || $day === 7 ){
+    // if weekend add number of days until monday
+    if( $day === 6 || $day === 7 ){
         $leadtime = abs( 8 - $day );
+    // if its friday and after 1pm add 3 day leadtime
+    } else if( $day === 5 & $time > 13 ){
+        $leadtime = 3;
+    // if its not the weekend and after 2pm add a single day of leadtime
+    } else if( $day < 5 && $time > 14 ){
+        $leadtime = 1;
     }
 
     return $date->modify("+$leadtime days");
