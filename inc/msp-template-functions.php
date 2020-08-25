@@ -1667,13 +1667,13 @@ function msp_get_product_unit_price( $product ){
      * Checks for product meta data, and displays per unit cost on multi-count items.
      */
     $html = '';
-    
+
     if( $product ){
         $id = $product->get_id();
         $qty = get_post_meta( $id, 'msp_product_quantity', true );
     
         // dont show a per unit cost on variable products with price ranges
-        // if( $product->is_type( 'variable' ) && msp_product_has_price_range( $product ) ) return;
+        if( $product->is_type( 'variable' ) && msp_product_has_price_range( $product ) ) return;
     
     
         if( ! empty( $qty ) && intval($qty) > 1 ){
