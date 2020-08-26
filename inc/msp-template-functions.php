@@ -1646,7 +1646,9 @@ function msp_get_variation_price_html(){
     $product = wc_get_product( $_POST['id'] );
     $qty = msp_get_product_unit_price( $product );
     // echo $product->get_price_html() . $qty;
-    echo $product->get_price_html();
+    
+    if( $product ) $product->get_price_html();
+
     wp_die();
 }
 
@@ -1668,7 +1670,7 @@ function msp_get_product_unit_price( $product ){
      */
     $html = '';
 
-    if( $product ){
+    if( $product !== false ){
         $id = $product->get_id();
         $qty = get_post_meta( $id, 'msp_product_quantity', true );
     
