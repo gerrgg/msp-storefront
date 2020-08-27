@@ -345,24 +345,25 @@ class MSP{
             'two-day' => get_option( 'woo_two_day_shipping_method_id' ),
             'three-day' => get_option( 'woo_three_day_shipping_method_id' ),
         );
-
-        if( WC()->cart-> get_cart_contents_weight() > 15 ){
+        
+        if( WC()->cart->get_cart_contents_weight() > 15 ){
+            echo 'over 15';
             if( isset( $rates[ 'flat_rate:' . $shipping_methods['two-day'] ] ) ) unset($rates[ 'flat_rate:' . $shipping_methods['two-day'] ]);
             if( isset( $rates[ 'flat_rate:' . $shipping_methods['three-day'] ] ) ) unset($rates[ 'flat_rate:' . $shipping_methods['three-day'] ]);
         }
 
+        
         // loop cart and check for conditions
         foreach( WC()->cart->cart_contents as $key => $values ) {
-
             // if any products match LTL shipping class, return ONLY ltl freight option
-            if( $values[ 'data' ]->get_shipping_class_id() == $shipping_classes['ltl'] ) {
+            if( '' !== $shipping_classes['ltl'] && $values[ 'data' ]->get_shipping_class_id() == $shipping_classes['ltl'] ) {
                 $ltl = $rates['flat_rate:' . $shipping_methods['ltl']];
                 $rates = array( 'flat_rate:' . $shipping_methods['ltl'] => $ltl );
                 return $rates;
             }
 
             // If any products match the UPS ONLY shipping method, remove free shipping and flat rate shipping methods.
-            if( $values[ 'data' ]->get_shipping_class_id() == $shipping_classes['ups_only'] ) {
+            if( '' !== $shipping_classes['ups_only'] && $values[ 'data' ]->get_shipping_class_id() == $shipping_classes['ups_only'] ) {
                 if( isset( $rates[ 'free_shipping:' . $shipping_methods['free'] ] ) ) unset($rates[ 'free_shipping:' . $shipping_methods['free'] ]);
                 if( isset( $rates[ 'flat_rate:' . $shipping_methods['standard'] ] ) ) unset($rates[ 'flat_rate:' . $shipping_methods['standard'] ]);
                 if( isset( $rates[ 'flat_rate:' . $shipping_methods['two-day'] ] ) ) unset($rates[ 'flat_rate:' . $shipping_methods['two-day'] ]);
