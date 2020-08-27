@@ -175,7 +175,7 @@ function msp_submit_bulk_form(){
         ?>
         <h1>Bulk Quote Request</h1>
         <h2>Ship To</h2>
-        <p>Reply To: <?php echo $_POST['email'] ?></p>
+        <p>Reply To: <?php echo $_POST['name'] ?> <<?php echo $_POST['email'] ?>> </p>
         <address>
             Address: <?php echo $_POST['street'] . ', ' . $_POST['zip'] ?>
         <address>
