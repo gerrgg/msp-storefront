@@ -1647,7 +1647,7 @@ function msp_get_variation_price_html(){
     $qty = msp_get_product_unit_price( $product );
     // echo $product->get_price_html() . $qty;
     
-    if( $product ) $product->get_price_html();
+    if( $product ) echo $product->get_price_html();
 
     wp_die();
 }
@@ -1675,7 +1675,7 @@ function msp_get_product_unit_price( $product ){
         $qty = get_post_meta( $id, 'msp_product_quantity', true );
     
         // dont show a per unit cost on variable products with price ranges
-        // if( $product->is_type( 'variable' ) && msp_product_has_price_range( $product ) ) return;
+        if( $product->is_type( 'variable' ) && msp_product_has_price_range( $product ) ) return;
     
     
         if( ! empty( $qty ) && intval($qty) > 1 ){
