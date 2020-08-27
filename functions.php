@@ -339,9 +339,17 @@ class MSP{
 
         // There are the methods which are removed and added as needed
         $shipping_methods = array(
-            'free' => empty( get_option( 'woo_free_shipping_method_id' ) ) ? '9' : get_option( 'woo_free_shipping_method_id' ),
-            'ltl' => empty( get_option( 'woo_ltl_shipping_method_id' ) ) ? '6' : get_option( 'woo_ltl_shipping_method_id' ),
+            'free' => get_option( 'woo_free_shipping_method_id' ),
+            'ltl' => get_option( 'woo_ltl_shipping_method_id' ),
+            'standard' => get_option( 'woo_standard_shipping_method_id' ),
+            'two-day' => get_option( 'woo_two_day_shipping_method_id' ),
+            'three-day' => get_option( 'woo_three_day_shipping_method_id' ),
         );
+
+        if( WC()->cart-> get_cart_contents_weight() > 15 ){
+            if( isset( $rates[ 'flat_rate:' . $shipping_methods['two-day'] ] ) ) unset($rates[ 'flat_rate:' . $shipping_methods['two-day'] ]);
+            if( isset( $rates[ 'flat_rate:' . $shipping_methods['three-day'] ] ) ) unset($rates[ 'flat_rate:' . $shipping_methods['three-day'] ]);
+        }
 
         // loop cart and check for conditions
         foreach( WC()->cart->cart_contents as $key => $values ) {
@@ -353,14 +361,18 @@ class MSP{
                 return $rates;
             }
 
-            // If any products match the UPS ONLY shipping method, remove free shipping and flat rate ground  
+            // If any products match the UPS ONLY shipping method, remove free shipping and flat rate shipping methods.
             if( $values[ 'data' ]->get_shipping_class_id() == $shipping_classes['ups_only'] ) {
-                unset( $rates['free_shipping:' . $shipping_methods['free']]);
+                if( isset( $rates[ 'free_shipping:' . $shipping_methods['free'] ] ) ) unset($rates[ 'free_shipping:' . $shipping_methods['free'] ]);
+                if( isset( $rates[ 'flat_rate:' . $shipping_methods['standard'] ] ) ) unset($rates[ 'flat_rate:' . $shipping_methods['standard'] ]);
+                if( isset( $rates[ 'flat_rate:' . $shipping_methods['two-day'] ] ) ) unset($rates[ 'flat_rate:' . $shipping_methods['two-day'] ]);
+                if( isset( $rates[ 'flat_rate:' . $shipping_methods['three-day'] ] ) ) unset($rates[ 'flat_rate:' . $shipping_methods['three-day'] ]);
             }
         }
         
         // If we make it this far - delete the LTL fright option
-        unset( $rates['flat_rate:' . $shipping_methods['ltl']]);
+        if( isset( $rates['flat_rate:' . $shipping_methods['ltl']]  ) ) unset( $rates['flat_rate:' . $shipping_methods['ltl'] ]);
+        
         return $rates;
     }
 

@@ -472,21 +472,22 @@ class MSP_Admin{
         $this->add_settings_field_and_register( 'msp_options', 'promotions', 'promo', 
         array( 'top_bar_text', 'top_bar_link' ) );
 
-        $this->add_settings_field_and_register( 'msp_options', 'woocommerce', 'woo', 
-        array( 'ups_only_shipping_class_id', 'ltl_shipping_class_id', 
-               'free_shipping_method_id', 'ltl_shipping_method_id' ) );
-
+        
         $this->add_settings_field_and_register( 'msp_options', 'theme_options', 'msp', 
         array( 'primary_color', 'secondary_color', 'light_or_dark_theme' ) );
-
+        
         $this->add_settings_field_and_register( 'msp_options', 'emails', 'msp', 
         array( 'contact_email', 'gtin_field' ) );
-
+        
         $this->add_settings_field_and_register( 'msp_options', 'integration', 'integration', 
         array( 'google_analytics_account_id', 'google_recaptcha', 
-               'google_adwords', 'google_aw_campaign', 'bing_ads', 
-               'ups_api_key', 'ups_username', 'ups_password' ) );
-    
+        'google_adwords', 'google_aw_campaign', 'bing_ads', 
+        'ups_api_key', 'ups_username', 'ups_password' ) );
+        
+        $this->add_settings_field_and_register( 'msp_options', 'woocommerce', 'woo', 
+        array( 'ups_only_shipping_class_id', 'ltl_shipping_class_id', 
+               'free_shipping_method_id', 'ltl_shipping_method_id', 'two_day_shipping_method_id', 
+               'three_day_shipping_method_id', 'standard_shipping_method_id' ) );
     }
 }
 
@@ -500,9 +501,10 @@ function promo_pop_up_title_callback(){
     echo '<input name="promo_pop_up_title" id="promo_pop_up_title" type="text" value="'. get_option( 'promo_pop_up_title' ) .'" class="code" />';
 }
 
+/** Shipping Classes */
 function woo_ups_only_shipping_class_id_callback(){
     $option = get_option( 'woo_ups_only_shipping_class_id' );
-    echo '<input name="woo_ups_only_shipping_class_id" id="woo_ups_only_shipping_class_id" type="text" value="'. get_option( 'woo_ups_only_shipping_class_id' ) .'" class="code" />';
+    echo '<a href="/wp-admin/admin.php?page=wc-settings&tab=shipping&section=classes">Shipping Classes</a> <br><input name="woo_ups_only_shipping_class_id" id="woo_ups_only_shipping_class_id" type="text" value="'. get_option( 'woo_ups_only_shipping_class_id' ) .'" class="code" />';
 }
 
 function woo_ltl_shipping_class_id_callback(){
@@ -510,9 +512,10 @@ function woo_ltl_shipping_class_id_callback(){
     echo '<input name="woo_ltl_shipping_class_id" id="woo_ltl_shipping_class_id" type="text" value="'. get_option( 'woo_ltl_shipping_class_id' ) .'" class="code" />';
 }
 
+/** Shipping Methods */
 function woo_free_shipping_method_id_callback(){
     $option = get_option( 'woo_free_shipping_method_id' );
-    echo '<input name="woo_free_shipping_method_id" id="woo_free_shipping_method_id" type="text" value="'. get_option( 'woo_free_shipping_method_id' ) .'" class="code" />';
+    echo '<a href="/wp-admin/admin.php?page=wc-settings&tab=shipping&zone_id=1">Shipping Methods</a><br><input name="woo_free_shipping_method_id" id="woo_free_shipping_method_id" type="text" value="'. get_option( 'woo_free_shipping_method_id' ) .'" class="code" />';
 }
 
 function woo_ltl_shipping_method_id_callback(){
@@ -520,14 +523,19 @@ function woo_ltl_shipping_method_id_callback(){
     echo '<input name="woo_ltl_shipping_method_id" id="woo_ltl_shipping_method_id" type="text" value="'. get_option( 'woo_ltl_shipping_method_id' ) .'" class="code" />';
 }
 
-function woo_two_day_shipping_id_callback(){
-    $option = get_option( 'woo_two_day_shipping_id' );
-    echo '<input name="woo_two_day_shipping_id" id="woo_two_day_shipping_id" type="text" value="'. get_option( 'woo_two_day_shipping_id' ) .'" class="code" />';
+function woo_two_day_shipping_method_id_callback(){
+    $option = get_option( 'woo_two_day_shipping_method_id' );
+    echo '<input name="woo_two_day_shipping_method_id" id="woo_two_day_shipping_method_id" type="text" value="'. get_option( 'woo_two_day_shipping_method_id' ) .'" class="code" />';
 }
 
-function woo_three_day_shipping_id_callback(){
+function woo_three_day_shipping_method_id_callback(){
     $option = get_option( 'woo_three_day_shipping_id' );
-    echo '<input name="woo_three_day_shipping_id" id="woo_three_day_shipping_id" type="text" value="'. get_option( 'woo_three_day_shipping_id' ) .'" class="code" />';
+    echo '<input name="woo_three_day_shipping_method_id" id="woo_three_day_shipping_method_id" type="text" value="'. get_option( 'woo_three_day_shipping_method_id' ) .'" class="code" />';
+}
+
+function woo_standard_shipping_method_id_callback(){
+    $option = get_option( 'woo_standard_shipping_method_id' );
+    echo '<input name="woo_standard_shipping_method_id" id="woo_standard_shipping_method_id" type="text" value="'. get_option( 'woo_standard_shipping_method_id' ) .'" class="code" />';
 }
 
 function promo_pop_up_link_callback(){
