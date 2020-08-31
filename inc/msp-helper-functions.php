@@ -695,7 +695,11 @@ function msp_single_product_get_leadtime( ){
 	 * Get products leadtime or provide the default leadtime
 	 */
 	$leadtime = msp_get_product_leadtime();
-	echo "<p class='text-danger product-leadtime'><strong>Attention:</strong> Product has a $leadtime day leadtime and is expected to ship in $leadtime business days.</p>";
+	if( $leadtime !== 0 ){
+		echo "<p class='text-danger product-leadtime'><strong>Attention:</strong> Product has a $leadtime day leadtime and is expected to ship in $leadtime business days.</p>";
+	} else {
+		echo "<p class='text-success product-leadtime'><strong>Attention:</strong> Ships out same or next business day.</p>";
+	}
 
 }
 
