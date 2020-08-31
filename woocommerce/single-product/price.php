@@ -30,4 +30,6 @@ global $product;
 <span style="color: #333; font-size: .75rem">+ Free Shipping</span>
 <?php endif; ?>
 
+<?php if( $product->is_type('simple') ) msp_single_product_get_leadtime(); ?>
+
 </p>

@@ -681,25 +681,38 @@ function msp_maybe_get_tracking_link( $order_number ){
 	if( ! empty( $link ) ) return sprintf( " - <a href='%s'>%s</a>", $link, 'Track package' );
 }
 
-function msp_get_product_leadtime( ){
+function msp_get_product_leadtime( $product_id ){
+	/**
+	 * Get products leadtime or provide the default leadtime
+	 */
+	$product_leadtime = get_post_meta($product_id, '_leadtime', true);
+
+	return ( $product_leadtime !== '' ) ? $product_leadtime : get_option( 'woo_default_leadtime' );
+}
+
+function msp_single_product_get_leadtime(){
 	/**
 	 * Get products leadtime or provide the default leadtime
 	 */
 	global $product;
-	$product_leadtime = get_post_meta( $product->get_id(), '_leadtime', true);
-	return ( $product_leadtime !== '' ) ? get_post_meta( $product->get_id(), '_leadtime', true) : get_option( 'woo_default_leadtime' );
+	
+	$leadtime = msp_get_product_leadtime( $product->get_id() );
+	
+	echo msp_get_leadtime_message($leadtime);
+
+
 }
 
-function msp_single_product_get_leadtime( ){
-	/**
-	 * Get products leadtime or provide the default leadtime
-	 */
-	$leadtime = msp_get_product_leadtime();
-	if( $leadtime != 0 ){
-		echo "<p class='text-danger product-leadtime'><strong>Attention:</strong> Product has a $leadtime day leadtime and is expected to ship in $leadtime business days.</p>";
+function msp_get_leadtime_message( $leadtime ){
+	$msg = '';
+
+	if( (int)$leadtime > 0 ){
+		$msg = "<p class='text-danger product-leadtime'><strong>Attention:</strong> Product has a $leadtime day leadtime and is expected to ship in $leadtime business days.</p>";
 	} else {
-		echo "<p class='text-success product-leadtime'><strong>Attention:</strong> Ships out same or next business day.</p>";
+		$msg = "<p class='text-success product-leadtime'><strong>Attention:</strong> Ships out same or next business day.</p>";
 	}
+
+	return $msg;
 
 }
 
@@ -709,8 +722,7 @@ function msp_get_cart_maxiumum_leadtime(){
 	 */
 	
 
-	// get default
-	$highest_leadtime = get_option( 'woo_default_leadtime' );
+	$highest_leadtime = 0;
 
 	// check each item's leadtime and assign if higher than the highest
 	foreach( WC()->cart->get_cart_contents() as $key => $item ){

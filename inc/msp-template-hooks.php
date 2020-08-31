@@ -193,7 +193,6 @@ add_action( 'woocommerce_single_product_summary', 'msp_brand_name', 1 );
 add_action( 'woocommerce_single_product_summary', 'msp_add_tabs', 12 );
 add_action( 'woocommerce_single_product_summary', 'msp_open_single_product_tabs', 13 );
 add_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_price', 25 );
-add_action( 'woocommerce_single_product_summary', 'msp_single_product_get_leadtime', 28 );
 
 
 add_action( 'msp_before_size_attribute', 'msp_show_product_size_guide_btn', 30 );

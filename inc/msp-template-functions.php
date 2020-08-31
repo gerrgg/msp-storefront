@@ -1644,10 +1644,12 @@ function msp_format_sale_price( $price, $reg, $sale ){
 
 function msp_get_variation_price_html(){
     $product = wc_get_product( $_POST['id'] );
-    $qty = msp_get_product_unit_price( $product );
-    // echo $product->get_price_html() . $qty;
+    if( $product ) {
+        $leadtime = msp_get_product_leadtime( $_POST['id'] );
+        $msg = msp_get_leadtime_message($leadtime);
+        echo $product->get_price_html() . $msg;
+    }
     
-    if( $product ) echo $product->get_price_html();
 
     wp_die();
 }

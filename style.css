@@ -176,6 +176,10 @@ body.single-product .product .price span.amount:first-child:before {
   content: "Price:";
   padding-right: 0.5rem;
 }
+body.single-product .product .price .product-leadtime {
+  margin-top: 1rem;
+  font-size: 75%;
+}
 body.single-product .product .price del {
   text-decoration: none;
   display: block;
