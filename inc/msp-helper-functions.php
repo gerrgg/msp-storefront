@@ -723,7 +723,7 @@ function msp_get_cart_maxiumum_leadtime(){
 	
 
 	$highest_leadtime = 0;
-
+	$default_leadtime = get_option( 'woo_default_leadtime' );
 	// check each item's leadtime and assign if higher than the highest
 	foreach( WC()->cart->get_cart_contents() as $key => $item ){
 
@@ -733,6 +733,8 @@ function msp_get_cart_maxiumum_leadtime(){
 		$product_leadtime = get_post_meta( $id, '_leadtime', true );
 		if( $product_leadtime > $highest_leadtime ) $highest_leadtime = $product_leadtime;
 	}
+
+	if( $highest_leadtime < get_option( 'woo_default_leadtime' ) )
 
 	return (int)$highest_leadtime;
 }

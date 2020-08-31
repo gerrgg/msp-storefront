@@ -47,7 +47,8 @@ function msp_get_pickup_date( $cart_leadtime ){
     $date = new DateTime();
     $day = $date->format('w');
     $time = $date->modify('+1 hour')->format('G');
-    $leadtime = ($cart_leadtime !== '') ? $cart_leadtime : 0;
+
+    $leadtime = ($cart_leadtime != '') ? $cart_leadtime : get_option( 'woo_default_leadtime' );
 
     // if weekend add number of days until monday
     if( $day === 6 || $day === 7 ){
