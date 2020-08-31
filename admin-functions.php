@@ -15,6 +15,7 @@ class MSP_Admin{
         //variation custom fields
         add_action( 'woocommerce_variation_options_pricing', array( $this, 'msp_add_discontinued_checkbox'), 1, 3 );
         add_action( 'woocommerce_variation_options_pricing',  array( $this,'msp_variation_quantity'), 1, 3 );
+        add_action( 'woocommerce_variation_options_pricing', array( $this, 'msp_product_variation_leadtime_input_box'), 1, 3 );
 
         // save variation custom fields
         add_action( 'woocommerce_save_product_variation', array( $this, 'save_product_variation_meta'), 10, 2 );
@@ -25,10 +26,11 @@ class MSP_Admin{
         add_action( 'woocommerce_process_product_meta', array( $this, 'process_product_videos_meta' ), 12, 2 );
         add_action( 'woocommerce_process_product_meta', array( $this, 'process_product_size_guide_meta' ), 13, 2 );
         add_action( 'woocommerce_process_product_meta', array( $this, 'process_product_specifications_meta' ), 14, 2 );
-        add_action( 'woocommerce_process_product_meta', array( $this,'iww_add_gsf_title'), 15, 2 );
+        add_action( 'woocommerce_process_product_meta', array( $this,'process_product_meta'), 15, 2 );
 
         add_action( 'woocommerce_product_options_general_product_data', 'msp_specifications_table' );
         add_action( 'woocommerce_product_options_general_product_data',  array( $this,'msp_quantity') );
+        add_action( 'woocommerce_product_options_general_product_data',  array( $this,'msp_product_leadtime_input_box') );
         add_action( 'woocommerce_product_options_general_product_data',  array( $this,'iww_gsf_title') );
 
         // Net 30 checkbox - For both self and other users.
@@ -83,6 +85,29 @@ class MSP_Admin{
         echo '</div>';
     }
 
+    function msp_product_leadtime_input_box(){
+         /**
+         * HTML which displays the input box for adding a product specific leadtime
+         */
+        global $woocommerce, $post;
+        $meta_value = get_post_meta( $post->ID, '_leadtime', true );
+
+        echo '<div class="options_group">';
+        
+        woocommerce_form_field(
+            '_leadtime',
+            array(
+                'type' => 'number',
+                'wrapper_class' => 'form-field',
+                'label'         => 'Leadtime',
+                'description'   => 'How many days of leadtime on product?',
+            ),
+            $meta_value
+        );
+
+        echo '</div>';
+    }
+
     public function iww_gsf_title(){
         /**
          * Display a nicer
@@ -103,12 +128,15 @@ class MSP_Admin{
     }
     
     // Save Fields
-    public function iww_add_gsf_title( $post_id ){
+    public function process_product_meta( $post_id ){
       if( isset( $_POST['gsf_title'] ) )
             update_post_meta( $post_id, 'gsf_title', $_POST['gsf_title'] );
 
         if( isset( $_POST['msp_product_quantity'] ) )
             update_post_meta( $post_id, 'msp_product_quantity', $_POST['msp_product_quantity'] );
+
+        if( isset( $_POST['_leadtime'] ) )
+            update_post_meta( $post_id, '_leadtime', $_POST['_leadtime'] );
     }
 
     public function add_next_order_btn(){
@@ -186,7 +214,7 @@ class MSP_Admin{
     }
 
     public function save_product_variation_meta( $variation_id, $i ) {
-        $variation_meta_keys = array( 'msp_discontinued', 'our_cost', 'msp_product_quantity' );
+        $variation_meta_keys = array( '_leadtime', 'msp_discontinued', 'our_cost', 'msp_product_quantity' );
 
         foreach( $variation_meta_keys as $meta_key ){
             if( isset( $_POST[$meta_key] ) ){ update_post_meta( $variation_id, $meta_key, $_POST[$meta_key][$i] ); }
@@ -289,6 +317,34 @@ class MSP_Admin{
             </p>
         </div>
         <?php
+    }
+
+    public function msp_product_variation_leadtime_input_box( $loop, $variation_data, $variation ) {
+        /**
+         * HTML which displays the input box for adding a product specific leadtime
+         */
+
+
+        $key = '_leadtime';
+
+        echo '<div class="options_group">';
+
+        woocommerce_form_field(
+            $key . '['. $loop .']',
+
+            array(
+                'type' => 'number',
+                'wrapper_class' => 'form-field',
+                'label'         => 'Leadtime',
+                'description'   => 'What is the expected leadtime on a product?',
+            ),
+            
+            get_post_meta( $variation->ID, $key, true )
+        );
+
+        echo '</div>';
+
+        
     }
 
     public function msp_add_discontinued_checkbox( $loop, $variation_data, $variation ) {
@@ -485,7 +541,7 @@ class MSP_Admin{
         'ups_api_key', 'ups_username', 'ups_password' ) );
         
         $this->add_settings_field_and_register( 'msp_options', 'woocommerce', 'woo', 
-        array( 'ups_only_shipping_class_id', 'ltl_shipping_class_id', 
+        array( 'default_leadtime', 'ups_only_shipping_class_id', 'ltl_shipping_class_id', 
                'free_shipping_method_id', 'ltl_shipping_method_id', 'two_day_shipping_method_id', 
                'three_day_shipping_method_id', 'standard_shipping_method_id' ) );
     }
@@ -496,6 +552,12 @@ new MSP_Admin();
 // templates called by $this->add_settings_field_and_register();
 
 /** ALL THE HTML CALLBACKS FOR THE THEME OPTIONS PAGE /wp-admin/themes.php?page=msp_options */
+function woo_default_leadtime_callback(){
+    $option = get_option( 'woo_default_leadtime' );
+    echo '<p>Default leadtime is overwritten if product is given specific leadtime. Use <code>0</code> for no default leadtime! </p>';
+    echo '<input name="woo_default_leadtime" id="woo_default_leadtime" type="number" value="'. get_option( 'woo_default_leadtime' ) .'" class="code" />';
+}
+
 function promo_pop_up_title_callback(){
     $option = get_option( 'promo_pop_up_title' );
     echo '<input name="promo_pop_up_title" id="promo_pop_up_title" type="text" value="'. get_option( 'promo_pop_up_title' ) .'" class="code" />';
@@ -504,7 +566,8 @@ function promo_pop_up_title_callback(){
 /** Shipping Classes */
 function woo_ups_only_shipping_class_id_callback(){
     $option = get_option( 'woo_ups_only_shipping_class_id' );
-    echo '<a href="/wp-admin/admin.php?page=wc-settings&tab=shipping&section=classes">Shipping Classes</a> <br><input name="woo_ups_only_shipping_class_id" id="woo_ups_only_shipping_class_id" type="text" value="'. get_option( 'woo_ups_only_shipping_class_id' ) .'" class="code" />';
+    echo '<p><a href="/wp-admin/admin.php?page=wc-settings&tab=shipping&section=classes">Shipping Classes</a> are used as a condition to determine which shipping methods are available.</p>';
+    echo '<input name="woo_ups_only_shipping_class_id" id="woo_ups_only_shipping_class_id" type="text" value="'. get_option( 'woo_ups_only_shipping_class_id' ) .'" class="code" />';
 }
 
 function woo_ltl_shipping_class_id_callback(){
@@ -515,7 +578,8 @@ function woo_ltl_shipping_class_id_callback(){
 /** Shipping Methods */
 function woo_free_shipping_method_id_callback(){
     $option = get_option( 'woo_free_shipping_method_id' );
-    echo '<a href="/wp-admin/admin.php?page=wc-settings&tab=shipping&zone_id=1">Shipping Methods</a><br><input name="woo_free_shipping_method_id" id="woo_free_shipping_method_id" type="text" value="'. get_option( 'woo_free_shipping_method_id' ) .'" class="code" />';
+    echo '<p>Map the ID of your <a href="/wp-admin/admin.php?page=wc-settings&tab=shipping">shipping Methods</a> so we can add/remove methods when certain conditions are set. (cart weight, shipping class)</p>';
+    echo '<input name="woo_free_shipping_method_id" id="woo_free_shipping_method_id" type="text" value="'. get_option( 'woo_free_shipping_method_id' ) .'" class="code" />';
 }
 
 function woo_ltl_shipping_method_id_callback(){

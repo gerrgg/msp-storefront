@@ -39,7 +39,7 @@ function msp_get_customer_shipping(){
     return $address;
 }
 
-function msp_get_pickup_date(){
+function msp_get_pickup_date( $cart_leadtime ){
     /**
      * Determine the pickup date for UPS
      */
@@ -47,17 +47,17 @@ function msp_get_pickup_date(){
     $date = new DateTime();
     $day = $date->format('w');
     $time = $date->modify('+1 hour')->format('G');
-    $leadtime = 0;
+    $leadtime = ($cart_leadtime !== '') ? $cart_leadtime : 0;
 
     // if weekend add number of days until monday
     if( $day === 6 || $day === 7 ){
-        $leadtime = abs( 8 - $day );
+        $leadtime += abs( 8 - $day );
     // if its friday and after 1pm add 3 day leadtime
     } else if( $day === 5 & $time > 13 ){
-        $leadtime = 3;
+        $leadtime += 3;
     // if its not the weekend and after 2pm add a single day of leadtime
     } else if( $day < 5 && $time > 14 ){
-        $leadtime = 1;
+        $leadtime += 1;
     }
 
     return $date->modify("+$leadtime days");
@@ -106,8 +106,10 @@ function get_time_in_transit( $data ){
         $invoiceLineTotal->setCurrencyCode('USD');
         $request->setInvoiceLineTotal($invoiceLineTotal);
 
+        $cart_leadtime = msp_get_cart_maxiumum_leadtime();
+
         // Pickup date
-        $request->setPickupDate( msp_get_pickup_date() );
+        $request->setPickupDate( msp_get_pickup_date( $cart_leadtime ) );
 
         // Get data
         $times = $timeInTransit->getTimeInTransit($request);

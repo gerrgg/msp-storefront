@@ -680,3 +680,43 @@ function msp_maybe_get_tracking_link( $order_number ){
 	$link = get_post_meta( $order_number, 'tracking_link', true );
 	if( ! empty( $link ) ) return sprintf( " - <a href='%s'>%s</a>", $link, 'Track package' );
 }
+
+function msp_get_product_leadtime( ){
+	/**
+	 * Get products leadtime or provide the default leadtime
+	 */
+	global $product;
+	$product_leadtime = get_post_meta( $product->get_id(), '_leadtime', true);
+	return ( $product_leadtime !== '' ) ? get_post_meta( $product->get_id(), '_leadtime', true) : get_option( 'woo_default_leadtime' );
+}
+
+function msp_single_product_get_leadtime( ){
+	/**
+	 * Get products leadtime or provide the default leadtime
+	 */
+	$leadtime = msp_get_product_leadtime();
+	echo "<p class='text-danger product-leadtime'><strong>Attention:</strong> Product has a $leadtime day leadtime and is expected to ship in $leadtime business days.</p>";
+
+}
+
+function msp_get_cart_maxiumum_leadtime(){
+	/**
+	 * Get the highest leadtime in the cart by looping through each item and comparing it to the current highest leadtime.
+	 */
+	
+
+	// get default
+	$highest_leadtime = get_option( 'woo_default_leadtime' );
+
+	// check each item's leadtime and assign if higher than the highest
+	foreach( WC()->cart->get_cart_contents() as $key => $item ){
+
+		// get product or variation id
+		$id = ( $item['variation_id'] === 0 ) ? $item['product_id'] : $item['variation_id'];
+
+		$product_leadtime = get_post_meta( $id, '_leadtime', true );
+		if( $product_leadtime > $highest_leadtime ) $highest_leadtime = $product_leadtime;
+	}
+
+	return (int)$highest_leadtime;
+}
