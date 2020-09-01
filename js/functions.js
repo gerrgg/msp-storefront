@@ -115,8 +115,7 @@ jQuery(document).ready(function ($) {
         );
 
         $.post(wp_ajax.url, data, function (response) {
-          console.log(response);
-          main_price.html(response + availability);
+          if (response.length > 0) main_price.html(response);
         });
       }
     },
