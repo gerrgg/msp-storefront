@@ -198,10 +198,18 @@ add_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_p
 add_action( 'msp_before_size_attribute', 'msp_show_product_size_guide_btn', 30 );
 add_action( 'woocommerce_single_product_summary', 'msp_bulk_discount_table', 35 );
 add_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_excerpt', 36);
+add_action( 'woocommerce_single_product_summary', 'msp_free_shipping_message', 37 );
 add_action( 'woocommerce_single_product_summary', 'msp_close_order_tab_content_tag', 50 );
 add_action( 'woocommerce_single_product_summary', 'msp_add_bulk_tab', 100 );
 add_action( 'woocommerce_single_product_summary', 'msp_add_quote_tab', 101 );
 add_action( 'woocommerce_single_product_summary', 'msp_close_single_product_tabs', 9999 );
+
+function msp_free_shipping_message(){
+    echo "<a href='/shipping-delivery/' class='text-success'>
+    <i class='fas fa-shipping-fast'></i>
+    Get <strong>FREE SHIPPING</strong> when you spend $100 or more! (excludes bulky items)
+    </a>";
+}
 
 
 if( get_option( 'wc_add_net_30_to_single_product' ) )
