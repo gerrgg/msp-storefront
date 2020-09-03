@@ -347,7 +347,6 @@ class MSP{
         );
         
         if( WC()->cart->get_cart_contents_weight() > 15 ){
-            echo 'over 15';
             if( isset( $rates[ 'flat_rate:' . $shipping_methods['two-day'] ] ) ) unset($rates[ 'flat_rate:' . $shipping_methods['two-day'] ]);
             if( isset( $rates[ 'flat_rate:' . $shipping_methods['three-day'] ] ) ) unset($rates[ 'flat_rate:' . $shipping_methods['three-day'] ]);
         }

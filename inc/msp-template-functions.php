@@ -1404,7 +1404,7 @@ function add_net_30(){
      */
     $site = get_bloginfo('url');
 	?>
-	<a class="text-success" style="font-weight: 600;" href="<?php echo $site ?>/payment-net-30-terms/"><i class="fa fa-file"></i> Net 30 Terms for Qualified Businesses</a>
+	<p><a class="text-success" style="font-weight: 600;" href="<?php echo $site ?>/payment-net-30-terms/"><i class="fa fa-file"></i> Net 30 Terms for Qualified Businesses</a></p>
 	<?php
 }
 

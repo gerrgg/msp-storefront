@@ -61,7 +61,8 @@ function msp_get_pickup_date( $cart_leadtime ){
         $leadtime += 1;
     }
 
-    return $date->modify("+$leadtime days");
+
+    return ( $leadtime > 0 ) ? $date->modify('+' . $leadtime . ' day') : $date;
 }
 
 function get_time_in_transit( $data ){
@@ -110,7 +111,9 @@ function get_time_in_transit( $data ){
         $cart_leadtime = msp_get_cart_maxiumum_leadtime();
 
         // Pickup date
-        $request->setPickupDate( msp_get_pickup_date( $cart_leadtime ) );
+        $pickup_date = msp_get_pickup_date( $cart_leadtime );
+
+        $request->setPickupDate( $pickup_date );
 
         // Get data
         $times = $timeInTransit->getTimeInTransit($request);
@@ -120,6 +123,7 @@ function get_time_in_transit( $data ){
         foreach($times->ServiceSummary as $serviceSummary) {
             // convert method code to shipping method id
             $shipping_method = msp_ups_service_codes_to_shipping_methods( $serviceSummary->Service->getCode() );
+
 
             // convert API response to formatted date
             $date = date_create_from_format( 'Y-m-d', $serviceSummary->EstimatedArrival->getDate() );
@@ -147,8 +151,20 @@ function msp_ups_service_codes_to_shipping_methods( $service_code ){
         '2DM' => 'ups:3:59',
         '2DA' => 'ups:3:02',
         '3DS' => 'ups:3:12',
-        'GND' => 'ups:3:03'
+        'GND' => 'ups:3:03',
     );
 
-    return isset($service_to_methods[$service_code]) ? $service_to_methods[$service_code] : '' ;
+
+
+    return isset($service_to_methods[$service_code]) ? $service_to_methods[$service_code] : '';
+}
+
+function msp_ups_service_codes_to_flatrate_methods( $service_code ){
+    $service_to_flatrates = array(
+        'GND' => 'flatrate:' . get_option( 'woo_standard_shipping_method_id' ),
+        '3DS' => 'flatrate:' . get_option( 'woo_three_day_shipping_method_id' ),
+        '2DA' => 'flatrate:' . get_option( 'woo_two_day_shipping_method_id' )
+    );
+
+    return isset($service_to_flatrates[$service_code]) ? $service_to_flatrates[$service_code] : '';
 }
