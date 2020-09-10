@@ -212,9 +212,6 @@ function msp_free_shipping_message(){
 }
 
 
-if( get_option( 'wc_add_net_30_to_single_product' ) )
-    add_action( 'woocommerce_single_product_summary', 'add_net_30', 37 );
-
 /**
  * woocommerce_product_additional_information
  * @see msp_add_to_product_additional_information - 50

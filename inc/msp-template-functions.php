@@ -1398,27 +1398,6 @@ function save_product_with_qty_breaks( $post_id ){
   create_qty_breaks( $post_id, $product->get_price() );
 }
 
-function add_net_30(){
-    /**
-     * If enabled, show link to NET 30 page.
-     */
-    $site = get_bloginfo('url');
-	?>
-	<p><a class="text-success" style="font-weight: 600;" href="<?php echo $site ?>/payment-net-30-terms/"><i class="fa fa-file"></i> Net 30 Terms for Qualified Businesses</a></p>
-	<?php
-}
-
-function cheque_payment_method_order_status_to_processing( $order_id ) {
-    // Updating order status to processing for orders delivered with Cheque payment methods.
-    if ( ! $order_id )
-        return;
-
-    $order = wc_get_order( $order_id );
-
-    if (  get_post_meta($order_id, '_payment_method', true) == 'cheque' )
-        $order->update_status( 'processing' );
-}
-
 function msp_add_copyright(){
     /**
      * Connected to theme options. Gives the Admin a chance to change colors.
