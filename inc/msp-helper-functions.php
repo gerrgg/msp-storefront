@@ -734,6 +734,5 @@ function msp_get_cart_maxiumum_leadtime(){
 		if( $product_leadtime > $highest_leadtime ) $highest_leadtime = $product_leadtime;
 	}
 
-	echo $highest_leadtime;
 	return (int)$highest_leadtime;
 }
