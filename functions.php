@@ -344,11 +344,20 @@ class MSP{
             'standard' => get_option( 'woo_standard_shipping_method_id' ),
             'two-day' => get_option( 'woo_two_day_shipping_method_id' ),
             'three-day' => get_option( 'woo_three_day_shipping_method_id' ),
+            'priority_mail' => get_option( 'woo_priority_mail' )
         );
+
+        if( WC()->cart->get_cart_contents_weight() > 1 ){
+            if( isset( $rates[ 'flat_rate:' . $shipping_methods['priority_mail'] ] ) ) 
+                unset($rates[ 'flat_rate:' . $shipping_methods['priority_mail'] ]);
+        }
         
         if( WC()->cart->get_cart_contents_weight() > 15 ){
-            if( isset( $rates[ 'flat_rate:' . $shipping_methods['two-day'] ] ) ) unset($rates[ 'flat_rate:' . $shipping_methods['two-day'] ]);
-            if( isset( $rates[ 'flat_rate:' . $shipping_methods['three-day'] ] ) ) unset($rates[ 'flat_rate:' . $shipping_methods['three-day'] ]);
+            if( isset( $rates[ 'flat_rate:' . $shipping_methods['two-day'] ] ) ) 
+                unset($rates[ 'flat_rate:' . $shipping_methods['two-day'] ]);
+
+            if( isset( $rates[ 'flat_rate:' . $shipping_methods['three-day'] ] ) ) 
+                unset($rates[ 'flat_rate:' . $shipping_methods['three-day'] ]);
         }
 
         

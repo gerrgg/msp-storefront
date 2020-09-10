@@ -541,7 +541,7 @@ class MSP_Admin{
         'ups_api_key', 'ups_username', 'ups_password' ) );
         
         $this->add_settings_field_and_register( 'msp_options', 'woocommerce', 'woo', 
-        array( 'default_leadtime', 'ups_only_shipping_class_id', 'ltl_shipping_class_id', 
+        array( 'default_leadtime', 'priority_mail', 'ups_only_shipping_class_id', 'ltl_shipping_class_id', 
                'free_shipping_method_id', 'ltl_shipping_method_id', 'two_day_shipping_method_id', 
                'three_day_shipping_method_id', 'standard_shipping_method_id' ) );
     }
@@ -556,6 +556,12 @@ function woo_default_leadtime_callback(){
     $option = get_option( 'woo_default_leadtime' );
     echo '<p>Default leadtime is overwritten if product is given specific leadtime. Use <code>0</code> for no default leadtime! </p>';
     echo '<input name="woo_default_leadtime" id="woo_default_leadtime" type="number" value="'. get_option( 'woo_default_leadtime' ) .'" class="code" />';
+}
+
+function woo_priority_mail_callback(){
+    $option = get_option( 'woo_priority_mail' );
+    echo '<p>This shipping method will be removed from carts greater than 1 lb. and is intended for use in AK and HI:</p>';
+    echo '<input name="woo_priority_mail" id="woo_priority_mail" type="number" value="'. get_option( 'woo_priority_mail' ) .'" class="code" />';
 }
 
 function promo_pop_up_title_callback(){

@@ -39,7 +39,7 @@ function msp_get_customer_shipping(){
     return $address;
 }
 
-function msp_get_pickup_date( $cart_leadtime = 0 ){
+function msp_get_pickup_date( $cart_leadtime ){
     /**
      * Determine the pickup date for UPS
      */
@@ -47,16 +47,17 @@ function msp_get_pickup_date( $cart_leadtime = 0 ){
     $date = new DateTime();
     $day = $date->format('w');
     $time = $date->modify('+1 hour')->format('G');
-    $leadtime = $cart_leadtime;
+
+    $leadtime = ($cart_leadtime != '') ? $cart_leadtime : get_option( 'woo_default_leadtime' );
 
     // if weekend add number of days until monday
     if( $day === 6 || $day === 7 ){
         $leadtime += abs( 8 - $day );
     // if its friday and after 1pm add 3 day leadtime
-    } else if( $day === 5 & $time > 13 ){
+    } else if( $day === 5 & $time >= 13 ){
         $leadtime += 3;
     // if its not the weekend and after 2pm add a single day of leadtime
-    } else if( $day < 5 && $time > 14 ){
+    } else if( $day < 5 && $time >= 14 ){
         $leadtime += 1;
     }
 
