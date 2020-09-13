@@ -323,7 +323,9 @@ function msp_header_right_menu(){
  * Displays the html markup for the cart button on the header - includes # of items in cart
  */
 function msp_header_cart(){
-    $cart_size = sizeof( WC()->cart->get_cart_contents() ); ?>
+    // if WC() cart not available - use a 0
+    $cart_size = ( isset(WC()->cart) ) ? sizeof( WC()->cart->get_cart_contents() ) : 0;
+    ?>
     <div class="d-flex cart-wrapper">
         <a class="nav-link" href="<?php echo wc_get_cart_url(); ?>">
             <i class="fas fa-shopping-cart fa-2x"></i>
