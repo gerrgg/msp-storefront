@@ -1,10 +1,7 @@
-body{
-    @media #{$phone-width} {
-        font-size: .75rem;
-    }
-    font-size: .85rem;
-    font-family: $font_roboto;
+body {
+  @media #{$phone-width} {
+    font-size: 0.75rem;
+  }
+  font-size: 0.85rem;
+  font-family: $font_roboto;
 }
-
-
-

@@ -16,16 +16,15 @@ $color-secondary: #3d9dcc;
 $phone-width: "only screen and (max-width: 576px)";
 
 // BORDERS
-$border-light: 1px solid rgba(0,0,0,0.1);
-$border-med: 1px solid rgba(0,0,0,0.3);
-$border-hard: 1px solid rgba(0,0,0,0.5);
+$border-light: 1px solid rgba(0, 0, 0, 0.1);
+$border-med: 1px solid rgba(0, 0, 0, 0.3);
+$border-hard: 1px solid rgba(0, 0, 0, 0.5);
 
-$color-light-grey: rgba(0,0,0,0.1);
-$color-med-grey: rgb(232,232,232);
+$color-light-grey: rgba(0, 0, 0, 0.1);
+$color-med-grey: rgb(232, 232, 232);
 $color-dark-grey: #4a4a4a;
 
 $color-price-red: rgb(177, 39, 4);
-
 
 $color-white: #fff;
 $color-black: #333;
@@ -37,7 +36,7 @@ $bg-color-alt-dark: #4a4a4a;
 $link-color-blue: #0066c0;
 
 // FONT
-$font_roboto: 'Roboto', sans-serif;
+$font_roboto: "Roboto", sans-serif;
 
 /// FONT SIZE
 $font-size-xs: 0.25rem;
@@ -45,4 +44,3 @@ $font-size-sm: 0.5rem;
 $font-size-md: 1rem;
 $font-size-lg: 1.5rem;
 $font-size-xl: 2rem;
-
