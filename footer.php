@@ -35,6 +35,11 @@
 </div><!-- #page -->
 
 <?php wp_footer(); ?>
-<script src="//code.tidio.co/qgnmbr4vfrekzqwsvlxuuahfxz98ydoa.js" async></script>
+
+<?php 
+	$tidio_secret = get_option( 'integration_tidio_secret' );
+	if( $tidio_secret ) echo "<script src='//code.tidio.co/$tidio_secret.js' async></script>"
+?>
+
 </body>
 </html>

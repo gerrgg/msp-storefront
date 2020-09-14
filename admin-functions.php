@@ -536,7 +536,7 @@ class MSP_Admin{
         array( 'contact_email', 'gtin_field' ) );
         
         $this->add_settings_field_and_register( 'msp_options', 'integration', 'integration', 
-        array( 'google_analytics_account_id', 'google_recaptcha', 
+        array( 'tidio_secret', 'google_analytics_account_id', 'google_recaptcha', 
         'google_adwords', 'google_aw_campaign', 'bing_ads', 
         'ups_api_key', 'ups_username', 'ups_password' ) );
         
@@ -683,6 +683,14 @@ function msp_contact_email_callback(){
 function msp_gtin_field_callback(){
     echo '<input name="msp_gtin_field" id="msp_gtin_field" type="text" value="'. get_option( 'msp_gtin_field' ) .'" class="code" />';
 }
+
+function integration_tidio_secret_callback(){
+    echo '<p>
+            Enter tidio secret here - it will look like <code>qgnmbr78979879898uuahfxz98ydoa</code> <a href="https://www.tidio.com/panel/settings/live-chat/integration">Tidio Integration</a>
+            <br><input name="integration_tidio_secret" id="integration_tidio_secret" type="text" value="'. get_option( 'integration_tidio_secret' ) .'" class="code" />
+         </p>';
+}
+
 
 function integration_google_analytics_account_id_callback(){
     echo '<input name="integration_google_analytics_account_id" id="integration_google_analytics_account_id" type="text" value="'. get_option( 'integration_google_analytics_account_id' ) .'" class="code" />';
