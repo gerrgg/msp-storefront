@@ -83,6 +83,7 @@ if( isset( $_GET['ids'] ) ) : ?>
     </div>
 
     <input type="hidden" name="action" value="msp_submit_bulk_form" />
+    <?php do_action( 'anr_captcha_form_field' ); ?>
     <button type="submit" class="btn btn-danger">Submit quote request</button>
 </form>
 

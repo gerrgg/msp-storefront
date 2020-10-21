@@ -30,6 +30,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
         <input type="hidden" name="action" value="msp_process_contact_form" />
         <div id="errors" class="text-error"></div>
+        <?php do_action( 'anr_captcha_form_field' ); ?>
         <button type="button" role="button" class="btn submit btn-success">Submit Message</button>
     </form>
     <hr/>
