@@ -699,12 +699,13 @@ function msp_single_product_get_leadtime(){
 	$leadtime = msp_get_product_leadtime( $product->get_id() );
 	
 	echo msp_get_leadtime_message($leadtime);
-
-
 }
 
 function msp_get_leadtime_message( $leadtime ){
+	$use_leadtime = get_option('woo_use_leadtime');
 	$msg = '';
+
+	if( 'yes' !== $use_leadtime ) return '';
 
 	if( (int)$leadtime > 0 ){
 		$msg = "<p class='text-danger product-leadtime'><strong>Attention:</strong> Product has a $leadtime day leadtime and is expected to ship in $leadtime business days.</p>";
