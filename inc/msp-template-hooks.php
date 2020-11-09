@@ -219,7 +219,6 @@ function msp_free_shipping_message(){
 add_action( 'woocommerce_product_additional_information', 'msp_get_additional_information', 5, 1 );
 add_action( 'woocommerce_product_additional_information', 'msp_product_specification_html', 10, 1 );
 
-add_action( 'woocommerce_before_shop_loop', 'woocommerce_catalog_ordering', 30 );
 add_action( 'woocommerce_before_shop_loop', 'msp_mobile_product_filter_button', 5 );
 
 
@@ -234,9 +233,10 @@ add_action( 'woocommerce_after_shop_loop',  'msp_archive_description_header', 45
 add_action( 'woocommerce_after_shop_loop',  'woocommerce_taxonomy_archive_description', 50 );
 add_action( 'woocommerce_after_shop_loop',  'woocommerce_product_archive_description', 50 );
 
-add_action( 'woocommerce_archive_description', 'woocommerce_breadcrumb', 5 );
 add_action( 'woocommerce_archive_description', 'msp_add_sub_cat_links', 1 );
 add_action( 'woocommerce_archive_description', 'msp_add_category_images', 2 );
+add_action( 'woocommerce_archive_description', 'woocommerce_catalog_ordering', 4 );
+add_action( 'woocommerce_archive_description', 'woocommerce_breadcrumb', 5 );
 
 add_action( 'woocommerce_review_order_before_payment', 'msp_add_payment_heading' );
 function msp_add_payment_heading(){

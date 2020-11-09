@@ -7,18 +7,15 @@ body {
     padding: 0;
     margin: 0 0 1rem 0;
 
-    @media #{$phone-width} {
-      display: none;
-    }
-
     .col-full {
       max-width: 100%;
       padding: 0 0.5rem;
     }
 
     .woocommerce-breadcrumb {
-      color: #fff;
-      font-size: 0.75rem;
+      color: white;
+
+      font-size: 0.65rem;
 
       a {
         color: #333;
@@ -26,11 +23,20 @@ body {
 
       span {
         color: #000;
-
-        &:last-child {
-          color: #fff;
-        }
       }
+
+      span:last-child {
+        display: none;
+      }
+    }
+  }
+
+  .woocommerce-ordering {
+    display: block;
+    float: unset;
+
+    @media #{$phone-width} {
+      margin-top: 1rem;
     }
   }
 
@@ -144,6 +150,7 @@ body {
     margin: 0 -15px;
     background-color: #fff;
     padding: 1rem 0.5rem;
+    text-align: center;
   }
 }
 

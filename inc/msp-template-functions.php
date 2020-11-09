@@ -1043,7 +1043,7 @@ function msp_add_sub_cat_links(){
 
     $echo = 'Shop for ';
 
-    echo '<p class="text-left">';
+    echo '<p>';
 
     foreach( $nav_items as $item ){
         $echo .= '<a href="'. get_term_link( $item->term_id ) .'">'. $item->name .'</a>, ';

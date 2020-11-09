@@ -102,6 +102,32 @@ li.review {
   width: 100%;
 }
 
+article header {
+  text-align: center;
+}
+article form.woocommerce-form-track-order {
+  margin: 0 auto;
+  width: 330px;
+}
+@media only screen and (max-width: 576px) {
+  article form.woocommerce-form-track-order {
+    max-width: 350px;
+  }
+}
+
+.woocommerce-customer-details .woocommerce-columns .col-1,
+.woocommerce-customer-details .woocommerce-columns .col-2 {
+  max-width: 45%;
+  width: 45% !important;
+}
+@media only screen and (max-width: 576px) {
+  .woocommerce-customer-details .woocommerce-columns .col-1,
+.woocommerce-customer-details .woocommerce-columns .col-2 {
+    max-width: 100%;
+    width: 100% !important;
+  }
+}
+
 body.single-product #msp_modal {
   padding: 0 !important;
 }
@@ -485,7 +511,7 @@ body.single-product #reviews #review_form_wrapper #respond .comment-form-rating 
   color: #fff;
 }
 #mobile-menu li {
-  font-size: 16px;
+  font-size: 14px;
   padding-left: 1.5rem;
   font-weight: 400;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
@@ -565,18 +591,13 @@ body .storefront-breadcrumb {
   padding: 0;
   margin: 0 0 1rem 0;
 }
-@media only screen and (max-width: 576px) {
-  body .storefront-breadcrumb {
-    display: none;
-  }
-}
 body .storefront-breadcrumb .col-full {
   max-width: 100%;
   padding: 0 0.5rem;
 }
 body .storefront-breadcrumb .woocommerce-breadcrumb {
-  color: #fff;
-  font-size: 0.75rem;
+  color: white;
+  font-size: 0.65rem;
 }
 body .storefront-breadcrumb .woocommerce-breadcrumb a {
   color: #333;
@@ -585,7 +606,16 @@ body .storefront-breadcrumb .woocommerce-breadcrumb span {
   color: #000;
 }
 body .storefront-breadcrumb .woocommerce-breadcrumb span:last-child {
-  color: #fff;
+  display: none;
+}
+body .woocommerce-ordering {
+  display: block;
+  float: unset;
+}
+@media only screen and (max-width: 576px) {
+  body .woocommerce-ordering {
+    margin-top: 1rem;
+  }
 }
 body .owl-carousel {
   position: relative;
@@ -681,6 +711,7 @@ body .owl-carousel .owl-item .woocommerce-LoopProduct-link.woocommerce-loop-prod
   margin: 0 -15px;
   background-color: #fff;
   padding: 1rem 0.5rem;
+  text-align: center;
 }
 
 #msp-archive {

@@ -89,3 +89,32 @@ li.review {
     }
   }
 }
+
+article {
+  header {
+    text-align: center;
+  }
+
+  form.woocommerce-form-track-order {
+    margin: 0 auto;
+    width: 330px;
+
+    @media #{$phone-width} {
+      max-width: 350px;
+    }
+  }
+}
+
+.woocommerce-customer-details {
+  .woocommerce-columns {
+    .col-1,
+    .col-2 {
+      max-width: 45%;
+      width: 45% !important;
+      @media #{$phone-width} {
+        max-width: 100%;
+        width: 100% !important;
+      }
+    }
+  }
+}
