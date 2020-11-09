@@ -541,7 +541,7 @@ class MSP_Admin{
         'ups_api_key', 'ups_username', 'ups_password' ) );
         
         $this->add_settings_field_and_register( 'msp_options', 'woocommerce', 'woo', 
-        array( 'default_leadtime', 'priority_mail', 'ups_only_shipping_class_id', 'ltl_shipping_class_id', 
+        array( 'use_leadtime', 'default_leadtime', 'priority_mail', 'ups_only_shipping_class_id', 'ltl_shipping_class_id', 
                'free_shipping_method_id', 'ltl_shipping_method_id', 'two_day_shipping_method_id', 
                'three_day_shipping_method_id', 'standard_shipping_method_id' ) );
     }
@@ -552,6 +552,12 @@ new MSP_Admin();
 // templates called by $this->add_settings_field_and_register();
 
 /** ALL THE HTML CALLBACKS FOR THE THEME OPTIONS PAGE /wp-admin/themes.php?page=msp_options */
+function woo_use_leadtime_callback(){
+    $checked = ('yes' === get_option( 'woo_use_leadtime' )) ? 'checked="checked"' : "";
+
+    echo '<input name="woo_use_leadtime" id="woo_use_leadtime" type="checkbox" value="yes" class="code"' . $checked .'/>';
+}
+
 function woo_default_leadtime_callback(){
     $option = get_option( 'woo_default_leadtime' );
     echo '<p>Default leadtime is overwritten if product is given specific leadtime. Use <code>0</code> for no default leadtime! </p>';
