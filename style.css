@@ -253,6 +253,12 @@ body.single-product .product form.cart {
   padding: 0;
   display: flex;
 }
+body.single-product .product form.cart .woocommerce-variation .woocommerce-variation-price {
+  display: none;
+}
+body.single-product .product form.cart .woocommerce-variation .woocommerce-variation-description {
+  font-size: 1rem;
+}
 body.single-product .product form.cart .woocommerce-variation-add-to-cart {
   display: flex;
 }

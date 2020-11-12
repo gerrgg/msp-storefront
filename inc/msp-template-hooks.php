@@ -189,6 +189,9 @@ add_action( 'woocommerce_after_single_product_summary', 'woocommerce_upsell_disp
 remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_price', 10 );
 remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_excerpt', 20 );
 
+remove_action( 'woocommerce_single_variation', 'woocommerce_single_variation', 10 );
+add_action( 'woocommerce_before_variations_form', 'woocommerce_single_variation', 10 );
+
 add_action( 'woocommerce_single_product_summary', 'msp_brand_name', 1 );
 add_action( 'woocommerce_single_product_summary', 'msp_add_tabs', 12 );
 add_action( 'woocommerce_single_product_summary', 'msp_open_single_product_tabs', 13 );

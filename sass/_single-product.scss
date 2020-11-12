@@ -161,6 +161,16 @@ body.single-product {
 
       display: flex;
 
+      .woocommerce-variation {
+        .woocommerce-variation-price {
+          display: none;
+        }
+
+        .woocommerce-variation-description {
+          font-size: 1rem;
+        }
+      }
+
       .woocommerce-variation-add-to-cart {
         display: flex;
       }
