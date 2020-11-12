@@ -128,7 +128,7 @@ body.single-product {
       }
 
       p.stock {
-        margin-top: 1rem;
+        margin: 0.25rem 0;
       }
     }
 
@@ -162,7 +162,8 @@ body.single-product {
       display: flex;
 
       .woocommerce-variation {
-        .woocommerce-variation-price {
+        .woocommerce-variation-price,
+        .woocommerce-variation-availability {
           display: none;
         }
 

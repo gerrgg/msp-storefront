@@ -229,7 +229,7 @@ body.single-product .product .price ins span.amount:first-child:before {
   content: "Now:";
 }
 body.single-product .product .price p.stock {
-  margin-top: 1rem;
+  margin: 0.25rem 0;
 }
 body.single-product .product .woocommerce-product-details__short-description ul {
   margin: 0.7rem;
@@ -253,7 +253,8 @@ body.single-product .product form.cart {
   padding: 0;
   display: flex;
 }
-body.single-product .product form.cart .woocommerce-variation .woocommerce-variation-price {
+body.single-product .product form.cart .woocommerce-variation .woocommerce-variation-price,
+body.single-product .product form.cart .woocommerce-variation .woocommerce-variation-availability {
   display: none;
 }
 body.single-product .product form.cart .woocommerce-variation .woocommerce-variation-description {
