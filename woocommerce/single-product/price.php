@@ -30,7 +30,6 @@ global $product;
 <span style="color: #333; font-size: .75rem;">+ Free Shipping</span>
 <?php endif; ?>
 
-// checks if product has the clearance tag
 <?php if( is_clearance($product) ) :?>
 <span style="color: #333; font-size: .75rem;"> + <strong>All sales final</strong> on clearance items - non-refundable</span>
 <?php endif; ?>
