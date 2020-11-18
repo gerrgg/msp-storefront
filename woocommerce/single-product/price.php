@@ -27,8 +27,16 @@ global $product;
 <?php echo $product->get_price_html(); ?>
 
 <?php if( $product->get_price() > 100 && $product->get_shipping_class_id() != get_option( 'woo_ltl_shipping_class_id' ) && $product->get_shipping_class_id() != get_option( 'woo_ups_only_shipping_class_id' ) ) : ?>
-<span style="color: #333; font-size: .75rem">+ Free Shipping</span>
+<span style="color: #333; font-size: .75rem;">+ Free Shipping</span>
 <?php endif; ?>
+
+// checks if product has the clearance tag
+<?php if( is_clearance($product) ) :?>
+<span style="color: #333; font-size: .75rem;"> + <strong>All sales final</strong> on clearance items - non-refundable</span>
+<?php endif; ?>
+
+
+
 
 <?php if( $product->is_type('simple') ) msp_single_product_get_leadtime(); ?>
 

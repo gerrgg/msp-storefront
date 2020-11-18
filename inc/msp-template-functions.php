@@ -1700,6 +1700,30 @@ function msp_product_specification_html(){
 
 }
 
+function is_clearance ( $product ) {
+    /**
+     * Looks at product tag list and looks for clearance tag
+     */
+
+    if( is_product() ){
+
+        global $product;
+    
+        $tag_list = $product->get_tag_ids();
+    
+        foreach( $tag_list as $key => $tag ){
+
+            $tag = get_term( $tag, 'product_tag' );
+
+            if($tag->slug === 'clearance'){
+                return true;
+            }
+    
+        }
+
+    }
+}
+
 function msp_get_product_tabs( $content ){
     /**
      * Gets product tag descriptions if not empty 
@@ -1714,6 +1738,7 @@ function msp_get_product_tabs( $content ){
          foreach( $tag_list as $key => $tag ){
 
              $tag = get_term( $tag, 'product_tag' );
+
              $desc = tag_description($tag->term_id);
      
              if( ! empty( $desc ) ){
