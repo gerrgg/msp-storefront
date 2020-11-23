@@ -1,0 +1,24 @@
+{
+  "name": "msp-storefront",
+  "version": "1.0.0",
+  "description": "Create a quick ecommerce experience built with love and caffine.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gerrgg/msp-storefront.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gerrgg/msp-storefront/issues"
+  },
+  "homepage": "https://github.com/gerrgg/msp-storefront#readme",
+  "devDependencies": {
+    "@prettier/plugin-php": "^0.16.0",
+    "prettier": "^2.1.2"
+  }
+}
