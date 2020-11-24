@@ -90,7 +90,7 @@ jQuery(document).ready(function ($) {
       }
     },
 
-    replace_single_product_price_range: function (e) {
+    replace_single_product_price_range: async function (e) {
       let main_price = $("#order-tab-content p.price");
       let availability = $(".woocommerce-variation-availability").html();
 
@@ -113,22 +113,27 @@ jQuery(document).ready(function ($) {
           '<div class="spinner-border text-danger" role="status"><span class="sr-only">Loading...</span></div>'
         );
 
-        $.post(wp_ajax.url, data, function (response) {
+        await $.post(wp_ajax.url, data, function (response) {
           if (response) main_price.html(response + availability);
-
-          const newPrice = main_price.text().replace("$", "").replace(",", "");
-          if (newPrice !== "Loading...") {
-            $("#msp-bulk-pricing tbody > tr > td").each((i, td) => {
-              if (i !== 0) {
-                const updatedDiscount =
-                  "$" + (parseFloat(td.className) * newPrice).toFixed(2);
-
-                td.innerText = updatedDiscount;
-              }
-            });
-          }
         });
+
+        const newPrice = main_price.text().replace("$", "").replace(",", "");
+
+        if (newPrice) {
+          msp.update_discount_table(newPrice);
+        }
       }
+    },
+
+    update_discount_table: function (newPrice) {
+      $("#msp-bulk-pricing tbody > tr > td").each((i, td) => {
+        if (i !== 0) {
+          const updatedDiscount =
+            "$" + (parseFloat(td.className) * newPrice).toFixed(2);
+
+          td.innerText = updatedDiscount;
+        }
+      });
     },
 
     add_to_bulk_list: function (e) {
