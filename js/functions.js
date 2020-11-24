@@ -91,8 +91,8 @@ jQuery(document).ready(function ($) {
     },
 
     replace_single_product_price_range: async function (e) {
-      let main_price = $("#order-tab-content p.price");
-      let availability = $(".woocommerce-variation-availability").html();
+      const main_price = $("#order-tab-content p.price");
+      const availability = $(".woocommerce-variation-availability").html();
 
       // Setup for ajax request
       let data = {
@@ -117,7 +117,11 @@ jQuery(document).ready(function ($) {
           if (response) main_price.html(response + availability);
         });
 
-        const newPrice = main_price.text().replace("$", "").replace(",", "");
+        const newPrice = main_price
+          .find("span.amount")
+          .text()
+          .replace("$", "")
+          .replace(",", "");
 
         if (newPrice) {
           msp.update_discount_table(newPrice);
@@ -126,6 +130,7 @@ jQuery(document).ready(function ($) {
     },
 
     update_discount_table: function (newPrice) {
+      console.log(newPrice);
       $("#msp-bulk-pricing tbody > tr > td").each((i, td) => {
         if (i !== 0) {
           const updatedDiscount =
