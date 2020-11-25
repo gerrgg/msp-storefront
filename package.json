@@ -3,11 +3,6 @@
   "version": "1.0.0",
   "description": "Create a quick ecommerce experience built with love and caffine.",
   "main": "index.js",
-  "babel": {
-    "presets": [
-      "@babel/preset-env"
-    ]
-  },
   "scripts": {
     "watch": "webpack --mode=development --watch --config webpack-config.js",
     "build": "webpack --mode=production --config webpack-config.js",
@@ -33,15 +28,20 @@
   "devDependencies": {
     "@babel/cli": "^7.12.8",
     "@babel/core": "^7.12.8",
+    "@babel/plugin-transform-runtime": "^7.12.1",
     "@babel/preset-env": "^7.12.7",
     "@prettier/plugin-php": "^0.16.0",
     "babel-core": "^6.26.3",
     "babel-loader": "^8.2.1",
     "babel-plugin-uglify": "^1.0.2",
     "babel-preset-env": "^1.7.0",
+    "browser-sync-webpack-plugin": "^2.2.2",
     "prettier": "^2.1.2",
     "uglifyjs-webpack-plugin": "^2.2.0",
     "webpack": "^5.6.0",
     "webpack-cli": "^4.2.0"
+  },
+  "dependencies": {
+    "browser-sync": "^2.26.13"
   }
 }

@@ -1,6 +1,8 @@
 // Require path.
 const path = require("path");
 
+BrowserSyncPlugin = require("browser-sync-webpack-plugin");
+
 // Configuration object.
 const config = {
   // Create the entry points.
@@ -34,6 +36,12 @@ const config = {
       },
     ],
   },
+  plugins: [
+    new BrowserSyncPlugin({
+      files: "**/*.php",
+      proxy: "http://one.wordpress.test",
+    }),
+  ],
 };
 
 // Export the config object.

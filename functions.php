@@ -171,7 +171,12 @@ class MSP
     global $pagename;
 
     // Custom javascript functions
-    wp_enqueue_script("main", URI . "/js/functions.js", ["jquery"], "", true);
+    wp_enqueue_script(
+      "main",
+      URI . "/assets/js/frontend.js",
+      ["jquery"],
+      time()
+    );
 
     $this->inline_css();
 

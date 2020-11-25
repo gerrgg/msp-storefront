@@ -503,16 +503,12 @@ class MSP_Admin
     /**
      * Add admin script
      */
-<<<<<<< HEAD
     wp_enqueue_script(
       "admin",
       get_stylesheet_directory_uri() . "assets/js/admin.js",
       ["jquery"],
       time()
     );
-=======
-    wp_enqueue_script("admin", get_stylesheet_directory_uri() . "/js/admin.js");
->>>>>>> caeeb26f0c1b43189d1a88726e1e84269bb33e93
     wp_enqueue_media();
   }
 
