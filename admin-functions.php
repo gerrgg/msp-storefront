@@ -503,12 +503,16 @@ class MSP_Admin
     /**
      * Add admin script
      */
+<<<<<<< HEAD
     wp_enqueue_script(
       "admin",
       get_stylesheet_directory_uri() . "assets/js/admin.js",
       ["jquery"],
       time()
     );
+=======
+    wp_enqueue_script("admin", get_stylesheet_directory_uri() . "/js/admin.js");
+>>>>>>> caeeb26f0c1b43189d1a88726e1e84269bb33e93
     wp_enqueue_media();
   }
 
@@ -638,7 +642,14 @@ class MSP_Admin
       "msp_options",
       "promotions",
       "promo",
-      ["top_bar_text", "top_bar_link"]
+      [
+        "top_bar_text",
+        "top_bar_link",
+        "pop_up_title",
+        "pop_up_link",
+        "pop_up_image_id",
+        "pop_up_version",
+      ]
     );
 
     $this->add_settings_field_and_register(

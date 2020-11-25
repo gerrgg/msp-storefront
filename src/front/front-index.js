@@ -119,6 +119,7 @@ jQuery(document).ready(function ($) {
 
         const newPrice = main_price
           .find("span.amount")
+          .last()
           .text()
           .replace("$", "")
           .replace(",", "");

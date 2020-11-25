@@ -1,8 +1,21 @@
-body.single-product {
-  #msp_modal {
-    padding: 0 !important;
+#msp_modal.modal {
+  padding: 0 !important;
+  left: 0px !important;
+  .modal-dialog {
+    max-width: 425px !important;
   }
+  .modal-content {
+    padding: 0 !important;
+    .modal-header {
+      display: none !important;
+    }
+    .modal-body {
+      padding: 4px !important;
+    }
+  }
+}
 
+body.single-product {
   #msp-archive {
     margin-left: unset;
   }
