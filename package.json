@@ -4,6 +4,7 @@
   "description": "Create a quick ecommerce experience built with love and caffine.",
   "main": "index.js",
   "scripts": {
+    "sass": "sass --watch sass/style.scss:style.css",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
