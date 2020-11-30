@@ -10,6 +10,13 @@
  Tags:         light, dark, two-columns, right-sidebar, responsive-layout, accessibility-ready
  Text Domain:  msp
 */
+#tns1-ow {
+  width: 100%; }
+  #tns1-ow #tns1 li.product {
+    width: 200px !important; }
+    #tns1-ow #tns1 li.product a {
+      text-decoration: none; }
+
 /**
  - APPLESAFETY - 
 $color-primary: #b2dd57;
@@ -495,36 +502,9 @@ body .woocommerce-ordering {
   @media only screen and (max-width: 576px) {
     body .woocommerce-ordering {
       margin-top: 1rem; } }
-body .owl-carousel {
-  position: relative; }
-  body .owl-carousel .owl-nav {
-    position: absolute;
-    width: 100%;
-    margin: 0 -7px;
-    font-size: 6rem;
-    line-height: 0px;
-    text-align: center;
-    justify-content: space-between;
-    display: flex;
-    top: 30%;
-    color: #ff5e56; }
-  body .owl-carousel .owl-item .woocommerce-LoopProduct-link.woocommerce-loop-product__link {
-    max-height: 200px;
-    display: flex;
-    -webkit-box-orient: horizontal;
-    -moz-box-orient: horizontal;
-    flex-direction: row;
-    -webkit-box-pack: center;
-    -moz-box-pack: center;
-    justify-content: center;
-    -webkit-box-align: center;
-    -moz-box-align: center;
-    align-items: center; }
-    body .owl-carousel .owl-item .woocommerce-LoopProduct-link.woocommerce-loop-product__link img {
-      height: auto;
-      width: auto; }
 
 #msp-sidebar {
+  overflow: hidden;
   background-color: #333;
   color: #fff;
   border-right: 1px dotted rgba(0, 0, 0, 0.1); }
@@ -576,7 +556,8 @@ body .owl-carousel {
     text-align: center; }
 
 #msp-archive {
-  background-color: #fff; }
+  background-color: #fff;
+  overflow: hidden; }
   #msp-archive li {
     list-style: none;
     border: 1px solid rgba(0, 0, 0, 0.1);

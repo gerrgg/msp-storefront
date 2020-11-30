@@ -39,50 +39,10 @@ body {
       margin-top: 1rem;
     }
   }
-
-  .owl-carousel {
-    position: relative;
-
-    .owl-nav {
-      position: absolute;
-      width: 100%;
-      margin: 0 -7px;
-      font-size: 6rem;
-      line-height: 0px;
-      text-align: center;
-      justify-content: space-between;
-      display: flex;
-      top: 30%;
-      color: $color-primary;
-    }
-
-    .owl-item {
-      .woocommerce-LoopProduct-link.woocommerce-loop-product__link {
-        max-height: 200px;
-        display: flex;
-
-        -webkit-box-orient: horizontal;
-        -moz-box-orient: horizontal;
-        flex-direction: row;
-
-        -webkit-box-pack: center;
-        -moz-box-pack: center;
-        justify-content: center;
-
-        -webkit-box-align: center;
-        -moz-box-align: center;
-        align-items: center;
-
-        img {
-          height: auto;
-          width: auto;
-        }
-      }
-    }
-  }
 }
 
 #msp-sidebar {
+  overflow: hidden;
   background-color: $color-black;
   color: $color-white;
   border-right: 1px dotted rgba(0, 0, 0, 0.1);
@@ -156,6 +116,7 @@ body {
 
 #msp-archive {
   background-color: #fff;
+  overflow: hidden;
 
   li {
     list-style: none;

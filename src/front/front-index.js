@@ -1,4 +1,6 @@
 jQuery(document).ready(function ($) {
+  require("./mobile-menu.js");
+  require("./slider.js");
   var msp = {
     $modal: $("#msp_modal"),
     $header: $("#mobile-menu"),
@@ -6,9 +8,6 @@ jQuery(document).ready(function ($) {
     bulk_order_list: {},
 
     init: function () {
-      this.init_owl_carousel();
-      this.init_slideout();
-
       // $(document.body).on( 'click', 'i.msp-star-rating', msp.bind_create_review_star_buttons )
       // $('#msp_review').on( 'click', '.remove-product-image-from-review', msp.delete_user_product_image )
 
@@ -183,62 +182,6 @@ jQuery(document).ready(function ($) {
     open_nav_child_list: function (e) {
       $child = $(e.target.children[1]);
       console.log(e, $child);
-    },
-
-    init_slideout: function () {
-      var slideout = new Slideout({
-        panel: document.getElementById("page"),
-        menu: document.getElementById("mobile-menu"),
-        padding: 256,
-        tolerance: 70,
-        touch: false,
-      });
-
-      document
-        .querySelector(".mobile-menu-button")
-        .addEventListener("click", function () {
-          $("#mobile-menu").show();
-          slideout.toggle();
-        });
-
-      document.querySelector("a.close").addEventListener("click", close);
-
-      function close(eve) {
-        eve.preventDefault();
-        slideout.close();
-      }
-
-      slideout
-        .on("beforeopen", function () {
-          this.panel.classList.add("panel-open");
-        })
-        .on("open", function () {
-          this.panel.addEventListener("click", close);
-        })
-        .on("beforeclose", function () {
-          this.panel.classList.remove("panel-open");
-          this.panel.removeEventListener("click", close);
-        });
-    },
-
-    init_owl_carousel: function () {
-      $(".owl-carousel").owlCarousel({
-        responsiveClass: true,
-        nav: true,
-        dots: true,
-        margin: 10,
-        responsive: {
-          0: {
-            items: 2,
-          },
-          450: {
-            items: 4,
-          },
-          1000: {
-            items: 5,
-          },
-        },
-      });
     },
 
     get_json_from_url: function (url) {

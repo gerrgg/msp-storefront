@@ -187,15 +187,6 @@ class MSP
       "cookie_version" => get_option("promo_pop_up_version"),
     ]);
 
-    // slideout.js - https://github.com/Mango/slideout
-    wp_enqueue_script(
-      "slideout",
-      URI . "/vendor/slideout/dist/slideout.min.js",
-      [],
-      "",
-      true
-    );
-
     //Twitter Bootstrap - https://getbootstrap.com/docs/4.3/getting-started/introduction/
     wp_enqueue_style(
       "bootstrap",
@@ -204,19 +195,6 @@ class MSP
     wp_enqueue_script(
       "bootstrap",
       URI . "/vendor/bootstrap-4.3.1-dist/js/bootstrap.bundle.min.js",
-      ["jquery"],
-      "",
-      true
-    );
-
-    //Owl Carousel - https://owlcarousel2.github.io/OwlCarousel2/
-    wp_enqueue_style(
-      "owl-carousel",
-      URI . "/vendor/OwlCarousel2-2.3.4/dist/assets/owl.carousel.min.css"
-    );
-    wp_enqueue_script(
-      "owl-carousel",
-      URI . "/vendor/OwlCarousel2-2.3.4/dist/owl.carousel.min.js",
       ["jquery"],
       "",
       true

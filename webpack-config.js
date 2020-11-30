@@ -27,6 +27,29 @@ const config = {
   module: {
     rules: [
       {
+        // For pure CSS - /\.css$/i,
+        // For Sass/SCSS - /\.((c|sa|sc)ss)$/i,
+        // For Less - /\.((c|le)ss)$/i,
+        test: /\.((c|sa|sc)ss)$/i,
+        use: [
+          "style-loader",
+          {
+            loader: "css-loader",
+            options: {
+              // Run `postcss-loader` on each CSS `@import`, do not forget that `sass-loader` compile non CSS `@import`'s into a single file
+              // If you need run `sass-loader` and `postcss-loader` on each CSS `@import` please set it to `2`
+              importLoaders: 1,
+              // Automatically enable css modules for files satisfying `/\.module\.\w+$/i` RegExp.
+              modules: { auto: true },
+            },
+          },
+          // Can be `less-loader`
+          {
+            loader: "sass-loader",
+          },
+        ],
+      },
+      {
         // Look for any .js files.
         test: /\.js$/,
         // Exclude the node_modules folder.
