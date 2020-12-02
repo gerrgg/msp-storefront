@@ -1,10 +1,17 @@
+import "../../sass/style.scss";
+import checkout from "./checkout";
+import mobileMenu from "./mobile-menu";
+import slider from "./slider";
+
 jQuery(document).ready(function ($) {
-  require("./mobile-menu.js");
-  require("./slider.js");
+  // Run all checkout scripts - pass jquery for compatibility
+  checkout.runAll($);
+  mobileMenu();
+  slider();
+
   var msp = {
     $modal: $("#msp_modal"),
     $header: $("#mobile-menu"),
-    $checkout_fields: $("#customer_details > div:first-child"),
     bulk_order_list: {},
 
     init: function () {
@@ -39,9 +46,6 @@ jQuery(document).ready(function ($) {
       });
 
       // makes the update shipping options more consistant.
-      this.$checkout_fields.on("focusout", "input", function () {
-        $(document.body).trigger("update_checkout");
-      });
 
       $("#msp-contact").on("click", "button.submit", msp.submit_contact_form);
 
@@ -364,29 +368,6 @@ jQuery(document).ready(function ($) {
       },
       minimumInputLength: 3, // the minimum of symbols to input before perform a search
     });
-  }
-
-  var max_chars = 5;
-
-  $("#billing_postcode").keydown(function (e) {
-    if ($(this).val().length >= max_chars) {
-      $(this).val($(this).val().substr(0, max_chars));
-    }
-  });
-
-  $("#billing_postcode").keyup(function (e) {
-    if ($(this).val().length >= max_chars) {
-      $(this).val($(this).val().substr(0, max_chars));
-    }
-  });
-
-  $("#billing_po").val("");
-
-  function setCookie(cname, cvalue, exdays) {
-    var d = new Date();
-    d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000);
-    var expires = "max-age=" + d.toUTCString();
-    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
   }
 
   function getCookie(cname) {
