@@ -261,9 +261,18 @@ jQuery(document).ready(function ($) {
         wp_ajax.url,
         { action: "msp_get_product_size_guide_src", id: id },
         function (response) {
-          msp.$modal
-            .find(".modal-body")
-            .html($("<img/>", { src: response, class: "mx-auto" }));
+          msp.$modal.find(".modal-body").html(() => {
+            const sizeGuide = $("<a/>", { href: response });
+
+            sizeGuide.append(
+              $("<img/>", {
+                src: response,
+                class: "mx-auto",
+              })
+            );
+
+            return sizeGuide;
+          });
         }
       );
     },

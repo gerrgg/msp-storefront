@@ -528,12 +528,6 @@ add_filter("the_content", "msp_maybe_category_description", 11);
 add_filter("the_content", "msp_maybe_attribute_description", 12);
 
 add_filter(
-  "woocommerce_get_availability_text",
-  "change_backorder_message",
-  10,
-  2
-);
-add_filter(
   "woocommerce_post_class",
   "msp_add_bootstrap_cols_to_product",
   30,
