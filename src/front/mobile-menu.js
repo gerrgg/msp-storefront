@@ -1,7 +1,7 @@
 import Slideout from "slideout";
 
-const MobileMenu = (() => {
-  // init slideout object
+const mobileMenu = () => {
+  // Build slideout object
   const slideoutMenu = new Slideout({
     panel: document.getElementById("page"),
     menu: document.getElementById("mobile-menu"),
@@ -10,7 +10,17 @@ const MobileMenu = (() => {
     touch: false,
   });
 
-  // slideout object
+  const showMenu = (event) => {
+    event.preventDefault();
+    slideoutMenu.menu.style.display = "block";
+    slideoutMenu.toggle();
+  };
+
+  const closeMenu = (event) => slideoutMenu.close();
+
+  /**
+   * Listeners
+   */
   slideoutMenu
     .on("beforeopen", function (e) {
       this.panel.classList.add("panel-open");
@@ -23,21 +33,21 @@ const MobileMenu = (() => {
       this.panel.removeEventListener("click", closeMenu);
     });
 
-  // get mobile button
+  /**
+   * Open Menu
+   */
   const menuButton = document.querySelector(".mobile-menu-button");
-  // shows mobile menu
-  const showMenu = (event) => {
-    event.preventDefault();
-    slideoutMenu.menu.style.display = "block";
-    slideoutMenu.toggle();
-  };
-  // add event listener
-  menuButton.addEventListener("click", showMenu);
+  if (menuButton) {
+    menuButton.addEventListener("click", showMenu);
+  }
 
-  // get close button
+  /**
+   * Close Menu
+   */
   const closeButton = document.querySelector("a.close");
-  // closes the menu
-  const closeMenu = (event) => slideoutMenu.close();
-  // run closemenu on when close button is clicked
-  closeButton.addEventListener("click", closeMenu);
-})();
+  if (closeButton) {
+    closeButton.addEventListener("click", closeMenu);
+  }
+};
+
+export default mobileMenu;

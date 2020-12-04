@@ -1,12 +1,39 @@
-#tns1-ow {
+.tns-outer {
   width: 100%;
 
-  #tns1 {
+  .tns-controls {
+    display: flex;
+    justify-content: space-between;
+
+    button {
+      background-color: $color-primary;
+      color: $color-white;
+    }
+  }
+
+  .tns-nav {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 0.5rem;
+
+    button {
+      opacity: 0.75;
+      background-color: $color-primary;
+      border-left: 1px solid $color-white;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+
+  .tns-inner {
     li.product {
       width: 200px !important;
 
       a {
-        text-decoration: none;
+        text-decoration: none !important;
       }
     }
   }

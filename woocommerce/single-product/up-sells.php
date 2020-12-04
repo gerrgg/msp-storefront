@@ -14,38 +14,45 @@
  * @package 	WooCommerce/Templates
  * @version     3.0.0
  */
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
+if (!defined("ABSPATH")) {
+  exit();
 }
 
 /**
  * If the editor does not set upsells; grab products from the same category
  */
-if( empty( $upsells ) ){
-	$category = wp_get_post_terms(get_the_ID(), 'product_cat', array('fields' => 'slugs'));
-	if( isset( $category[0] ) ){
-		$upsells = wc_get_products( array(
-			'category' => array( $category[0] ),
-		));
-	}
+
+global $product;
+
+if (empty($upsells)) {
+  $category = wp_get_post_terms(get_the_ID(), "product_cat", [
+    "fields" => "slugs",
+  ]);
+  if (isset($category[0])) {
+    $upsells = wc_get_products([
+      "category" => [$category[0]],
+      "exclude" => [$product->get_id()],
+    ]);
+  }
 }
 
-if ( $upsells ) : ?>
+if ($upsells): ?>
 
 	<section class="up-sells upsells products">
 
-		<h2><?php esc_html_e( 'You may also like&hellip;', 'woocommerce' ); ?></h2>
+		<h2><?php esc_html_e("You may also like&hellip;", "woocommerce"); ?></h2>
 
         <?php woocommerce_product_loop_start(); ?>
         
         <div class="owl-carousel">
 
-			<?php foreach ( $upsells as $upsell ) : ?>
+			<?php foreach ($upsells as $upsell): ?>
 
 				<?php
-					$post_object = get_post( $upsell->get_id() );
-					setup_postdata( $GLOBALS['post'] =& $post_object );
-					wc_get_template_part( 'content', 'product' ); ?>
+    $post_object = get_post($upsell->get_id());
+    setup_postdata($GLOBALS["post"] = &$post_object);
+    wc_get_template_part("content", "product");
+    ?>
 
             <?php endforeach; ?>
             
