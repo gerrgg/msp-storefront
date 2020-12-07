@@ -16,6 +16,12 @@
 }
 
 body.single-product {
+  @media #{$phone-width} {
+    .storefront-breadcrumb {
+      display: none;
+    }
+  }
+
   #msp-archive {
     margin-left: unset;
   }

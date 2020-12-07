@@ -10,6 +10,7 @@ const slider = () => {
         fixedWidth: 200,
         container: slider,
         items: 6,
+        nav: false,
         responsive: {
           640: {
             items: 2,

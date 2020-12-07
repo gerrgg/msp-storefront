@@ -22,3 +22,32 @@
 @import "cart";
 @import "checkout";
 @import "footer";
+
+@media #{$phone-width} {
+  body {
+    background-color: #f7f7f7;
+  }
+}
+
+body.home {
+  .wp-block-columns {
+    .wp-block-column {
+      a {
+        text-decoration: none !important;
+      }
+
+      @media #{$phone-width} {
+        flex-basis: unset !important;
+        width: 50%;
+        padding: 0 0.25rem;
+
+        p {
+          font-size: 0.7rem !important;
+          a {
+            text-decoration: none !important;
+          }
+        }
+      }
+    }
+  }
+}
