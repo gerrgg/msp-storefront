@@ -533,15 +533,19 @@ add_filter(
   30,
   3
 );
+
 add_filter(
   "woocommerce_product_loop_start",
   "msp_woocommerce_product_loop_start",
   999
 );
+
 add_filter(
   "woocommerce_product_loop_end",
   "msp_woocommerce_product_loop_end",
   999
 );
+
 add_filter("loop_shop_per_page", "msp_products_per_page", 999);
+
 add_filter("wc_add_to_cart_message_html", "remove_add_to_cart_message");

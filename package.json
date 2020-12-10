@@ -47,6 +47,7 @@
   "dependencies": {
     "browser-sync": "^2.26.13",
     "owl.carousel": "^2.3.4",
+    "react-headroom": "^3.1.0",
     "slideout": "^1.0.1",
     "style-loader": "^2.0.0",
     "tiny-slider": "^2.9.3"

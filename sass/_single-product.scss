@@ -22,6 +22,11 @@ body.single-product {
     }
   }
 
+  .stock.available-on-backorder {
+    font-size: 1.1rem;
+    color: $color-primary;
+  }
+
   #msp-archive {
     margin-left: unset;
   }

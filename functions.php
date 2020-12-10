@@ -16,6 +16,7 @@ require_once PATH . "/inc/msp-template-filters.php";
 require_once PATH . "/inc/msp-helper-functions.php";
 require_once PATH . "/inc/msp-class-mega-menu.php";
 require_once PATH . "/inc/msp-ups-time-in-transit.php";
+require_once PATH . "/inc/msp-backorders.php";
 
 /**
  * Front-end Theme Settings
@@ -25,6 +26,8 @@ class MSP
 {
   function __construct()
   {
+    new MSP_Backorders();
+
     // Creates custom theme pages upon activation
     add_action("init", [$this, "create_theme_pages"], 2);
     add_action("init", [$this, "maybe_create_specifications_table"], 3);
@@ -309,7 +312,7 @@ class MSP
     /**
      * Create pages the theme requires to operate.
      */
-    $slugs = ["buy-again", "quote", "contact"];
+    $slugs = ["quote", "contact"];
 
     foreach ($slugs as $slug) {
       if (!$this->the_slug_exists($slug)) {
