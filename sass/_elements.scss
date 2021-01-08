@@ -73,19 +73,23 @@ li.review {
   list-style: none;
 }
 
-#msp-contact {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+.content-area {
+  #msp-contact {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
 
-  form {
-    width: 500px;
-    padding: 1rem;
-    box-shadow: 0px 0px 7px #f1f1f1;
+    form {
+      min-width: 350px;
+      max-width: 600px;
+      padding: 1rem;
+      box-shadow: 0px 0px 7px #f1f1f1;
 
-    button {
-      width: 100%;
+      button {
+        width: 100%;
+      }
     }
   }
 }

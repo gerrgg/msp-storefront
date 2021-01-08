@@ -208,9 +208,11 @@ class Walker_Nav_Menu_Edit_Custom extends Walker_Nav_Menu  {
 	            <input class="menu-item-data-type" type="hidden" name="menu-item-type[<?php echo $item_id; ?>]" value="<?php echo esc_attr( $item->type ); ?>" />
 	        </div><!-- .menu-item-settings-->
 	        <ul class="menu-item-transport"></ul>
+			</li>
+
 	    <?php
 	    
 	    $output .= ob_get_clean();
 
-	    }
+			}
 }
