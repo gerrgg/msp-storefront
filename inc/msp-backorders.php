@@ -53,7 +53,7 @@ class MSP_Backorders
 
   public function variation_backorder_message_input_box(
     /**
-     * HTML which displays the input box for adding a product specific leadtime
+     * HTML which displays the input box for updating variations backorder message
      */
     $loop,
     $variation_data,
@@ -81,7 +81,7 @@ class MSP_Backorders
   public function simple_backorder_message_input_box()
   {
     /**
-     * HTML which displays the input box for adding a product specific leadtime
+     * HTML which displays the input box for updating variations backorder message
      */
 
     global $post;

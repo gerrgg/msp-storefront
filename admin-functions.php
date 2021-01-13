@@ -505,7 +505,7 @@ class MSP_Admin
      */
     wp_enqueue_script(
       "admin",
-      get_stylesheet_directory_uri() . "assets/js/admin.js",
+      get_stylesheet_directory_uri() . "/assets/js/admin.js",
       ["jquery"],
       time()
     );

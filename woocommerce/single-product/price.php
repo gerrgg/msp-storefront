@@ -15,28 +15,39 @@
  * @version 3.0.0
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly
+if (!defined("ABSPATH")) {
+  exit(); // Exit if accessed directly
 }
 
 global $product;
-
 ?>
-<p class="<?php echo esc_attr( apply_filters( 'woocommerce_product_price_class', 'price' ) ); ?>">
+<p class="<?php echo esc_attr(
+  apply_filters("woocommerce_product_price_class", "price")
+); ?>">
 
 <?php echo $product->get_price_html(); ?>
 
-<?php if( $product->get_price() > 100 && $product->get_shipping_class_id() != get_option( 'woo_ltl_shipping_class_id' ) && $product->get_shipping_class_id() != get_option( 'woo_ups_only_shipping_class_id' ) ) : ?>
+<?php echo $product->get_stock_status(); ?>
+
+<?php if (
+  $product->get_price() > 100 &&
+  $product->get_shipping_class_id() !=
+    get_option("woo_ltl_shipping_class_id") &&
+  $product->get_shipping_class_id() !=
+    get_option("woo_ups_only_shipping_class_id")
+): ?>
 <span style="color: #333; font-size: .75rem;">+ Free Shipping</span>
 <?php endif; ?>
 
-<?php if( is_clearance($product) ) :?>
+<?php if (is_clearance($product)): ?>
 <span style="color: #333; font-size: .75rem;"> + <strong>All sales final</strong> on clearance items - non-refundable</span>
 <?php endif; ?>
 
 
 
 
-<?php if( $product->is_type('simple') ) msp_single_product_get_leadtime(); ?>
+<?php if ($product->is_type("simple")) {
+  msp_single_product_get_leadtime();
+} ?>
 
 </p>
