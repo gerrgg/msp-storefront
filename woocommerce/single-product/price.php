@@ -27,8 +27,6 @@ global $product;
 
 <?php echo $product->get_price_html(); ?>
 
-<?php echo $product->get_stock_status(); ?>
-
 <?php if (
   $product->get_price() > 100 &&
   $product->get_shipping_class_id() !=
@@ -42,7 +40,6 @@ global $product;
 <?php if (is_clearance($product)): ?>
 <span style="color: #333; font-size: .75rem;"> + <strong>All sales final</strong> on clearance items - non-refundable</span>
 <?php endif; ?>
-
 
 
 
