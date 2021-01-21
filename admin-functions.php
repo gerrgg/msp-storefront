@@ -422,19 +422,26 @@ class MSP_Admin
                 <div style="display: flex;">
                     <p id="resource_input_wrapper">
                         <?php if (empty($resources)): ?>
-                            <input type="text" id="resource_label" name="resource_label[0]" style="margin-right: 1rem;" placeholder="Label" />
+                        <p>
+                          <input type="text" id="resource_label" name="resource_label[0]" placeholder="Label" />
                             <input type="text" id="resource_url" name="resource_url[0]" placeholder="URL" />
-                            <br>
+                            <input type="button" name="upload-btn" class="button-secondary upload-btn" value="Upload PDF">
+                        </p>
+                        </br>
+
                         <?php else: ?>
                             <?php foreach ($resources as $index => $arr): ?>
-                                <input type="text" id="resource_label" name="resource_label[<?php echo $index; ?>]" style="margin-right: 1rem;" placeholder="Label" value="<?php echo $arr[0]; ?>" />
+                              <p>
+                                <input type="text" id="resource_label" name="resource_label[<?php echo $index; ?>]"placeholder="Label" value="<?php echo $arr[0]; ?>" />
                                 <input type="text" id="resource_url" name="resource_url[<?php echo $index; ?>]" placeholder="URL" value="<?php echo $arr[1]; ?>" />
-                                <br>
+                                <input type="button" name="upload-btn" class="button-secondary upload-btn" value="Upload PDF">
+                              </p>
+                              </br>
                             <?php endforeach; ?>
                         <?php endif; ?>
                     </p>
                 </div>
-                <button type="button" class="add_input_line" data-count=0>+</button>
+                <button type="button" class="add_input_line" data-count=0>CLICK TO ADD NEW PDF</button>
             </p>
         </div>
         <?php

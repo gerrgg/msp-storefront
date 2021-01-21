@@ -30,6 +30,12 @@ jQuery(function ($) {
         "input.upload-btn",
         msp_admin.upload_media
       );
+
+      $("#resource_tab").on(
+        "click",
+        "input.upload-btn",
+        msp_admin.upload_media
+      );
     },
 
     upload_media(e) {
@@ -153,7 +159,9 @@ jQuery(function ($) {
         $parent.append(fields[field].val(""));
       });
 
-      $parent.append("<br>");
+      $parent.append(
+        '<input type="button" name="upload-btn" class="button-secondary upload-btn" value="Upload Image"></br>'
+      );
 
       $(e.target).attr("data-count", count++);
     },
