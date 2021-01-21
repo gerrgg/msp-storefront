@@ -342,10 +342,14 @@ add_action(
 
 function msp_free_shipping_message()
 {
-  echo "<a href='/shipping-delivery/' class='text-success'>
+  global $product;
+
+  if ($product && $product->get_shipping_class_id() === 0) {
+    echo "<a href='/shipping-delivery/' class='text-success'>
     <i class='fas fa-shipping-fast'></i>
-    Get <strong>FREE SHIPPING</strong> when you spend $100 or more! (excludes bulky items)
+    Get <strong>FREE SHIPPING</strong> when you spend $100 or more!
     </a>";
+  }
 }
 
 /**
