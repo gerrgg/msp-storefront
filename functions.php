@@ -135,7 +135,11 @@ class MSP
 
     $fields["order"]["order_comments"]["placeholder"] =
       "Anything we should know? Need your order by a specific day?";
+
     $fields["order"]["order_comments"]["class"][] = "w-100";
+
+    $fields["billing"]["billing_postcode"]["placeholder"] =
+      "First 5 Digits Only";
 
     // Add purchase field
     $fields["billing"]["billing_po"] = [

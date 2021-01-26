@@ -7,7 +7,7 @@ const checkout = (() => {
    * wrap functions in a init function to use with jquery
    * while still passing as a module.
    */
-  const runAll = () => {
+  const runAll = ($) => {
     // needs jquery to use woocommerce jquery body hook
     syncCheckoutFields($);
 
@@ -20,7 +20,7 @@ const checkout = (() => {
    * Sync customer billing information with woocommerce
    * update_checkout hook
    */
-  const syncCheckoutFields = () => {
+  const syncCheckoutFields = ($) => {
     // get all the inputs from customer details
     const checkoutFields = document.querySelectorAll(
       "#customer_details > div:first-child input"
@@ -41,7 +41,10 @@ const checkout = (() => {
    * @important
    */
   const limitPostcode = () => {
-    const postcode = document.querySelector("#billing_postcode");
+    const fields = {
+      postcode: document.querySelector("#billing_postcode"),
+      calcPostCode: document.querySelector("#calc_shipping_postcode"),
+    };
 
     const firstFiveCharacters = ({ target }) => {
       if (target.value.length > 5) {
@@ -49,10 +52,14 @@ const checkout = (() => {
       }
     };
 
-    if (postcode) {
-      postcode.addEventListener("keyup", firstFiveCharacters);
-      postcode.addEventListener("keydown", firstFiveCharacters);
-    }
+    Object.keys(fields).forEach((key) => {
+      const field = fields[key];
+
+      if (field) {
+        field.addEventListener("keyup", firstFiveCharacters);
+        field.addEventListener("keydown", firstFiveCharacters);
+      }
+    });
   };
 
   /**
