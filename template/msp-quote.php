@@ -1,64 +1,78 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly
+if (!defined("ABSPATH")) {
+  exit(); // Exit if accessed directly
 }
 
-if( isset( $_GET['ids'] ) ) : ?>
+if (isset($_GET["ids"])): ?>
     <hr/>
-    <form id="msp-quote" method="POST" action="<?php echo admin_url( 'admin-post.php' ) ?>">
-    <?php foreach( $_GET['ids'] as $product_id ) :
-        $product = wc_get_product( $product_id );
+    <form id="msp-quote" method="POST" action="<?php echo admin_url(
+      "admin-post.php"
+    ); ?>">
+    <?php foreach ($_GET["ids"] as $product_id):
 
-        if( ! empty( $product ) && ! $product->is_type( 'simple' ) ){
-            $product_variations = $product->get_children();
-        }
+      $product = wc_get_product($product_id);
 
-        if( $product == false ) return;
+      if (!empty($product) && !$product->is_type("simple")) {
+        $product_variations = $product->get_children();
+      }
 
-    ?>
-        <div id="product-<?php echo $product_id ?>" class="row">
+      if ($product == false) {
+        return;
+      }
+      ?>
+        <div id="product-<?php echo $product_id; ?>" class="row">
 
             <div class="col-12 col-6">
 
                 <h2><?php echo $product->get_title(); ?></h2>
 
-                <?php $src =  msp_get_product_image_src( $product->get_image_id(), 'medium' ); ?> 
+                <?php $src = msp_get_product_image_src(
+                  $product->get_image_id(),
+                  "medium"
+                ); ?> 
 
-                <img src="<?php echo $src ?>" class='img-fluid' />
+                <img src="<?php echo $src; ?>" class='img-fluid' />
 
                 <br>
 
             </div>
 
             <div class="col">
-                <?php if( ! empty( $product_variations ) ) : ?>
+                <?php if (!empty($product_variations)): ?>
                     <h3>Variations:</h3>
                     <table class="table">
-                        <?php foreach( $product_variations as $variation_id ) : ?>
-                            <?php $variation = wc_get_product( $variation_id ); ?>
+                        <?php foreach ($product_variations as $variation_id): ?>
+                            <?php $variation = wc_get_product($variation_id); ?>
                             <tr>
                                 <td>
-                                    <img class="img-mini" src="<?php echo msp_get_product_image_src( $variation->get_image_id(), 'woocommerce_thumbnail' ) ?>" />
-                                    <span class="text-center"><?php echo $variation->get_sku(); ?></span>
+                                    <img class="img-mini" src="<?php echo msp_get_product_image_src(
+                                      $variation->get_image_id(),
+                                      "woocommerce_thumbnail"
+                                    ); ?>" />
+                                    <span class="text-center"><?php echo $variation->get_sku(); ?> - <?php echo $variation->get_formatted_name(); ?></span>
                                 </td>
                                 <td class="price"><?php echo $variation->get_price_html(); ?> </td>
                                 <td>
                                     <label>How many? </label><br>
-                                    <input type="number" id="<?php echo $variation_id .'-qty"' ?> name="<?php echo 'product['. $variation_id .']"' ?> />
+                                    <input type="number" id="<?php echo $variation_id .
+                                      '-qty"'; ?> name="<?php echo "product[" .
+   $variation_id .
+   ']"'; ?> />
                                 </td>
                             </tr>
                         <?php endforeach; ?>
                     </table>
-                <?php else : ?>
+                <?php else: ?>
                 <div class="form-group">
                     <label>How many? </label>
-                    <input class="form-control" type="tel" name="product[<?php echo $product->get_id() ?>]" min="0" />
+                    <input class="form-control" type="tel" name="product[<?php echo $product->get_id(); ?>]" min="0" />
                 </div>
                 <?php endif; ?>
             </div>
         </div>
         <hr/>
-    <?php endforeach; ?>
+    <?php
+    endforeach; ?>
 
     <h2>Wheres it going?</h2>
 
@@ -83,8 +97,9 @@ if( isset( $_GET['ids'] ) ) : ?>
     </div>
 
     <input type="hidden" name="action" value="msp_submit_bulk_form" />
-    <?php do_action( 'anr_captcha_form_field' ); ?>
+    <?php do_action("anr_captcha_form_field"); ?>
     <button type="submit" class="btn btn-danger">Submit quote request</button>
 </form>
 
-<?php endif; ?>
+<?php endif;
+?>
