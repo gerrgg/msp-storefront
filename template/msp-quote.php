@@ -49,7 +49,12 @@ if (isset($_GET["ids"])): ?>
                                       $variation->get_image_id(),
                                       "woocommerce_thumbnail"
                                     ); ?>" />
-                                    <span class="text-center"><?php echo $variation->get_sku(); ?> - <?php echo $variation->get_formatted_name(); ?></span>
+                                    <span class="text-center"><?php echo $variation->get_sku(); ?> - <?php echo wc_get_formatted_variation(
+   $variation->get_variation_attributes(),
+   true,
+   false,
+   true
+ ); ?></span>
                                 </td>
                                 <td class="price"><?php echo $variation->get_price_html(); ?> </td>
                                 <td>
