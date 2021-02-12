@@ -553,3 +553,41 @@ add_filter(
 add_filter("loop_shop_per_page", "msp_products_per_page", 999);
 
 add_filter("wc_add_to_cart_message_html", "remove_add_to_cart_message");
+
+add_action(
+  "woocommerce_order_status_changed",
+  "msp_email_order_status_change",
+  100,
+  3
+);
+
+function msp_email_order_status_change($order_id, $old_status, $new_status)
+{
+  // get order
+  $order = wc_get_order($order_id);
+
+  // get site name
+  $site = get_bloginfo();
+
+  // email subject
+  $subject = sprintf("Order #%s has been updated!", $order_id);
+
+  // extract number of days from slug
+  $old_days_to_delivery = preg_replace("/[^0-9]/", "", $old_status);
+
+  // extract number of days from slug
+  $days_to_delivery = preg_replace("/[^0-9]/", "", $new_status);
+
+  // create message
+  $message = sprintf(
+    "Hello, your order #%s has been updated from \"expected to ship %s\" to \"expected to ship %s\", if you have any questions call or reply to this email. Thanks!",
+    $order_id,
+    date("M d, Y", strtotime("+$old_days_to_delivery day")),
+    date("M d, Y", strtotime("+$days_to_delivery day"))
+  );
+
+  // email if includes ship in slug
+  if (str_contains($new_status, "ship")) {
+    wp_mail($order->get_billing_email(), $subject, $message);
+  }
+}
