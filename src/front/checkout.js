@@ -47,8 +47,8 @@ const checkout = (() => {
     };
 
     const firstFiveCharacters = ({ target }) => {
-      if (target.value.length > 5) {
-        target.value = target.value.substr(0, 5);
+      if (target.value.length > 6) {
+        target.value = target.value.substr(0, 6);
       }
     };
 
