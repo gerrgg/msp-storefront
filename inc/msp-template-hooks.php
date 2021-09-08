@@ -580,9 +580,8 @@ function msp_email_order_status_change($order_id, $old_status, $new_status)
 
   // create message
   $message = sprintf(
-    "Hello, your order #%s has been updated from \"expected to ship %s\" to \"expected to ship %s\", if you have any questions call or reply to this email. Thanks!",
+    "Hello, your order #%s is expected to ship %s, if you have any questions call or reply to this email. Thanks!",
     $order_id,
-    date("M d, Y", strtotime("+$old_days_to_delivery day")),
     date("M d, Y", strtotime("+$days_to_delivery day"))
   );
 
