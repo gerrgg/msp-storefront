@@ -439,6 +439,8 @@ function create_qty_breaks($id, $price)
    * @param int $id - Product/variation ID
    * @param string $price - regular price of the product
    */
+  $enabled = get_post_meta($id, "_bulkdiscount_enabled", true);
+
   if (0 < $price && $price <= 7.5) {
     update_post_meta($id, "_bulkdiscount_quantity_1", 24);
     update_post_meta($id, "_bulkdiscount_discount_1", 5);
@@ -474,6 +476,15 @@ function create_qty_breaks($id, $price)
     update_post_meta($id, "_bulkdiscount_discount_2", 7);
     update_post_meta($id, "_bulkdiscount_quantity_3", 36);
     update_post_meta($id, "_bulkdiscount_discount_3", 10);
+  }
+
+  if ($enabled === "no") {
+    update_post_meta($id, "_bulkdiscount_quantity_1", null);
+    update_post_meta($id, "_bulkdiscount_discount_1", null);
+    update_post_meta($id, "_bulkdiscount_quantity_2", null);
+    update_post_meta($id, "_bulkdiscount_discount_2", null);
+    update_post_meta($id, "_bulkdiscount_quantity_3", null);
+    update_post_meta($id, "_bulkdiscount_discount_3", null);
   }
 }
 

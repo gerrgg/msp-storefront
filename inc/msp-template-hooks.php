@@ -471,14 +471,7 @@ add_action("wp_footer", "bbloomer_cart_refresh_update_qty");
 add_action("wp_footer", "msp_maybe_show_promo_pop_up");
 
 //theme options
-if (get_option("wc_easy_qty_breaks")) {
-  add_action(
-    "woocommerce_update_product",
-    "save_product_with_qty_breaks",
-    10,
-    1
-  );
-}
+add_action("woocommerce_update_product", "save_product_with_qty_breaks", 10, 1);
 
 remove_action("woocommerce_cart_collaterals", "woocommerce_cross_sell_display");
 
