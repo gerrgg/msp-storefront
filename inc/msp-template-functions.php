@@ -1215,11 +1215,26 @@ function msp_bulk_discount_table()
 
   $product_id = $product->get_id();
   $enabled = get_post_meta($product_id, "_bulkdiscount_enabled", true);
+
+  $is_discounting = false;
+
+  /**
+   * Detect plugin. For use on Front End only.
+   */
+  include_once ABSPATH . "wp-admin/includes/plugin.php";
+
+  // check for plugin using plugin name
+  if (
+    is_plugin_active("woocommerce-bulk-discount/woocommerce-bulk-discount.php")
+  ) {
+    $is_discounting = true;
+  }
+
   $has_a_rule = !empty(
     get_post_meta($product_id, "_bulkdiscount_quantity_1", true)
   );
 
-  if ($enabled == "yes" && $has_a_rule) { ?>
+  if ($is_discounting && $enabled == "yes" && $has_a_rule) { ?>
         <h5>Bulk Discount Pricing:</h5>
         <table id="msp-bulk-pricing">
             <thead>
